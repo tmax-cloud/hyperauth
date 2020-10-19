@@ -1,0 +1,5 @@
+com.tmax.hyperauth.rest.UserProviderFactory
+com.tmax.hyperauth.rest.AgreementProviderFactory
+com.tmax.hyperauth.rest.SMSCodeProviderFactory
+com.tmax.hyperauth.rest.EmailProviderFactory
+com.tmax.hyperauth.rest.PasswordProviderFactory
