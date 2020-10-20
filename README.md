@@ -11,7 +11,7 @@
   * HEADERS :  Content-Type : application/json
   * BODY : 
   {
-    "username": "test",
+    "username": "test@tmax.co.kr",
     "emailVerified": true,
     "email": "test@tmax.co.kr",
     "enabled": true,
