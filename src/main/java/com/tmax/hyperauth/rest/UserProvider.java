@@ -70,6 +70,8 @@ public class UserProvider implements RealmResourceProvider {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response POST(UserRepresentation rep) {
+        System.out.println("***** POST /User");
+
         RealmModel realm = session.realms().getRealmByName("tmax");
 
         clientConnection = session.getContext().getConnection();
@@ -137,6 +139,8 @@ public class UserProvider implements RealmResourceProvider {
     @Path("{userName}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response get(@PathParam("userName") final String userName) {
+        System.out.println("***** GET /User");
+
         UserRepresentation userOut = new UserRepresentation();
     	System.out.println("userName : " + userName);
         RealmModel realm = session.getContext().getRealm();
@@ -197,6 +201,8 @@ public class UserProvider implements RealmResourceProvider {
     @QueryParam("token")
     @Produces(MediaType.APPLICATION_JSON)
     public Response delete(@PathParam("userName") final String userName, @QueryParam("token") String tokenString ) {
+        System.out.println("***** DELETE /User");
+
         System.out.println("userName : " + userName);
         System.out.println("token : " + tokenString);
         RealmModel realm = session.getContext().getRealm();
@@ -260,6 +266,8 @@ public class UserProvider implements RealmResourceProvider {
     @QueryParam("token")
     @Produces(MediaType.APPLICATION_JSON)
     public Response put(@PathParam("userName") final String userName, @QueryParam("token") String tokenString, UserRepresentation rep) {
+        System.out.println("***** PUT /User");
+
         System.out.println("userName : " + userName);
         System.out.println("token : " + tokenString);
         RealmModel realm = session.getContext().getRealm();
