@@ -2,10 +2,10 @@
 * 해당 API 문서는 keycloak을 확장해서 keycloak 서버에 추가적으로 개발한 API를 정리 한 것임
 * keycloak 공식 Admin REST API 문서 : https://www.keycloak.org/docs-api/5.0/rest-api/index.html
 
-## API 
+# API 
 * Prefix : http://{HYPERAUTH_IP}/auth/admin/realms/tmax  
 
-### USER
+## USER
 * UserCreate
   * URL : POST /user
   * HEADERS :  Content-Type : application/json
@@ -50,7 +50,7 @@
     }
   }
   
-### AGREEMENT  
+## AGREEMENT  
 * AgreementCreate ( Update와 동일하게 동작해서 같은 조건의 Agreement를 덮어쓴다. )
   * URL: POST /agreement
   * HEADERS :  Content-Type : application/json
