@@ -22,7 +22,6 @@
       "department": "ck1-3",	
       "position": "developer"
     },
-    "groups": { tmaxcloud}, //fixme
     "credentials": [{
       "value": "Qwerqwer1!"
     }]
@@ -49,6 +48,51 @@
       "position": "developer"
     }
   }
+  
+## GroupMember
+* GroupMemberCreate
+  * URL : POST /groupMember
+  * QUERY PARAMETER:  token : {AccessToken} ( 중간관리자의 token )
+  * HEADERS :  Content-Type : application/json
+  * BODY : 
+  {
+    "username": "test@tmax.co.kr",
+    "emailVerified": true,
+    "email": "test@tmax.co.kr",
+    "enabled": true,
+    "attributes": {
+      "dateOfBirth": "1992.01.02",
+      "phone": "000-000-0000",
+      "description": "userCreateSuccess",
+      "department": "ck1-3",	
+      "position": "developer"
+    },
+    "groups": [
+      "woo-group", "woo-group2"
+    ],    
+    "credentials": [{
+        "value": "Qwerqwer1!"
+      }]
+  }
+  
+* GroupMemberListGet
+  * URL: GET /groupMember/{groupName}
+  * QUERY PARAMETER:  token : {AccessToken} ( 중간관리자의 token )
+  
+* GroupMemberAttributeUpdate
+  * URL: PUT /groupMember/{groupName}
+  * QUERY PARAMETER:  token : {AccessToken} ( 중간관리자의 token ), userName : {userName}
+  * HEADERS :  Content-Type : application/json
+  * BODY : ( Update 하고 싶은 Attribute만 넣어주면 됨 )
+  {
+    "attributes": {
+      "dateOfBirth": "1992.01.02",
+      "phone": "000-000-0000",
+      "description": "groupMemberUpdateSuccess",
+      "department": "ck1-3",	
+      "position": "developer"
+    }
+  }  
   
 ## AGREEMENT  
 * AgreementCreate ( Update와 동일하게 동작해서 같은 조건의 Agreement를 덮어쓴다. )
