@@ -10,6 +10,7 @@
 # API 
 - Prefix 
   - http://{HYPERAUTH_IP}/auth/admin/realms/tmax  
+- realmName 은 **tmax로 고정한다.**
 
 ## USER
   
