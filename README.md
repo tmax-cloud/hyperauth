@@ -7,7 +7,8 @@
   - https://hub.docker.com/repository/docker/tmaxcloudck/hyperauth 참고해서 가장 최신이미지 사용 권장
 
 # API 
-* Prefix : http://{HYPERAUTH_IP}/auth/admin/realms/tmax  
+- Prefix 
+  - http://{HYPERAUTH_IP}/auth/admin/realms/tmax  
 
 ## USER
   
