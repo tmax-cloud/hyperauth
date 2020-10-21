@@ -1,13 +1,18 @@
-# HyperAuth
-- 해당 API 문서는 keycloak을 확장해서 keycloak 서버에 추가적으로 개발한 API를 정리 한 것임
-- keycloak 공식 Admin REST API 문서  
-  - https://www.keycloak.org/docs-api/5.0/rest-api/index.html
+# HyperAuth 구성
+- EventListener SPI
+- DB Extend SPI (CLIENT_AGREEMENT, EMAIL_VERIFICATION)
+- 네이버로 로그인, 카카오로 로그인
+- User Registration Form SPI
+- Extend API Server SPI
 - 설치 가이드 
   - https://github.com/tmax-cloud/hypercloud-install-guide/tree/4.1/HyperAuth 
 - 최신이미지
   - https://hub.docker.com/repository/docker/tmaxcloudck/hyperauth 참고해서 가장 최신이미지 사용 권장
 
 # API 
+- 해당 API 문서는 keycloak을 확장해서 keycloak 서버에 추가적으로 개발한 API를 정리 한 것임
+- keycloak 공식 Admin REST API 문서  
+  - https://www.keycloak.org/docs-api/5.0/rest-api/index.html
 - Prefix 
   - http://{HYPERAUTH_IP}/auth/admin/realms/tmax  
 - realmName 은 **tmax로 고정한다.**
