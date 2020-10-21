@@ -1,4 +1,5 @@
 # HyperAuth 구성
+- Keycloak 10.0.2 Based
 - EventListener SPI
 - DB Extend SPI (CLIENT_AGREEMENT, EMAIL_VERIFICATION)
 - 네이버로 로그인, 카카오로 로그인
