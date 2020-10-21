@@ -1,0 +1,2 @@
+com.tmax.hyperauth.identity.naver.NaverIdentityProviderFactory
+com.tmax.hyperauth.identity.kakao.KakaoIdentityProviderFactory

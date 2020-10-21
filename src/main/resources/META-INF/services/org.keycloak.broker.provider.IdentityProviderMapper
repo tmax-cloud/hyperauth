@@ -1,0 +1,2 @@
+com.tmax.hyperauth.identity.naver.NaverUserAttributeMapper
+com.tmax.hyperauth.identity.kakao.KakaoUserAttributeMapper
