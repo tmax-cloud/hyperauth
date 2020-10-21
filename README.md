@@ -73,7 +73,7 @@
   - URL  
   POST /groupMember
   - QUERY PARAMETER  
-  token : {AccessToken} ( 중간관리자의 token )
+  token : {AccessToken} **( 중간관리자의 token )**
   - HEADERS  
   Content-Type : application/json
   - BODY  
