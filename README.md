@@ -99,6 +99,8 @@
       }]
   }
   ```
+  - Description
+    - 중간관리자는 groups 절에 명시 할 모든 group에 대한 중간 관리자여야 한다.
   
 ### GroupMemberListGet
   - URL  
