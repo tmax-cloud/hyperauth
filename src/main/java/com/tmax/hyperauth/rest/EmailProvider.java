@@ -100,11 +100,12 @@ public class EmailProvider implements RealmResourceProvider {
 
         String subject = "인증번호 입력";
         String msg = "";
-        if (resetPassword != null && resetPassword.equalsIgnoreCase("t")){
-            msg = "[Web발신]\n[인증번호:" + code + "] - HyperAuth\n(타인노출금지)";
-        } else {
-            msg = Constants.REGISTER_MAIL_BODY.replaceAll("%%verifyNumber%%", code);
-        }
+//        if (resetPassword != null && resetPassword.equalsIgnoreCase("t")){
+//            msg = Constants.REGISTER_MAIL_BODY.replaceAll("%%verifyNumber%%", code); //TODO : html 받으면 바꿔주자
+//        } else {
+//            msg = Constants.REGISTER_MAIL_BODY.replaceAll("%%verifyNumber%%", code);
+//        }
+        msg = Constants.REGISTER_MAIL_BODY.replaceAll("%%verifyNumber%%", code); //TODO : html 받으면 바꿔주자
 
         try {
             Util.sendMail(email, subject, msg, null, null);
