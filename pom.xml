@@ -10,7 +10,7 @@
     <description/>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>keycloak_event_listener</artifactId>
+    <artifactId>keycloak-spi</artifactId>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
@@ -79,7 +79,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>keycloak-event-listener</finalName>
+        <finalName>keycloak-spi</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
