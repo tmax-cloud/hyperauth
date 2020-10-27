@@ -193,7 +193,7 @@
 ## PASSWORD
 ### PasswordUpdate With Code 
   - URL  
-  PUT /passworrd
+  PUT /password
   - QUERY PARAMETER  
   code : 123456 </br> password : Qwerqwer1! </br> confirmPassword : Qwerqwer1! </br> email : {email_address}
   - Description  
