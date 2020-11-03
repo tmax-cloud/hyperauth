@@ -1,5 +1,6 @@
 # HyperAuth 구성
-- Keycloak 10.0.2 Based
+- Keycloak 11.0.2 Based : hyperauth b1.0.10.0 부터
+- Keycloak 10.0.2 Based : hyperauth b1.0.9.29 버전까지
 - EventListener SPI
 - DB Extend SPI (CLIENT_AGREEMENT, EMAIL_VERIFICATION)
 - 네이버로 로그인, 카카오로 로그인
