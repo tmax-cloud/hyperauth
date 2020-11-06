@@ -84,15 +84,17 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                     break;
                 case "SEND_VERIFY_EMAIL":
                     String email = event.getDetails().get("email");
-                    long interval = 5000;
+                    long interval = 20000;
                     TimerProvider timer = session.getProvider(TimerProvider.class);
                     timer.scheduleTask((KeycloakSession keycloakSession) -> {
                         System.out.println("timer wake up!!!");
                         System.out.println("email : " + email);
-                        System.out.println("event : " + event.toString());
                         System.out.println("event.getRealmId() : " + event.getRealmId());
+                        System.out.println("event.getUserId() : " + event.getUserId());
+                        System.out.println("event.getUserName() : " + event.getDetails().get("username"));
                         timer.cancelTask(email); //for only 1 times
-
+                        System.out.println("session.users().getUserByEmail(email, session.realms().getRealmByName(event.getRealmId())).getUsername() : "
+                                + session.users().getUserByEmail(email, session.realms().getRealmByName(event.getRealmId())).getUsername());
                         try {
                             session.users().removeUser(session.realms().getRealmByName(event.getRealmId()),
                                     session.users().getUserByEmail(email, session.realms().getRealmByName(event.getRealmId())));
