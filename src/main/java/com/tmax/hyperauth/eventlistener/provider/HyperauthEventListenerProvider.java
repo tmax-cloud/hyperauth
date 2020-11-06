@@ -93,9 +93,9 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
 
                         try {
                             timer.cancelTask(email); //for only 1 times
-                            UserModel user = session.users().getUserById(event.getUserId(), session.realms().getRealmByName(event.getRealmId()));
+                            UserModel user = keycloakSession.users().getUserById(event.getUserId(), keycloakSession.realms().getRealmByName(event.getRealmId()));
                             if (!user.isEmailVerified()){
-                                session.users().removeUser(session.realms().getRealmByName(event.getRealmId()), user);
+                                keycloakSession.users().removeUser(keycloakSession.realms().getRealmByName(event.getRealmId()), user);
                                 System.out.println("Delete user role in k8s");
                                 HypercloudOperatorCaller.deleteNewUserRole(user.getUsername());
                             }
