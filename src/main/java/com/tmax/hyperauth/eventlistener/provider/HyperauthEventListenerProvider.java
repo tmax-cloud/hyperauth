@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
 
 import javax.ws.rs.core.Context;
 
@@ -18,15 +19,14 @@ import org.keycloak.models.KeycloakSession;
 import com.google.gson.JsonObject;
 import com.tmax.hyperauth.caller.HyperAuthCaller;
 import com.tmax.hyperauth.caller.HypercloudOperatorCaller;
-import org.keycloak.models.RealmModel;
-import org.keycloak.models.UserModel;
-import org.keycloak.sessions.AuthenticationSessionModel;
+import org.keycloak.timer.TimerProvider;
+import org.keycloak.timer.TimerSpi;
 
 /**
  * @author taegeon_woo@tmax.co.kr
  */
 
-public class HyperauthEventListenerProvider implements EventListenerProvider {
+public class HyperauthEventListenerProvider extends TimerSpi implements EventListenerProvider {
 
     private static final Logger logger = Logger.getLogger(HyperauthEventListenerProvider.class);
     @Context
@@ -81,6 +81,14 @@ public class HyperauthEventListenerProvider implements EventListenerProvider {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                    break;
+                case "SEND_VERIFY_EMAIL":
+                    String email = event.getDetails().get("email");
+                    TimerProvider timer = session.getProvider(TimerProvider.class);
+                    timer.scheduleTask((KeycloakSession keycloakSession) -> {
+                        System.out.println("timer wake up!!!");
+                        timer.cancelTask(email);
+                    }, 5000, email);
                     break;
             }
         }
