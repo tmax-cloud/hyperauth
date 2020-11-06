@@ -38,8 +38,8 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
 
     @Override
     public void onEvent(Event event) {
+        String userName = "";
         System.out.println("Event Occurred:" + toString(event));
-
         if (event.getRealmId().equalsIgnoreCase("tmax")) {
             switch (event.getType().toString()) {
                 case "REGISTER":
@@ -74,7 +74,7 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                     }
                     break;
                 case "LOGOUT":
-                    String userName = session.users().getUserById(event.getUserId(), session.realms().getRealmByName("tmax")).getUsername();
+                    userName = session.users().getUserById(event.getUserId(), session.realms().getRealmByName("tmax")).getUsername();
                     EventDataObject.Eventlists logoutEvent = makeAuditEvent("logout", userName, "success", 200);
                     try {
 //                        HypercloudWebhookCaller.auditAuthentication(logoutEvent);
@@ -84,11 +84,24 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                     break;
                 case "SEND_VERIFY_EMAIL":
                     String email = event.getDetails().get("email");
+                    long interval = 5000;
                     TimerProvider timer = session.getProvider(TimerProvider.class);
                     timer.scheduleTask((KeycloakSession keycloakSession) -> {
                         System.out.println("timer wake up!!!");
-                        timer.cancelTask(email);
-                    }, 5000, email);
+                        System.out.println("email : " + email);
+                        System.out.println("event : " + event.toString());
+                        System.out.println("event.getRealmId() : " + event.getRealmId());
+                        timer.cancelTask(email); //for only 1 times
+
+                        try {
+                            session.users().removeUser(session.realms().getRealmByName(event.getRealmId()),
+                                    session.users().getUserByEmail(email, session.realms().getRealmByName(event.getRealmId())));
+                            System.out.println("Delete user role in k8s");
+                            HypercloudOperatorCaller.deleteNewUserRole(session.users().getUserByEmail(email, session.realms().getRealmByName(event.getRealmId())).getUsername());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }, interval, email);
                     break;
             }
         }
