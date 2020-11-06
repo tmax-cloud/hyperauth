@@ -52,10 +52,9 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                         e.printStackTrace();
                     }
                     break;
-
                 case "LOGIN":
                     if (event.getClientId().equalsIgnoreCase("hypercloud4")
-                        && event.getDetails().get("response_type") == null) {
+                            && event.getDetails().get("response_type") == null) {
                         EventDataObject.Eventlists loginEvent = makeAuditEvent("login", event.getDetails().get("username"), "success", 200);
                         try {
 //                            HypercloudWebhookCaller.auditAuthentication(loginEvent);
@@ -85,19 +84,20 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                     break;
                 case "SEND_VERIFY_EMAIL":
                     String email = event.getDetails().get("email");
-                    long interval = 5000;
+                    long interval = 1000 * 60 * 5;
                     TimerProvider timer = session.getProvider(TimerProvider.class);
                     timer.scheduleTask((KeycloakSession keycloakSession) -> {
-                        System.out.println("timer wake up!!!");
-                        System.out.println("email : " + email);
-
+                        System.out.println("Check If not User Email [ " + email + " ] verified, Delete user");
                         try {
-                            timer.cancelTask(email); //for only 1 times
+                            timer.cancelTask(email);
                             UserModel user = keycloakSession.users().getUserById(event.getUserId(), keycloakSession.realms().getRealmByName(event.getRealmId()));
-                            if (!user.isEmailVerified()){
+                            if (!user.isEmailVerified()) {
                                 keycloakSession.users().removeUser(keycloakSession.realms().getRealmByName(event.getRealmId()), user);
+                                System.out.println("User [" + event.getDetails().get("username") + " ] Deleted");
                                 System.out.println("Delete user role in k8s");
                                 HypercloudOperatorCaller.deleteNewUserRole(user.getUsername());
+                            } else {
+                                System.out.println("Already Verified, Nothing to do");
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -106,15 +106,11 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                     break;
             }
         }
-
-
     }
 
     @Override
     public void onEvent(AdminEvent adminEvent, boolean b) {
-
         System.out.println("Admin Event Occurred:" + toString(adminEvent));
-
         // when user registered by admin, operator call for new role 
         if (adminEvent.getOperationType().toString().equalsIgnoreCase("CREATE")
                 && adminEvent.getResourcePath().toString().startsWith("users")
