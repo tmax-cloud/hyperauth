@@ -77,6 +77,11 @@
   ```
   
 ## GroupMember
+- GroupMember 관련 API를 사용하기 위한 중간관리자 user는 **isAdmin** Attribute에 자기 자신이 속해있고, 관리자인 Groups의 이름들을 가지고 있어야 한다.
+- 여러 Group의 관리자인 유저는 , 로 구분해서 띄워쓰기 없이 추가한다.
+- ex) key : isAdmin  |  value : groupA,groupB
+- 중간 관리자의 token에 isAdmin claim 이 추가 되어 있는지 확인한다. 
+
 ### GroupMemberCreate
   - URL  
   POST /groupMember
