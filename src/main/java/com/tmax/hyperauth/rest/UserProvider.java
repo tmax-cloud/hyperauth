@@ -348,6 +348,7 @@ public class UserProvider implements RealmResourceProvider {
             token = verifier.verify().getToken();
         } catch (Exception e) {
             out = "token invalid";
+            throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "token invalid", Status.UNAUTHORIZED);
         }
         clientModel = realm.getClientByClientId(token.getIssuedFor());
         if (clientModel == null) {
