@@ -63,7 +63,7 @@ public class GroupMemberProvider implements RealmResourceProvider {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response POST(UserRepresentation rep, @QueryParam("token") String tokenString) {
+    public Response POST(List< UserRepresentation > reps, @QueryParam("token") String tokenString) {
         System.out.println("***** POST /GroupMember");
 
         RealmModel realm = session.realms().getRealmByName("tmax");
@@ -75,32 +75,6 @@ public class GroupMemberProvider implements RealmResourceProvider {
             verifyToken(tokenString, realm);
             groupAdminName = token.getPreferredUsername();
             System.out.println("groupAdminName : " + groupAdminName);
-
-            List< String > isAdmin = null;
-            if (token.getOtherClaims().get("isAdmin") != null && token.getOtherClaims().get("isAdmin").toString() != null){
-                isAdmin = Arrays.asList(token.getOtherClaims().get("isAdmin").toString().split(","));
-            } else {
-                throw new ErrorResponseException(OAuthErrorException.INVALID_TOKEN, "No Authorization", Status.UNAUTHORIZED);
-            }
-            List < String > groupNameList = null;
-            for ( String groupName : isAdmin){
-                System.out.println("User [ " + groupAdminName + " ] is Admin of group [ " + groupName + " ]");
-                if ( realm.searchForGroupByName(groupName, 0, realm.getGroupsCount(false).intValue()) != null ){
-                    GroupModel group = realm.searchForGroupByName(groupName, 0, realm.getGroupsCount(false).intValue()).get(0);
-                    if (groupNameList == null) groupNameList = new ArrayList<>();
-                    groupNameList.add(group.getName());
-                }
-            }
-
-            if(groupNameList == null){
-                throw new ErrorResponseException(OAuthErrorException.INVALID_TOKEN, "No Authorization", Status.UNAUTHORIZED);
-            }
-
-            boolean flag = false;
-            if (!groupNameList.containsAll(rep.getGroups())){
-                throw new ErrorResponseException(OAuthErrorException.INVALID_TOKEN, "No Authorization", Status.UNAUTHORIZED);
-            }
-
         } catch (Exception e) {
             e.printStackTrace();
             out = "token is invalid";
@@ -108,61 +82,103 @@ public class GroupMemberProvider implements RealmResourceProvider {
             return Util.setCors(status, out);
         }
 
-        String username = rep.getUsername();
-        if(realm.isRegistrationEmailAsUsername()) {
-            username = rep.getEmail();
+        List< String > isAdmin = null;
+        if (token.getOtherClaims().get("isAdmin") != null && token.getOtherClaims().get("isAdmin").toString() != null){
+            isAdmin = Arrays.asList(token.getOtherClaims().get("isAdmin").toString().split(","));
+        } else {
+            throw new ErrorResponseException(OAuthErrorException.INVALID_TOKEN, "No Authorization", Status.UNAUTHORIZED);
         }
-        if (ObjectUtil.isBlank(username)) {
-            return ErrorResponse.error("User name is missing", Status.BAD_REQUEST);
+        List < String > groupNameList = null;
+        for ( String groupName : isAdmin){
+            System.out.println("User [ " + groupAdminName + " ] is Admin of group [ " + groupName + " ]");
+            if ( realm.searchForGroupByName(groupName, 0, realm.getGroupsCount(false).intValue()) != null ){
+                GroupModel group = realm.searchForGroupByName(groupName, 0, realm.getGroupsCount(false).intValue()).get(0);
+                if (groupNameList == null) groupNameList = new ArrayList<>();
+                groupNameList.add(group.getName());
+            }
         }
 
-        // Double-check duplicated username and email here due to federation
-        if (session.users().getUserByUsername(username, realm) != null) {
-            return ErrorResponse.exists("User exists with same username");
+        if(groupNameList == null){
+            throw new ErrorResponseException(OAuthErrorException.INVALID_TOKEN, "No Authorization", Status.UNAUTHORIZED);
         }
-        if (rep.getEmail() != null && !realm.isDuplicateEmailsAllowed()) {
-            try {
-                if(session.users().getUserByEmail(rep.getEmail(), realm) != null) {
-                    return ErrorResponse.exists("User exists with same email");
+
+        // For Validation
+        if ( reps != null && reps.size() > 0){
+            // For userName duplicate check
+            HashSet<String> userNameSet = new HashSet<String>();
+            for ( UserRepresentation rep : reps ) {
+                if (!groupNameList.containsAll(rep.getGroups())) {
+                    throw new ErrorResponseException(OAuthErrorException.INVALID_TOKEN, "No Authorization", Status.UNAUTHORIZED);
                 }
-            } catch (ModelDuplicateException e) {
-                return ErrorResponse.exists("User exists with same email");
+
+                String username = rep.getUsername();
+                if (realm.isRegistrationEmailAsUsername()) {
+                    username = rep.getEmail();
+                }
+                if (ObjectUtil.isBlank(username)) {
+                    return ErrorResponse.error("User name is missing", Status.BAD_REQUEST);
+                }
+
+                // Double-check duplicated username and email here due to federation
+                if (session.users().getUserByUsername(username, realm) != null) {
+                    return ErrorResponse.exists("User exists with same username");
+                }
+                if (rep.getEmail() != null && !realm.isDuplicateEmailsAllowed()) {
+                    try {
+                        if (session.users().getUserByEmail(rep.getEmail(), realm) != null) {
+                            return ErrorResponse.exists("User exists with same email");
+                        }
+                    } catch (ModelDuplicateException e) {
+                        return ErrorResponse.exists("User exists with same email");
+                    }
+                }
+                userNameSet.add(rep.getEmail()); // FIXME : For Policy, check Email but could be change
             }
+            if ( reps.size() != userNameSet.size()){
+                return ErrorResponse.exists("User Email Duplicated");
+            }
+
+            // For Logic
+            for ( UserRepresentation rep : reps ){
+                try {
+                    String username = rep.getUsername();
+                    UserModel user = session.users().addUser(realm, username);
+                    Set<String> emptySet = Collections.emptySet();
+                    UserResource.updateUserFromRep(user, rep, emptySet, realm, session, false);
+                    RepresentationToModel.createFederatedIdentities(rep, session, realm, user);
+                    RepresentationToModel.createGroups(rep, realm, user);
+                    RepresentationToModel.createCredentials(rep, session, realm, user, true);
+
+                    event.event(EventType.REGISTER).user(user).realm("tmax").detail("username", username).success(); // FIXME
+
+                    if (session.getTransactionManager().isActive()) {
+                        session.getTransactionManager().commit();
+                    }
+                } catch (ModelDuplicateException e) {
+                    if (session.getTransactionManager().isActive()) {
+                        session.getTransactionManager().setRollbackOnly();
+                    }
+                    return ErrorResponse.exists("User exists with same username or email");
+                } catch (PasswordPolicyNotMetException e) {
+                    if (session.getTransactionManager().isActive()) {
+                        session.getTransactionManager().setRollbackOnly();
+                    }
+                    return ErrorResponse.error("Password policy not met", Status.BAD_REQUEST);
+                } catch (ModelException me){
+                    if (session.getTransactionManager().isActive()) {
+                        session.getTransactionManager().setRollbackOnly();
+                    }
+                    System.out.println("Could not create user");
+                    return ErrorResponse.error("Could not create user", Status.BAD_REQUEST);
+                }
+            }
+        } else {
+            return ErrorResponse.exists("No User to Register");
         }
 
-        try {
-            UserModel user = session.users().addUser(realm, username);
-            Set<String> emptySet = Collections.emptySet();
-
-            UserResource.updateUserFromRep(user, rep, emptySet, realm, session, false);
-            RepresentationToModel.createFederatedIdentities(rep, session, realm, user);
-            RepresentationToModel.createGroups(rep, realm, user);
-            RepresentationToModel.createCredentials(rep, session, realm, user, true);
-
-            event.event(EventType.REGISTER).user(user).realm("tmax").detail("username", username).success(); // FIXME
-
-            if (session.getTransactionManager().isActive()) {
-                session.getTransactionManager().commit();
-            }
-
-            return Response.created(session.getContext().getUri().getAbsolutePathBuilder().path(user.getId()).build()).build();
-        } catch (ModelDuplicateException e) {
-            if (session.getTransactionManager().isActive()) {
-                session.getTransactionManager().setRollbackOnly();
-            }
-            return ErrorResponse.exists("User exists with same username or email");
-        } catch (PasswordPolicyNotMetException e) {
-            if (session.getTransactionManager().isActive()) {
-                session.getTransactionManager().setRollbackOnly();
-            }
-            return ErrorResponse.error("Password policy not met", Status.BAD_REQUEST);
-        } catch (ModelException me){
-            if (session.getTransactionManager().isActive()) {
-                session.getTransactionManager().setRollbackOnly();
-            }
-            System.out.println("Could not create user");
-            return ErrorResponse.error("Could not create user", Status.BAD_REQUEST);
-        }
+        out = "Group Member Register Success";
+        status = Status.OK;
+        return Util.setCors(status, out);
     }
 
 
