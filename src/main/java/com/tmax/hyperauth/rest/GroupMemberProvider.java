@@ -147,28 +147,14 @@ public class GroupMemberProvider implements RealmResourceProvider {
                         username = rep.getEmail();
                     }
                     System.out.println("User [ " + username + " ] Register Start");
-
                     user = session.users().addUser(realm, username);
-                    System.out.println("111");
-
                     Set<String> emptySet = Collections.emptySet();
                     UserResource.updateUserFromRep(user, rep, emptySet, realm, session, false);
-                    System.out.println("222");
-
                     RepresentationToModel.createFederatedIdentities(rep, session, realm, user);
-                    System.out.println("333");
-
                     RepresentationToModel.createGroups(rep, realm, user);
-                    System.out.println("444");
-
                     RepresentationToModel.createCredentials(rep, session, realm, user, true);
-                    System.out.println("555");
                     System.out.println("User [ " + username + " ] Register Success");
-
-
                     event.event(EventType.REGISTER).user(user).realm("tmax").detail("username", username).success(); // FIXME
-                    System.out.println("666");
-
                 } catch (ModelDuplicateException e) {
                     if (session.getTransactionManager().isActive()) {
                         session.getTransactionManager().setRollbackOnly();
@@ -190,7 +176,7 @@ public class GroupMemberProvider implements RealmResourceProvider {
         } else {
             return ErrorResponse.exists("No User to Register");
         }
-        if (session.getTransactionManager().isActive()) {
+        if (session.getTransactionManager().isActive()) {  // If commit every time, Error occurred
             session.getTransactionManager().commit();
         }
 

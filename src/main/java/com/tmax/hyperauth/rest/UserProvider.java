@@ -116,18 +116,17 @@ public class UserProvider implements RealmResourceProvider {
                     if (realm.isRegistrationEmailAsUsername()) {
                         username = rep.getEmail();
                     }
+                    System.out.println("User [ " + username + " ] Register Start");
                     UserModel user = session.users().addUser(realm, username);
                     Set<String> emptySet = Collections.emptySet();
                     UserResource.updateUserFromRep(user, rep, emptySet, realm, session, false);
                     RepresentationToModel.createFederatedIdentities(rep, session, realm, user);
                     RepresentationToModel.createGroups(rep, realm, user);
                     RepresentationToModel.createCredentials(rep, session, realm, user, true);
+                    System.out.println("User [ " + username + " ] Register Success");
 
                     event.event(EventType.REGISTER).user(user).realm("tmax").detail("username", username).success(); // FIXME
 
-                    if (session.getTransactionManager().isActive()) {
-                        session.getTransactionManager().commit();
-                    }
                 } catch (ModelDuplicateException e) {
                     if (session.getTransactionManager().isActive()) {
                         session.getTransactionManager().setRollbackOnly();
@@ -148,6 +147,10 @@ public class UserProvider implements RealmResourceProvider {
             }
         } else {
             return ErrorResponse.exists("No User to Register");
+        }
+
+        if (session.getTransactionManager().isActive()) {
+            session.getTransactionManager().commit();
         }
 
         out = "user Register Success";
