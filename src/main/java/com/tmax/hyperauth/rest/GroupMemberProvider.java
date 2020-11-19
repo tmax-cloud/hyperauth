@@ -142,6 +142,9 @@ public class GroupMemberProvider implements RealmResourceProvider {
             for ( UserRepresentation rep : reps ){
                 try {
                     String username = rep.getUsername();
+                    if (realm.isRegistrationEmailAsUsername()) {
+                        username = rep.getEmail();
+                    }
                     UserModel user = session.users().addUser(realm, username);
                     Set<String> emptySet = Collections.emptySet();
                     UserResource.updateUserFromRep(user, rep, emptySet, realm, session, false);
