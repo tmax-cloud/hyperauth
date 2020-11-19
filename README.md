@@ -16,7 +16,7 @@
 - keycloak 공식 Admin REST API 문서  
   - https://www.keycloak.org/docs-api/5.0/rest-api/index.html
 - Prefix 
-  - http://{HYPERAUTH_IP}/auth/admin/realms/tmax  
+  - http://{HYPERAUTH_IP}/auth/realms/tmax  
 - realmName 은 **tmax로 고정한다.**
 
 ## USER
