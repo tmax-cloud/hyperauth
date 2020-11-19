@@ -28,23 +28,43 @@
   Content-Type : application/json
   - BODY 
   ```json
-  {
-    "username": "test@tmax.co.kr",
-    "emailVerified": true,
-    "email": "test@tmax.co.kr",
-    "enabled": true,
-    "attributes": {
-      "dateOfBirth": "1992.01.02",
-      "phone": "000-000-0000",
-      "description": "userCreateSuccess",
-      "department": "ck1-3",	
-      "position": "developer"
+  [
+    {
+      "username": "test@tmax.co.kr",
+      "emailVerified": true,
+      "email": "test@tmax.co.kr",
+      "enabled": true,
+      "attributes": {
+        "dateOfBirth": "1992.01.02",
+        "phone": "000-000-0000",
+        "description": "userCreateSuccess",
+        "department": "ck1-3",	
+        "position": "developer"
+      },
+      "credentials": [{
+        "value": "Qwerqwer1!"
+      }]
     },
-    "credentials": [{
-      "value": "Qwerqwer1!"
-    }]
-  }
+    {
+      "username": "test2@tmax.co.kr",
+      "emailVerified": true,
+      "email": "test2@tmax.co.kr",
+      "enabled": true,
+      "attributes": {
+        "dateOfBirth": "1992.01.02",
+        "phone": "000-000-0000",
+        "description": "userCreateSuccess",
+        "department": "ck1-3",	
+        "position": "developer"
+      },
+      "credentials": [{
+        "value": "Qwerqwer1!"
+      }]
+    }
+  ]
   ```
+  - Description 
+    - 복수의 사용자를 추가 할 수 있음.
 
  ### UserDelete
   - URL   
@@ -91,28 +111,50 @@
   Content-Type : application/json
   - BODY  
   ```json
-  {
-    "username": "test@tmax.co.kr",
-    "emailVerified": true,
-    "email": "test@tmax.co.kr",
-    "enabled": true,
-    "attributes": {
-      "dateOfBirth": "1992.01.02",
-      "phone": "000-000-0000",
-      "description": "userCreateSuccess",
-      "department": "ck1-3",	
-      "position": "developer"
+  [
+    {
+      "username": "test@tmax.co.kr",
+      "emailVerified": true,
+      "email": "test@tmax.co.kr",
+      "enabled": true,
+      "attributes": {
+        "dateOfBirth": "1992.01.02",
+        "phone": "000-000-0000",
+        "description": "userCreateSuccess",
+        "department": "ck1-3",	
+        "position": "developer"
+      },
+      "groups": [
+        "woo-group", "woo-group2"
+      ],   
+      "credentials": [{
+          "value": "Qwerqwer1!"
+        }]
     },
-    "groups": [
-      "woo-group", "woo-group2"
-    ],   
-    "credentials": [{
-        "value": "Qwerqwer1!"
-      }]
-  }
+    {
+      "username": "test2@tmax.co.kr",
+      "emailVerified": true,
+      "email": "test2@tmax.co.kr",
+      "enabled": true,
+      "attributes": {
+        "dateOfBirth": "1992.01.02",
+        "phone": "000-000-0000",
+        "description": "userCreateSuccess",
+        "department": "ck1-3",	
+        "position": "developer"
+      },
+      "groups": [
+        "woo-group", "woo-group2"
+      ],   
+      "credentials": [{
+          "value": "Qwerqwer1!"
+        }]
+    }
+  ]
   ```
   - Description
     - 중간관리자는 groups 절에 명시 할 모든 group에 대한 중간 관리자여야 한다.
+    - 복수의 사용자를 추가 할 수 있음.
   
 ### GroupMemberListGet
   - URL  
