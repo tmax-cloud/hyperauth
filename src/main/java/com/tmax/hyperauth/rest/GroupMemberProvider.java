@@ -141,18 +141,32 @@ public class GroupMemberProvider implements RealmResourceProvider {
             // For Logic
             for ( UserRepresentation rep : reps ){
                 try {
+                    UserModel user = null;
                     String username = rep.getUsername();
                     if (realm.isRegistrationEmailAsUsername()) {
                         username = rep.getEmail();
                     }
-                    UserModel user = session.users().addUser(realm, username);
+                    System.out.println("User [ " + username + " ] Register Start");
+
+                    user = session.users().addUser(realm, username);
+                    System.out.println("111");
+
                     Set<String> emptySet = Collections.emptySet();
                     UserResource.updateUserFromRep(user, rep, emptySet, realm, session, false);
+                    System.out.println("222");
+
                     RepresentationToModel.createFederatedIdentities(rep, session, realm, user);
+                    System.out.println("333");
+
                     RepresentationToModel.createGroups(rep, realm, user);
+                    System.out.println("444");
+
                     RepresentationToModel.createCredentials(rep, session, realm, user, true);
+                    System.out.println("555");
+
 
                     event.event(EventType.REGISTER).user(user).realm("tmax").detail("username", username).success(); // FIXME
+                    System.out.println("666");
 
                     if (session.getTransactionManager().isActive()) {
                         session.getTransactionManager().commit();
