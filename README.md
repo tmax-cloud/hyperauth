@@ -16,7 +16,7 @@
 - keycloak 공식 Admin REST API 문서  
   - https://www.keycloak.org/docs-api/5.0/rest-api/index.html
 - Prefix 
-  - http://{HYPERAUTH_IP}/auth/admin/realms/tmax  
+  - http://{HYPERAUTH_IP}/auth/realms/tmax  
 - realmName 은 **tmax로 고정한다.**
 
 ## USER
@@ -197,6 +197,15 @@
     - resetPassword : 인증번호가 맞으면, PasswordUpdate With Code 서비스를 부를 준비가 완료됨
 
 ## PASSWORD
+### PasswordUpdate With Token
+  - URL  
+  PUT /password
+  - QUERY PARAMETER  
+  token : eyqasdfp.... </br> password : Qwerqwer1! </br> confirmPassword : Qwerqwer1! </br> email : {email_address}
+  - Description  
+    - 자기 자신만이 비밀번호를 바꿀 수 있는 API
+    - AccessToken을 넣어준다
+
 ### PasswordUpdate With Code 
   - URL  
   PUT /password
