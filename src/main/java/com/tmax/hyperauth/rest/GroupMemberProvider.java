@@ -163,14 +163,12 @@ public class GroupMemberProvider implements RealmResourceProvider {
 
                     RepresentationToModel.createCredentials(rep, session, realm, user, true);
                     System.out.println("555");
+                    System.out.println("User [ " + username + " ] Register Success");
 
 
                     event.event(EventType.REGISTER).user(user).realm("tmax").detail("username", username).success(); // FIXME
                     System.out.println("666");
 
-                    if (session.getTransactionManager().isActive()) {
-                        session.getTransactionManager().commit();
-                    }
                 } catch (ModelDuplicateException e) {
                     if (session.getTransactionManager().isActive()) {
                         session.getTransactionManager().setRollbackOnly();
@@ -191,6 +189,9 @@ public class GroupMemberProvider implements RealmResourceProvider {
             }
         } else {
             return ErrorResponse.exists("No User to Register");
+        }
+        if (session.getTransactionManager().isActive()) {
+            session.getTransactionManager().commit();
         }
 
         out = "Group Member Register Success";
