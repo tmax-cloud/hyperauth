@@ -192,6 +192,8 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
         sb.append(event.getIpAddress());
         sb.append(", sessionId=");
         sb.append(event.getSessionId());
+        sb.append(", time=");
+        sb.append(event.getTime());
 
         if (event.getError() != null) {
             sb.append(", error=");
