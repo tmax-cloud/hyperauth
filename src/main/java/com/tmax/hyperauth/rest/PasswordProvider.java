@@ -5,15 +5,16 @@ import com.tmax.hyperauth.jpa.EmailVerification;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.TokenVerifier;
+import org.keycloak.authentication.authenticators.directgrant.AbstractDirectGrantAuthenticator;
 import org.keycloak.common.ClientConnection;
 import org.keycloak.common.VerificationException;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
+import org.keycloak.credential.CredentialInput;
+import org.keycloak.credential.CredentialInputValidator;
 import org.keycloak.crypto.SignatureProvider;
 import org.keycloak.crypto.SignatureVerifierContext;
-import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
-import org.keycloak.models.RealmModel;
-import org.keycloak.models.UserCredentialModel;
+import org.keycloak.models.*;
+import org.keycloak.models.utils.CredentialValidation;
 import org.keycloak.models.utils.FormMessage;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.protocol.oidc.TokenManager;
@@ -163,6 +164,36 @@ public class PasswordProvider implements RealmResourceProvider {
         	out = "Reset Password Failed";
             return Util.setCors(status, out);
         }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response get( @QueryParam("userId") String userId,  @QueryParam("password") String password) {
+        System.out.println("***** Verify /password");
+
+        if ( StringUtil.isEmpty(userId)){
+            status = Status.BAD_REQUEST;
+            out = "User Id is Empty";
+            return Util.setCors(status, out);
+        }
+
+        if ( StringUtil.isEmpty(password)){
+            status = Status.BAD_REQUEST;
+            out = "Password is Empty";
+            return Util.setCors(status, out);
+        }
+        RealmModel realm = session.realms().getRealmByName("tmax");
+        UserModel user = session.users().getUserByEmail(userId, realm);
+        String currentPass = session.userCredentialManager().getStoredCredentialById(realm, user, user.getId()).getCredentialData();
+        String secretData = session.userCredentialManager().getStoredCredentialById(realm, user, user.getId()).getSecretData();
+        String passId = session.userCredentialManager().getStoredCredentialById(realm, user, user.getId()).getId();
+        System.out.println("currentPass : " + currentPass);
+        System.out.println("secretData : " + secretData);
+        System.out.println("passId : " + passId);
+
+        session.userCredentialManager().
+
+        return Util.setCors(status, out);
     }
 
     @OPTIONS
