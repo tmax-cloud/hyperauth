@@ -170,7 +170,6 @@ public class PasswordProvider implements RealmResourceProvider {
     @Produces(MediaType.APPLICATION_JSON)
     public Response get( @QueryParam("userId") String userId,  @QueryParam("password") String password) {
         System.out.println("***** Verify /password");
-
         if ( StringUtil.isEmpty(userId)){
             status = Status.BAD_REQUEST;
             out = "User Id is Empty";
@@ -184,15 +183,14 @@ public class PasswordProvider implements RealmResourceProvider {
         }
         RealmModel realm = session.realms().getRealmByName("tmax");
         UserModel user = session.users().getUserByEmail(userId, realm);
-        String currentPass = session.userCredentialManager().getStoredCredentialById(realm, user, user.getId()).getCredentialData();
-        String secretData = session.userCredentialManager().getStoredCredentialById(realm, user, user.getId()).getSecretData();
-        String passId = session.userCredentialManager().getStoredCredentialById(realm, user, user.getId()).getId();
-        System.out.println("currentPass : " + currentPass);
-        System.out.println("secretData : " + secretData);
-        System.out.println("passId : " + passId);
-
-        session.userCredentialManager().
-
+        UserCredentialModel cred = UserCredentialModel.password(password);
+        if (!session.userCredentialManager().isValid(realm, user, cred)) {
+            status = Status.OK;
+            out = "Password is Correct";
+        } else {
+            status = Status.BAD_REQUEST;
+            out = "Password is Wrong";
+        }
         return Util.setCors(status, out);
     }
 
