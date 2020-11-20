@@ -19,6 +19,7 @@ import org.keycloak.models.KeycloakSession;
 import com.google.gson.JsonObject;
 import com.tmax.hyperauth.caller.HyperAuthCaller;
 import com.tmax.hyperauth.caller.HypercloudOperatorCaller;
+import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.timer.TimerProvider;
 import org.keycloak.timer.TimerSpi;
@@ -61,6 +62,18 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                    }
+                    // For Session-Restrict Policy
+                    if (event.getClientId().equalsIgnoreCase("hypercloud4")) {
+                        UserModel user = session.users().getUserById(event.getUserId(), session.realms().getRealmByName(event.getRealmId()));
+                        RealmModel realm = session.realms().getRealmByName(event.getRealmId());
+                        session.sessions().getUserSessions(realm, user).forEach(userSession -> {
+                            // remove all existing user sessions but the current one (last one wins)
+                            // this is HIGHLANDER MODE - there must only be one!
+                            if (!userSession.getId().equals(event.getSessionId())) {
+                                session.sessions().removeUserSession(realm, userSession);
+                            }
+                        });
                     }
                     break;
                 case "LOGIN_ERROR":
