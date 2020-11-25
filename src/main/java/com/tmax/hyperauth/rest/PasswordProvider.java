@@ -184,7 +184,7 @@ public class PasswordProvider implements RealmResourceProvider {
         RealmModel realm = session.realms().getRealmByName("tmax");
         UserModel user = session.users().getUserByEmail(userId, realm);
         UserCredentialModel cred = UserCredentialModel.password(password);
-        if (!session.userCredentialManager().isValid(realm, user, cred)) {
+        if (session.userCredentialManager().isValid(realm, user, cred)) {
             status = Status.OK;
             out = "Password is Correct";
         } else {
