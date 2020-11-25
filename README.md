@@ -257,4 +257,12 @@
     - resetPassword 시 사용  
     - EmailVerify시 사용했던 email 과 code를 다시 한번 넣어주어야 함
 
+### PasswordVerify
+  - URL  
+  GET /password
+  - QUERY PARAMETER  
+  userId : taegeon_woo@tmax.co.kr </br> password : admin 
+  - Description  
+    - id, password로 사용자의 비밀번호가 맞는지 아닌지를 판단하는 서비스
+
   
