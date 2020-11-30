@@ -19,14 +19,13 @@ import org.keycloak.crypto.SignatureProvider;
 import org.keycloak.crypto.SignatureVerifierContext;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
-import org.keycloak.events.admin.OperationType;
-import org.keycloak.events.admin.ResourceType;
 import org.keycloak.models.*;
 import org.keycloak.models.utils.RepresentationToModel;
+import org.keycloak.models.utils.ModelToRepresentation;
 import org.keycloak.policy.PasswordPolicyNotMetException;
-import org.keycloak.protocol.oidc.TokenManager;
 import org.keycloak.protocol.oidc.TokenManager.NotBeforeCheck;
 import org.keycloak.representations.AccessToken;
+import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.keycloak.services.ErrorResponse;
 import org.keycloak.services.ErrorResponseException;
@@ -35,9 +34,7 @@ import org.keycloak.services.managers.BruteForceProtector;
 import org.keycloak.services.resource.RealmResourceProvider;
 
 import com.tmax.hyperauth.caller.HypercloudOperatorCaller;
-import org.keycloak.services.resources.admin.AdminEventBuilder;
 import org.keycloak.services.resources.admin.UserResource;
-import org.keycloak.services.resources.admin.permissions.AdminPermissionEvaluator;
 
 /**
  * @author taegeon_woo@tmax.co.kr
@@ -187,6 +184,15 @@ public class UserProvider implements RealmResourceProvider {
         	userOut.setEmail(user.getEmail());
         	userOut.setGroups(groupName);
             userOut.setEnabled(user.isEnabled());
+
+            // User Credential Data
+            if( session.userCredentialManager().getStoredCredentialsByType(realm, user, "password") != null ){
+               List <CredentialRepresentation> credentials = new ArrayList<>();
+               CredentialRepresentation credential =  ModelToRepresentation.
+                       toRepresentation( session.userCredentialManager().getStoredCredentialsByType(realm, user, "password").get(0) );
+                credentials.add(credential);
+                userOut.setCredentials(credentials);
+            }
 
         	// Login Failure Data
             UserLoginFailureModel loginFailureModel = session.sessions().getUserLoginFailure(realm, user.getId());
