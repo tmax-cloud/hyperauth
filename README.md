@@ -21,7 +21,7 @@
 
 ## USER
 - keycloak의 username은 한글을 지원하지 않기 때문에 attribute으로 관리해야한다. 아래에 해당하는 key값으로 관리하는 것으로 한다. (공통)
-  - 한글 영어 구분이 필요없는 경우 : username
+  - 한글 영어 구분이 없이 입력받을 경우 : username
   - 한글이름 : username_ko
   - 영어이름 : username_en
   
