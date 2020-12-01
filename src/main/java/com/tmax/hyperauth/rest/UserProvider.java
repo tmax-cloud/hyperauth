@@ -185,6 +185,11 @@ public class UserProvider implements RealmResourceProvider {
         	userOut.setGroups(groupName);
             userOut.setEnabled(user.isEnabled());
 
+            // User Attribute Data
+            if (user.getAttributes() != null){
+                userOut.setAttributes(user.getAttributes());
+            }
+
             // User Credential Data
             if( session.userCredentialManager().getStoredCredentialsByType(realm, user, "password") != null ){
                List <CredentialRepresentation> credentials = new ArrayList<>();
