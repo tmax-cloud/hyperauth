@@ -20,6 +20,10 @@
 - realmName 은 **tmax로 고정한다.**
 
 ## USER
+- keycloak의 username은 한글을 지원하지 않기 때문에 attribute으로 관리해야한다. 아래에 해당하는 key값으로 관리하는 것으로 한다. (공통)
+  - 한글 영어 구분이 필요없는 경우 : username
+  - 한글이름 : username_ko
+  - 영어이름 : username_en
   
  ### UserCreate
   - URL  
@@ -184,6 +188,9 @@
   ```
   
 ## AGREEMENT  
+- 이용약관 중 필수가 아닌 선택이 필요한 약관의 경우 user의 attribute으로 관리하는 것으로 한다. 아래의 key값으로 관리하는 것으로 한다. ( 공통 )
+  - agreeMailOpt
+  
 ### AgreementCreate ( Update와 동일하게 동작해서 같은 조건의 Agreement를 덮어쓴다. )
   - URL  
   POST /agreement
