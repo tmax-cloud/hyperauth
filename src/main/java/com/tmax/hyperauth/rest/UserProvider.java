@@ -36,6 +36,7 @@ import org.keycloak.services.resource.RealmResourceProvider;
 import com.tmax.hyperauth.caller.HypercloudOperatorCaller;
 import org.keycloak.services.resources.admin.UserResource;
 
+
 /**
  * @author taegeon_woo@tmax.co.kr
  */
@@ -184,7 +185,6 @@ public class UserProvider implements RealmResourceProvider {
         	userOut.setEmail(user.getEmail());
         	userOut.setGroups(groupName);
             userOut.setEnabled(user.isEnabled());
-
             // User Attribute Data
             if (user.getAttributes() != null){
                 userOut.setAttributes(user.getAttributes());
