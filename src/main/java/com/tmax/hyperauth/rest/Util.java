@@ -1,5 +1,7 @@
 package com.tmax.hyperauth.rest;
 
+import org.keycloak.models.KeycloakSession;
+
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -50,11 +52,11 @@ public class Util {
 		return numStr;
 	}
 
-	public static void sendMail( String recipient, String subject, String body, String imgPath, String imgCid ) throws Throwable {
+	public static void sendMail(KeycloakSession keycloakSession, String recipient, String subject, String body, String imgPath, String imgCid ) throws Throwable {
 		System.out.println( " Send Mail to User [ " + recipient + "] Start");
-		String host = "mail.tmax.co.kr";
-		int port = 25;
-		String sender = "no-reply-tc@tmax.co.kr";
+		String host = keycloakSession.getContext().getRealm().getSmtpConfig().get("host");
+		int port = Integer.parseInt(keycloakSession.getContext().getRealm().getSmtpConfig().get("port"));
+		String sender = keycloakSession.getContext().getRealm().getSmtpConfig().get("from");
 
 		String charSetUtf = "UTF-8" ;
 		Properties props = System.getProperties();
@@ -67,9 +69,8 @@ public class Util {
 		props.put("mail.smtp.ssl.protocols", "TLSv1.2");
 
 		Session session = Session.getDefaultInstance( props, new javax.mail.Authenticator() {
-			String un = "no-reply-tc@tmax.co.kr";
-			String pw = "!@tcdnsdudxla11";
-			//			String pw = K8sApiCaller.readSecret(Constants.TEMPLATE_NAMESPACE, Constants.SECRET_MAIL_PASSWORD).getStringData().get("password");
+			String un = keycloakSession.getContext().getRealm().getSmtpConfig().get("user");
+			String pw = keycloakSession.getContext().getRealm().getSmtpConfig().get("password");
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication( un, pw );
 			}

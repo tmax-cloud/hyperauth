@@ -108,7 +108,7 @@ public class EmailProvider implements RealmResourceProvider {
 //        }
 
         try {
-            Util.sendMail(email, subject, msg, null, null);
+            Util.sendMail(session, email, subject, msg, null, null );
             status = Status.OK;
             out = "Email Send Success";
             return Util.setCors(status, out);
