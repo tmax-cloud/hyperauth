@@ -107,13 +107,17 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                         try {
                             timer.cancelTask(email);
                             UserModel user = keycloakSession.users().getUserById(event.getUserId(), keycloakSession.realms().getRealmByName(event.getRealmId()));
-                            if (!user.isEmailVerified()) {
-                                keycloakSession.users().removeUser(keycloakSession.realms().getRealmByName(event.getRealmId()), user);
-                                System.out.println("User [" + event.getDetails().get("username") + " ] Deleted");
-                                System.out.println("Delete user role in k8s");
-                                HypercloudOperatorCaller.deleteNewUserRole(user.getUsername());
+                            if (user != null) {
+                                if (!user.isEmailVerified()) {
+                                    keycloakSession.users().removeUser(keycloakSession.realms().getRealmByName(event.getRealmId()), user);
+                                    System.out.println("User [" + event.getDetails().get("username") + " ] Deleted");
+                                    System.out.println("Delete user role in k8s");
+                                    HypercloudOperatorCaller.deleteNewUserRole(user.getUsername());
+                                } else {
+                                    System.out.println("Already Verified, Nothing to do");
+                                }
                             } else {
-                                System.out.println("Already Verified, Nothing to do");
+                                System.out.println("User [" + event.getDetails().get("username") + " ] Already Deleted, nothing to do");
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
