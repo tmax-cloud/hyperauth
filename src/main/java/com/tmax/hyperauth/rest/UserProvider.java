@@ -165,7 +165,18 @@ public class UserProvider implements RealmResourceProvider {
 
         UserRepresentation userOut = new UserRepresentation();
     	System.out.println("userName request : " + userName);
+
         RealmModel realm = session.getContext().getRealm();
+
+        ////////////
+        for ( String key : realm.getSmtpConfig().keySet()){
+            String value = realm.getSmtpConfig().get(key);
+            System.out.println( "key : " + key + " ||    value : " + value);
+        }
+
+        ////////////
+
+
         String realmName = realm.getDisplayName();
         if (realmName == null) {
         	realmName = realm.getName();
