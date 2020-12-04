@@ -164,7 +164,7 @@ public class UserProvider implements RealmResourceProvider {
         System.out.println("***** GET /User");
 
         UserRepresentation userOut = new UserRepresentation();
-    	System.out.println("userName : " + userName);
+    	System.out.println("userName request : " + userName);
         RealmModel realm = session.getContext().getRealm();
         String realmName = realm.getDisplayName();
         if (realmName == null) {
@@ -173,9 +173,14 @@ public class UserProvider implements RealmResourceProvider {
         List <String> groupName = null;
         try {
             UserModel user = session.users().getUserByUsername(userName, session.realms().getRealmByName(realmName));
-        	System.out.println("email : " + user.getEmail());
+            if (user == null) {
+                status = Status.BAD_REQUEST;
+                out = "No Corresponding UserName";
+                return Util.setCors(status, out);
+            }
+            System.out.println("email : " + user.getEmail());
 
-        	for( GroupModel group : user.getGroups()) {
+            for( GroupModel group : user.getGroups()) {
         		if(groupName == null) groupName = new ArrayList<>();
         		groupName.add(group.getName());
             	System.out.println("groupName : " + group.getName());
