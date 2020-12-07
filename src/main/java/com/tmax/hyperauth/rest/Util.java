@@ -55,7 +55,10 @@ public class Util {
 	public static void sendMail(KeycloakSession keycloakSession, String recipient, String subject, String body, String imgPath, String imgCid ) throws Throwable {
 		System.out.println( " Send Mail to User [ " + recipient + "] Start");
 		String host = keycloakSession.getContext().getRealm().getSmtpConfig().get("host");
-		int port = Integer.parseInt(keycloakSession.getContext().getRealm().getSmtpConfig().get("port"));
+		int port = 25;
+		if ((keycloakSession.getContext().getRealm().getSmtpConfig().get("port") !=  null)) {
+			port = Integer.parseInt(keycloakSession.getContext().getRealm().getSmtpConfig().get("port"));
+		}
 		String sender = keycloakSession.getContext().getRealm().getSmtpConfig().get("from");
 
 		String charSetUtf = "UTF-8" ;

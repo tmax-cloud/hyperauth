@@ -17,6 +17,7 @@ import org.keycloak.common.util.ObjectUtil;
 import org.keycloak.common.util.Time;
 import org.keycloak.crypto.SignatureProvider;
 import org.keycloak.crypto.SignatureVerifierContext;
+import org.keycloak.email.EmailTemplateProvider;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
 import org.keycloak.models.*;
@@ -167,6 +168,10 @@ public class UserProvider implements RealmResourceProvider {
     	System.out.println("userName request : " + userName);
 
         RealmModel realm = session.getContext().getRealm();
+
+
+
+
         String realmName = realm.getDisplayName();
         if (realmName == null) {
         	realmName = realm.getName();
@@ -174,6 +179,7 @@ public class UserProvider implements RealmResourceProvider {
         List <String> groupName = null;
         try {
             UserModel user = session.users().getUserByUsername(userName, session.realms().getRealmByName(realmName));
+
             if (user == null) {
                 status = Status.BAD_REQUEST;
                 out = "No Corresponding UserName";
