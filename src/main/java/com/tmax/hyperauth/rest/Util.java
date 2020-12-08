@@ -53,7 +53,7 @@ public class Util {
 	}
 
 	public static void sendMail(KeycloakSession keycloakSession, String recipient, String subject, String body, String imgPath, String imgCid ) throws Throwable {
-		System.out.println( " Send Mail to User [ " + recipient + "] Start");
+		System.out.println( " Send Mail to User [ " + recipient + " ] Start");
 		String host = keycloakSession.getContext().getRealm().getSmtpConfig().get("host");
 		int port = 25;
 		if ((keycloakSession.getContext().getRealm().getSmtpConfig().get("port") !=  null)) {
@@ -71,9 +71,16 @@ public class Util {
 		props.put( "mail.smtp.starttls.enable", "true" );
 		props.put("mail.smtp.ssl.protocols", "TLSv1.2");
 
+		System.out.println( " sender : "  + keycloakSession.getContext().getRealm().getSmtpConfig().get("from") );
+		System.out.println( " host : "  + host );
+		System.out.println( " port : "  + port );
+		System.out.println( " un : "  + keycloakSession.getContext().getRealm().getSmtpConfig().get("user") );
+		System.out.println( " pw : "  + keycloakSession.getContext().getRealm().getSmtpConfig().get("password") );
+
+		String un = keycloakSession.getContext().getRealm().getSmtpConfig().get("user");
+		String pw = keycloakSession.getContext().getRealm().getSmtpConfig().get("password");
+
 		Session session = Session.getDefaultInstance( props, new javax.mail.Authenticator() {
-			String un = keycloakSession.getContext().getRealm().getSmtpConfig().get("user");
-			String pw = keycloakSession.getContext().getRealm().getSmtpConfig().get("password");
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication( un, pw );
 			}
