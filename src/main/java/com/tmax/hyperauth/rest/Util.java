@@ -71,11 +71,11 @@ public class Util {
 		props.put( "mail.smtp.starttls.enable", "true" );
 		props.put("mail.smtp.ssl.protocols", "TLSv1.2");
 
-		System.out.println( " sender : "  + keycloakSession.getContext().getRealm().getSmtpConfig().get("from") );
-		System.out.println( " host : "  + host );
-		System.out.println( " port : "  + port );
-		System.out.println( " un : "  + keycloakSession.getContext().getRealm().getSmtpConfig().get("user") );
-		System.out.println( " pw : "  + keycloakSession.getContext().getRealm().getSmtpConfig().get("password") );
+//		System.out.println( " sender : "  + keycloakSession.getContext().getRealm().getSmtpConfig().get("from") );
+//		System.out.println( " host : "  + host );
+//		System.out.println( " port : "  + port );
+//		System.out.println( " un : "  + keycloakSession.getContext().getRealm().getSmtpConfig().get("user") );
+//		System.out.println( " pw : "  + keycloakSession.getContext().getRealm().getSmtpConfig().get("password") );
 
 		String un = keycloakSession.getContext().getRealm().getSmtpConfig().get("user");
 		String pw = keycloakSession.getContext().getRealm().getSmtpConfig().get("password");
