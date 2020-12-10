@@ -328,8 +328,8 @@ public class GroupMemberProvider implements RealmResourceProvider {
                     session.getTransactionManager().commit();
                 }
                 System.out.println("Commit Success");
-                session.close();
                 event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).success();
+                session.close();
                 status = Status.OK;
                out = " GroupMember [" + userName + "] Update Success ";
             } catch (Exception e) {
