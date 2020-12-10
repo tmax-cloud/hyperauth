@@ -263,6 +263,7 @@ public class GroupMemberProvider implements RealmResourceProvider {
         System.out.println("userName : " + userName);
         System.out.println("token : " + tokenString);
         RealmModel realm = session.getContext().getRealm();
+        System.out.println("realmName :" + realm.getName() );
         clientConnection = session.getContext().getConnection();
         EventBuilder event = new EventBuilder(realm, session, clientConnection);
 
@@ -318,18 +319,19 @@ public class GroupMemberProvider implements RealmResourceProvider {
                 throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "User not found in Group", Status.BAD_REQUEST);
             }
 
+            userModel = session.users().getUserByUsername(userName, realm);
+
             try {
                 for ( String key : rep.getAttributes().keySet()){
                     System.out.println("[key] : " + key  + " || [value] : "+userModel.getAttribute(key) + " ==> " + rep.getAttributes().get(key));
                     userModel.removeAttribute(key);
                     userModel.setAttribute(key, rep.getAttributes().get(key));
                 }
-                if (session.getTransactionManager().isActive()) {
-                    session.getTransactionManager().commit();
-                }
-                System.out.println("Commit Success");
+//                if (session.getTransactionManager().isActive()) {
+//                    session.getTransactionManager().commit();
+//                }
+//                System.out.println("Commit Success");
                 event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).success();
-                session.close();
                 status = Status.OK;
                out = " GroupMember [" + userName + "] Update Success ";
             } catch (Exception e) {
