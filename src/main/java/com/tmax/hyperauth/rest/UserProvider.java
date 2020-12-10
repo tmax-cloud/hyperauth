@@ -203,7 +203,7 @@ public class UserProvider implements RealmResourceProvider {
             }
 
             // User Credential Data
-            if( session.userCredentialManager().getStoredCredentialsByType(realm, user, "password") != null ){
+            if( session.userCredentialManager().getStoredCredentialsByType(realm, user, "password").get(0) != null ){
                List <CredentialRepresentation> credentials = new ArrayList<>();
                CredentialRepresentation credential =  ModelToRepresentation.
                        toRepresentation( session.userCredentialManager().getStoredCredentialsByType(realm, user, "password").get(0) );
