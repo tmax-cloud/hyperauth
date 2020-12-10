@@ -356,6 +356,7 @@ public class UserProvider implements RealmResourceProvider {
 
             try {
                 for ( String key : rep.getAttributes().keySet()){
+                    System.out.println("[key] : " + key  + " || [value] : "+userModel.getAttribute(key) + " ==> " + rep.getAttributes().get(key));
                     userModel.removeAttribute(key);
                     userModel.setAttribute(key, rep.getAttributes().get(key));
                 }
