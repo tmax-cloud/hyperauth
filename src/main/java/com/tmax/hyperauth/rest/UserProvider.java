@@ -169,9 +169,6 @@ public class UserProvider implements RealmResourceProvider {
 
         RealmModel realm = session.getContext().getRealm();
 
-
-
-
         String realmName = realm.getDisplayName();
         if (realmName == null) {
         	realmName = realm.getName();

@@ -7,7 +7,6 @@ import org.keycloak.TokenVerifier;
 import org.keycloak.common.ClientConnection;
 import org.keycloak.common.VerificationException;
 import org.keycloak.common.util.ObjectUtil;
-import org.keycloak.common.util.Time;
 import org.keycloak.crypto.SignatureProvider;
 import org.keycloak.crypto.SignatureVerifierContext;
 import org.keycloak.events.EventBuilder;
@@ -21,7 +20,6 @@ import org.keycloak.representations.idm.UserRepresentation;
 import org.keycloak.services.ErrorResponse;
 import org.keycloak.services.ErrorResponseException;
 import org.keycloak.services.Urls;
-import org.keycloak.services.managers.BruteForceProtector;
 import org.keycloak.services.resource.RealmResourceProvider;
 import org.keycloak.services.resources.admin.UserResource;
 
@@ -330,7 +328,7 @@ public class GroupMemberProvider implements RealmResourceProvider {
                     session.getTransactionManager().commit();
                 }
                 System.out.println("Commit Success");
-
+                session.close();
                 event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).success();
                 status = Status.OK;
                out = " GroupMember [" + userName + "] Update Success ";
