@@ -84,8 +84,8 @@ public class Constants {
 			"        </div>\n" +
 			"      </div>\n" +
 			"      <div style=\"text-align: left; color: #505050; font-size: 14px; white-space: pre-line; line-height: 24px; margin-bottom: 60px; padding-left: 35px;\">\n" +
-			"        안녕하세요.\n" +
-			"        비밀번호 재설정 화면에서 상단의 인증번호를 입력해주세요.\n" +
+			"        안녕하세요.<br />\n" +
+			"        비밀번호 재설정 화면에서 상단의 인증번호를 입력해주세요.<br />\n" +
 			"        감사합니다.\n" +
 			"      </div>\n" +
 			"    </div>\n" +

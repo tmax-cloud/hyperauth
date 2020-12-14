@@ -99,7 +99,7 @@ public class EmailProvider implements RealmResourceProvider {
         }
 
         String subject = "[Tmax 통합계정] 비밀번호를 재설정 해주세요.";
-        String msg = Constants.PASSWORD_VERIFY_CODE_BODY.replaceAll("%%VERIFY_CODE", code);
+        String msg = Constants.PASSWORD_VERIFY_CODE_BODY.replaceAll("%%VERIFY_CODE%%", code);
 
         try {
             Util.sendMail(session, email, subject, msg, null, null );
