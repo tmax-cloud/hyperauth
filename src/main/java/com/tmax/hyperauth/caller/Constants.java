@@ -80,7 +80,7 @@ public class Constants {
 			"      <div>\n" +
 			"        <div style=\"margin-top: 44px; margin-bottom: 20px; display: block; font-size: 20px; font-weight: bold; color: #0066CC;\n" +
 			"                    display: block;\">\n" +
-			"        [인증번호 : %%VERIFY_CDOE%%]\n" +
+			"        [인증번호 : %%VERIFY_CODE%%]\n" +
 			"        </div>\n" +
 			"      </div>\n" +
 			"      <div style=\"text-align: left; color: #505050; font-size: 14px; white-space: pre-line; line-height: 24px; margin-bottom: 60px; padding-left: 35px;\">\n" +
