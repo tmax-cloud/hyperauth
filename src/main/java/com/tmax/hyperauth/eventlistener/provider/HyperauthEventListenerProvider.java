@@ -41,7 +41,10 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
     @Override
     public void onEvent(Event event) {
         String userName = "";
+        logger.error("Logger !!!!!  Event Occurred :" + toString(event));
+        logger.warn("Logger !!!!!  Event Occurred :" + toString(event));
         logger.info("Logger !!!!!  Event Occurred :" + toString(event));
+        logger.debug("Logger !!!!!  Event Occurred :" + toString(event));
         System.out.println("STDout!!! Event Occurred:" + toString(event));
         if (event.getRealmId().equalsIgnoreCase("tmax")) {
             switch (event.getType().toString()) {
