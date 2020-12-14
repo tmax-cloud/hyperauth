@@ -68,20 +68,19 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                         }
                     }
                     // For Session-Restrict Policy
-//                    if (event.getClientId().equalsIgnoreCase("hypercloud4")) {
-//                        System.out.println("Login with hypercloud4, Session-Restrict Start");
-//                        UserModel user = session.users().getUserById(event.getUserId(), session.realms().getRealmByName(event.getRealmId()));
-//                        RealmModel realm = session.realms().getRealmByName(event.getRealmId());
-//                        session.sessions().getUserSessions(realm, user).forEach(userSession -> {
-//                            // remove all existing user sessions but the current one (last one wins)
-//                            // this is HIGHLANDER MODE - there must only be one!
-//                            if (!userSession.getId().equals(event.getSessionId())) {
-//                                session.sessions().removeUserSession(realm, userSession);
-//                                System.out.println("Remove user session [ " + userSession.getId() + " ]");
-//                            }
-//                        });
-//                        System.out.println("Session-Restrict Success");
-//                    }
+                    if (!event.getDetails().get("username").equalsIgnoreCase("admin@tmax.co.kr")) { //FIXME : Delete Later !!!!
+                        System.out.println("User [ " + event.getDetails().get("username") + " ], Client [ " + event.getClientId() + " ] Session-Restrict Start");
+                        UserModel user = session.users().getUserById(event.getUserId(), session.realms().getRealmByName(event.getRealmId()));
+                        RealmModel realm = session.realms().getRealmByName(event.getRealmId());
+                        session.sessions().getUserSessions(realm, session.clients().getClientByClientId(realm, event.getClientId())).forEach(userSession -> {
+                            if( userSession.getUser().getUsername().equalsIgnoreCase(event.getDetails().get("username"))
+                                    && !userSession.getId().equals(event.getSessionId()) ) {
+                                session.sessions().removeUserSession(realm, userSession);
+                                System.out.println("Remove user session [ " + userSession.getId() + " ]");
+                            }
+                        } );
+                        System.out.println("User [ " + event.getDetails().get("username") + " ], Client [ " + event.getClientId() + " ] Session-Restrict Success");
+                    }
                     break;
                 case "LOGIN_ERROR":
                     if (event.getClientId() != null && event.getClientId().equalsIgnoreCase("hypercloud4")) {

@@ -98,14 +98,8 @@ public class EmailProvider implements RealmResourceProvider {
             return Util.setCors(status, out);
         }
 
-        String subject = "인증번호 입력";
-        String msg = "[Web발신]\n[인증번호:" + code + "] - HyperAuth\n(타인노출금지)";
-
-//        if (resetPassword != null && resetPassword.equalsIgnoreCase("t")){
-//            msg = "[Web발신]\n[인증번호:" + code + "] - HyperAuth\n(타인노출금지)";
-//        } else {
-//            msg = Constants.REGISTER_MAIL_BODY.replaceAll("%%verifyNumber%%", code);
-//        }
+        String subject = "[Tmax 통합계정] 비밀번호를 재설정 해주세요.";
+        String msg = Constants.PASSWORD_VERIFY_CODE_BODY.replaceAll("%%VERIFY_CODE", code);
 
         try {
             Util.sendMail(session, email, subject, msg, null, null );

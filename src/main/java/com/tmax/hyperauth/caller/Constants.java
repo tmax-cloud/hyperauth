@@ -62,5 +62,39 @@ public class Constants {
 			"\u200B\n" +
 			"</html>";
 
+	public static final String PASSWORD_VERIFY_CODE_BODY = "<html>\n" +
+			"<head>\n" +
+			"  <link href=\"https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap\" rel=\"stylesheet\">\n" +
+			"</head>\n" +
+			"<body>\n" +
+			"  <div style=\"width: 415px; margin: 60px auto; text-align: center; font-family: Noto Sans KR;\">\n" +
+			"    <div id=\"email-verification\"\n" +
+			"      style=\"background: url('https://172.22.6.11/auth/resources/cu8bi/login/hypercloud/img/logo_copyright.svg'); background-size: cover; width: 41px; height: 14px;\">\n" +
+			"    </div>\n" +
+			"    <hr style=\"height: 3px; background-color: #042a54; border-width: 0; margin-bottom: 0px;\">\n" +
+			"    </hr>\n" +
+			"    <div style=\"border: 1px solid #E5E7E9;\">\n" +
+			"      <div style=\"margin-top: 53px; display: block; font-size: 16px; font-weight: bold;\">\n" +
+			"        <span style=\"color: #185692;\">비밀번호</span>를 재설정해주세요.\n" +
+			"      </div>\n" +
+			"      <div>\n" +
+			"        <div style=\"margin-top: 44px; margin-bottom: 20px; display: block; font-size: 20px; font-weight: bold; color: #0066CC;\n" +
+			"                    display: block;\">\n" +
+			"        [인증번호 : %%VERIFY_CDOE%%]\n" +
+			"        </div>\n" +
+			"      </div>\n" +
+			"      <div style=\"text-align: left; color: #505050; font-size: 14px; white-space: pre-line; line-height: 24px; margin-bottom: 60px; padding-left: 35px;\">\n" +
+			"        안녕하세요.\n" +
+			"        비밀번호 재설정 화면에서 상단의 인증번호를 입력해주세요.\n" +
+			"        감사합니다.\n" +
+			"      </div>\n" +
+			"    </div>\n" +
+			"    <div style=\"height: 54px; background-color: #F4F5F5; color: #999999; font-size: 12px; line-height: 54px; border: 1px solid #E5E7E9; border-top: 0px;\">\n" +
+			"      Copyright 2020. Tmax Corp. All rights reserved.\n" +
+			"    </div>\n" +
+			"  </div>\n" +
+			"</body>\n" +
+			"</html>";
+
 
 }
