@@ -5,6 +5,7 @@
 - DB Extend SPI (CLIENT_AGREEMENT, EMAIL_VERIFICATION)
 - 네이버로 로그인, 카카오로 로그인
 - User Registration Form SPI
+- Client당 한 유저가 로그인 session을 하나만 유지 하도록 하는 중복 로그인 방지 기능
 - Extend API Server SPI
 - 설치 가이드 
   - https://github.com/tmax-cloud/hypercloud-install-guide/tree/4.1/HyperAuth 
