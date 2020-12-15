@@ -69,7 +69,7 @@ public class Constants {
 			"<body>\n" +
 			"  <div style=\"width: 415px; margin: 60px auto; text-align: center; font-family: Noto Sans KR;\">\n" +
 			"    <div id=\"email-verification\"\n" +
-			"      style=\"background: url('https://172.22.6.11/auth/resources/cu8bi/login/hypercloud/img/logo_copyright.svg'); background-size: cover; width: 41px; height: 14px;\">\n" +
+			"      style=\"background: url('https://mail.tmax.co.kr/skins/icloud/skin/images/logo.svg'); background-size: cover; width: 41px; height: 14px;\">\n" +
 			"    </div>\n" +
 			"    <hr style=\"height: 3px; background-color: #042a54; border-width: 0; margin-bottom: 0px;\">\n" +
 			"    </hr>\n" +
@@ -83,7 +83,7 @@ public class Constants {
 			"        [인증번호 : %%VERIFY_CODE%%]\n" +
 			"        </div>\n" +
 			"      </div>\n" +
-			"      <div style=\"text-align: left; color: #505050; font-size: 14px; white-space: pre-line; line-height: 24px; margin-bottom: 60px; padding-left: 35px;\">\n" +
+			"      <div style=\"text-align: left; color: #505050; font-size: 12px; white-space: pre-line; line-height: 24px; margin-bottom: 60px; padding-right: 35px; padding-left: 35px;\">\n" +
 			"        안녕하세요.\n" +
 			"        비밀번호 재설정 화면에서 상단의 인증번호를 입력해주세요.\n" +
 			"        감사합니다.\n" +
