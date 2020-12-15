@@ -1,16 +1,27 @@
 # HyperAuth 구성
 - Keycloak 11.0.2 Based : hyperauth b1.0.10.0 부터
 - Keycloak 10.0.2 Based : hyperauth b1.0.9.29 버전까지
+
 - EventListener SPI
+  - 공통 : Audit Webhook Call
+  - REGISTER : hypercloud4 기본 RoleBinding 생성
+  - DELETE / USER : hypercloud4 기본 RoleBinding 삭제
+  - LOGIN : Client당 한 유저가 로그인 session을 하나만 유지 하도록 하는 중복 로그인 방지 기능
+  - SEND_VERIFY_EMAIL : 5분 후에 체크해서 이메일을 인증하지 않은 유저를 삭제
+  
 - DB Extend SPI (CLIENT_AGREEMENT, EMAIL_VERIFICATION)
-- 네이버로 로그인, 카카오로 로그인
+- 네이버로 로그인, 카카오로 로그인 
 - User Registration Form SPI
-- Extend API Server SPI
+  - Phone Validation 로직 추가
+  
 - 설치 가이드 
   - https://github.com/tmax-cloud/hypercloud-install-guide/tree/4.1/HyperAuth 
 - 최신이미지
   - https://hub.docker.com/repository/docker/tmaxcloudck/hyperauth 참고해서 가장 최신이미지 사용 권장
-
+  
+- Extend API Server SPI
+  - 아래의 API 문서 참조
+  
 # API 
 - 해당 API 문서는 keycloak을 확장해서 keycloak 서버에 추가적으로 개발한 API를 정리 한 것임
 - keycloak 공식 Admin REST API 문서  
