@@ -18,26 +18,18 @@ public class HyperauthEventListenerProviderFactory implements EventListenerProvi
 
     @Override
     public EventListenerProvider create(KeycloakSession keycloakSession) {
-        return new HyperauthEventListenerProvider(keycloakSession);
-    }
-
-    @Override
-    public void init(Config.Scope scope) {
         try {
-            System.out.println("CronJob Setting Start!!!!!!!!!");
-            System.out.println("CronJob Setting Start!!!!!!!!!");
-            System.out.println("CronJob Setting Start!!!!!!!!!");
-            System.out.println("CronJob Setting Start!!!!!!!!!");
-            System.out.println("CronJob Setting Start!!!!!!!!!");
-            System.out.println("CronJob Setting Start!!!!!!!!!");
-            JobDetail job = JobBuilder.newJob( UserDeleteJob.class )
+            JobDataMap data = new JobDataMap();
+            data.put("session", keycloakSession);
+
+            JobDetail job = JobBuilder.newJob( UserDeleteJob.class ).usingJobData(data)
                     .withIdentity( "UserDeleteJob" ).build();
 
             CronTrigger cronTrigger = TriggerBuilder
                     .newTrigger()
                     .withIdentity( "UserDeleteCronTrigger" )
                     .withSchedule(
-                            CronScheduleBuilder.cronSchedule( "*/10 * * * * ?" ))
+                            CronScheduleBuilder.cronSchedule( "*/5 * * * * ?" ))
                     .build();
 
             Scheduler sch = new StdSchedulerFactory().getScheduler();
@@ -46,6 +38,12 @@ public class HyperauthEventListenerProviderFactory implements EventListenerProvi
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return new HyperauthEventListenerProvider(keycloakSession);
+    }
+
+    @Override
+    public void init(Config.Scope scope) {
+
     }
 
     @Override
