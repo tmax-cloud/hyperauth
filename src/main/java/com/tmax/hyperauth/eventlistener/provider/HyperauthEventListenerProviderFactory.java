@@ -38,7 +38,7 @@ public class HyperauthEventListenerProviderFactory implements EventListenerProvi
                     .newTrigger()
                     .withIdentity( "UserDeleteCronTrigger" )
                     .withSchedule(
-                            CronScheduleBuilder.cronSchedule( "*/10 * * * * ?" ))
+                            CronScheduleBuilder.cronSchedule( "*/20 * * * * ?" ))
                     .build();
 
             Scheduler sch = new StdSchedulerFactory().getScheduler();
