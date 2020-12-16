@@ -41,12 +41,12 @@ public class HyperAuthCaller {
 	       
 		Response response = client.newCall(request).execute();
 		String result = response.body().string();
-		System.out.println(" Login As Admin result : " + result);
+//		System.out.println(" Login As Admin result : " + result);
 		
 		Gson gson = new Gson();
 	    JsonObject resultJson = gson.fromJson(result, JsonObject.class);
 	    
-		System.out.println(" accessToken : " + resultJson.get("access_token").toString());
+//		System.out.println(" accessToken : " + resultJson.get("access_token").toString());
 
 	    return resultJson.get("access_token").toString().replace("\"","");
 	}
@@ -87,11 +87,11 @@ public class HyperAuthCaller {
 		String url = urlBuilder.build().toString();
 		request = new Request.Builder().url(url).addHeader("Authorization", "Bearer " + token).get().build();
 
-		System.out.println(" request" + request.toString() );
+//		System.out.println(" request" + request.toString() );
 
 		Response response = client.newCall(request).execute();
 		String result = response.body().string();
-		System.out.println(" UserListResult : " + result);
+//		System.out.println(" UserListResult : " + result);
 
 		Gson gson = new Gson();
 		JsonArray resultJson = gson.fromJson(result, JsonArray.class);
@@ -100,7 +100,7 @@ public class HyperAuthCaller {
 	}
 
 	public static JsonObject deleteUser(String userId, String token) throws IOException {
-		System.out.println(" [HyperAuth] HyperAuth Get User Delete Service" );
+		System.out.println(" [HyperAuth] HyperAuth User Delete Service" );
 
 		Request request = null;
 
@@ -111,11 +111,11 @@ public class HyperAuthCaller {
 		String url = urlBuilder.build().toString();
 		request = new Request.Builder().url(url).addHeader("Authorization", "Bearer " + token).delete().build();
 
-		System.out.println(" request" + request.toString() );
+//		System.out.println(" request" + request.toString() );
 
 		Response response = client.newCall(request).execute();
 		String result = response.body().string();
-		System.out.println(" UserDeleteResult : " + result);
+//		System.out.println(" UserDeleteResult : " + result);
 
 		Gson gson = new Gson();
 		JsonObject resultJson = gson.fromJson(result, JsonObject.class);
