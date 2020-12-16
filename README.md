@@ -10,9 +10,15 @@
   - SEND_VERIFY_EMAIL : 5분 후에 체크해서 이메일을 인증하지 않은 유저를 삭제
   
 - DB Extend SPI (CLIENT_AGREEMENT, EMAIL_VERIFICATION)
+
 - 네이버로 로그인, 카카오로 로그인 
+
 - User Registration Form SPI
   - Phone Validation 로직 추가
+  
+- User Deletion CronJob
+  - 탈퇴 신청 한지 30일 이 된 유저를 지워줌
+  - 매일 0시에 DeletionDate Attribute을 가진 유저중에 지워야하는 유저를 지워주는 CronJob 
   
 - 설치 가이드 
   - https://github.com/tmax-cloud/hypercloud-install-guide/tree/4.1/HyperAuth 
@@ -90,11 +96,12 @@
    - URL    
    GET /user/{userName}
   
- ### UserAttributeUpdate
+ ### UserAttributeUpdate / UserWithdrawal Request
   - URL  
   PUT /user/{userName}
   - QUERY PARAMETER  
   token : {AccessToken}
+  **withdrawal : t  (Optional : 유저 탈퇴신청을 할 경우 추가해준다.)**
   - HEADERS  
   Content-Type : application/json
   - BODY   
