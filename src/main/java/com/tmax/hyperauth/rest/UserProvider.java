@@ -310,7 +310,7 @@ public class UserProvider implements RealmResourceProvider {
     @Path("{userName}")
     @QueryParam("token")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response put(@PathParam("userName") final String userName, @QueryParam("token") String tokenString,  @QueryParam("withdrawal ") String withdrawal , UserRepresentation rep) {
+    public Response put(@PathParam("userName") final String userName, @QueryParam("token") String tokenString,  @QueryParam("withdrawal") String withdrawal , UserRepresentation rep) {
         System.out.println("***** PUT /User");
 
         System.out.println("userName : " + userName);
@@ -368,6 +368,8 @@ public class UserProvider implements RealmResourceProvider {
 
                     userModel.removeAttribute("deletionDate");
                     userModel.setAttribute("deletionDate", Arrays.asList(deletionDateString));
+                    userModel.setEnabled(false);
+
                     out = " User [" + userName + "] WithDrawal Request Success ";
 
                 }else {
