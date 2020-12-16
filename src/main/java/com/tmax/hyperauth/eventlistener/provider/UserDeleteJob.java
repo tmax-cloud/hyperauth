@@ -11,6 +11,7 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,6 +20,7 @@ import java.util.List;
 
 public class UserDeleteJob implements Job {
     @Override
+    @Transactional
     public void execute(JobExecutionContext context) throws JobExecutionException {
         System.out.println(" [UserDelete Job] User Deletion Job Start !! ");
         Date currentDate = new Date();
