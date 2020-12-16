@@ -41,9 +41,7 @@ public class UserDeleteJob implements Job {
                         if ( currentDate.after(deletionDate)){
                             System.out.println(" [UserDelete Job] User [ " + user.getUsername() + " ] Delete Start ");
                             ClientConnection clientConnection = session.getContext().getConnection();
-                            EventBuilder event = new EventBuilder(realm, session, clientConnection).detail("username", user.getUsername()); // FIXME
                             session.users().removeUser(realm, user);
-                            event.event(EventType.REMOVE_FEDERATED_IDENTITY).user(user).realm("tmax").success();
                             System.out.println("Delete user role in k8s");
                             HypercloudOperatorCaller.deleteNewUserRole(user.getUsername());
                             System.out.println(" [UserDelete Job] User [ " + user.getUsername() + " ] Delete Success ");
