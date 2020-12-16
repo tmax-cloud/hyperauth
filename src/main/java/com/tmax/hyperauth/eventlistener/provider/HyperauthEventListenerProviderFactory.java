@@ -14,17 +14,14 @@ import org.quartz.impl.StdSchedulerFactory;
  */
 
 public class HyperauthEventListenerProviderFactory implements EventListenerProviderFactory {
-    KeycloakSession session = null;
 
     @Override
     public EventListenerProvider create(KeycloakSession keycloakSession) {
-        session = keycloakSession;
         return new HyperauthEventListenerProvider(keycloakSession);
     }
 
     @Override
     public void init(Config.Scope scope) {
-
 
     }
 
@@ -41,7 +38,7 @@ public class HyperauthEventListenerProviderFactory implements EventListenerProvi
                     .newTrigger()
                     .withIdentity( "UserDeleteCronTrigger" )
                     .withSchedule(
-                            CronScheduleBuilder.cronSchedule( "*/5 * * * * ?" ))
+                            CronScheduleBuilder.cronSchedule( "*/10 * * * * ?" ))
                     .build();
 
             Scheduler sch = new StdSchedulerFactory().getScheduler();

@@ -11,22 +11,11 @@ import java.util.List;
 public class UserDeleteJob implements Job {
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-
-        KeycloakSession session = (KeycloakSession) context.getJobDetail().getJobDataMap().get("session");
-        session.getTransactionManager().begin();
-        System.out.println();
         System.out.println(" Timer Wake Up !!!!!");
+        KeycloakSession session = (KeycloakSession) context.getJobDetail().getJobDataMap().get("session");
         List<UserModel> users = session.users().getUsers(session.realms().getRealmByName("tmax"),false);
         for( UserModel user : users) {
             System.out.println( user.getEmail());
         }
-
-        session.getTransactionManager().commit();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
     }
 }
