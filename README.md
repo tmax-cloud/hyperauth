@@ -100,7 +100,7 @@
   - URL  
   PUT /user/{userName}
   - QUERY PARAMETER  
-  token : {AccessToken}
+  token : {AccessToken} </br>
   **withdrawal : t  (Optional : 유저 탈퇴신청을 할 경우 추가해준다.)**
   - HEADERS  
   Content-Type : application/json
