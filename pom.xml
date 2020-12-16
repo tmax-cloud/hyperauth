@@ -82,6 +82,12 @@
             <artifactId>bcrypt</artifactId>
             <version>0.9.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>keycloak-spi</finalName>

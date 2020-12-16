@@ -2,6 +2,7 @@ package com.tmax.hyperauth.timer;
 
 import org.jboss.logging.Logger;
 import org.keycloak.models.KeycloakSession;
+import org.keycloak.services.scheduled.ScheduledTaskRunner;
 import org.keycloak.timer.ScheduledTask;
 import org.keycloak.timer.TimerProvider;
 
@@ -36,8 +37,8 @@ public class UserDeleteTimer implements TimerProvider {
 
     @Override
     public void scheduleTask(ScheduledTask scheduledTask, long intervalMillis, String taskName) {
-//        ScheduledTaskRunner scheduledTaskRunner = new ScheduledTaskRunner(session.getKeycloakSessionFactory(), scheduledTask);
-//        this.schedule(scheduledTaskRunner, intervalMillis, taskName);
+        ScheduledTaskRunner scheduledTaskRunner = new ScheduledTaskRunner(session.getKeycloakSessionFactory(), scheduledTask);
+        this.schedule(scheduledTaskRunner, intervalMillis, taskName);
     }
 
     @Override
