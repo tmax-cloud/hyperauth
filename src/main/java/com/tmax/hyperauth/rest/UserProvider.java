@@ -1,5 +1,7 @@
 package com.tmax.hyperauth.rest;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import javax.ws.rs.*;
@@ -17,7 +19,6 @@ import org.keycloak.common.util.ObjectUtil;
 import org.keycloak.common.util.Time;
 import org.keycloak.crypto.SignatureProvider;
 import org.keycloak.crypto.SignatureVerifierContext;
-import org.keycloak.email.EmailTemplateProvider;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
 import org.keycloak.models.*;
@@ -309,11 +310,12 @@ public class UserProvider implements RealmResourceProvider {
     @Path("{userName}")
     @QueryParam("token")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response put(@PathParam("userName") final String userName, @QueryParam("token") String tokenString, UserRepresentation rep) {
+    public Response put(@PathParam("userName") final String userName, @QueryParam("token") String tokenString,  @QueryParam("withdrawal ") String withdrawal , UserRepresentation rep) {
         System.out.println("***** PUT /User");
 
         System.out.println("userName : " + userName);
         System.out.println("token : " + tokenString);
+        System.out.println("withdrawal : " + withdrawal);
         RealmModel realm = session.getContext().getRealm();
         clientConnection = session.getContext().getConnection();
         EventBuilder event = new EventBuilder(realm, session, clientConnection); // FIXME
@@ -355,14 +357,29 @@ public class UserProvider implements RealmResourceProvider {
             }
 
             try {
-                for ( String key : rep.getAttributes().keySet()){
-                    System.out.println("[key] : " + key  + " || [value] : "+userModel.getAttribute(key) + " ==> " + rep.getAttributes().get(key));
-                    userModel.removeAttribute(key);
-                    userModel.setAttribute(key, rep.getAttributes().get(key));
+                if (withdrawal.equalsIgnoreCase("t")){
+                    Date currentDate = new Date();
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(currentDate);
+                    cal.add(Calendar.DATE, 30);
+                    Date deletionDate = cal.getTime();
+                    SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String deletionDateString = transFormat.format(deletionDate);
+
+                    userModel.removeAttribute("deletionDate");
+                    userModel.setAttribute("deletionDate", Arrays.asList(deletionDateString));
+                    out = " User [" + userName + "] WithDrawal Request Success ";
+
+                }else {
+                    for ( String key : rep.getAttributes().keySet()) {
+                        System.out.println("[key] : " + key + " || [value] : " + userModel.getAttribute(key) + " ==> " + rep.getAttributes().get(key));
+                        userModel.removeAttribute(key);
+                        userModel.setAttribute(key, rep.getAttributes().get(key));
+                    }
+                    out = " User [" + userName + "] Update Success ";
                 }
                 event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).success();
                 status = Status.OK;
-               out = " User [" + userName + "] Update Success ";
             } catch (Exception e) {
                 status = Status.BAD_REQUEST;
                 out = "User [" + userName + "] Update Falied  ";
