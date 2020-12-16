@@ -1,6 +1,5 @@
 package com.tmax.hyperauth.eventlistener.provider;
 
-import com.tmax.hyperauth.UserDeleteJob;
 import org.keycloak.Config;
 import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.EventListenerProviderFactory;
