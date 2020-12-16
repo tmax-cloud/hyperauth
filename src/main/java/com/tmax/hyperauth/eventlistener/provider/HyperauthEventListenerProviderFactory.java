@@ -14,13 +14,25 @@ import org.quartz.impl.StdSchedulerFactory;
  */
 
 public class HyperauthEventListenerProviderFactory implements EventListenerProviderFactory {
-
+    KeycloakSession session = null;
 
     @Override
     public EventListenerProvider create(KeycloakSession keycloakSession) {
+        session = keycloakSession;
+        return new HyperauthEventListenerProvider(keycloakSession);
+    }
+
+    @Override
+    public void init(Config.Scope scope) {
+
+
+    }
+
+    @Override
+    public void postInit(KeycloakSessionFactory keycloakSessionFactory) {
         try {
             JobDataMap data = new JobDataMap();
-            data.put("session", keycloakSession);
+            data.put("session", keycloakSessionFactory.create());
 
             JobDetail job = JobBuilder.newJob( UserDeleteJob.class ).usingJobData(data)
                     .withIdentity( "UserDeleteJob" ).build();
@@ -33,22 +45,12 @@ public class HyperauthEventListenerProviderFactory implements EventListenerProvi
                     .build();
 
             Scheduler sch = new StdSchedulerFactory().getScheduler();
-            sch.start(); sch.scheduleJob( job, cronTrigger );
+            sch.start();
+            sch.scheduleJob( job, cronTrigger );
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new HyperauthEventListenerProvider(keycloakSession);
-    }
-
-    @Override
-    public void init(Config.Scope scope) {
-
-    }
-
-    @Override
-    public void postInit(KeycloakSessionFactory keycloakSessionFactory) {
-
     }
 
     @Override
