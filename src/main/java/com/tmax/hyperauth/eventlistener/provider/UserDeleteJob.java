@@ -42,6 +42,9 @@ public class UserDeleteJob implements Job {
                             System.out.println(" [UserDelete Job] User [ " + user.getUsername() + " ] Delete Start ");
                             ClientConnection clientConnection = session.getContext().getConnection();
                             session.users().removeUser(realm, user);
+                            if (session.getTransactionManager().isActive()) {
+                                session.getTransactionManager().commit();
+                            }
                             System.out.println("Delete user role in k8s");
                             HypercloudOperatorCaller.deleteNewUserRole(user.getUsername());
                             System.out.println(" [UserDelete Job] User [ " + user.getUsername() + " ] Delete Success ");
