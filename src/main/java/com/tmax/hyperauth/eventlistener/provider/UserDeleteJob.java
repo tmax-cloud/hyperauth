@@ -25,8 +25,9 @@ public class UserDeleteJob implements Job {
         System.out.println( "Now : " + currentDate);
         KeycloakSession session = (KeycloakSession) context.getJobDetail().getJobDataMap().get("session");
         if (session != null) {
-            session.getTransactionManager().begin();
-
+            if (!session.getTransactionManager().isActive()) {
+                session.getTransactionManager().begin();
+            }
             RealmModel realm = session.realms().getRealmByName("tmax");
             List<UserModel> users = session.users().getUsers(realm,false);
             for( UserModel user : users) {
@@ -43,6 +44,7 @@ public class UserDeleteJob implements Job {
                             session.users().removeUser(realm, user);
                             if (session.getTransactionManager().isActive()) {
                                 session.getTransactionManager().commit();
+                                session.getTransactionManager().begin();
                             }
                             System.out.println("Delete user role in k8s");
                             HypercloudOperatorCaller.deleteNewUserRole(user.getUsername());
