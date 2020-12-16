@@ -13,6 +13,9 @@ public class UserDeleteJob implements Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
         System.out.println(" Timer Wake Up !!!!!");
         KeycloakSession session = (KeycloakSession) context.getJobDetail().getJobDataMap().get("session");
+        if (!session.getTransactionManager().isActive()) {
+            session.getTransactionManager().begin();
+        }
         List<UserModel> users = session.users().getUsers(session.realms().getRealmByName("tmax"),false);
         for( UserModel user : users) {
             System.out.println( user.getEmail());
