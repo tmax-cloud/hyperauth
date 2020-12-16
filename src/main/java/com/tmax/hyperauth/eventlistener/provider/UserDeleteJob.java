@@ -38,30 +38,30 @@ public class UserDeleteJob implements Job {
         }catch( Exception e){
             System.out.println(" [UserDelete Job] HyperAuth Not Ready yet ");
         }
+        if ( users != null) {
+            for( JsonElement user : users) {
+                Gson gson = new Gson();
+                UserModel userModel = gson.fromJson(user, UserModel.class);
+                try {
+                    if ( userModel.getAttributes() != null && userModel.getAttributes().get("DeletionDate") != null){
+                        System.out.println( " user.getAttributes().get(\"DeletionDate\") : " + userModel.getAttributes().get("DeletionDate").toString());
+                        SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        Date deletionDate = transFormat.parse(userModel.getAttributes().get("DeletionDate").toString()
+                                .replace("[", "").replace("]", ""));
 
-        for( JsonElement user : users) {
-            Gson gson = new Gson();
-            UserModel userModel = gson.fromJson(user, UserModel.class);
-            try {
-                if ( userModel.getAttributes() != null && userModel.getAttributes().get("DeletionDate") != null){
-                    System.out.println( " user.getAttributes().get(\"DeletionDate\") : " + userModel.getAttributes().get("DeletionDate").toString());
-                    SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    Date deletionDate = transFormat.parse(userModel.getAttributes().get("DeletionDate").toString()
-                        .replace("[", "").replace("]", ""));
-
-                    if ( currentDate.after(deletionDate)){
-                        System.out.println(" [UserDelete Job] User [ " + userModel.getUsername() + " ] Delete Start ");
-                        HyperAuthCaller.deleteUser(userModel.getId(), accessToken);
+                        if ( currentDate.after(deletionDate)){
+                            System.out.println(" [UserDelete Job] User [ " + userModel.getUsername() + " ] Delete Start ");
+                            HyperAuthCaller.deleteUser(userModel.getId(), accessToken);
 //                        System.out.println("Delete user role in k8s");
 //                        HypercloudOperatorCaller.deleteNewUserRole(userModel.getUsername());
-                        System.out.println(" [UserDelete Job] User [ " + userModel.getUsername() + " ] Delete Success ");
+                            System.out.println(" [UserDelete Job] User [ " + userModel.getUsername() + " ] Delete Success ");
+                        }
                     }
+                } catch (ParseException | IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (ParseException | IOException e) {
-                e.printStackTrace();
             }
         }
-
         System.out.println(" [UserDelete Job] User Deletion Job Finish !! ");
     }
 }
