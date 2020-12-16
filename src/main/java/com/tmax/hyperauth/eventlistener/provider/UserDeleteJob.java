@@ -25,9 +25,8 @@ public class UserDeleteJob implements Job {
         System.out.println( "Now : " + currentDate);
         KeycloakSession session = (KeycloakSession) context.getJobDetail().getJobDataMap().get("session");
         if (session != null) {
-            if (!session.getTransactionManager().isActive()) {
-                session.getTransactionManager().begin();
-            }
+            session.getTransactionManager().begin();
+
             RealmModel realm = session.realms().getRealmByName("tmax");
             List<UserModel> users = session.users().getUsers(realm,false);
             for( UserModel user : users) {
