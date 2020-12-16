@@ -21,6 +21,8 @@ public class UserDeleteJob implements Job {
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
         System.out.println(" [UserDelete Job] User Deletion Job Start !! ");
+        Date currentDate = new Date();
+        System.out.println( "Now : " + currentDate);
         KeycloakSession session = (KeycloakSession) context.getJobDetail().getJobDataMap().get("session");
         if (session != null) {
             if (!session.getTransactionManager().isActive()) {
@@ -29,10 +31,10 @@ public class UserDeleteJob implements Job {
             RealmModel realm = session.realms().getRealmByName("tmax");
             List<UserModel> users = session.users().getUsers(realm,false);
             for( UserModel user : users) {
-                SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
                 try {
                     if ( user.getAttributes() != null && user.getAttributes().get("DeletionDate") != null){
-                        Date currentDate = new Date();
+                        System.out.println( " user.getAttributes().get(\"DeletionDate\") : " + user.getAttributes().get("DeletionDate").toString());
+                        SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
                         Date deletionDate = transFormat.parse(user.getAttributes().get("DeletionDate").toString());
 
                         if ( currentDate.after(deletionDate)){
@@ -53,5 +55,6 @@ public class UserDeleteJob implements Job {
         } else {
             System.out.println(" [UserDelete Job] Keycloak Session Not Ready Yet ");
         }
+        System.out.println(" [UserDelete Job] User Deletion Job Finish !! ");
     }
 }
