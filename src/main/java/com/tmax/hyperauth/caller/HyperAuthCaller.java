@@ -3,6 +3,7 @@ package com.tmax.hyperauth.caller;
 import java.io.IOException;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import okhttp3.FormBody;
@@ -73,5 +74,52 @@ public class HyperAuthCaller {
 	    JsonObject resultJson = gson.fromJson(result, JsonObject.class);
 	    
 	    return resultJson; 
-	}	
+	}
+
+	public static JsonArray getUserList(String token) throws IOException {
+		System.out.println(" [HyperAuth] HyperAuth Get User List Service" );
+
+		Request request = null;
+
+		//GET svc
+		HttpUrl.Builder urlBuilder = HttpUrl.parse(setHyperAuthURL( Constants.SERVICE_NAME_USER_DETAIL )).newBuilder();
+
+		String url = urlBuilder.build().toString();
+		request = new Request.Builder().url(url).addHeader("Authorization", "Bearer " + token).get().build();
+
+		System.out.println(" request" + request.toString() );
+
+		Response response = client.newCall(request).execute();
+		String result = response.body().string();
+		System.out.println(" UserListResult : " + result);
+
+		Gson gson = new Gson();
+		JsonArray resultJson = gson.fromJson(result, JsonArray.class);
+
+		return resultJson;
+	}
+
+	public static JsonObject deleteUser(String userId, String token) throws IOException {
+		System.out.println(" [HyperAuth] HyperAuth Get User Delete Service" );
+
+		Request request = null;
+
+		//Delete svc
+		HttpUrl.Builder urlBuilder = HttpUrl.parse(setHyperAuthURL( Constants.SERVICE_NAME_USER_DETAIL ) + userId).newBuilder();
+		System.out.println(" setHyperAuthURL(Constants.SERVICE_NAME_USER_DETAIL ) + userId" + setHyperAuthURL(Constants.SERVICE_NAME_USER_DETAIL ) + userId );
+
+		String url = urlBuilder.build().toString();
+		request = new Request.Builder().url(url).addHeader("Authorization", "Bearer " + token).delete().build();
+
+		System.out.println(" request" + request.toString() );
+
+		Response response = client.newCall(request).execute();
+		String result = response.body().string();
+		System.out.println(" UserDeleteResult : " + result);
+
+		Gson gson = new Gson();
+		JsonObject resultJson = gson.fromJson(result, JsonObject.class);
+
+		return resultJson;
+	}
 }
