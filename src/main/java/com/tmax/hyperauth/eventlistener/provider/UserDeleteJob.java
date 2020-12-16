@@ -12,6 +12,7 @@ import org.keycloak.events.EventType;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
+import org.keycloak.representations.account.UserRepresentation;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -41,20 +42,20 @@ public class UserDeleteJob implements Job {
         if ( users != null) {
             for( JsonElement user : users) {
                 Gson gson = new Gson();
-                UserModel userModel = gson.fromJson(user, UserModel.class);
+                UserRepresentation UserRepresentation = gson.fromJson(user, UserRepresentation.class);
                 try {
-                    if ( userModel.getAttributes() != null && userModel.getAttributes().get("DeletionDate") != null){
-                        System.out.println( " user.getAttributes().get(\"DeletionDate\") : " + userModel.getAttributes().get("DeletionDate").toString());
+                    if ( UserRepresentation.getAttributes() != null && UserRepresentation.getAttributes().get("DeletionDate") != null){
+                        System.out.println( " user.getAttributes().get(\"DeletionDate\") : " + UserRepresentation.getAttributes().get("DeletionDate").toString());
                         SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
-                        Date deletionDate = transFormat.parse(userModel.getAttributes().get("DeletionDate").toString()
+                        Date deletionDate = transFormat.parse(UserRepresentation.getAttributes().get("DeletionDate").toString()
                                 .replace("[", "").replace("]", ""));
 
                         if ( currentDate.after(deletionDate)){
-                            System.out.println(" [UserDelete Job] User [ " + userModel.getUsername() + " ] Delete Start ");
-                            HyperAuthCaller.deleteUser(userModel.getId(), accessToken);
+                            System.out.println(" [UserDelete Job] User [ " + UserRepresentation.getUsername() + " ] Delete Start ");
+                            HyperAuthCaller.deleteUser(UserRepresentation.getId(), accessToken);
 //                        System.out.println("Delete user role in k8s");
 //                        HypercloudOperatorCaller.deleteNewUserRole(userModel.getUsername());
-                            System.out.println(" [UserDelete Job] User [ " + userModel.getUsername() + " ] Delete Success ");
+                            System.out.println(" [UserDelete Job] User [ " + UserRepresentation.getUsername() + " ] Delete Success ");
                         }
                     }
                 } catch (ParseException | IOException e) {
