@@ -35,7 +35,8 @@ public class UserDeleteJob implements Job {
                     if ( user.getAttributes() != null && user.getAttributes().get("DeletionDate") != null){
                         System.out.println( " user.getAttributes().get(\"DeletionDate\") : " + user.getAttributes().get("DeletionDate").toString());
                         SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
-                        Date deletionDate = transFormat.parse(user.getAttributes().get("DeletionDate").toString().replaceAll("[", "").replaceAll("]", ""));
+                        Date deletionDate = transFormat.parse(user.getAttributes().get("DeletionDate").toString()
+                            .replace("[", "").replace("]", ""));
 
                         if ( currentDate.after(deletionDate)){
                             System.out.println(" [UserDelete Job] User [ " + user.getUsername() + " ] Delete Start ");
