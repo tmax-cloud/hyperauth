@@ -196,16 +196,12 @@ public class UserProvider implements RealmResourceProvider {
         	userOut.setEmail(user.getEmail());
         	userOut.setGroups(groupName);
             userOut.setEnabled(user.isEnabled());
-            // User Attribute Data
-            if (user.getAttributes() != null){
-                userOut.setAttributes(user.getAttributes());
-            }
 
             // User Credential Data
             if( session.userCredentialManager().getStoredCredentialsByType(realm, user, "password").get(0) != null ){
-               List <CredentialRepresentation> credentials = new ArrayList<>();
-               CredentialRepresentation credential =  ModelToRepresentation.
-                       toRepresentation( session.userCredentialManager().getStoredCredentialsByType(realm, user, "password").get(0) );
+                List <CredentialRepresentation> credentials = new ArrayList<>();
+                CredentialRepresentation credential =  ModelToRepresentation.
+                        toRepresentation( session.userCredentialManager().getStoredCredentialsByType(realm, user, "password").get(0) );
                 credentials.add(credential);
                 userOut.setCredentials(credentials);
             }
@@ -219,7 +215,8 @@ public class UserProvider implements RealmResourceProvider {
                 } else {
                     disabled = session.getProvider(BruteForceProtector.class).isTemporarilyDisabled(session, realm, user);
                 }
-                Map<String, List<String>> data = new HashMap<>();
+                // User Attribute Data
+                Map<String, List<String>> data = user.getAttributes();
                 data.put("temporarilyDisabled", new ArrayList<>(Arrays.asList(String.valueOf(disabled))));
                 data.put("numFailures", new ArrayList<>(Arrays.asList(Integer.toString(loginFailureModel.getNumFailures()))));
                 data.put("lastIPFailure", new ArrayList<>(Arrays.asList(loginFailureModel.getLastIPFailure())));
@@ -227,6 +224,9 @@ public class UserProvider implements RealmResourceProvider {
                 data.put("failedLoginNotBefore", new ArrayList<>(Arrays.asList(Integer.toString(loginFailureModel.getFailedLoginNotBefore()))));
                 data.put("remainSecond", new ArrayList<>(Arrays.asList( Long.toString( loginFailureModel.getFailedLoginNotBefore() - loginFailureModel.getLastFailure()/1000 ))));
                 userOut.setAttributes(data);
+            } else {
+                // User Attribute Data
+                userOut.setAttributes(user.getAttributes());
             }
 
             status = Status.OK;
