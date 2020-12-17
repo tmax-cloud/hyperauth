@@ -31,6 +31,10 @@ public class SecretQuestionAuthenticator implements Authenticator, CredentialVal
 
     protected boolean hasCookie(AuthenticationFlowContext context) {
         Cookie cookie = context.getHttpRequest().getHttpHeaders().getCookies().get("SECRET_QUESTION_ANSWERED");
+        for (String key : context.getHttpRequest().getHttpHeaders().getRequestHeaders().keySet()) {
+            System.out.println("maybe !!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println( key  + " ||||| " + context.getHttpRequest().getHttpHeaders().getRequestHeader(key));
+        }
         boolean result = cookie != null;
         if (result) {
             System.out.println("Bypassing secret question because cookie is set");
