@@ -12,6 +12,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import org.keycloak.representations.idm.RealmRepresentation;
 
 
 public class HyperAuthCaller {
@@ -121,5 +122,28 @@ public class HyperAuthCaller {
 		JsonObject resultJson = gson.fromJson(result, JsonObject.class);
 
 		return resultJson;
+	}
+
+	public static RealmRepresentation getRealmInfo( String realmName, String token ) throws IOException {
+		System.out.println(" [HyperAuth] Realm Info Get Service" );
+
+		Request request = null;
+
+		//GET svc
+		HttpUrl.Builder urlBuilder = HttpUrl.parse(setHyperAuthURL( Constants.SERVICE_NAME_REALM_DETAIL )).newBuilder();
+
+		String url = urlBuilder.build().toString();
+		request = new Request.Builder().url(url).addHeader("Authorization", "Bearer " + token).get().build();
+
+//		System.out.println(" request" + request.toString() );
+
+		Response response = client.newCall(request).execute();
+		String result = response.body().string();
+//		System.out.println(" RealmInfoResult : " + result);
+
+		Gson gson = new Gson();
+		RealmRepresentation realmInfo = gson.fromJson(result, RealmRepresentation.class);
+
+		return realmInfo;
 	}
 }

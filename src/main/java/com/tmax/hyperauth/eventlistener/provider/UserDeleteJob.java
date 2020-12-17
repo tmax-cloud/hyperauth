@@ -25,12 +25,7 @@ public class UserDeleteJob implements Job {
         System.out.println(" [UserDelete Job] User Deletion Job Start !! ");
         Date currentDate = new Date();
         System.out.println( "Now : " + currentDate);
-        KeycloakSession session = (KeycloakSession) context.getJobDetail().getJobDataMap().get("session");
-        if (session != null) {
-            if (!session.getTransactionManager().isActive()) {
-                session.getTransactionManager().begin();
-            }
-        }
+        KeycloakSession session = null;
         JsonArray users = null;
         String accessToken = null;
         try{
@@ -44,10 +39,10 @@ public class UserDeleteJob implements Job {
                 Gson gson = new Gson();
                 UserRepresentation UserRepresentation = gson.fromJson(user, UserRepresentation.class);
                 try {
-                    if ( UserRepresentation.getAttributes() != null && UserRepresentation.getAttributes().get("DeletionDate") != null){
-                        System.out.println( " user.getAttributes().get(\"DeletionDate\") : " + UserRepresentation.getAttributes().get("DeletionDate").toString());
+                    if ( UserRepresentation.getAttributes() != null && UserRepresentation.getAttributes().get("deletionDate") != null){
+//                        System.out.println( " user.getAttributes().get(\"deletionDate\") : " + UserRepresentation.getAttributes().get("deletionDate").toString());
                         SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
-                        Date deletionDate = transFormat.parse(UserRepresentation.getAttributes().get("DeletionDate").toString()
+                        Date deletionDate = transFormat.parse(UserRepresentation.getAttributes().get("deletionDate").toString()
                                 .replace("[", "").replace("]", ""));
 
                         if ( currentDate.after(deletionDate)){

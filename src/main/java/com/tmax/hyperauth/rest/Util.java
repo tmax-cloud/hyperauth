@@ -1,6 +1,8 @@
 package com.tmax.hyperauth.rest;
 
+import com.tmax.hyperauth.caller.HyperAuthCaller;
 import org.keycloak.models.KeycloakSession;
+import org.keycloak.representations.idm.RealmRepresentation;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -54,12 +56,37 @@ public class Util {
 
 	public static void sendMail(KeycloakSession keycloakSession, String recipient, String subject, String body, String imgPath, String imgCid ) throws Throwable {
 		System.out.println( " Send Mail to User [ " + recipient + " ] Start");
-		String host = keycloakSession.getContext().getRealm().getSmtpConfig().get("host");
+		String host = "mail.tmax.co.kr";
 		int port = 25;
-		if ((keycloakSession.getContext().getRealm().getSmtpConfig().get("port") !=  null)) {
-			port = Integer.parseInt(keycloakSession.getContext().getRealm().getSmtpConfig().get("port"));
+		String sender = "tmaxcloud_ck@tmax.co.kr";
+		String un = "tmaxcloud_ck@tmax.co.kr";
+		String pw = "Miracle!";
+
+		if (keycloakSession != null) {
+			host = keycloakSession.getContext().getRealm().getSmtpConfig().get("host");
+			if ((keycloakSession.getContext().getRealm().getSmtpConfig().get("port") !=  null)) {
+				port = Integer.parseInt(keycloakSession.getContext().getRealm().getSmtpConfig().get("port"));
+			}
+			sender = keycloakSession.getContext().getRealm().getSmtpConfig().get("from");
+			un = keycloakSession.getContext().getRealm().getSmtpConfig().get("user");
+			pw = keycloakSession.getContext().getRealm().getSmtpConfig().get("password");
+		} else {
+			String accessToken = HyperAuthCaller.loginAsAdmin();
+			RealmRepresentation realmInfo = HyperAuthCaller.getRealmInfo( "tmax", accessToken);
+			host = realmInfo.getSmtpServer().get("host");
+			if ( realmInfo.getSmtpServer().get("port") != null) {
+				port = Integer.parseInt(realmInfo.getSmtpServer().get("port"));
+			}
+			sender = realmInfo.getSmtpServer().get("from");
+			un = realmInfo.getSmtpServer().get("user");
+			pw = realmInfo.getSmtpServer().get("password");
 		}
-		String sender = keycloakSession.getContext().getRealm().getSmtpConfig().get("from");
+
+//		System.out.println( " sender : "  + sender );
+//		System.out.println( " host : "  + host );
+//		System.out.println( " port : "  + port );
+//		System.out.println( " un : "  + un );
+//		System.out.println( " pw : "  + pw );
 
 		String charSetUtf = "UTF-8" ;
 		Properties props = System.getProperties();
@@ -71,18 +98,12 @@ public class Util {
 		props.put( "mail.smtp.starttls.enable", "true" );
 		props.put("mail.smtp.ssl.protocols", "TLSv1.2");
 
-//		System.out.println( " sender : "  + keycloakSession.getContext().getRealm().getSmtpConfig().get("from") );
-//		System.out.println( " host : "  + host );
-//		System.out.println( " port : "  + port );
-//		System.out.println( " un : "  + keycloakSession.getContext().getRealm().getSmtpConfig().get("user") );
-//		System.out.println( " pw : "  + keycloakSession.getContext().getRealm().getSmtpConfig().get("password") );
-
-		String un = keycloakSession.getContext().getRealm().getSmtpConfig().get("user");
-		String pw = keycloakSession.getContext().getRealm().getSmtpConfig().get("password");
+		String finalUn = un;
+		String finalPw = pw;
 
 		Session session = Session.getDefaultInstance( props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication( un, pw );
+				return new PasswordAuthentication(finalUn, finalPw);
 			}
 		});
 
