@@ -10,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.tmax.hyperauth.caller.Constants;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.TokenVerifier;
@@ -369,7 +370,10 @@ public class UserProvider implements RealmResourceProvider {
                     userModel.removeAttribute("deletionDate");
                     userModel.setAttribute("deletionDate", Arrays.asList(deletionDateString));
                     userModel.setEnabled(false);
-
+                    String email = userModel.getEmail();
+                    String subject = "[Tmax 통합서비스] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
+                    String msg = Constants.ACCOUNT_WITHDRAWAL_REQUEST_BODY;
+                    Util.sendMail(session, email, subject, msg, null, null );
                     out = " User [" + userName + "] WithDrawal Request Success ";
 
                 }else {
@@ -385,6 +389,9 @@ public class UserProvider implements RealmResourceProvider {
             } catch (Exception e) {
                 status = Status.BAD_REQUEST;
                 out = "User [" + userName + "] Update Falied  ";
+            } catch (Throwable throwable) {
+                status = Status.BAD_REQUEST;
+                out = "User [" + userName + "] Withdrawal Request Falied  ";
             }
         }
         return Util.setCors(status, out);

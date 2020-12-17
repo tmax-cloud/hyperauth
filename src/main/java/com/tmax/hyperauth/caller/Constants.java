@@ -12,7 +12,7 @@ public class Constants {
 	// hyperauth
 	public static final String SERVICE_NAME_LOGIN_AS_ADMIN = "auth/realms/master/protocol/openid-connect/token";
 	public static final String SERVICE_NAME_USER_DETAIL = "auth/admin/realms/tmax/users/";
-	
+
 	// Oauth 
 	public static final String HYPERAUTH_URL = "http://hyperauth.hyperauth";
 
@@ -95,6 +95,84 @@ public class Constants {
 			"  </div>\n" +
 			"</body>\n" +
 			"</html>";
+	public static final String ACCOUNT_WITHDRAWAL_REQUEST_BODY = "<html>\n" +
+			"\n" +
+			"<head>\n" +
+			"    <link href=\"https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap\" rel=\"stylesheet\">\n" +
+			"</head>\n" +
+			"\n" +
+			"<body>\n" +
+			"    <div style=\"width: 415px; margin: 60px auto; text-align: center; font-family: Noto Sans KR;\">\n" +
+			"        <div id=\"email-verification\"\n" +
+			"            style=\"background: url('https://mail.tmax.co.kr/skins/icloud/skin/images/logo.svg'); background-size: cover; width: 41px; height: 14px;\">\n" +
+			"        </div>\n" +
+			"        <hr style=\"height: 3px; background-color: #042a54; border-width: 0; margin-bottom: 0px;\">\n" +
+			"        </hr>\n" +
+			"        <div style=\"border: 1px solid #E5E7E9;\">\n" +
+			"            <div style=\"margin-top: 53px; display: block; font-size: 16px; font-weight: bold;\">\n" +
+			"                <span style=\"color: #185692;\">계정 탈퇴 신청</span>이 완료되었습니다.\n" +
+			"            </div>\n" +
+			"            <div\n" +
+			"                style=\"text-align: left; color: #3e3e3e; font-size: 14px; white-space: pre-line; line-height: 24px; margin-bottom: 60px; padding-right: 35px; padding-left: 35px; width:345px;\">\n" +
+			"                안녕하세요. Tmax통합서비스 관리자입니다.\n" +
+			"                고객님의 계정 탈퇴 신청이 완료되었습니다.\n" +
+			"\n" +
+			"                계정 탈퇴 신청이 승인될 경우 더 이상 Tmax 통합 서비스를\n" +
+			"                이용할 수 없으며 계정과 데이터가 삭제됩니다. 필요한 데이\n" +
+			"                터를 아직 백업하지 않았다면, 고객센터로 문의주시기 바랍니\n" +
+			"                다.\n" +
+			"\n" +
+			"                <div style=\"background-color: rgba( 218, 218, 218, 0.3 ); padding: 12px 15px; color:#3e3e3e\">콜센터:1800-5566(오전 9시-오후 6시)\n" +
+			"                    E-Mail : TmaxOneAccount-Support@tmax.co.kr\n" +
+			"                </div>\n" +
+			"                감사합니다.\n" +
+			"            </div>\n" +
+			"        </div>\n" +
+			"        <div\n" +
+			"            style=\"height: 54px; background-color: #F4F5F5; color: #999999; font-size: 12px; line-height: 54px; border: 1px solid #E5E7E9; border-top: 0px;\">\n" +
+			"            Copyright 2020. Tmax Corp. All rights reserved.\n" +
+			"        </div>\n" +
+			"    </div>\n" +
+			"</body>\n" +
+			"\n" +
+			"</html>";
 
+	public static final String ACCOUNT_WITHDRAWAL_APPROVAL_BODY = "<html>\n" +
+			"\n" +
+			"<head>\n" +
+			"    <link href=\"https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap\" rel=\"stylesheet\">\n" +
+			"</head>\n" +
+			"\n" +
+			"<body>\n" +
+			"    <div style=\"width: 415px; margin: 60px auto; text-align: center; font-family: Noto Sans KR;\">\n" +
+			"        <div id=\"email-verification\"\n" +
+			"            style=\"background: url('https://mail.tmax.co.kr/skins/icloud/skin/images/logo.svg'); background-size: cover; width: 41px; height: 14px;\">\n" +
+			"        </div>\n" +
+			"        <hr style=\"height: 3px; background-color: #042a54; border-width: 0; margin-bottom: 0px;\">\n" +
+			"        </hr>\n" +
+			"        <div style=\"border: 1px solid #E5E7E9;\">\n" +
+			"            <div style=\"margin-top: 53px; display: block; font-size: 16px; font-weight: bold;\">\n" +
+			"                <span style=\"color: #185692;\">계정탈퇴</span>가 완료되었습니다.\n" +
+			"            </div>\n" +
+			"            <div\n" +
+			"                style=\"text-align: left; color: #3e3e3e; font-size: 14px; white-space: pre-line; line-height: 24px; margin-bottom: 60px; padding-right: 35px; padding-left: 35px;\">\n" +
+			"                안녕하세요. Tmax통합서비스 관리자입니다.\n" +
+			"                고객님의 계정 탈퇴가 완료되었습니다.\n" +
+			"\n" +
+			"                그동안 Tmax 통합서비스를 이용해주신 회원님께 진심으로\n" +
+			"                감사드립니다. 회원님의 소중한 충고로 더욱 성장할 수 있는\n" +
+			"                Tmax가 되겠습니다.\n" +
+			"\n" +
+			"                감사합니다.\n" +
+			"            </div>\n" +
+			"        </div>\n" +
+			"        <div\n" +
+			"            style=\"height: 54px; background-color: #F4F5F5; color: #999999; font-size: 12px; line-height: 54px; border: 1px solid #E5E7E9; border-top: 0px;\">\n" +
+			"            Copyright 2020. Tmax Corp. All rights reserved.\n" +
+			"        </div>\n" +
+			"    </div>\n" +
+			"</body>\n" +
+			"\n" +
+			"</html>";
 
 }

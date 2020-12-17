@@ -28,7 +28,9 @@ public class HyperauthEventListenerProviderFactory implements EventListenerProvi
     @Override
     public void postInit(KeycloakSessionFactory keycloakSessionFactory) {
         try {
-            JobDetail job = JobBuilder.newJob( UserDeleteJob.class )
+            JobDataMap jobDataMap = new JobDataMap();
+            jobDataMap.put("session", keycloakSessionFactory.create());
+            JobDetail job = JobBuilder.newJob( UserDeleteJob.class ).usingJobData(jobDataMap)
                     .withIdentity( "UserDeleteJob" ).build();
 
             CronTrigger cronTrigger = TriggerBuilder
