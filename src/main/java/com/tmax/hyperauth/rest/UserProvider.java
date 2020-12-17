@@ -216,18 +216,17 @@ public class UserProvider implements RealmResourceProvider {
                     disabled = session.getProvider(BruteForceProtector.class).isTemporarilyDisabled(session, realm, user);
                 }
                 // User Attribute Data
-                Map<String, List<String>> data = user.getAttributes();
-                data.put("temporarilyDisabled", new ArrayList<>(Arrays.asList(String.valueOf(disabled))));
-                data.put("numFailures", new ArrayList<>(Arrays.asList(Integer.toString(loginFailureModel.getNumFailures()))));
-                data.put("lastIPFailure", new ArrayList<>(Arrays.asList(loginFailureModel.getLastIPFailure())));
-                data.put("lastFailure", new ArrayList<>(Arrays.asList(Long.toString(loginFailureModel.getLastFailure()))));
-                data.put("failedLoginNotBefore", new ArrayList<>(Arrays.asList(Integer.toString(loginFailureModel.getFailedLoginNotBefore()))));
-                data.put("remainSecond", new ArrayList<>(Arrays.asList( Long.toString( loginFailureModel.getFailedLoginNotBefore() - loginFailureModel.getLastFailure()/1000 ))));
-                userOut.setAttributes(data);
-            } else {
-                // User Attribute Data
-                userOut.setAttributes(user.getAttributes());
+                user.getAttributes().put("temporarilyDisabled", new ArrayList<>(Arrays.asList(String.valueOf(disabled))));
+                user.getAttributes().put("numFailures", new ArrayList<>(Arrays.asList(Integer.toString(loginFailureModel.getNumFailures()))));
+                user.getAttributes().put("lastIPFailure", new ArrayList<>(Arrays.asList(loginFailureModel.getLastIPFailure())));
+                user.getAttributes().put("lastFailure", new ArrayList<>(Arrays.asList(Long.toString(loginFailureModel.getLastFailure()))));
+                user.getAttributes().put("failedLoginNotBefore", new ArrayList<>(Arrays.asList(Integer.toString(loginFailureModel.getFailedLoginNotBefore()))));
+                user.getAttributes().put("remainSecond", new ArrayList<>(Arrays.asList( Long.toString( loginFailureModel.getFailedLoginNotBefore() - loginFailureModel.getLastFailure()/1000 ))));
             }
+
+            // User Attribute Data
+            userOut.setAttributes(user.getAttributes());
+
 
             status = Status.OK;
         	return Util.setCors(status, userOut);        
@@ -358,7 +357,7 @@ public class UserProvider implements RealmResourceProvider {
             }
 
             try {
-                if (withdrawal.equalsIgnoreCase("t")){
+                if (withdrawal != null && withdrawal.equalsIgnoreCase("t")){
                     Date currentDate = new Date();
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(currentDate);
@@ -375,8 +374,7 @@ public class UserProvider implements RealmResourceProvider {
                     String msg = Constants.ACCOUNT_WITHDRAWAL_REQUEST_BODY;
                     Util.sendMail(session, email, subject, msg, null, null );
                     out = " User [" + userName + "] WithDrawal Request Success ";
-
-                }else {
+                } else {
                     for ( String key : rep.getAttributes().keySet()) {
                         System.out.println("[key] : " + key + " || [value] : " + userModel.getAttribute(key) + " ==> " + rep.getAttributes().get(key));
                         userModel.removeAttribute(key);
