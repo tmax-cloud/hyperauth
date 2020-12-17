@@ -130,7 +130,7 @@ public class HyperAuthCaller {
 		Request request = null;
 
 		//GET svc
-		HttpUrl.Builder urlBuilder = HttpUrl.parse(setHyperAuthURL( Constants.SERVICE_NAME_REALM_DETAIL )).newBuilder();
+		HttpUrl.Builder urlBuilder = HttpUrl.parse(setHyperAuthURL( Constants.SERVICE_NAME_REALM_DETAIL ) + realmName).newBuilder();
 
 		String url = urlBuilder.build().toString();
 		request = new Request.Builder().url(url).addHeader("Authorization", "Bearer " + token).get().build();
