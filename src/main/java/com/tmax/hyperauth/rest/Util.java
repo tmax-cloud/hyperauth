@@ -85,11 +85,11 @@ public class Util {
 			pw = smtpServer.get("password").getAsString().replace("\"", "");
 		}
 
-//		System.out.println( " sender : "  + sender );
-//		System.out.println( " host : "  + host );
-//		System.out.println( " port : "  + port );
-//		System.out.println( " un : "  + un );
-//		System.out.println( " pw : "  + pw );
+		System.out.println( " sender : "  + sender );
+		System.out.println( " host : "  + host );
+		System.out.println( " port : "  + port );
+		System.out.println( " un : "  + un );
+		System.out.println( " pw : "  + pw );
 
 		String charSetUtf = "UTF-8" ;
 		Properties props = System.getProperties();

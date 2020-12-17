@@ -99,7 +99,7 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                     break;
                 case "SEND_VERIFY_EMAIL":
                     String email = event.getDetails().get("email");
-                    long interval = 1000 * 60 * 5;
+                    long interval = 1000 * 60 * 60;
                     TimerProvider timer = session.getProvider(TimerProvider.class);
                     timer.scheduleTask((KeycloakSession keycloakSession) -> {
                         System.out.println("Check If not User Email [ " + email + " ] verified, Delete user");
