@@ -39,7 +39,6 @@ public class UserDeleteJob implements Job {
                 UserRepresentation UserRepresentation = gson.fromJson(user, UserRepresentation.class);
                 try {
                     if ( UserRepresentation.getAttributes() != null && UserRepresentation.getAttributes().get("deletionDate") != null){
-//                        System.out.println( " user.getAttributes().get(\"deletionDate\") : " + UserRepresentation.getAttributes().get("deletionDate").toString());
                         SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
                         Date deletionDate = transFormat.parse(UserRepresentation.getAttributes().get("deletionDate").toString()
                                 .replace("[", "").replace("]", ""));

@@ -63,26 +63,29 @@ public class Util {
 		String sender = "tmaxcloud_ck@tmax.co.kr";
 		String un = "tmaxcloud_ck@tmax.co.kr";
 		String pw = "Miracle!";
-
-		if (keycloakSession != null) {
-			host = keycloakSession.getContext().getRealm().getSmtpConfig().get("host");
-			if ((keycloakSession.getContext().getRealm().getSmtpConfig().get("port") !=  null)) {
-				port = Integer.parseInt(keycloakSession.getContext().getRealm().getSmtpConfig().get("port"));
+		try{
+			if (keycloakSession != null) {
+				host = keycloakSession.getContext().getRealm().getSmtpConfig().get("host");
+				if ((keycloakSession.getContext().getRealm().getSmtpConfig().get("port") !=  null)) {
+					port = Integer.parseInt(keycloakSession.getContext().getRealm().getSmtpConfig().get("port"));
+				}
+				sender = keycloakSession.getContext().getRealm().getSmtpConfig().get("from");
+				un = keycloakSession.getContext().getRealm().getSmtpConfig().get("user");
+				pw = keycloakSession.getContext().getRealm().getSmtpConfig().get("password");
+			} else {
+				String accessToken = HyperAuthCaller.loginAsAdmin();
+				JsonObject realmInfo = HyperAuthCaller.getRealmInfo( "tmax", accessToken);
+				JsonObject smtpServer = realmInfo.get("smtpServer").getAsJsonObject();
+				host = smtpServer.get("host").getAsString().replace("\"", "");
+				if ( smtpServer.get("host") != null) {
+					port = Integer.parseInt(smtpServer.get("port").getAsString().replace("\"", ""));
+				}
+				sender = smtpServer.get("from").getAsString().replace("\"", "");
+				un = smtpServer.get("user").getAsString().replace("\"", "");
+				pw = smtpServer.get("password").getAsString().replace("\"", "");
 			}
-			sender = keycloakSession.getContext().getRealm().getSmtpConfig().get("from");
-			un = keycloakSession.getContext().getRealm().getSmtpConfig().get("user");
-			pw = keycloakSession.getContext().getRealm().getSmtpConfig().get("password");
-		} else {
-			String accessToken = HyperAuthCaller.loginAsAdmin();
-			JsonObject realmInfo = HyperAuthCaller.getRealmInfo( "tmax", accessToken);
-			JsonObject smtpServer = realmInfo.get("smtpServer").getAsJsonObject();
-			host = smtpServer.get("host").getAsString().replace("\"", "");
-			if ( smtpServer.get("host") != null) {
-				port = Integer.parseInt(smtpServer.get("port").getAsString().replace("\"", ""));
-			}
-			sender = smtpServer.get("from").getAsString().replace("\"", "");
-			un = smtpServer.get("user").getAsString().replace("\"", "");
-			pw = smtpServer.get("password").getAsString().replace("\"", "");
+		}catch( Exception e){
+			e.printStackTrace();
 		}
 
 		System.out.println( " sender : "  + sender );
