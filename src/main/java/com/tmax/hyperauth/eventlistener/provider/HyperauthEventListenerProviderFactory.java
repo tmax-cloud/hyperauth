@@ -36,8 +36,8 @@ public class HyperauthEventListenerProviderFactory implements EventListenerProvi
             CronTrigger cronTrigger = TriggerBuilder
                     .newTrigger()
                     .withIdentity( "UserDeleteCronTrigger" )
-                    .withSchedule(
-                            CronScheduleBuilder.cronSchedule( "0 0 0 ? * * *" )) // EveryDay at 0am
+//                    .withSchedule( CronScheduleBuilder.cronSchedule( "0 0 0 ? * * *" )) // EveryDay at 0am
+                    .withSchedule(CronScheduleBuilder.cronSchedule( "*/30 * * * * ?" )) // For test every 30sec
                     .build();
 
             Scheduler sch = new StdSchedulerFactory().getScheduler();
