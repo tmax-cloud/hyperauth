@@ -25,7 +25,6 @@ public class UserDeleteJob implements Job {
         System.out.println(" [UserDelete Job] User Deletion Job Start !! ");
         Date currentDate = new Date();
         System.out.println( "Now : " + currentDate);
-        KeycloakSession session = null;
         JsonArray users = null;
         String accessToken = null;
         try{
@@ -51,7 +50,7 @@ public class UserDeleteJob implements Job {
                             String email = UserRepresentation.getEmail();
                             String subject = "[Tmax 통합서비스] 고객님의 계정 탈퇴가 완료되었습니다.";
                             String msg = Constants.ACCOUNT_WITHDRAWAL_APPROVAL_BODY;
-                            Util.sendMail(session, email, subject, msg, null, null );
+                            Util.sendMail(null, email, subject, msg, null, null );
                             System.out.println(" [UserDelete Job] User [ " + UserRepresentation.getUsername() + " ] Delete Success ");
                         }
                     }
