@@ -1,5 +1,7 @@
 package com.tmax.hyperauth.rest;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.tmax.hyperauth.caller.HyperAuthCaller;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.representations.idm.RealmRepresentation;
@@ -72,14 +74,15 @@ public class Util {
 			pw = keycloakSession.getContext().getRealm().getSmtpConfig().get("password");
 		} else {
 			String accessToken = HyperAuthCaller.loginAsAdmin();
-			RealmRepresentation realmInfo = HyperAuthCaller.getRealmInfo( "tmax", accessToken);
-			host = realmInfo.getSmtpServer().get("host");
-			if ( realmInfo.getSmtpServer().get("port") != null) {
-				port = Integer.parseInt(realmInfo.getSmtpServer().get("port"));
+			JsonObject realmInfo = HyperAuthCaller.getRealmInfo( "tmax", accessToken);
+			JsonObject smtpServer = realmInfo.get("smtpServer").getAsJsonObject();
+			host = smtpServer.get("host").getAsString().replace("\"", "");
+			if ( smtpServer.get("host") != null) {
+				port = Integer.parseInt(smtpServer.get("port").getAsString().replace("\"", ""));
 			}
-			sender = realmInfo.getSmtpServer().get("from");
-			un = realmInfo.getSmtpServer().get("user");
-			pw = realmInfo.getSmtpServer().get("password");
+			sender = smtpServer.get("from").getAsString().replace("\"", "");
+			un = smtpServer.get("user").getAsString().replace("\"", "");
+			pw = smtpServer.get("password").getAsString().replace("\"", "");
 		}
 
 //		System.out.println( " sender : "  + sender );

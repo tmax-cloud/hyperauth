@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import okhttp3.FormBody;
@@ -125,7 +126,7 @@ public class HyperAuthCaller {
 		return resultJson;
 	}
 
-	public static RealmRepresentation getRealmInfo( String realmName, String token ) throws IOException {
+	public static JsonObject getRealmInfo( String realmName, String token ) throws IOException {
 		System.out.println(" [HyperAuth] Realm Info Get Service" );
 
 		Request request = null;
@@ -144,8 +145,8 @@ public class HyperAuthCaller {
 
 		Gson gson = new Gson();
 		JsonObject realmInfoJson = gson.fromJson(result, JsonObject.class);
-		RealmRepresentation realmInfo = gson.fromJson(realmInfoJson, RealmRepresentation.class);
+//		RealmRepresentation realmInfo = gson.fromJson(result, RealmRepresentation.class);
 
-		return realmInfo;
+		return realmInfoJson;
 	}
 }
