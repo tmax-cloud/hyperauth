@@ -140,7 +140,7 @@ public class HyperAuthCaller {
 
 		Response response = client.newCall(request).execute();
 		String result = response.body().string();
-//		System.out.println(" RealmInfoResult : " + result);
+		System.out.println(" RealmInfoResult : " + result);
 
 		Gson gson = new Gson();
 		JsonObject realmInfoJson = gson.fromJson(result, JsonObject.class);
