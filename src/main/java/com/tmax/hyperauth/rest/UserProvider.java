@@ -227,7 +227,6 @@ public class UserProvider implements RealmResourceProvider {
             // User Attribute Data
             userOut.setAttributes(user.getAttributes());
 
-
             status = Status.OK;
         	return Util.setCors(status, userOut);        
         }catch (Exception e) {
