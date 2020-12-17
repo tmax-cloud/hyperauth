@@ -69,6 +69,14 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                         UserModel user = session.users().getUserById(event.getUserId(), session.realms().getRealmByName(event.getRealmId()));
                         RealmModel realm = session.realms().getRealmByName(event.getRealmId());
                         session.sessions().getUserSessions(realm, session.clients().getClientByClientId(realm, event.getClientId())).forEach(userSession -> {
+                            System.out.println(" userSession.getIpAddress() " + userSession.getIpAddress());
+                            System.out.println(" userSession.getBrokerSessionId() " + userSession.getBrokerSessionId());
+                            System.out.println(" userSession.getBrokerUserId() " + userSession.getBrokerUserId());
+                            System.out.println(" userSession.toString() " + userSession.toString());
+                            for (String noteKey : userSession.getNotes().keySet()) {
+                                System.out.println( noteKey + " |||| " + userSession.getNote(noteKey));
+                            }
+
                             if( userSession.getUser().getUsername().equalsIgnoreCase(event.getDetails().get("username"))
                                     && !userSession.getId().equals(event.getSessionId()) ) {
                                 session.sessions().removeUserSession(realm, userSession);
