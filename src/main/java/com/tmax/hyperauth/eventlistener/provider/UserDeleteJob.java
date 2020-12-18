@@ -36,21 +36,22 @@ public class UserDeleteJob implements Job {
         if ( users != null) {
             for( JsonElement user : users) {
                 Gson gson = new Gson();
-                UserRepresentation UserRepresentation = gson.fromJson(user, UserRepresentation.class);
+                UserRepresentation userRepresentation = gson.fromJson(user, UserRepresentation.class);
                 try {
-                    if ( UserRepresentation.getAttributes() != null && UserRepresentation.getAttributes().get("deletionDate") != null){
+                    if ( userRepresentation.getAttributes() != null && userRepresentation.getAttributes().get("deletionDate") != null){
                         SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
-                        Date deletionDate = transFormat.parse(UserRepresentation.getAttributes().get("deletionDate").toString()
+                        Date deletionDate = transFormat.parse(userRepresentation.getAttributes().get("deletionDate").toString()
                                 .replace("[", "").replace("]", ""));
 
-                        if ( currentDate.after(deletionDate)){
-                            System.out.println(" [UserDelete Job] User [ " + UserRepresentation.getUsername() + " ] Delete Start ");
-                            HyperAuthCaller.deleteUser(UserRepresentation.getId(), accessToken);
-                            String email = UserRepresentation.getEmail();
+                        if ( currentDate.after(deletionDate)
+                                && user.getAsJsonObject().get("enabled").toString().replace("\"","").equalsIgnoreCase("false")){
+                            System.out.println(" [UserDelete Job] User [ " + userRepresentation.getUsername() + " ] Delete Start ");
+                            HyperAuthCaller.deleteUser(userRepresentation.getId(), accessToken);
+                            String email = userRepresentation.getEmail();
                             String subject = "[Tmax 통합서비스] 고객님의 계정 탈퇴가 완료되었습니다.";
                             String msg = Constants.ACCOUNT_WITHDRAWAL_APPROVAL_BODY;
                             Util.sendMail(null, email, subject, msg, null, null );
-                            System.out.println(" [UserDelete Job] User [ " + UserRepresentation.getUsername() + " ] Delete Success ");
+                            System.out.println(" [UserDelete Job] User [ " + userRepresentation.getUsername() + " ] Delete Success ");
                         }
                     }
                 } catch (ParseException | IOException e) {
