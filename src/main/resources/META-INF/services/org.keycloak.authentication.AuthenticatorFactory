@@ -1,1 +1,2 @@
 com.tmax.hyperauth.authenticator.secretQuestion.SecretQuestionAuthenticatorFactory
+com.tmax.hyperauth.authenticator.securityPolicy.SecurityPolicyAuthenticatorFactory

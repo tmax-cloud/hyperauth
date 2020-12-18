@@ -40,8 +40,7 @@ public class UserDeleteJob implements Job {
                 try {
                     if ( userRepresentation.getAttributes() != null && userRepresentation.getAttributes().get("deletionDate") != null){
                         SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
-                        Date deletionDate = transFormat.parse(userRepresentation.getAttributes().get("deletionDate").toString()
-                                .replace("[", "").replace("]", ""));
+                        Date deletionDate = transFormat.parse(userRepresentation.getAttributes().get("deletionDate").get(0)); // FIXME
 
                         if ( currentDate.after(deletionDate)
                                 && user.getAsJsonObject().get("enabled").toString().replace("\"","").equalsIgnoreCase("false")){

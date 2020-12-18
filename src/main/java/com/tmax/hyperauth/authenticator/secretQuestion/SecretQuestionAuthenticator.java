@@ -30,32 +30,9 @@ import java.util.List;
 public class SecretQuestionAuthenticator implements Authenticator, CredentialValidator<SecretQuestionCredentialProvider> {
 
     protected boolean hasCookie(AuthenticationFlowContext context) {
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!! maybe !!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println("context.getUser().getUsername() : " + context.getUser().getUsername());
-        System.out.println("-----------------------------------------------------------------------");
-
         Cookie cookie = context.getHttpRequest().getHttpHeaders().getCookies().get("SECRET_QUESTION_ANSWERED");
-        System.out.println("context.getConnection().getLocalAddr() : " + context.getConnection().getLocalAddr());
         System.out.println("context.getConnection().getRemoteAddr() : " + context.getConnection().getRemoteAddr());
-        System.out.println("context.getConnection().getRemoteHost() : " + context.getConnection().getRemoteHost());
-        System.out.println("context.getConnection().getLocalPort() : " + context.getConnection().getLocalPort());
-        System.out.println("context.getConnection().getRemotePort() : " + context.getConnection().getRemotePort());
-        System.out.println("context.getFlowPath() : " + context.getFlowPath());
-        System.out.println("context.getAuthenticationSession().getRedirectUri() : " + context.getAuthenticationSession().getRedirectUri());
-        System.out.println("context.getRefreshExecutionUrl().getHost() : " + context.getRefreshExecutionUrl().getHost());
-        System.out.println("context.getRefreshExecutionUrl().getPath() : " + context.getRefreshExecutionUrl().getPath());
-        System.out.println("context.getRefreshExecutionUrl().getQuery() : " + context.getRefreshExecutionUrl().getQuery());
-        System.out.println("context.getRefreshExecutionUrl().getRawPath() : " + context.getRefreshExecutionUrl().getRawPath());
-        System.out.println("context.getRefreshExecutionUrl().getAuthority() : " + context.getRefreshExecutionUrl().getAuthority());
-        System.out.println("context.getFlowPath() : " + context.getFlowPath());
 
-        for (String key : context.getAuthenticatorConfig().getConfig().keySet()) {
-            System.out.println( "context.getAuthenticatorConfig().getConfig() ::" + key  + " ||||| " + context.getAuthenticatorConfig().getConfig().get(key));
-        }
-
-        for (String key : context.getHttpRequest().getHttpHeaders().getRequestHeaders().keySet()) {
-            System.out.println( " context.getHttpRequest().getHttpHeaders() :: " + key  + " ||||| " + context.getHttpRequest().getHttpHeaders().getRequestHeader(key));
-        }
         boolean result = cookie != null;
         if (result) {
             System.out.println("Bypassing secret question because cookie is set");
