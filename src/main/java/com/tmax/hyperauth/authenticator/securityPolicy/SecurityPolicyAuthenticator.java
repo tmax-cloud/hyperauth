@@ -26,8 +26,8 @@ public class SecurityPolicyAuthenticator implements Authenticator {
         if (!isSecurityPolicyEnabled(context)) {
             System.out.println("Bypassing Security Policy since disabled user [ " + context.getUser().getUsername() +" ]");
             context.success();
-            context.challenge(context.form().createForm("test.ftl"));
-//            return;
+//            context.challenge(context.form().createForm("test.ftl"));
+            return;
         }else {
             Response challenge =  context.form()
                     .setError("Mobile number can not be determined.").createForm("security-policy-validation-error.ftl");
