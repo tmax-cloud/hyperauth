@@ -30,6 +30,7 @@ public class SecurityPolicyAuthenticator implements Authenticator {
 
         if (!isSecurityPolicyEnabled(context)) {
             System.out.println("Bypassing Security Policy since disabled user [ " + context.getUser().getUsername() +" ]");
+            context.challenge(context.form().createForm("test.ftl"));
             context.success();
             return;
         }else {
