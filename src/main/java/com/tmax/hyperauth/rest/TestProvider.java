@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import java.sql.Connection;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,22 +47,13 @@ public class TestProvider implements RealmResourceProvider {
 	String out = null;
 
     @POST
-    @Path("{path}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response post(@PathParam("path") final String email, @QueryParam("username") String username) throws Throwable {
+    public Response post() throws Throwable {
         System.out.println("***** POST /test");
-        System.out.println( session.users().getUserByEmail("admin@tmax.co.kr", session.realms().getRealmByName("tmax")).getAttribute("test").get(0) );
-        System.out.println();
-        System.out.println( session.users().getUserByEmail("admin@tmax.co.kr", session.realms().getRealmByName("tmax")).getAttribute("test").get(1) );
-        System.out.println();
-        System.out.println( session.users().getUserByEmail("admin@tmax.co.kr", session.realms().getRealmByName("tmax")).getAttribute("test1").get(0) );
-        System.out.println();
-        System.out.println( session.users().getUserByEmail("admin@tmax.co.kr", session.realms().getRealmByName("tmax")).getAttribute("test1").get(1) );
-        System.out.println();
-        System.out.println( session.users().getUserByEmail("admin@tmax.co.kr", session.realms().getRealmByName("tmax")).getAttribute("test2").get(0) );
-        System.out.println();
-        System.out.println( session.users().getUserByEmail("admin@tmax.co.kr", session.realms().getRealmByName("tmax")).getAttribute("test2").get(1) );
-        System.out.println();
+        List < String > values = new ArrayList<>();
+        values.add( "woo1");
+        values.add( "woo2");
+        session.users().getUserByEmail("admin@tmax.co.kr", session.realms().getRealmByName("tmax")).getAttributes().put("wootest", values);
 
         status = Status.OK;
         out = "test post svc Success";

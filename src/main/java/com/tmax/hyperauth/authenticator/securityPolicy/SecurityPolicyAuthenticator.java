@@ -10,24 +10,25 @@ import javax.ws.rs.core.Response;
 public class SecurityPolicyAuthenticator implements Authenticator {
 
     protected boolean isSecurityPolicyEnabled(AuthenticationFlowContext context) {
-
+        boolean flag = false;
         // for test
-        AuthenticatorConfigModel config = context.getAuthenticatorConfig();
-        String isSecurityPolicyEnabled = SecurityPolicyAuthenticatorUtil.getConfigString(config, "security-policy.enabled");
-        System.out.println("isSecurityPolicyEnabled From Config : " + isSecurityPolicyEnabled);
+//        AuthenticatorConfigModel config = context.getAuthenticatorConfig();
+//        String isSecurityPolicyEnabled = SecurityPolicyAuthenticatorUtil.getConfigString(config, "security-policy.enabled");
+//        System.out.println("isSecurityPolicyEnabled From Config : " + isSecurityPolicyEnabled);
         /////////////
-
-        isSecurityPolicyEnabled = SecurityPolicyAuthenticatorUtil.getAttributeValue(context.getUser(), "security-policy.enabled");
+        String isSecurityPolicyEnabled = SecurityPolicyAuthenticatorUtil.getAttributeValue(context.getUser(), "ipBlock");
         System.out.println("isSecurityPolicyEnabled From Attribute : " + isSecurityPolicyEnabled);
-
-        return isSecurityPolicyEnabled.equalsIgnoreCase("true");
+        if (isSecurityPolicyEnabled != null && isSecurityPolicyEnabled.equalsIgnoreCase("true")){
+            flag = true;
+        }
+        return flag;
     }
 
     @Override
     public void authenticate(AuthenticationFlowContext context) {
-        System.out.println("authenticate called ... context = " + context);
+        System.out.println("authenticate called ... User = " + context.getUser().getUsername());
 
-        if (isSecurityPolicyEnabled(context)) {
+        if (!isSecurityPolicyEnabled(context)) {
             System.out.println("Bypassing Security Policy since disabled user [ " + context.getUser().getUsername() +" ]");
             context.success();
             return;
