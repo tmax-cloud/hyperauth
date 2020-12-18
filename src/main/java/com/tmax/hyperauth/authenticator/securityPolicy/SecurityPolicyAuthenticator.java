@@ -11,11 +11,6 @@ public class SecurityPolicyAuthenticator implements Authenticator {
 
     protected boolean isSecurityPolicyEnabled(AuthenticationFlowContext context) {
         boolean flag = false;
-        // for test
-//        AuthenticatorConfigModel config = context.getAuthenticatorConfig();
-//        String isSecurityPolicyEnabled = SecurityPolicyAuthenticatorUtil.getConfigString(config, "security-policy.enabled");
-//        System.out.println("isSecurityPolicyEnabled From Config : " + isSecurityPolicyEnabled);
-        /////////////
         String isSecurityPolicyEnabled = SecurityPolicyAuthenticatorUtil.getAttributeValue(context.getUser(), "ipBlock");
         System.out.println("isSecurityPolicyEnabled From Attribute : " + isSecurityPolicyEnabled);
         if (isSecurityPolicyEnabled != null && isSecurityPolicyEnabled.equalsIgnoreCase("true")){
