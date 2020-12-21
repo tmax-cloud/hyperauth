@@ -25,7 +25,7 @@ public class EmailOTPAuthenticatorUtil {
 
         String value = defaultValue;
 
-        if (config.getConfig() != null) {
+        if (config != null && config.getConfig() != null) {
             // Get value
             value = config.getConfig().get(configName);
         }
@@ -39,10 +39,8 @@ public class EmailOTPAuthenticatorUtil {
 
 
     public static Long getConfigLong(AuthenticatorConfigModel config, String configName, Long defaultValue) {
-
         Long value = defaultValue;
-
-        if (config.getConfig() != null) {
+        if (config != null && config.getConfig() != null) {
             // Get value
             Object obj = config.getConfig().get(configName);
             try {
