@@ -5,6 +5,8 @@ import com.tmax.hyperauth.rest.Util;
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.authentication.Authenticator;
+import org.keycloak.credential.CredentialInput;
+import org.keycloak.credential.CredentialModel;
 import org.keycloak.models.*;
 
 import javax.ws.rs.core.MultivaluedMap;
@@ -147,9 +149,10 @@ public class EmailOTPAuthenticator implements Authenticator {
     }
 
     private void storeOTPCode(AuthenticationFlowContext context, String code, Long expiringAt) {
-        UserCredentialModel credentials = new UserCredentialModel();
+        CredentialModel credentials = new CredentialModel();
         credentials.setType(EmailOTPAuthenticatorConstants.USR_CRED_MDL_OTP_CODE);
-        credentials.setValue(code);
+        credentials.setCredentialData(code);
+
         context.getSession().userCredentialManager().updateCredential(context.getRealm(), context.getUser(), credentials);
 //        context.getSession().users().updateCredential(context.getRealm(), context.getUser(), credentials);
 
