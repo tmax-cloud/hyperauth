@@ -18,28 +18,28 @@ import java.util.List;
  */
 public class SecurityPolicyAuthenticatorFactory implements AuthenticatorFactory, ConfigurableAuthenticatorFactory {
 
-    public static final String PROVIDER_ID = "security-policy-authenticator";
+    public static final String PROVIDER_ID = "security-policy-authenticator ";
     private static final SecurityPolicyAuthenticator SINGLETON = new SecurityPolicyAuthenticator();
 
     private static final List<ProviderConfigProperty> configProperties = new ArrayList<ProviderConfigProperty>();
 
-    static {
-        ProviderConfigProperty property;
-
-        property = new ProviderConfigProperty();
-        property.setName("security-policy.enabled");
-        property.setLabel("Ip block Enabled");
-        property.setType(ProviderConfigProperty.BOOLEAN_TYPE);
-        property.setHelpText("Is Ip block Enabled");
-        configProperties.add(property);
-
-        property = new ProviderConfigProperty();
-        property.setName("security-policy.whitelist");
-        property.setLabel("Ip block white list");
-        property.setType(ProviderConfigProperty.MULTIVALUED_STRING_TYPE);
-        property.setHelpText("Ip block white list");
-        configProperties.add(property);
-    }
+//    static {
+//        ProviderConfigProperty property;
+//
+//        property = new ProviderConfigProperty();
+//        property.setName("security-policy.enabled");
+//        property.setLabel("Ip block Enabled");
+//        property.setType(ProviderConfigProperty.BOOLEAN_TYPE);
+//        property.setHelpText("Is Ip block Enabled");
+//        configProperties.add(property);
+//
+//        property = new ProviderConfigProperty();
+//        property.setName("security-policy.whitelist");
+//        property.setLabel("Ip block white list");
+//        property.setType(ProviderConfigProperty.MULTIVALUED_STRING_TYPE);
+//        property.setHelpText("Ip block white list");
+//        configProperties.add(property);
+//    }
 
     @Override
     public String getId() {

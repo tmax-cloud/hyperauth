@@ -1,8 +1,15 @@
 package com.tmax.hyperauth.authenticator.securityPolicy;
 
-import org.keycloak.authentication.*;
-import org.keycloak.models.*;
+import org.apache.commons.net.util.SubnetUtils;
+import org.keycloak.authentication.AuthenticationFlowContext;
+import org.keycloak.authentication.AuthenticationFlowError;
+import org.keycloak.authentication.Authenticator;
+import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.RealmModel;
+import org.keycloak.models.UserModel;
+
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 /**
  * @author taegeon_woo@tmax.co.kr
@@ -11,28 +18,54 @@ public class SecurityPolicyAuthenticator implements Authenticator {
 
     protected boolean isSecurityPolicyEnabled(AuthenticationFlowContext context) {
         boolean flag = false;
-        String isSecurityPolicyEnabled = SecurityPolicyAuthenticatorUtil.getAttributeValue(context.getUser(), "ipBlock");
-        System.out.println("isSecurityPolicyEnabled From Attribute : " + isSecurityPolicyEnabled);
-        if (isSecurityPolicyEnabled != null && isSecurityPolicyEnabled.equalsIgnoreCase("true")){
+        String isIpBLock = SecurityPolicyAuthenticatorUtil.getAttributeValue(context.getUser(), "ipBlock");
+        System.out.println("isSecurityPolicyEnabled From Attribute : " + isIpBLock);
+        if (isIpBLock != null && isIpBLock.equalsIgnoreCase("true")){
             flag = true;
         }
         return flag;
+    }
+
+    protected boolean isSecurityPolicyPassed(AuthenticationFlowContext context) {
+        List< String > ipPermitList = context.getUser().getAttribute("ipPermitList");
+        if ( ipPermitList != null ){
+            for (String ipPermit : ipPermitList) {
+                System.out.println("ipPermit From Attribute : " + ipPermit);
+                SubnetUtils utils = null;
+                try{
+                    utils = new SubnetUtils(ipPermit);
+                }catch(IllegalArgumentException e) {
+                    System.out.println("Invalid CIDR syntax : " + ipPermit);
+                    return false;
+                }
+                if (utils.getInfo().isInRange(context.getConnection().getRemoteAddr())){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
     public void authenticate(AuthenticationFlowContext context) {
         System.out.println("authenticate called ... User = " + context.getUser().getUsername());
 
-        if (!isSecurityPolicyEnabled(context)) {
+        if (!isSecurityPolicyEnabled(context) ) {
             System.out.println("Bypassing Security Policy since disabled user [ " + context.getUser().getUsername() +" ]");
             context.success();
 //            context.challenge(context.form().createForm("test.ftl"));
             return;
-        }else {
+        } else if ( !isSecurityPolicyPassed(context)) {
+            System.out.println("Security Policy Passed!! user [ " + context.getUser().getUsername() +" ]");
+            context.success();
+            return;
+
+        }else{
             Response challenge =  context.form()
-                    .setError("Mobile number can not be determined.").createForm("security-policy-validation-error.ftl");
+                    .setError("Blocked by Security Policy.").createForm("security-policy-validation-error.ftl");
             context.failureChallenge(AuthenticationFlowError.USER_DISABLED, challenge);
             System.out.println("Blocked by Security Policy [ " + context.getUser().getUsername() +" ]");
+
         }
     }
 
