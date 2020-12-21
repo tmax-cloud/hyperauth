@@ -2,7 +2,7 @@ package com.tmax.hyperauth.authenticator.otp;
 
 import com.tmax.hyperauth.caller.Constants;
 import com.tmax.hyperauth.rest.Util;
-import org.apache.xml.security.stax.impl.util.IDGenerator;
+import java.util.UUID;
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.authentication.Authenticator;
@@ -152,7 +152,7 @@ public class EmailOTPAuthenticator implements Authenticator {
 
     private void storeOTPCode(AuthenticationFlowContext context, String code, Long expiringAt) {
         CredentialModel credentials = new CredentialModel();
-        credentials.setId(IDGenerator.generateID("otp-"));
+        credentials.setId(UUID.randomUUID().toString());
         credentials.setCreatedDate(new Date().getTime());
         credentials.setType(EmailOTPAuthenticatorConstants.USR_CRED_MDL_OTP_CODE);
         credentials.setCredentialData(code);
@@ -160,7 +160,7 @@ public class EmailOTPAuthenticator implements Authenticator {
         context.getSession().userCredentialManager().updateCredential(context.getRealm(), context.getUser(), credentials);
 //        context.getSession().users().updateCredential(context.getRealm(), context.getUser(), credentials);
 
-        credentials.setId(IDGenerator.generateID("otp-"));
+        credentials.setId(UUID.randomUUID().toString());
         credentials.setCreatedDate(new Date().getTime());
         credentials.setType(EmailOTPAuthenticatorConstants.USR_CRED_MDL_OTP_EXP_TIME);
         credentials.setValue((expiringAt).toString());
