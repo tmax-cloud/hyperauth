@@ -48,7 +48,7 @@ public class SecurityPolicyAuthenticator implements Authenticator {
 
     @Override
     public void authenticate(AuthenticationFlowContext context) {
-        System.out.println("authenticate called ... User = " + context.getUser().getUsername());
+//        System.out.println("authenticate called ... User = " + context.getUser().getUsername());
 
         if (!isSecurityPolicyEnabled(context) ) {
             System.out.println("Bypassing Security Policy since disabled user [ " + context.getUser().getUsername() +" ]");
@@ -71,32 +71,31 @@ public class SecurityPolicyAuthenticator implements Authenticator {
 
     @Override
     public void action(AuthenticationFlowContext context) {
-        System.out.println("action called ... context = " + context);
+//        System.out.println("action called ... context = " + context);
         context.success();
     }
 
 
     @Override
     public boolean requiresUser() {
-        System.out.println("requiresUser called ... returning true");
+//        System.out.println("requiresUser called ... returning true");
         return true;
     }
 
     @Override
     public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) {
-        System.out.println("configuredFor called ... session=" + session + ", realm=" + realm + ", user=" + user);
-        System.out.println("... returning true");
+//        System.out.println("configuredFor called ... session=" + session + ", realm=" + realm + ", user=" + user);
+//        System.out.println("... returning true");
         return true;
     }
 
     @Override
     public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) {
-        System.out.println("setRequiredActions called ... session=" + session + ", realm=" + realm + ", user=" + user);
+//        System.out.println("setRequiredActions called ... session=" + session + ", realm=" + realm + ", user=" + user);
     }
 
     @Override
     public void close() {
-        System.out.println("close called ...");
+//        System.out.println("close called ...");
     }
-
 }
