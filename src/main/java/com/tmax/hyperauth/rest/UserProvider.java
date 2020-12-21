@@ -206,6 +206,9 @@ public class UserProvider implements RealmResourceProvider {
                 userOut.setCredentials(credentials);
             }
 
+            // User Attribute Data
+            userOut.setAttributes(user.getAttributes());
+
         	// Login Failure Data
             UserLoginFailureModel loginFailureModel = session.sessions().getUserLoginFailure(realm, user.getId());
             if ( loginFailureModel != null ){
@@ -216,16 +219,13 @@ public class UserProvider implements RealmResourceProvider {
                     disabled = session.getProvider(BruteForceProtector.class).isTemporarilyDisabled(session, realm, user);
                 }
                 // User Attribute Data
-                user.getAttributes().put("temporarilyDisabled", new ArrayList<>(Arrays.asList(String.valueOf(disabled))));
-                user.getAttributes().put("numFailures", new ArrayList<>(Arrays.asList(Integer.toString(loginFailureModel.getNumFailures()))));
-                user.getAttributes().put("lastIPFailure", new ArrayList<>(Arrays.asList(loginFailureModel.getLastIPFailure())));
-                user.getAttributes().put("lastFailure", new ArrayList<>(Arrays.asList(Long.toString(loginFailureModel.getLastFailure()))));
-                user.getAttributes().put("failedLoginNotBefore", new ArrayList<>(Arrays.asList(Integer.toString(loginFailureModel.getFailedLoginNotBefore()))));
-                user.getAttributes().put("remainSecond", new ArrayList<>(Arrays.asList( Long.toString( loginFailureModel.getFailedLoginNotBefore() - loginFailureModel.getLastFailure()/1000 ))));
+                userOut.getAttributes().put("temporarilyDisabled", new ArrayList<>(Arrays.asList(String.valueOf(disabled))));
+                userOut.getAttributes().put("numFailures", new ArrayList<>(Arrays.asList(Integer.toString(loginFailureModel.getNumFailures()))));
+                userOut.getAttributes().put("lastIPFailure", new ArrayList<>(Arrays.asList(loginFailureModel.getLastIPFailure())));
+                userOut.getAttributes().put("lastFailure", new ArrayList<>(Arrays.asList(Long.toString(loginFailureModel.getLastFailure()))));
+                userOut.getAttributes().put("failedLoginNotBefore", new ArrayList<>(Arrays.asList(Integer.toString(loginFailureModel.getFailedLoginNotBefore()))));
+                userOut.getAttributes().put("remainSecond", new ArrayList<>(Arrays.asList( Long.toString( loginFailureModel.getFailedLoginNotBefore() - loginFailureModel.getLastFailure()/1000 ))));
             }
-
-            // User Attribute Data
-            userOut.setAttributes(user.getAttributes());
 
             status = Status.OK;
         	return Util.setCors(status, userOut);        

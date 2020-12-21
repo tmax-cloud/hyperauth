@@ -56,7 +56,7 @@ public class SecurityPolicyAuthenticator implements Authenticator {
 //            context.challenge(context.form().createForm("test.ftl"));
             return;
         } else if ( !isSecurityPolicyPassed(context)) {
-            System.out.println("Security Policy Passed!! user [ " + context.getUser().getUsername() +" ]");
+            System.out.println("Security Policy Passed!!, user [ "+ context.getUser().getUsername() + " ]");
             context.success();
             return;
 
@@ -64,7 +64,7 @@ public class SecurityPolicyAuthenticator implements Authenticator {
             Response challenge =  context.form()
                     .setError("Blocked by Security Policy.").createForm("security-policy-validation-error.ftl");
             context.failureChallenge(AuthenticationFlowError.USER_DISABLED, challenge);
-            System.out.println("Blocked by Security Policy [ " + context.getUser().getUsername() +" ]");
+            System.out.println("Blocked by Security Policy!! , User[ " + context.getUser().getUsername() +" ]");
 
         }
     }
