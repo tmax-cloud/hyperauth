@@ -7,7 +7,7 @@
   - REGISTER : hypercloud4 기본 RoleBinding 생성
   - DELETE / USER : hypercloud4 기본 RoleBinding 삭제
   - LOGIN : Client당 한 유저가 로그인 session을 하나만 유지 하도록 하는 중복 로그인 방지 기능
-  - SEND_VERIFY_EMAIL : 5분 후에 체크해서 이메일을 인증하지 않은 유저를 삭제
+  - SEND_VERIFY_EMAIL : 5분 후에 체크해서 이메일을 인증하지 않은 유저를 삭제 
   
 - DB Extend SPI (CLIENT_AGREEMENT, EMAIL_VERIFICATION)
 
@@ -24,6 +24,15 @@
   - https://github.com/tmax-cloud/hypercloud-install-guide/tree/4.1/HyperAuth 
 - 최신이미지
   - https://hub.docker.com/repository/docker/tmaxcloudck/hyperauth 참고해서 가장 최신이미지 사용 권장
+  
+- IP Block (User Security Policy) 기능 추가
+  - Authentication - Bindings - Brower Flow : **browser with security policy** 선택
+  - IP Block 정책을 걸고자 하는 user에게 Attribute을 추가해준다.
+   1. ipBlock : true ( ipBlock 이라는 Attribute이 없거나, true가 아닌 값이면, 무조건 통과 )
+   2. ipPermitList : 192.168.6.196/16##172.22.6.2/24##172.21.6.3/24 
+    - 기본적으로 ipBlock이 true일때 만 동작 
+    - WhiteList 기반 관리
+    - 복수개의 CIDR를 등록시 ##으로 구분해서 추가
   
 - Extend API Server SPI
   - 아래의 API 문서 참조
