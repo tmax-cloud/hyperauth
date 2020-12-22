@@ -8,6 +8,9 @@
 - 최신이미지
   - https://hub.docker.com/repository/docker/tmaxcloudck/hyperauth 참고해서 가장 최신이미지 사용 권장
   
+- 최신 설정이 반영된 tmax realm json 파일
+  - https://github.com/tmax-cloud/hypercloud-install-guide/edit/master/HyperAuth/manifest/3.tmax-realm-export.json 사용
+  
 - EventListener SPI
   - 공통 : Audit Webhook Call
   - REGISTER : hypercloud4 기본 RoleBinding 생성
