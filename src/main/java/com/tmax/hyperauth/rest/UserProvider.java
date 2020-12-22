@@ -207,7 +207,9 @@ public class UserProvider implements RealmResourceProvider {
             }
 
             // User Attribute Data
-            userOut.setAttributes(user.getAttributes());
+            Map <String, List<String>> tempAttributes = new HashMap<>();
+            tempAttributes = user.getAttributes();
+            userOut.setAttributes(tempAttributes);
 
         	// Login Failure Data
             UserLoginFailureModel loginFailureModel = session.sessions().getUserLoginFailure(realm, user.getId());

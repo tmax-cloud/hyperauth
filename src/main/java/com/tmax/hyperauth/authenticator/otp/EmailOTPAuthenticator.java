@@ -1,5 +1,6 @@
 package com.tmax.hyperauth.authenticator.otp;
 
+import com.tmax.hyperauth.authenticator.securityPolicy.SecurityPolicyAuthenticatorUtil;
 import com.tmax.hyperauth.caller.Constants;
 import com.tmax.hyperauth.rest.Util;
 
@@ -8,13 +9,11 @@ import java.util.UUID;
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.authentication.Authenticator;
-import org.keycloak.credential.CredentialInput;
 import org.keycloak.credential.CredentialModel;
 import org.keycloak.models.*;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import java.sql.Time;
 import java.util.Date;
 import java.util.Random;
 
@@ -29,9 +28,25 @@ public class EmailOTPAuthenticator implements Authenticator {
         EXPIRED
     }
 
+    protected boolean isOTPEnabled(AuthenticationFlowContext context) {
+        boolean flag = false;
+        String otpEnabled = EmailOTPAuthenticatorUtil.getAttributeValue(context.getUser(), "otpEnable");
+        System.out.println("otpEnabled From Attribute : " + otpEnabled);
+        if (otpEnabled != null && otpEnabled.equalsIgnoreCase("true")){
+            flag = true;
+        }
+        return flag;
+    }
+
     @Override
     public void authenticate(AuthenticationFlowContext context) {
         System.out.println("authenticate called ... User = " + context.getUser().getUsername());
+
+        if (!isOTPEnabled(context) ) {
+            System.out.println("Bypassing OTP Authenticator since user [ " + context.getUser().getUsername() + " ] has not set OTP Authenticator");
+            context.success();
+            return;
+        }
 
         AuthenticatorConfigModel config = context.getAuthenticatorConfig();
         long nrOfDigits = EmailOTPAuthenticatorUtil.getConfigLong(config, EmailOTPAuthenticatorConstants.CONF_PRP_OTP_CODE_LENGTH, 6L);
