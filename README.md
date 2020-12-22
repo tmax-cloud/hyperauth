@@ -29,7 +29,7 @@
   
 - **API 정보**
 
-  - (API Documentation)[/APIDOC.md]
+  - [API Documentation](/APIDOC.md)
 
 # Feature
 
