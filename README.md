@@ -1,4 +1,4 @@
-# Info
+# HyperAuth Guide
 - **설치 가이드**
 
   - https://github.com/tmax-cloud/install-hyperauth
