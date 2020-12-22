@@ -2,6 +2,8 @@ package com.tmax.hyperauth.authenticator.otp;
 
 import com.tmax.hyperauth.caller.Constants;
 import com.tmax.hyperauth.rest.Util;
+
+import java.util.List;
 import java.util.UUID;
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
@@ -41,11 +43,11 @@ public class EmailOTPAuthenticator implements Authenticator {
         String code = getOTPCode(nrOfDigits);
         System.out.println("code : " + code);
 
-        storeOTPCode(context, code, new Date().getTime() + (ttl * 1000)); // s --> ms
+        storeOTPInfo(context, code, new Date().getTime() + (ttl * 1000)); // s --> ms
         System.out.println("OTP code Store Success");
 
         String subject = "[Tmax 통합계정] 로그인을 위해 인증번호를 입력해주세요.";
-        String msg = Constants.PASSWORD_VERIFY_CODE_BODY.replaceAll("%%VERIFY_CODE%%", code);
+        String msg = Constants.LOGIN_VERIFY_OTP_BODY.replaceAll("%%VERIFY_CODE%%", code);
         try {
             Util.sendMail(context.getSession(), context.getUser().getEmail(), subject, msg, null, null);
             Response challenge = context.form().createForm("email-otp-validation.ftl");
@@ -150,21 +152,35 @@ public class EmailOTPAuthenticator implements Authenticator {
         System.out.println("close called ...");
     }
 
-    private void storeOTPCode(AuthenticationFlowContext context, String code, Long expiringAt) {
+    private void storeOTPInfo(AuthenticationFlowContext context, String code, Long expiringAt) {
+        // For OTP Code
         CredentialModel credentials = new CredentialModel();
         credentials.setId(UUID.randomUUID().toString());
         credentials.setCreatedDate(new Date().getTime());
         credentials.setType(EmailOTPAuthenticatorConstants.USR_CRED_MDL_OTP_CODE);
         credentials.setCredentialData(code);
 
-        context.getSession().userCredentialManager().updateCredential(context.getRealm(), context.getUser(), credentials);
-//        context.getSession().users().updateCredential(context.getRealm(), context.getUser(), credentials);
+        // Delete Previous Credentials if Exists
+        List< CredentialModel > storedCredentials = context.getSession().userCredentialManager()
+                .getStoredCredentialsByType(context.getRealm(), context.getUser(), EmailOTPAuthenticatorConstants.USR_CRED_MDL_OTP_CODE);
+        removeCredentials(context, storedCredentials);
 
+        // Create New Credentials
+        context.getSession().userCredentialManager().createCredential(context.getRealm(), context.getUser(), credentials);
+
+        // For OTP Code TTL
         credentials.setId(UUID.randomUUID().toString());
         credentials.setCreatedDate(new Date().getTime());
         credentials.setType(EmailOTPAuthenticatorConstants.USR_CRED_MDL_OTP_EXP_TIME);
-        credentials.setValue((expiringAt).toString());
-        context.getSession().userCredentialManager().updateCredential(context.getRealm(), context.getUser(), credentials);
+        credentials.setCredentialData((expiringAt).toString());
+
+        // Delete Previous Credentials if Exists
+        storedCredentials = context.getSession().userCredentialManager()
+                .getStoredCredentialsByType(context.getRealm(), context.getUser(), EmailOTPAuthenticatorConstants.USR_CRED_MDL_OTP_EXP_TIME);
+        removeCredentials(context, storedCredentials);
+
+        // Create New Credentials
+        context.getSession().userCredentialManager().createCredential(context.getRealm(), context.getUser(), credentials);
     }
 
     private String getOTPCode(long nrOfDigits) {
@@ -176,6 +192,14 @@ public class EmailOTPAuthenticator implements Authenticator {
         Random r = new Random();
         long code = (long)(r.nextFloat() * maxValue);
         return Long.toString(code);
+    }
+
+    private void removeCredentials(AuthenticationFlowContext context, List< CredentialModel > storedCredentials) {
+        if ( storedCredentials != null && storedCredentials.size() > 0) {
+            for ( CredentialModel storedCredential : storedCredentials) {
+                context.getSession().userCredentialManager().removeStoredCredential(context.getRealm(), context.getUser(), storedCredential.getId());
+            }
+        }
     }
 
 
