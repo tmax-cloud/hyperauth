@@ -121,6 +121,7 @@
   Content-Type : application/json
   - BODY   
     - Update 하고 싶은 Attribute만 넣어주면 됨 
+    - UserWithdrawal Request시 입력할 필요 없음
   ```json
   {
     "attributes": {
@@ -138,6 +139,8 @@
 - 여러 Group의 관리자인 유저는 , 로 구분해서 띄워쓰기 없이 추가한다.
 - ex) key : isAdmin  |  value : groupA,groupB
 - 중간 관리자의 token에 isAdmin claim 이 추가 되어 있는지 확인한다. 
+  - clients의 Mapper로 등록 or Client Scopes의 등록을 통해서 token에 custom claim을 추가 할 수 있다.
+  - 참고 : https://www.keycloak.org/docs/latest/server_admin/#_clients
 
 ### GroupMemberCreate
   - URL  
