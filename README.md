@@ -29,12 +29,12 @@
   - 탈퇴 신청 한지 30일 이 된 유저를 지워줌
   - 매일 0시에 DeletionDate Attribute을 가진 유저중에 지워야하는 유저를 지워주는 CronJob 
 
-- Email OTP 기능 추가
+- Email OTP 2-factor 인증 기능 추가
   - Authentication - Bindings - Brower Flow : **Browser with EmailOTP** 선택
   - OTP 인증을 추가 하고 싶은 user에게 **otpEnable : true** Attribute을 추가해준다.
   - id /pw 입력하고 난 후, 메일전송이 완료되면, otp code를 입력하는 화면으로 전환된다.
   
-- IP Block (User Security Policy) 기능 추가
+- IP Block (User Security Policy) 인증 기능 추가
   - Authentication - Bindings - Brower Flow : **Browser with security policy** 선택
   - IP Block 정책을 걸고자 하는 user에게 Attribute을 추가해준다.
    1. **ipBlock : true** ( ipBlock 이라는 Attribute이 없거나, true가 아닌 값이면, 무조건 통과 )
@@ -42,6 +42,12 @@
     - 기본적으로 ipBlock이 true일때 만 동작 
     - WhiteList 기반 관리
     - 복수개의 CIDR를 등록시 ##으로 구분해서 추가
+    
+- Secret Question 2-factor 인증 기능 추가
+  - Authentication - Bindings - Brower Flow : **Browser with secret question** 선택
+  - Authentication - Required Actions : Secret Question 을 Enabled && Default Action으로 선택 ( 회원가입 or 미설정시 질문의 답을 추가하게 강제함 )
+  - 추가 질문에 답을 하는 인증을 추가 할 수 있음
+   ex) What is your mom's first name?   
   
 - Extend API Server SPI
   - 아래의 API 문서 참조
