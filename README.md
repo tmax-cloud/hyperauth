@@ -2,6 +2,12 @@
 - Keycloak 11.0.2 Based : hyperauth b1.0.10.0 부터
 - Keycloak 10.0.2 Based : hyperauth b1.0.9.29 버전까지
 
+- 설치 가이드 
+  - https://github.com/tmax-cloud/hypercloud-install-guide/tree/4.1/HyperAuth 
+  
+- 최신이미지
+  - https://hub.docker.com/repository/docker/tmaxcloudck/hyperauth 참고해서 가장 최신이미지 사용 권장
+  
 - EventListener SPI
   - 공통 : Audit Webhook Call
   - REGISTER : hypercloud4 기본 RoleBinding 생성
@@ -19,11 +25,6 @@
 - User Deletion CronJob
   - 탈퇴 신청 한지 30일 이 된 유저를 지워줌
   - 매일 0시에 DeletionDate Attribute을 가진 유저중에 지워야하는 유저를 지워주는 CronJob 
-  
-- 설치 가이드 
-  - https://github.com/tmax-cloud/hypercloud-install-guide/tree/4.1/HyperAuth 
-- 최신이미지
-  - https://hub.docker.com/repository/docker/tmaxcloudck/hyperauth 참고해서 가장 최신이미지 사용 권장
 
 - Email OTP 기능 추가
   - Authentication - Bindings - Brower Flow : **Browser with EmailOTP** 선택
