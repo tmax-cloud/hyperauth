@@ -29,7 +29,7 @@
   
 - **API 정보**
 
-  - https://github.com/tmax-cloud/hyperauth/blob/main/APIDOC.md
+  - (API Documentation)[/APIDOC.md]
 
 # Feature
 
