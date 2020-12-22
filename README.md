@@ -24,12 +24,17 @@
   - https://github.com/tmax-cloud/hypercloud-install-guide/tree/4.1/HyperAuth 
 - 최신이미지
   - https://hub.docker.com/repository/docker/tmaxcloudck/hyperauth 참고해서 가장 최신이미지 사용 권장
+
+- Email OTP 기능 추가
+  - Authentication - Bindings - Brower Flow : **Browser with EmailOTP** 선택
+  - OTP 인증을 추가 하고 싶은 user에게 **otpEnable : true** Attribute을 추가해준다.
+  - id /pw 입력하고 난 후, 메일전송이 완료되면, otp code를 입력하는 화면으로 전환된다.
   
 - IP Block (User Security Policy) 기능 추가
-  - Authentication - Bindings - Brower Flow : **browser with security policy** 선택
+  - Authentication - Bindings - Brower Flow : **Browser with security policy** 선택
   - IP Block 정책을 걸고자 하는 user에게 Attribute을 추가해준다.
-   1. ipBlock : true ( ipBlock 이라는 Attribute이 없거나, true가 아닌 값이면, 무조건 통과 )
-   2. ipPermitList : 192.168.6.196/16##172.22.6.2/24##172.21.6.3/24 
+   1. **ipBlock : true** ( ipBlock 이라는 Attribute이 없거나, true가 아닌 값이면, 무조건 통과 )
+   2. **ipPermitList : 192.168.6.196/16##172.22.6.2/24##172.21.6.3/24** 
     - 기본적으로 ipBlock이 true일때 만 동작 
     - WhiteList 기반 관리
     - 복수개의 CIDR를 등록시 ##으로 구분해서 추가
