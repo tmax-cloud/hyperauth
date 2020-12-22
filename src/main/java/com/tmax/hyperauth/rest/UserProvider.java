@@ -207,27 +207,26 @@ public class UserProvider implements RealmResourceProvider {
             }
 
             // User Attribute Data
-            Map <String, List<String>> tempAttributes = new HashMap<>();
-            tempAttributes = user.getAttributes();
-            userOut.setAttributes(tempAttributes);
+            userOut.setAttributes(user.getAttributes());
 
-        	// Login Failure Data
-            UserLoginFailureModel loginFailureModel = session.sessions().getUserLoginFailure(realm, user.getId());
-            if ( loginFailureModel != null ){
-                boolean disabled;
-                if (user == null) {
-                    disabled = Time.currentTime() < loginFailureModel.getFailedLoginNotBefore();
-                } else {
-                    disabled = session.getProvider(BruteForceProtector.class).isTemporarilyDisabled(session, realm, user);
-                }
-                // User Attribute Data
-                userOut.getAttributes().put("temporarilyDisabled", new ArrayList<>(Arrays.asList(String.valueOf(disabled))));
-                userOut.getAttributes().put("numFailures", new ArrayList<>(Arrays.asList(Integer.toString(loginFailureModel.getNumFailures()))));
-                userOut.getAttributes().put("lastIPFailure", new ArrayList<>(Arrays.asList(loginFailureModel.getLastIPFailure())));
-                userOut.getAttributes().put("lastFailure", new ArrayList<>(Arrays.asList(Long.toString(loginFailureModel.getLastFailure()))));
-                userOut.getAttributes().put("failedLoginNotBefore", new ArrayList<>(Arrays.asList(Integer.toString(loginFailureModel.getFailedLoginNotBefore()))));
-                userOut.getAttributes().put("remainSecond", new ArrayList<>(Arrays.asList( Long.toString( loginFailureModel.getFailedLoginNotBefore() - loginFailureModel.getLastFailure()/1000 ))));
-            }
+            // FIXME : 로그인 실패시 실패 정보를 보여주려고 의도한 건데, 자꾸 user Attribute에 저장되는 현상 발생, 아직 미해결
+//        	// Login Failure Data
+//            UserLoginFailureModel loginFailureModel = session.sessions().getUserLoginFailure(realm, user.getId());
+//            if ( loginFailureModel != null ){
+//                boolean disabled;
+//                if (user == null) {
+//                    disabled = Time.currentTime() < loginFailureModel.getFailedLoginNotBefore();
+//                } else {
+//                    disabled = session.getProvider(BruteForceProtector.class).isTemporarilyDisabled(session, realm, user);
+//                }
+//                // User Attribute Data
+//                userOut.getAttributes().put("temporarilyDisabled", new ArrayList<>(Arrays.asList(String.valueOf(disabled))));
+//                userOut.getAttributes().put("numFailures", new ArrayList<>(Arrays.asList(Integer.toString(loginFailureModel.getNumFailures()))));
+//                userOut.getAttributes().put("lastIPFailure", new ArrayList<>(Arrays.asList(loginFailureModel.getLastIPFailure())));
+//                userOut.getAttributes().put("lastFailure", new ArrayList<>(Arrays.asList(Long.toString(loginFailureModel.getLastFailure()))));
+//                userOut.getAttributes().put("failedLoginNotBefore", new ArrayList<>(Arrays.asList(Integer.toString(loginFailureModel.getFailedLoginNotBefore()))));
+//                userOut.getAttributes().put("remainSecond", new ArrayList<>(Arrays.asList( Long.toString( loginFailureModel.getFailedLoginNotBefore() - loginFailureModel.getLastFailure()/1000 ))));
+//            }
 
             status = Status.OK;
         	return Util.setCors(status, userOut);        
