@@ -78,7 +78,7 @@ public class EmailProvider implements RealmResourceProvider {
         }
 
         String code = Util.numberGen(6, 1);
-        System.out.println("code : " + code);
+//        System.out.println("code : " + code);
 
         //Create New Entity
         EmailVerification entity = new EmailVerification();

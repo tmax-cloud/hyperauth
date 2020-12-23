@@ -92,7 +92,7 @@ public class Util {
 		System.out.println( " host : "  + host );
 		System.out.println( " port : "  + port );
 		System.out.println( " un : "  + un );
-		System.out.println( " pw : "  + pw );
+//		System.out.println( " pw : "  + pw );
 
 		String charSetUtf = "UTF-8" ;
 		Properties props = System.getProperties();

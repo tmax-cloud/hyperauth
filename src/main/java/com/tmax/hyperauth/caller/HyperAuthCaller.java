@@ -67,11 +67,11 @@ public class HyperAuthCaller {
 	    String url = urlBuilder.build().toString();
 	    request = new Request.Builder().url(url).addHeader("Authorization", "Bearer " + token).get().build();
 	    
-		System.out.println(" request" + request.toString() );
+//		System.out.println(" request" + request.toString() );
 
 		Response response = client.newCall(request).execute();
 		String result = response.body().string();
-		System.out.println(" UserDetailResult : " + result);
+//		System.out.println(" UserDetailResult : " + result);
 		
 		Gson gson = new Gson();
 	    JsonObject resultJson = gson.fromJson(result, JsonObject.class);
@@ -109,7 +109,7 @@ public class HyperAuthCaller {
 
 		//Delete svc
 		HttpUrl.Builder urlBuilder = HttpUrl.parse(setHyperAuthURL( Constants.SERVICE_NAME_USER_DETAIL ) + userId).newBuilder();
-		System.out.println(" setHyperAuthURL(Constants.SERVICE_NAME_USER_DETAIL ) + userId" + setHyperAuthURL(Constants.SERVICE_NAME_USER_DETAIL ) + userId );
+//		System.out.println(" setHyperAuthURL(Constants.SERVICE_NAME_USER_DETAIL ) + userId" + setHyperAuthURL(Constants.SERVICE_NAME_USER_DETAIL ) + userId );
 
 		String url = urlBuilder.build().toString();
 		request = new Request.Builder().url(url).addHeader("Authorization", "Bearer " + token).delete().build();
@@ -137,11 +137,11 @@ public class HyperAuthCaller {
 		String url = urlBuilder.build().toString();
 		request = new Request.Builder().url(url).addHeader("Authorization", "Bearer " + token).get().build();
 
-		System.out.println(" request" + request.toString() );
+//		System.out.println(" request" + request.toString() );
 
 		Response response = client.newCall(request).execute();
 		String result = response.body().string();
-		System.out.println(" RealmInfoResult : " + result);
+//		System.out.println(" RealmInfoResult : " + result);
 
 		Gson gson = new Gson();
 		JsonObject realmInfoJson = gson.fromJson(result, JsonObject.class);

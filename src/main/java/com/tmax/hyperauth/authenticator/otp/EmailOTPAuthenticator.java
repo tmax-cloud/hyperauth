@@ -31,7 +31,7 @@ public class EmailOTPAuthenticator implements Authenticator {
     protected boolean isOTPEnabled(AuthenticationFlowContext context) {
         boolean flag = false;
         String otpEnabled = EmailOTPAuthenticatorUtil.getAttributeValue(context.getUser(), "otpEnable");
-        System.out.println("otpEnabled From Attribute : " + otpEnabled);
+        System.out.println("otpEnabled From Attribute : " + otpEnabled + ", user [ "+ context.getUser().getUsername() + " ]");
         if (otpEnabled != null && otpEnabled.equalsIgnoreCase("true")){
             flag = true;
         }
@@ -40,7 +40,7 @@ public class EmailOTPAuthenticator implements Authenticator {
 
     @Override
     public void authenticate(AuthenticationFlowContext context) {
-        System.out.println("authenticate called ... User = " + context.getUser().getUsername());
+//        System.out.println("authenticate called ... User = " + context.getUser().getUsername());
 
         if (!isOTPEnabled(context) ) {
             System.out.println("Bypassing OTP Authenticator since user [ " + context.getUser().getUsername() + " ] has not set OTP Authenticator");
@@ -50,16 +50,16 @@ public class EmailOTPAuthenticator implements Authenticator {
 
         AuthenticatorConfigModel config = context.getAuthenticatorConfig();
         long nrOfDigits = EmailOTPAuthenticatorUtil.getConfigLong(config, EmailOTPAuthenticatorConstants.CONF_PRP_OTP_CODE_LENGTH, 6L);
-        System.out.println("Using nrOfDigits " + nrOfDigits);
+        System.out.println("Using nrOfDigits " + nrOfDigits + ", user [ "+ context.getUser().getUsername() + " ]");
 
         long ttl = EmailOTPAuthenticatorUtil.getConfigLong(config, EmailOTPAuthenticatorConstants.CONF_PRP_OTP_CODE_TTL, 10 * 60L); // 10 minutes in s
-        System.out.println("Using ttl " + ttl + " (s)");
+        System.out.println("Using ttl " + ttl + " (s) , user [ "+ context.getUser().getUsername() + " ]");
 
         String code = getOTPCode(nrOfDigits);
-        System.out.println("code : " + code);
+        System.out.println("code : " + code + ", user [ "+ context.getUser().getUsername() + " ]");
 
         storeOTPInfo(context, code, new Date().getTime() + (ttl * 1000)); // s --> ms
-        System.out.println("OTP code Store Success");
+        System.out.println("OTP code Store Success , user [ "+ context.getUser().getUsername() + " ]");
 
         String subject = "[Tmax 통합계정] 로그인을 위해 인증번호를 입력해주세요.";
         String msg = Constants.LOGIN_VERIFY_OTP_BODY.replaceAll("%%VERIFY_CODE%%", code);
@@ -80,7 +80,7 @@ public class EmailOTPAuthenticator implements Authenticator {
 
     @Override
     public void action(AuthenticationFlowContext context) {
-        System.out.println("action called ... context = " + context);
+//        System.out.println("action called ... context = " + context);
         CODE_STATUS status = validateCode(context);
         Response challenge = null;
         switch (status) {
@@ -115,7 +115,7 @@ public class EmailOTPAuthenticator implements Authenticator {
     }
 
     protected CODE_STATUS validateCode(AuthenticationFlowContext context) {
-        System.out.println("validateCode called ... ");
+//        System.out.println("validateCode called ... ");
 
         CODE_STATUS result = CODE_STATUS.INVALID;
         MultivaluedMap<String, String> formData = context.getHttpRequest().getDecodedFormParameters();
@@ -126,13 +126,13 @@ public class EmailOTPAuthenticator implements Authenticator {
         String expTimeString = context.getSession().userCredentialManager().getStoredCredentialsByType(context.getRealm(), context.getUser(),
                 EmailOTPAuthenticatorConstants.USR_CRED_MDL_OTP_EXP_TIME).get(0).getCredentialData();
 
-        System.out.println("Expected code = " + expectedCode + "    entered code = " + enteredCode);
+        System.out.println("Expected code = " + expectedCode + "    entered code = " + enteredCode + ", user [ "+ context.getUser().getUsername() + " ]");
 
         if (expectedCode != null) {
             result = enteredCode.equals(expectedCode) ? CODE_STATUS.VALID : CODE_STATUS.INVALID;
             long now = new Date().getTime();
 
-            System.out.println("Valid code expires in " + (Long.parseLong(expTimeString) - now) + " ms");
+            System.out.println("Valid code expires in " + (Long.parseLong(expTimeString) - now) + " ms" + ", user [ "+ context.getUser().getUsername() + " ]");
             if (result == CODE_STATUS.VALID) {
                 if (Long.parseLong(expTimeString) < now) {
                     System.out.println("Code is expired !!");
@@ -140,31 +140,31 @@ public class EmailOTPAuthenticator implements Authenticator {
                 }
             }
         }
-        System.out.println("result : " + result);
+        System.out.println("validateCode result : " + result);
         return result;
     }
 
     @Override
     public boolean requiresUser() {
-        System.out.println("requiresUser called ... returning true");
+//        System.out.println("requiresUser called ... returning true");
         return true;
     }
 
     @Override
     public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) {
-        System.out.println("configuredFor called ... session=" + session + ", realm=" + realm + ", user=" + user);
-        System.out.println("... returning true");
+//        System.out.println("configuredFor called ... session=" + session + ", realm=" + realm + ", user=" + user);
+//        System.out.println("... returning true");
         return true;
     }
 
     @Override
     public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) {
-        System.out.println("setRequiredActions called ... session=" + session + ", realm=" + realm + ", user=" + user);
+//        System.out.println("setRequiredActions called ... session=" + session + ", realm=" + realm + ", user=" + user);
     }
 
     @Override
     public void close() {
-        System.out.println("close called ...");
+//        System.out.println("close called ...");
     }
 
     private void storeOTPInfo(AuthenticationFlowContext context, String code, Long expiringAt) {

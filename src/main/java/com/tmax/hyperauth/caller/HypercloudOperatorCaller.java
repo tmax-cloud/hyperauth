@@ -43,7 +43,7 @@ public class HypercloudOperatorCaller {
 	   
 		Response response = client.newCall(request).execute();
 		String result = response.body().string();
-		System.out.println("createNewUserRole result : " + result);
+//		System.out.println("createNewUserRole result : " + result);
 	    return result; 
 	}
 	
@@ -63,7 +63,7 @@ public class HypercloudOperatorCaller {
 	   
 		Response response = client.newCall(request).execute();
 		String result = response.body().string();
-		System.out.println("deleteNewUserRole result : " + result);
+//		System.out.println("deleteNewUserRole result : " + result);
 	    return result; 
 	}
 	

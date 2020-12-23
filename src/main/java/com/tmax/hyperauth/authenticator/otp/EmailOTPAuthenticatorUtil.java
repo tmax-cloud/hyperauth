@@ -46,7 +46,7 @@ public class EmailOTPAuthenticatorUtil {
             try {
                 value = Long.valueOf((String) obj); // s --> ms
             } catch (NumberFormatException nfe) {
-                System.out.println("Can not convert " + obj + " to a number.");
+                System.out.println("NumberFormatException : Can not convert " + obj + " to a number.");
             }
         }
 

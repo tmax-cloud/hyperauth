@@ -232,8 +232,8 @@ public class UserProvider implements RealmResourceProvider {
         	return Util.setCors(status, userOut);        
         }catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Exception " + e.getMessage());
             System.out.println("No Corresponding UserName");
+            System.out.println("Exception " + e.getMessage());
         	status = Status.BAD_REQUEST;
         	out = "No Corresponding UserName";
         	return Util.setCors(status, out);

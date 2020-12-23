@@ -19,7 +19,7 @@ public class SecurityPolicyAuthenticator implements Authenticator {
     protected boolean isSecurityPolicyEnabled(AuthenticationFlowContext context) {
         boolean flag = false;
         String isIpBLock = SecurityPolicyAuthenticatorUtil.getAttributeValue(context.getUser(), "ipBlock");
-        System.out.println("isSecurityPolicyEnabled From Attribute : " + isIpBLock);
+        System.out.println("isSecurityPolicyEnabled From User Attribute : " + isIpBLock + ", user [ "+ context.getUser().getUsername() + " ]");
         if (isIpBLock != null && isIpBLock.equalsIgnoreCase("true")){
             flag = true;
         }
@@ -30,7 +30,7 @@ public class SecurityPolicyAuthenticator implements Authenticator {
         List< String > ipPermitList = context.getUser().getAttribute("ipPermitList");
         if ( ipPermitList != null ){
             for (String ipPermit : ipPermitList) {
-                System.out.println("ipPermit From Attribute : " + ipPermit);
+                System.out.println("ipPermit From User Attribute : " + ipPermit + ", user [ "+ context.getUser().getUsername() + " ]");
                 SubnetUtils utils = null;
                 try{
                     utils = new SubnetUtils(ipPermit);

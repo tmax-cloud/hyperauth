@@ -51,13 +51,13 @@ public class EmailOTPAuthenticatorFactory implements AuthenticatorFactory, Confi
 
     @Override
     public String getId() {
-        System.out.println("getId called ... returning " + PROVIDER_ID);
+//        System.out.println("getId called ... returning " + PROVIDER_ID);
         return PROVIDER_ID;
     }
 
     @Override
     public Authenticator create(KeycloakSession session) {
-        System.out.println("create called ... returning " + SINGLETON);
+//        System.out.println("create called ... returning " + SINGLETON);
         return SINGLETON;
     }
 
@@ -68,19 +68,19 @@ public class EmailOTPAuthenticatorFactory implements AuthenticatorFactory, Confi
     };
     @Override
     public AuthenticationExecutionModel.Requirement[] getRequirementChoices() {
-        System.out.println("getRequirementChoices called ... returning " + REQUIREMENT_CHOICES);
+//        System.out.println("getRequirementChoices called ... returning " + REQUIREMENT_CHOICES);
         return REQUIREMENT_CHOICES;
     }
 
     @Override
     public boolean isUserSetupAllowed() {
-        System.out.println("isUserSetupAllowed called ... returning true");
+//        System.out.println("isUserSetupAllowed called ... returning true");
         return true;
     }
 
     @Override
     public boolean isConfigurable() {
-        System.out.println("isConfigurable called ... returning true");
+//        System.out.println("isConfigurable called ... returning true");
         return true;
     }
 
@@ -94,36 +94,36 @@ public class EmailOTPAuthenticatorFactory implements AuthenticatorFactory, Confi
 
     @Override
     public String getHelpText() {
-        System.out.println("getHelpText called ...");
+//        System.out.println("getHelpText called ...");
         return "Email Based OTP Authenticator";
     }
 
     @Override
     public String getDisplayType() {
-        System.out.println("getDisplayType called ... returning Email OTP");
+//        System.out.println("getDisplayType called ... returning Email OTP");
         return "Email OTP";
     }
 
     @Override
     public String getReferenceCategory() {
-        System.out.println("getReferenceCategory called ... returning email-otp");
+//        System.out.println("getReferenceCategory called ... returning email-otp");
         return "email-otp";
     }
 
     @Override
     public void init(Config.Scope config) {
-        System.out.println("init called ... config.scope = " + config);
+//        System.out.println("init called ... config.scope = " + config);
     }
 
     @Override
     public void postInit(KeycloakSessionFactory factory) {
-        System.out.println("postInit called ... factory = " + factory);
+//        System.out.println("postInit called ... factory = " + factory);
 
     }
 
     @Override
     public void close() {
-        System.out.println("close called ...");
+//        System.out.println("close called ...");
     }
 }
 
