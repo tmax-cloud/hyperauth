@@ -16,6 +16,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.util.Date;
 import java.util.Random;
+import org.keycloak.services.messages.Messages;
 
 /**
  * @author taegeon_woo@tmax.co.kr

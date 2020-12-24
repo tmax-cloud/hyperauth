@@ -27,6 +27,7 @@ public class SecurityPolicyAuthenticator implements Authenticator {
     }
 
     protected boolean isSecurityPolicyPassed(AuthenticationFlowContext context) {
+        System.out.println("User [ "+ context.getUser().getUsername() + " ] Login from IP Address : " + context.getConnection().getRemoteAddr());
         List< String > ipPermitList = context.getUser().getAttribute("ipPermitList");
         if ( ipPermitList != null ){
             for (String ipPermit : ipPermitList) {
@@ -34,10 +35,16 @@ public class SecurityPolicyAuthenticator implements Authenticator {
                 SubnetUtils utils = null;
                 try{
                     utils = new SubnetUtils(ipPermit);
+                    utils.setInclusiveHostCount(true);
                 }catch(IllegalArgumentException e) {
                     System.out.println("Invalid CIDR syntax : " + ipPermit);
                     return false;
                 }
+                // for test
+                for ( String adress :  utils.getInfo().getAllAddresses()){
+                    System.out.println(adress);
+                }
+                // for test
                 if (utils.getInfo().isInRange(context.getConnection().getRemoteAddr())){
                     return true;
                 }
