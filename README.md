@@ -67,7 +67,7 @@
 - **사용자 비밀번호 관련 기능**
   - 사용자가 자신의 비밀번호 변경 기능 (자신의 Token 필요)
   - 비밀번호 찾기 기능 (인증 코드를 Email으로 발송)
-- **BCrypt Password Hash 알고리즘 추가
+- **BCrypt Password Hash 알고리즘 추가**
   - keycloak이 기본적으로 제공하는 pbkdf2-sha256 알고리즘 외에 BCrypt 알고리즘을 이용해 password를 hashing 할 수 있게 지원
   - Authentication > Password Policy : Add Policy > **Hashing Algorithm : bcrypt** 입력
   - 참고 : pbkdf2-sha256 혹은 Bcrypt hash 알고리즘을 사용한 외부 인증 서버로 부터는 비밀번호 migration을 지원가능
