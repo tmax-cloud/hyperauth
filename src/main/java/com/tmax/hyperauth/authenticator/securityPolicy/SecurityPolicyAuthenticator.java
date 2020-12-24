@@ -41,9 +41,9 @@ public class SecurityPolicyAuthenticator implements Authenticator {
                     return false;
                 }
                 // for test
-                for ( String adress :  utils.getInfo().getAllAddresses()){
-                    System.out.println(adress);
-                }
+//                for ( String address :  utils.getInfo().getAllAddresses()){
+//                    System.out.println(address);
+//                }
                 // for test
                 if (utils.getInfo().isInRange(context.getConnection().getRemoteAddr())){
                     return true;
@@ -62,7 +62,7 @@ public class SecurityPolicyAuthenticator implements Authenticator {
             context.success();
 //            context.challenge(context.form().createForm("test.ftl"));
             return;
-        } else if ( !isSecurityPolicyPassed(context)) {
+        } else if ( isSecurityPolicyPassed(context)) {
             System.out.println("Security Policy Passed!!, user [ "+ context.getUser().getUsername() + " ]");
             context.success();
             return;
