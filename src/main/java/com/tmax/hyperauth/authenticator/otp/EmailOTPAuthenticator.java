@@ -87,7 +87,7 @@ public class EmailOTPAuthenticator implements Authenticator {
         switch (status) {
             case EXPIRED:
                 challenge =  context.form()
-                        .setError("code is expired")
+                        .setError("인증번호 유효시간이 만료 되었습니다.")
                         .createForm("email-otp-validation.ftl");
                 context.failureChallenge(AuthenticationFlowError.EXPIRED_CODE, challenge);
                 break;
@@ -99,7 +99,7 @@ public class EmailOTPAuthenticator implements Authenticator {
                     context.attempted();
                 } else if(context.getExecution().getRequirement() == AuthenticationExecutionModel.Requirement.REQUIRED) {
                     challenge =  context.form()
-                            .setError("badCode")
+                            .setError("인증번호가 틀렸습니다.")
                             .createForm("email-otp-validation.ftl");
                     context.failureChallenge(AuthenticationFlowError.INVALID_CREDENTIALS, challenge);
                 } else {
