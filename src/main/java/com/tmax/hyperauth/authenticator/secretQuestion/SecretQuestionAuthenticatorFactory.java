@@ -48,11 +48,13 @@ public class SecretQuestionAuthenticatorFactory implements AuthenticatorFactory,
 
     @Override
     public boolean isConfigurable() {
+        System.out.println("return Secret Configurable true ");
         return true;
     }
 
     @Override
     public List<ProviderConfigProperty> getConfigProperties() {
+        System.out.println("return Secret ConfigProperties ");
         return configProperties;
     }
 

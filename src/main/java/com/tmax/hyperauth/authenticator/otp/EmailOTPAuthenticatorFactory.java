@@ -20,35 +20,6 @@ public class EmailOTPAuthenticatorFactory implements AuthenticatorFactory, Confi
     public static final String PROVIDER_ID = "email-otp-authenticator ";
     private static final EmailOTPAuthenticator SINGLETON = new EmailOTPAuthenticator();
 
-    private static final List<ProviderConfigProperty> configProperties = new ArrayList<ProviderConfigProperty>();
-
-    static {
-        // OTP CODE TTL
-        ProviderConfigProperty property;
-        property = new ProviderConfigProperty();
-        property.setName(EmailOTPAuthenticatorConstants.CONF_PRP_OTP_CODE_TTL);
-        property.setLabel("OTP code time to live");
-        property.setType(ProviderConfigProperty.STRING_TYPE);
-        property.setHelpText("The validity of the sent code in seconds.");
-        configProperties.add(property);
-
-        // OTP CODE LENGTH
-        property = new ProviderConfigProperty();
-        property.setName(EmailOTPAuthenticatorConstants.CONF_PRP_OTP_CODE_LENGTH);
-        property.setLabel("Length of the OTP code");
-        property.setType(ProviderConfigProperty.STRING_TYPE);
-        property.setHelpText("Length of the SMS code.");
-        configProperties.add(property);
-
-        // OTP Text
-        property = new ProviderConfigProperty();
-        property.setName(EmailOTPAuthenticatorConstants.CONF_PRP_OTP_TEXT);
-        property.setLabel("Template of text to send to the user");
-        property.setType(ProviderConfigProperty.STRING_TYPE);
-        property.setHelpText("Use %sms-code% as placeholder for the generated SMS code.");
-        configProperties.add(property);
-    }
-
     @Override
     public String getId() {
 //        System.out.println("getId called ... returning " + PROVIDER_ID);
@@ -80,17 +51,44 @@ public class EmailOTPAuthenticatorFactory implements AuthenticatorFactory, Confi
 
     @Override
     public boolean isConfigurable() {
-//        System.out.println("isConfigurable called ... returning true");
+        System.out.println("return EmailOTP Configurable true ");
         return true;
     }
 
     @Override
     public List<ProviderConfigProperty> getConfigProperties() {
+        System.out.println("return EmailOTP ConfigProperties ");
         return configProperties;
     }
 
+    private static final List<ProviderConfigProperty> configProperties = new ArrayList<ProviderConfigProperty>();
 
+    static {
+        // OTP CODE TTL
+        ProviderConfigProperty property;
+        property = new ProviderConfigProperty();
+        property.setName(EmailOTPAuthenticatorConstants.CONF_PRP_OTP_CODE_TTL);
+        property.setLabel("OTP code time to live");
+        property.setType(ProviderConfigProperty.STRING_TYPE);
+        property.setHelpText("The validity of the sent code in seconds.");
+        configProperties.add(property);
 
+        // OTP CODE LENGTH
+        property = new ProviderConfigProperty();
+        property.setName(EmailOTPAuthenticatorConstants.CONF_PRP_OTP_CODE_LENGTH);
+        property.setLabel("Length of the OTP code");
+        property.setType(ProviderConfigProperty.STRING_TYPE);
+        property.setHelpText("Length of the SMS code.");
+        configProperties.add(property);
+
+        // OTP Text
+        property = new ProviderConfigProperty();
+        property.setName(EmailOTPAuthenticatorConstants.CONF_PRP_OTP_TEXT);
+        property.setLabel("Template of text to send to the user");
+        property.setType(ProviderConfigProperty.STRING_TYPE);
+        property.setHelpText("Use %sms-code% as placeholder for the generated SMS code.");
+        configProperties.add(property);
+    }
 
     @Override
     public String getHelpText() {
