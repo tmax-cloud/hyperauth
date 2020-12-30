@@ -28,7 +28,7 @@
     - https://github.com/tmax-cloud/install-hyperauth/blob/main/manifest/3.tmax-realm-export.json
     
 - **정책**
-  - Attribute Key-Value 정책 (공통 및 고정)
+  - User Attribute Key-Value 값 (공통 및 고정)
     - USER
       - 사용자의 username은 attribute으로 관리
         - user_name : 한글/영어
