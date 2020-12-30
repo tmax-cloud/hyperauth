@@ -26,6 +26,20 @@
     - Keycloak 11.0.2  :  b1.0.10.0 ~ latest
   - TmaxRealm.json
     - https://github.com/tmax-cloud/install-hyperauth/blob/main/manifest/3.tmax-realm-export.json
+    
+- **정책**
+  - Attribute Key-Value 정책 (공통 및 고정)
+    - USER
+      - 사용자의 username은 attribute으로 관리
+        - user_name : 한글/영어
+        - user_name_ko : 한글
+        - user_name_en : 영어
+    - AGREEMENT
+      - Hyperauth의 선택 약관
+        - agreeMailOpt : true / false
+      - Client별 최초 로그인시 약관
+        - agree_ischecked_{ClientName} : true 
+          - ex) agree_ischecked_portal : true / agree_ischecked_hypermeeting : true
   
 - **API 정보**
 
