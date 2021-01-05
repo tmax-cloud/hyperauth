@@ -26,6 +26,20 @@
     - Keycloak 11.0.2  :  b1.0.10.0 ~ latest
   - TmaxRealm.json
     - https://github.com/tmax-cloud/install-hyperauth/blob/main/manifest/3.tmax-realm-export.json
+    
+- **정책**
+  - User Attribute Key-Value 값 (공통 및 고정)
+    - USER
+      - 사용자의 username은 attribute으로 관리
+        - user_name : 한글/영어
+        - user_name_ko : 한글
+        - user_name_en : 영어
+    - AGREEMENT
+      - Hyperauth의 선택 약관
+        - agreeMailOpt : true / false
+      - Client별 최초 로그인시 약관
+        - agree_ischecked_{ClientName} : true 
+          - ex) agree_ischecked_portal : true / agree_ischecked_hypermeeting : true
   
 - **API 정보**
 
@@ -39,7 +53,7 @@
 - **중복 Login 방지 기능**
   - 한 유저의 Client당 로그인 session을 하나만 유지
 - **회원 가입 시 Email 인증 기능**
-  - 가입 5분 후, 이메일 인증을 수행하지 않은 사용자 정보 삭제 
+  - 가입 10분 후, 이메일 인증을 수행하지 않은 사용자 정보 삭제 
 
 - **Client 별 약관 CRUD 기능**
 
@@ -67,5 +81,9 @@
 - **사용자 비밀번호 관련 기능**
   - 사용자가 자신의 비밀번호 변경 기능 (자신의 Token 필요)
   - 비밀번호 찾기 기능 (인증 코드를 Email으로 발송)
+- **BCrypt Password Hash 알고리즘 추가**
+  - keycloak이 기본적으로 제공하는 pbkdf2-sha256 알고리즘 외에 BCrypt 알고리즘을 이용해 password를 hashing 할 수 있게 지원
+  - Authentication > Password Policy : Add Policy > **Hashing Algorithm : bcrypt** 입력
+  - 참고 : pbkdf2-sha256 혹은 Bcrypt hash 알고리즘을 사용한 외부 인증 서버로 부터는 비밀번호 migration을 지원가능
 
   

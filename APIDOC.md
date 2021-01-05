@@ -336,7 +336,7 @@
 ## AGREEMENT  
 
 - 이용약관 중, 선택동의 약관의 경우 user의 attribute에 아래 key를 추가 (공통)
-  - agreeMailOpt : {clientName}
+  - agreeMailOpt : true
   
   - #### Create/Update
 
