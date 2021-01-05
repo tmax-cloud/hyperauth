@@ -21,6 +21,7 @@ import org.keycloak.protocol.oidc.TokenManager;
 import org.keycloak.representations.AccessToken;
 import org.keycloak.services.ErrorResponseException;
 import org.keycloak.services.Urls;
+import org.keycloak.services.managers.BruteForceProtector;
 import org.keycloak.services.resource.RealmResourceProvider;
 
 import javax.persistence.EntityManager;
@@ -145,6 +146,15 @@ public class PasswordProvider implements RealmResourceProvider {
                     UserCredentialModel.password(password, false));
             System.out.println("Change Password Success");
 
+            // If Locked, Disable Temporary lock
+            UserModel userModel = session.users().getUserByEmail(email, session.realms().getRealmByName("tmax"));
+            if (session.getProvider(BruteForceProtector.class).isTemporarilyDisabled(session, realm, userModel)){
+                UserLoginFailureModel loginFailureModel = session.sessions()
+                        .getUserLoginFailure(realm, session.users().getUserByEmail(email, session.realms().getRealmByName("tmax")).getId());
+                loginFailureModel.clearFailures();
+            }
+
+            // Remove DB data
             if ( StringUtil.isNotEmpty(code) && StringUtil.isEmpty(tokenString)){
                 for ( EmailVerification emailCode : emailCodeList ){
                     getEntityManager().remove(emailCode);
