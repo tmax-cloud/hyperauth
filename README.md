@@ -31,6 +31,10 @@
   - User Attribute Key-Value 값 (공통 및 고정)
     - 현재사용중인 Key
       - **user_name**
+      - **ipBlock**
+      - **ipPermitList**
+      - **isAdmin**
+      - **otpEnable**
       - **agreeMailOpt**
       - **agree_ischecked_portal**
       - **agree_ischecked_hypermeeting**
@@ -85,6 +89,7 @@
     - ipBlock attribute 가 true 일때, ipPermitList의 **IP(CIDR)에 대한 접근 허용**
     - 복수개의 CIDR를 등록시 ##으로 구분해서 추가
 - **그룹 관리자 관련 기능**
+  - 그룹 관리자는 그룹에 속해 있어야 하고, attribute으로 isAdmin : {groupName} 을 가지고 있어야 한다.
   - 그룹 하위 사용자들에 대한 CRU 기능
   - 기 사용자를 그룹에 초대하는 기능
   - 그룹에 대한 생성, 그룹 관리자로 승격은 HyperAuth 관리자가 직접 제어
