@@ -29,17 +29,31 @@
     
 - **정책**
   - User Attribute Key-Value 값 (공통 및 고정)
+    - 현재사용중인 Key
+      - **user_name**
+      - **ipBlock**
+      - **ipPermitList**
+      - **isAdmin**
+      - **otpEnable**
+      - **agreeMailOpt**
+      - **agree_ischecked_portal**
+      - **agree_ischecked_hypermeeting**
+      - **agreeAdvPortalOpt**
+      - **agreeAdvHyperMeetingOpt**
     - USER
       - 사용자의 username은 attribute으로 관리
         - user_name : 한글/영어
         - user_name_ko : 한글
         - user_name_en : 영어
     - AGREEMENT
-      - Hyperauth의 선택 약관
+      - Hyperauth(공통)의 선택 약관
         - agreeMailOpt : true / false
       - Client별 최초 로그인시 약관
         - agree_ischecked_{ClientName} : true 
           - ex) agree_ischecked_portal : true / agree_ischecked_hypermeeting : true
+      - Client별 수신동의 (선택약관)
+        - agree{항목종류}{ClientName}Opt : true/false
+          - ex) agreeAdvPortalOpt : true / agreeAdvHyperMeetingOpt : true
   
 - **API 정보**
 
@@ -75,6 +89,7 @@
     - ipBlock attribute 가 true 일때, ipPermitList의 **IP(CIDR)에 대한 접근 허용**
     - 복수개의 CIDR를 등록시 ##으로 구분해서 추가
 - **그룹 관리자 관련 기능**
+  - 그룹 관리자는 그룹에 속해 있어야 하고, attribute으로 isAdmin : {groupName} 을 가지고 있어야 한다.
   - 그룹 하위 사용자들에 대한 CRU 기능
   - 기 사용자를 그룹에 초대하는 기능
   - 그룹에 대한 생성, 그룹 관리자로 승격은 HyperAuth 관리자가 직접 제어
