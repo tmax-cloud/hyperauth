@@ -15,7 +15,7 @@ import org.quartz.impl.StdSchedulerFactory;
  */
 
 public class HyperauthEventListenerProviderFactory implements EventListenerProviderFactory {
-    private EventsConsumer consumer;
+//    private EventsConsumer consumer;
 
     @Override
     public EventListenerProvider create(KeycloakSession keycloakSession) {
@@ -24,12 +24,12 @@ public class HyperauthEventListenerProviderFactory implements EventListenerProvi
 
     @Override
     public void init(Config.Scope scope) {
-        System.out.println("Setting up Event provider factory");
-        this.consumer = new EventsConsumer(new JMSSender(
-                scope.get(ProviderConstants.JMS_CONNECTION_FACTORY),
-                scope.get(ProviderConstants.JMS_EVENT_TOPIC),
-                scope.get(ProviderConstants.JMS_ADMIN_EVENT_TOPIC)
-        ));
+//        System.out.println("Setting up Event provider factory");
+//        this.consumer = new EventsConsumer(new JMSSender(
+//                scope.get(ProviderConstants.JMS_CONNECTION_FACTORY),
+//                scope.get(ProviderConstants.JMS_EVENT_TOPIC),
+//                scope.get(ProviderConstants.JMS_ADMIN_EVENT_TOPIC)
+//        ));
     }
 
     @Override
@@ -51,12 +51,12 @@ public class HyperauthEventListenerProviderFactory implements EventListenerProvi
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.consumer.init(); // TODO
+//        this.consumer.init(); // TODO
     }
 
     @Override
     public void close() {
-        this.consumer.shutdown();
+//        this.consumer.shutdown();
     }
 
     @Override
