@@ -1,19 +1,19 @@
 package com.tmax.hyperauth.eventlistener.provider;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Timer;
+import java.util.*;
 
 import javax.ws.rs.core.Context;
 
 import com.tmax.hyperauth.caller.HypercloudWebhookCaller;
+import com.tmax.hyperauth.eventlistener.queue.QueueHolder;
 import org.jboss.logging.Logger;
 import org.keycloak.email.EmailTemplateProvider;
 import org.keycloak.events.Event;
 import org.keycloak.events.EventListenerProvider;
+import org.keycloak.events.EventType;
 import org.keycloak.events.admin.AdminEvent;
+import org.keycloak.events.admin.ResourceType;
 import org.keycloak.models.KeycloakSession;
 
 import com.google.gson.JsonObject;
@@ -34,14 +34,40 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
     @Context
     private KeycloakSession session;
 
+    private static final Set<EventType> INCLUDED_EVENTS = new HashSet<>();
+    private static final Set<ResourceType> INCLUDED_ADMIN_EVENTS = new HashSet<>();
+
+    static {
+        INCLUDED_EVENTS.add(EventType.REMOVE_FEDERATED_IDENTITY);
+//        INCLUDED_EVENTS.add(EventType.REGISTER);
+//        INCLUDED_EVENTS.add(EventType.CLIENT_REGISTER);
+//        INCLUDED_EVENTS.add(EventType.CLIENT_DELETE);
+//
+//        INCLUDED_ADMIN_EVENTS.add(ResourceType.GROUP);
+//        INCLUDED_ADMIN_EVENTS.add(ResourceType.GROUP_MEMBERSHIP);
+//        INCLUDED_ADMIN_EVENTS.add(ResourceType.REALM);
+//        INCLUDED_ADMIN_EVENTS.add(ResourceType.REALM_ROLE);
+//        INCLUDED_ADMIN_EVENTS.add(ResourceType.REALM_ROLE_MAPPING);
+//        INCLUDED_ADMIN_EVENTS.add(ResourceType.USER);
+//        INCLUDED_ADMIN_EVENTS.add(ResourceType.CLIENT);
+//        INCLUDED_ADMIN_EVENTS.add(ResourceType.CLIENT_ROLE);
+//        INCLUDED_ADMIN_EVENTS.add(ResourceType.CLIENT_ROLE_MAPPING);
+    }
+
     public HyperauthEventListenerProvider(KeycloakSession session) {
         this.session = session;
     }
 
     @Override
     public void onEvent(Event event) {
+
+//        queueEvent(event);
+
         String userName = "";
         System.out.println("Event Occurred:" + toString(event));
+        System.out.println("Start kafka");
+        Producer.publishEvent(event.getType().toString(), event.getUserId());
+
         if (event.getRealmId().equalsIgnoreCase("tmax")) {
             switch (event.getType().toString()) {
                 case "REGISTER":
@@ -128,7 +154,10 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
     }
 
     @Override
-    public void onEvent(AdminEvent adminEvent, boolean b) {
+    public void onEvent(AdminEvent adminEvent, boolean includeRepresentation) {
+
+//        queueAdminEvent(adminEvent, includeRepresentation);
+
         System.out.println("Admin Event Occurred:" + toString(adminEvent));
         // when user registered by admin, operator call for new role 
         if (adminEvent.getOperationType().toString().equalsIgnoreCase("CREATE")
@@ -162,6 +191,39 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
     @Override
     public void close() {
 
+    }
+
+    /**
+     * put keycloak event onto queue
+     *
+     * @param event
+     */
+    private void queueEvent(Event event) {
+        try {
+            if (INCLUDED_EVENTS.contains(event.getType())) {
+                QueueHolder.getQueue().put(new HyperauthEvent<>(event));
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            System.out.println("Interrupted while putting event");
+        }
+    }
+
+    /**
+     * put keycloak admin event onto queue
+     *
+     * @param adminEvent
+     * @param includeRepresentation
+     */
+    private void queueAdminEvent(AdminEvent adminEvent, boolean includeRepresentation) {
+        try {
+            if (INCLUDED_ADMIN_EVENTS.contains(adminEvent.getResourceType())) {
+                QueueHolder.getQueue().put(new HyperauthEvent<>(adminEvent));
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            System.out.println("Interrupted while putting admin event");
+        }
     }
 
     private EventDataObject.Eventlists makeAuditEvent(String verb, String username, String reason, int code) {

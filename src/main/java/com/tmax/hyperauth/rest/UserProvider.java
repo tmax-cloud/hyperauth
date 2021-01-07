@@ -1,7 +1,6 @@
 package com.tmax.hyperauth.rest;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.*;
 
 import javax.ws.rs.*;
@@ -17,7 +16,6 @@ import org.keycloak.TokenVerifier;
 import org.keycloak.common.ClientConnection;
 import org.keycloak.common.VerificationException;
 import org.keycloak.common.util.ObjectUtil;
-import org.keycloak.common.util.Time;
 import org.keycloak.crypto.SignatureProvider;
 import org.keycloak.crypto.SignatureVerifierContext;
 import org.keycloak.events.EventBuilder;
@@ -33,7 +31,6 @@ import org.keycloak.representations.idm.UserRepresentation;
 import org.keycloak.services.ErrorResponse;
 import org.keycloak.services.ErrorResponseException;
 import org.keycloak.services.Urls;
-import org.keycloak.services.managers.BruteForceProtector;
 import org.keycloak.services.resource.RealmResourceProvider;
 
 import com.tmax.hyperauth.caller.HypercloudOperatorCaller;
@@ -291,7 +288,7 @@ public class UserProvider implements RealmResourceProvider {
 
             try {
                 session.users().removeUser(realm, userModel);
-                event.event(EventType.REMOVE_FEDERATED_IDENTITY).user(userModel).realm("tmax").success();
+                event.event(EventType.REMOVE_FEDERATED_IDENTITY).user(userModel).realm("tmax").success(); // FIXME
                 System.out.println("Delete user role in k8s");
                 HypercloudOperatorCaller.deleteNewUserRole(userName);
 
@@ -374,6 +371,8 @@ public class UserProvider implements RealmResourceProvider {
                     String msg = Constants.ACCOUNT_WITHDRAWAL_REQUEST_BODY;
                     Util.sendMail(session, email, subject, msg, null, null );
                     out = " User [" + userName + "] WithDrawal Request Success ";
+                    event.event(EventType.REMOVE_FEDERATED_IDENTITY).user(userModel).realm("tmax").detail("username", userName).success(); //FIXME
+
                 } else {
                     for ( String key : rep.getAttributes().keySet()) {
                         System.out.println("[key] : " + key + " || [value] : " + userModel.getAttribute(key) + " ==> " + rep.getAttributes().get(key));
@@ -381,8 +380,8 @@ public class UserProvider implements RealmResourceProvider {
                         userModel.setAttribute(key, rep.getAttributes().get(key));
                     }
                     out = " User [" + userName + "] Update Success ";
+                    event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).success();
                 }
-                event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).success();
                 status = Status.OK;
             } catch (Exception e) {
                 status = Status.BAD_REQUEST;
