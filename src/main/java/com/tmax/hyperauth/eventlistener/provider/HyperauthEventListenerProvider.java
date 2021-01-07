@@ -65,8 +65,7 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
 
         String userName = "";
         System.out.println("Event Occurred:" + toString(event));
-        System.out.println("Start kafka");
-        Producer.publishEvent(event.getType().toString(), event.getUserId());
+        Producer.publishEvent("tmax", event.toString());
 
         if (event.getRealmId().equalsIgnoreCase("tmax")) {
             switch (event.getType().toString()) {
