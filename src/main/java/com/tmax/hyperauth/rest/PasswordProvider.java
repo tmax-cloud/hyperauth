@@ -113,25 +113,10 @@ public class PasswordProvider implements RealmResourceProvider {
                 status = Status.BAD_REQUEST;
                 out = "Empty Password";
                 return Util.setCors(status, out);
-            } else if (!Pattern.compile("[^ ]{9,}").matcher(password).matches()) {
+            } else if (!Pattern.compile("^(?:(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)|(?=.*[a-z])(?=.*[A-Z])(?=.*[$@$!%*?&])|(?=.*[a-z])(?=.*\\d)(?=.*[$@$!%*?&])|(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&]))[A-Za-z\\d$@$!%*?&]{9,}$")
+                    .matcher(password).matches()) {
                 status = Status.BAD_REQUEST;
-                out = "Invalid password: minimum length 9.";
-                return Util.setCors(status, out);
-            } else if (!Pattern.compile(".*[a-z].*").matcher(password).matches()) {
-                status = Status.BAD_REQUEST;
-                out = "Invalid password: must contain at least 1 lower case characters.";
-                return Util.setCors(status, out);
-            } else if (!Pattern.compile(".*[A-Z].*").matcher(password).matches()) {
-                status = Status.BAD_REQUEST;
-                out = "Invalid password: must contain at least 1 upper case characters.";
-                return Util.setCors(status, out);
-            } else if (!Pattern.compile(".*\\d.*").matcher(password).matches()) {
-                status = Status.BAD_REQUEST;
-                out = "Invalid password: must contain at least 1 numerical digits.";
-                return Util.setCors(status, out);
-            } else if (!Pattern.compile(".*[!@#$%^&*].*").matcher(password).matches()) {
-                status = Status.BAD_REQUEST;
-                out = "Invalid password: must contain at least 1 special characters.";
+                out = "Invalid password: violate the password policy";
                 return Util.setCors(status, out);
             } else if (!password.equalsIgnoreCase(confirmPassword)){
                 status = Status.BAD_REQUEST;
