@@ -17,7 +17,7 @@ public class Producer {
         resetThreadContext();
         // create the producer
 
-        KafkaProducer<String, String> producer = new KafkaProducer<String, String>(getProperties());
+        KafkaProducer<String, String> producer = new KafkaProducer<>(getProperties());
         // create a producer record
         ProducerRecord<String, String> eventRecord =
                 new ProducerRecord<String, String>(topic, value);

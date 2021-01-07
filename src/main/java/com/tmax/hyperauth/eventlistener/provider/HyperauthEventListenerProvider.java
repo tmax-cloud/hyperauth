@@ -65,7 +65,7 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
 
         String userName = "";
         System.out.println("Event Occurred:" + toString(event));
-        Producer.publishEvent("tmax", event.toString());
+        Producer.publishEvent("tmax", toString(event));
 
         if (event.getRealmId().equalsIgnoreCase("tmax")) {
             switch (event.getType().toString()) {
