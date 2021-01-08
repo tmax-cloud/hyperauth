@@ -1,5 +1,6 @@
 package com.tmax.hyperauth.eventlistener.provider;
 
+import com.google.gson.Gson;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -12,15 +13,18 @@ public class Producer {
 
     private final static String BOOTSTRAP_SERVER = "kafkas.hyperauth:9092";
 
-    public static void publishEvent(String topic, String value){
+    public static void publishEvent(String topic, Object value){
         //reset thread context
         resetThreadContext();
         // create the producer
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(getProperties());
         // create a producer record
+        Gson gson = new Gson();
+        String jsonValue = gson.toJson(value);
+
         ProducerRecord<String, String> eventRecord =
-                new ProducerRecord<String, String>(topic, value);
+                new ProducerRecord<String, String>(topic, jsonValue);
 
         // send data - asynchronous
         producer.send(eventRecord);

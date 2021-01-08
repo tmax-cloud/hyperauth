@@ -55,7 +55,7 @@ public class UserDeleteJob implements Job {
 
                             // Topic Event Publish
                             EventDataObject.Item item = EventDataObject.makeTopicEvent("USER_DELETE", userRepresentation.getUsername(), "success", 200 );
-                            Producer.publishEvent("tmax", EventDataObject.toString(item));
+                            Producer.publishEvent("tmax", item);
 
                             System.out.println(" [UserDelete Job] User [ " + userRepresentation.getUsername() + " ] Delete Success ");
                         }

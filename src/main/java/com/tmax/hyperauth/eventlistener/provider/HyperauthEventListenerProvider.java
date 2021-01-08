@@ -124,11 +124,11 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                 case "UPDATE_PROFILE":
                     if (event.getDetails().get("userWithdrawal").equalsIgnoreCase("t")){
                         EventDataObject.Item item = EventDataObject.makeTopicEvent("USER_WITHDRAWAL", event.getDetails().get("username"), "success", 200 );
-                        Producer.publishEvent("tmax", EventDataObject.toString(item));
+                        Producer.publishEvent("tmax", item);
 
                     }else if( event.getDetails().get("userDelete").equalsIgnoreCase("t")){
                         EventDataObject.Item item = EventDataObject.makeTopicEvent("USER_DELETE", event.getDetails().get("username"), "success", 200 );
-                        Producer.publishEvent("tmax", EventDataObject.toString(item));
+                        Producer.publishEvent("tmax", item);
                     }
                     break;
             }
@@ -164,7 +164,7 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
 
                 // Topic Event
                 EventDataObject.Item item = EventDataObject.makeTopicEvent("USER_DELETE", user.get("username").toString().replaceAll("\"", ""), "success", 200 );
-                Producer.publishEvent("tmax", EventDataObject.toString(item));
+                Producer.publishEvent("tmax", item);
             } catch (IOException e) {
                 e.printStackTrace();
             }
