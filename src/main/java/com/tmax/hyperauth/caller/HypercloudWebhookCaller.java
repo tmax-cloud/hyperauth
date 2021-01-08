@@ -1,7 +1,7 @@
 package com.tmax.hyperauth.caller;
 
 import com.google.gson.Gson;
-import com.tmax.hyperauth.eventlistener.provider.EventDataObject;
+import com.tmax.hyperauth.eventlistener.provider.AuditEvent;
 
 import javax.net.ssl.*;
 import java.io.*;
@@ -9,7 +9,6 @@ import java.net.URL;
 import java.security.KeyStore;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
 
 
 public class HypercloudWebhookCaller {
@@ -21,7 +20,7 @@ public class HypercloudWebhookCaller {
 	}
 
 	
-	public static void auditAuthentication(EventDataObject.Eventlists event) throws Exception {
+	public static void auditAuthentication(AuditEvent.Eventlists event) throws Exception {
 		System.out.println(" [Hypercloud4-webhook] Call Hypercloud4 webhook Audit Authentiaction POST Service" );
 
 		Gson gson = new Gson();

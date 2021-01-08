@@ -19,10 +19,10 @@ public class Producer {
         // create the producer
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(getProperties());
+
         // create a producer record
         Gson gson = new Gson();
         String jsonValue = gson.toJson(value);
-
         ProducerRecord<String, String> eventRecord =
                 new ProducerRecord<String, String>(topic, jsonValue);
 
@@ -44,6 +44,7 @@ public class Producer {
         properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER);
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        properties.setProperty(ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG, "1000");
         return properties;
     }
 }

@@ -5,13 +5,10 @@ import java.util.*;
 
 import javax.ws.rs.core.Context;
 
-import com.tmax.hyperauth.caller.HypercloudWebhookCaller;
 import org.jboss.logging.Logger;
 import org.keycloak.events.Event;
 import org.keycloak.events.EventListenerProvider;
-import org.keycloak.events.EventType;
 import org.keycloak.events.admin.AdminEvent;
-import org.keycloak.events.admin.ResourceType;
 import org.keycloak.models.KeycloakSession;
 
 import com.google.gson.JsonObject;
@@ -54,7 +51,7 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                 case "LOGIN":
                     if (event.getClientId().equalsIgnoreCase("hypercloud4")
                             && event.getDetails().get("response_type") == null) {
-                        EventDataObject.Eventlists loginEvent = makeAuditEvent("login", event.getDetails().get("username"), "success", 200);
+                        AuditEvent.Eventlists loginEvent = makeAuditEvent("login", event.getDetails().get("username"), "success", 200);
                         try {
 //                            HypercloudWebhookCaller.auditAuthentication(loginEvent);
                         } catch (Exception e) {
@@ -78,7 +75,7 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                     break;
                 case "LOGIN_ERROR":
                     if (event.getClientId() != null && event.getClientId().equalsIgnoreCase("hypercloud4")) {
-                        EventDataObject.Eventlists loginErrorEvent = makeAuditEvent("login failed", event.getDetails().get("username"), event.getError(), 400);
+                        AuditEvent.Eventlists loginErrorEvent = makeAuditEvent("login failed", event.getDetails().get("username"), event.getError(), 400);
                         try {
 //                            HypercloudWebhookCaller.auditAuthentication(loginErrorEvent);
                         } catch (Exception e) {
@@ -88,7 +85,7 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                     break;
                 case "LOGOUT":
                     userName = session.users().getUserById(event.getUserId(), session.realms().getRealmByName("tmax")).getUsername();
-                    EventDataObject.Eventlists logoutEvent = makeAuditEvent("logout", userName, "success", 200);
+                    AuditEvent.Eventlists logoutEvent = makeAuditEvent("logout", userName, "success", 200);
                     try {
 //                        HypercloudWebhookCaller.auditAuthentication(logoutEvent);
                     } catch (Exception e) {
@@ -123,11 +120,11 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                     break;
                 case "UPDATE_PROFILE":
                     if (event.getDetails().get("userWithdrawal").equalsIgnoreCase("t")){
-                        EventDataObject.Item item = EventDataObject.makeTopicEvent("USER_WITHDRAWAL", event.getDetails().get("username"), "success", 200 );
+                        TopicEvent.Item item = TopicEvent.makeTopicEvent("USER_WITHDRAWAL", event.getDetails().get("username"), "success", 200 );
                         Producer.publishEvent("tmax", item);
 
                     }else if( event.getDetails().get("userDelete").equalsIgnoreCase("t")){
-                        EventDataObject.Item item = EventDataObject.makeTopicEvent("USER_DELETE", event.getDetails().get("username"), "success", 200 );
+                        TopicEvent.Item item = TopicEvent.makeTopicEvent("USER_DELETE", event.getDetails().get("username"), "success", 200 );
                         Producer.publishEvent("tmax", item);
                     }
                     break;
@@ -163,7 +160,7 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                 HypercloudOperatorCaller.deleteNewUserRole(user.get("username").toString().replaceAll("\"", ""));
 
                 // Topic Event
-                EventDataObject.Item item = EventDataObject.makeTopicEvent("USER_DELETE", user.get("username").toString().replaceAll("\"", ""), "success", 200 );
+                TopicEvent.Item item = TopicEvent.makeTopicEvent("USER_DELETE", user.get("username").toString().replaceAll("\"", ""), "success", 200 );
                 Producer.publishEvent("tmax", item);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -176,15 +173,15 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
 
     }
 
-    private EventDataObject.Eventlists makeAuditEvent(String verb, String username, String reason, int code) {
-        EventDataObject.Eventlists event = new EventDataObject.Eventlists();
-        List<EventDataObject.Item> items = new ArrayList<>();
-        EventDataObject.Item item = new EventDataObject.Item();
+    private AuditEvent.Eventlists makeAuditEvent(String verb, String username, String reason, int code) {
+        AuditEvent.Eventlists event = new AuditEvent.Eventlists();
+        List<AuditEvent.Item> items = new ArrayList<>();
+        AuditEvent.Item item = new AuditEvent.Item();
         item.setVerb(verb);
-        EventDataObject.User user = new EventDataObject.User();
+        AuditEvent.User user = new AuditEvent.User();
         user.setUsername(username);
         item.setUser(user);
-        EventDataObject.ResponseStatus responseStatus = new EventDataObject.ResponseStatus();
+        AuditEvent.ResponseStatus responseStatus = new AuditEvent.ResponseStatus();
         responseStatus.setReason(reason);
         responseStatus.setCode(code);
         item.setResponseStatus(responseStatus);
