@@ -13,31 +13,31 @@ import java.util.concurrent.TimeUnit;
 public class Producer {
     private final static String BOOTSTRAP_SERVER = "kafkas.hyperauth:9092";
     public static void publishEvent(String topic, Object value){
-        //reset thread context
-        resetThreadContext();
-
-        // create the producer
-        KafkaProducer<String, String> producer = new KafkaProducer<>(getProperties());
-
-        // create a producer record
-        Gson gson = new Gson();
-        String jsonValue = gson.toJson(value);
-        ProducerRecord<String, String> eventRecord =
-                new ProducerRecord<String, String>(topic, jsonValue);
-
-        // send data - asynchronous
-        try {
-            producer.send(eventRecord, (metadata, exception) -> {
-                if (exception != null) {
-                    exception.printStackTrace();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            producer.flush();
-            producer.close();
-        }
+//        //reset thread context
+//        resetThreadContext();
+//
+//        // create the producer
+//        KafkaProducer<String, String> producer = new KafkaProducer<>(getProperties());
+//
+//        // create a producer record
+//        Gson gson = new Gson();
+//        String jsonValue = gson.toJson(value);
+//        ProducerRecord<String, String> eventRecord =
+//                new ProducerRecord<String, String>(topic, jsonValue);
+//
+//        // send data - asynchronous
+//        try {
+//            producer.send(eventRecord, (metadata, exception) -> {
+//                if (exception != null) {
+//                    exception.printStackTrace();
+//                }
+//            });
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            producer.flush();
+//            producer.close();
+//        }
     }
 
     private static void resetThreadContext() {
@@ -49,7 +49,7 @@ public class Producer {
         properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER);
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        properties.setProperty(ProducerConfig.MAX_BLOCK_MS_CONFIG, "5000");
+        properties.setProperty(ProducerConfig.MAX_BLOCK_MS_CONFIG, "5000"); // Wait 5Seconds until producer.send() timeout
         return properties;
     }
 }
