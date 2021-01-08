@@ -288,7 +288,7 @@ public class UserProvider implements RealmResourceProvider {
 
             try {
                 session.users().removeUser(realm, userModel);
-                event.event(EventType.REMOVE_FEDERATED_IDENTITY).user(userModel).realm("tmax").success(); // FIXME
+                event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).detail("userDelete","t").success(); //FIXME
                 System.out.println("Delete user role in k8s");
                 HypercloudOperatorCaller.deleteNewUserRole(userName);
 
@@ -371,8 +371,7 @@ public class UserProvider implements RealmResourceProvider {
                     String msg = Constants.ACCOUNT_WITHDRAWAL_REQUEST_BODY;
                     Util.sendMail(session, email, subject, msg, null, null );
                     out = " User [" + userName + "] WithDrawal Request Success ";
-                    event.event(EventType.REMOVE_FEDERATED_IDENTITY).user(userModel).realm("tmax").detail("username", userName).success(); //FIXME
-
+                    event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).detail("userWithdrawal","t").success(); //FIXME
                 } else {
                     for ( String key : rep.getAttributes().keySet()) {
                         System.out.println("[key] : " + key + " || [value] : " + userModel.getAttribute(key) + " ==> " + rep.getAttributes().get(key));

@@ -46,10 +46,17 @@ public class UserDeleteJob implements Job {
                                 && user.getAsJsonObject().get("enabled").toString().replace("\"","").equalsIgnoreCase("false")){
                             System.out.println(" [UserDelete Job] User [ " + userRepresentation.getUsername() + " ] Delete Start ");
                             HyperAuthCaller.deleteUser(userRepresentation.getId(), accessToken);
+
+                            // Mail Send
                             String email = userRepresentation.getEmail();
                             String subject = "[Tmax 통합서비스] 고객님의 계정 탈퇴가 완료되었습니다.";
                             String msg = Constants.ACCOUNT_WITHDRAWAL_APPROVAL_BODY;
                             Util.sendMail(null, email, subject, msg, null, null );
+
+                            // Topic Event Publish
+                            EventDataObject.Item item = EventDataObject.makeTopicEvent("USER_DELETE", userRepresentation.getUsername(), "success", 200 );
+                            Producer.publishEvent("tmax", EventDataObject.toString(item));
+
                             System.out.println(" [UserDelete Job] User [ " + userRepresentation.getUsername() + " ] Delete Success ");
                         }
                     }

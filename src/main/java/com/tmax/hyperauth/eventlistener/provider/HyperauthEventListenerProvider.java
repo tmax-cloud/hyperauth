@@ -39,7 +39,6 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
     public void onEvent(Event event) {
         String userName = "";
         System.out.println("Event Occurred:" + toString(event));
-        Producer.publishEvent("tmax", toString(event));
 
         if (event.getRealmId().equalsIgnoreCase("tmax")) {
             switch (event.getType().toString()) {
@@ -122,6 +121,16 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                         }
                     }, interval, email);
                     break;
+                case "UPDATE_PROFILE":
+                    if (event.getDetails().get("userWithdrawal").equalsIgnoreCase("t")){
+                        EventDataObject.Item item = EventDataObject.makeTopicEvent("USER_WITHDRAWAL", event.getDetails().get("username"), "success", 200 );
+                        Producer.publishEvent("tmax", EventDataObject.toString(item));
+
+                    }else if( event.getDetails().get("userDelete").equalsIgnoreCase("t")){
+                        EventDataObject.Item item = EventDataObject.makeTopicEvent("USER_DELETE", event.getDetails().get("username"), "success", 200 );
+                        Producer.publishEvent("tmax", EventDataObject.toString(item));
+                    }
+                    break;
             }
         }
     }
@@ -179,6 +188,8 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
         event.setItems(items);
         return event;
     }
+
+
 
     private String toString(Event event) {
         StringBuilder sb = new StringBuilder();
