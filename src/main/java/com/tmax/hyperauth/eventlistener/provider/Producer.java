@@ -36,10 +36,8 @@ public class Producer {
             e.printStackTrace();
         } finally {
             producer.flush();
-            producer.close(1000, TimeUnit.MILLISECONDS);
+            producer.close();
         }
-//        producer.send(eventRecord);
-
     }
 
     private static void resetThreadContext() {
@@ -51,7 +49,7 @@ public class Producer {
         properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER);
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        properties.setProperty(ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG, "5000");
+        properties.setProperty(ProducerConfig.MAX_BLOCK_MS_CONFIG, "5000");
         return properties;
     }
 }
