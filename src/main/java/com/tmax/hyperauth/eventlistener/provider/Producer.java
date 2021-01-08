@@ -8,16 +8,15 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import org.keycloak.events.Event;
 
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 public class Producer {
-
     private final static String BOOTSTRAP_SERVER = "kafkas.hyperauth:9092";
-
     public static void publishEvent(String topic, Object value){
         //reset thread context
         resetThreadContext();
-        // create the producer
 
+        // create the producer
         KafkaProducer<String, String> producer = new KafkaProducer<>(getProperties());
 
         // create a producer record
@@ -27,12 +26,20 @@ public class Producer {
                 new ProducerRecord<String, String>(topic, jsonValue);
 
         // send data - asynchronous
-        producer.send(eventRecord);
+        try {
+            producer.send(eventRecord, (metadata, exception) -> {
+                if (exception != null) {
+                    exception.printStackTrace();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            producer.flush();
+            producer.close(1000, TimeUnit.MILLISECONDS);
+        }
+//        producer.send(eventRecord);
 
-        // flush data
-        producer.flush();
-        // flush and close producer
-        producer.close();
     }
 
     private static void resetThreadContext() {
@@ -44,7 +51,7 @@ public class Producer {
         properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER);
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        properties.setProperty(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, "2000");
+        properties.setProperty(ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG, "5000");
         return properties;
     }
 }
