@@ -161,6 +161,10 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                 String accessToken = HyperAuthCaller.loginAsAdmin();
                 JsonObject user = HyperAuthCaller.getUser(adminEvent.getResourcePath().toString().substring(6), accessToken.replaceAll("\"", ""));
                 HypercloudOperatorCaller.deleteNewUserRole(user.get("username").toString().replaceAll("\"", ""));
+
+                // Topic Event
+                EventDataObject.Item item = EventDataObject.makeTopicEvent("USER_DELETE", user.get("username").toString().replaceAll("\"", ""), "success", 200 );
+                Producer.publishEvent("tmax", EventDataObject.toString(item));
             } catch (IOException e) {
                 e.printStackTrace();
             }
