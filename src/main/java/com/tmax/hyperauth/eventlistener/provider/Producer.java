@@ -10,7 +10,7 @@ import java.util.Properties;
 
 public class Producer {
 
-    private final static String BOOTSTRAP_SERVER = "hyperauth.hyperauth:9092";
+    private final static String BOOTSTRAP_SERVER = "kafka-service.hyperauth:9092";
 
     public static void publishEvent(String topic, String value){
         //reset thread context
