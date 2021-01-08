@@ -44,7 +44,7 @@ public class Producer {
         properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER);
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        properties.setProperty(ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG, "1000");
+        properties.setProperty(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, "2000");
         return properties;
     }
 }
