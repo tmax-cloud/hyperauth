@@ -15,7 +15,8 @@ public class Constants {
 	public static final String SERVICE_NAME_REALM_DETAIL = "auth/admin/realms/";
 
 	// Oauth 
-	public static final String HYPERAUTH_URL = "http://hyperauth.hyperauth";
+//	public static final String HYPERAUTH_URL = "http://hyperauth.hyperauth";
+	public static final String HYPERAUTH_URL = "http://hyperauth.hyperauth2";  //FIXME : for testauth
 
 	// html
 	public static final String REGISTER_MAIL_BODY = "<!DOCTYPE html>\n" +
