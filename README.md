@@ -6,11 +6,14 @@
   - **Topic Consumer가이드**
     - [TopicConsumerExample.java](src/main/java/com/tmax/hyperauth/eventlistener/consumer/EventConsumer.java)
       - TODO 부분 수행해서 GROUP_ID_CONFIG를 각 hyperauth client name으로 수정
-      - 현재 Publish 중인 Event
+      - Hyperauth가 설치된 k8s cluster 외부에서 Subscribe 하는 경우
+        - BOOTSTRAP_SERVERS_CONFIG를 kafkas svc의 nodeport ip:port로 수정
+        - ex) "http://172.22.6.2:32576"
+      - 현재 Publish 중인 Event (정책)
         - USER_WITHDRAWAL : 유저가 탈퇴 신청을 한 경우
         - USER_DELETE : 탈퇴 신청을 한 유저가 실제로 지워진 경우, Admin Console에서 Admin 권한으로 유저가 삭제된 경우
       - Topic Event 객체 (Json)
-        - 예시 : {"verb":"USER_DELETE","user":{"username":"asdf@tmax.co.kr"},"status":{"reason":"success","code":200}}
+        - ex) {"verb":"USER_DELETE","user":{"username":"asdf@tmax.co.kr"},"status":{"reason":"success","code":200}}
         - [TopicEvent.java](src/main/java/com/tmax/hyperauth/eventlistener/provider/TopicEvent.java)
     - https://cwiki.apache.org/confluence/display/KAFKA/Clients 
       - java외 다른 언어의 경우 참조할 것.
