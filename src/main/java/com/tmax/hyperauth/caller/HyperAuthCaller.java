@@ -51,10 +51,10 @@ public class HyperAuthCaller {
 	    
 //		System.out.println(" accessToken : " + resultJson.get("access_token").toString());
 
-	    return resultJson.get("2").toString().replace("\"","");
+	    return resultJson.get("access_token").toString().replace("\"","");
 	}
 
-	
+
 	public static JsonObject getUser(String userId, String token) throws IOException {
 		System.out.println(" [HyperAuth] HyperAuth Get User Detail Service" );
 
