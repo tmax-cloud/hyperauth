@@ -51,7 +51,7 @@ public class HyperAuthCaller {
 	    
 //		System.out.println(" accessToken : " + resultJson.get("access_token").toString());
 
-	    return resultJson.get("access_token").toString().replace("\"","");
+	    return resultJson.get("2").toString().replace("\"","");
 	}
 
 	
