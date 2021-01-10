@@ -2,6 +2,18 @@
 - **설치 가이드**
 
   - https://github.com/tmax-cloud/install-hyperauth
+    - kafka topic server 추가 설치의 경우, Step 4. Kafka Topic Server 설치 만 추가 수행하면 됨
+  - **Topic Consumer가이드**
+    - [TopicConsumerExample.java](src/main/java/com/tmax/hyperauth/eventlistener/consumer/EventConsumer.java)
+      - TODO 부분 수행해서 GROUP_ID_CONFIG를 각 hyperauth client name으로 수정
+      - 현재 Publish 중인 Event
+        - USER_WITHDRAWAL : 유저가 탈퇴 신청을 한 경우
+        - USER_DELETE : 탈퇴 신청을 한 유저가 실제로 지워진 경우, Admin Console에서 Admin 권한으로 유저가 삭제된 경우
+      - Topic Event 객체 (Json)
+        - 예시 : {"verb":"USER_DELETE","user":{"username":"asdf@tmax.co.kr"},"status":{"reason":"success","code":200}}
+        - [TopicEvent.java](src/main/java/com/tmax/hyperauth/eventlistener/provider/TopicEvent.java)
+    - https://cwiki.apache.org/confluence/display/KAFKA/Clients 
+      - java외 다른 언어의 경우 참조할 것.
   - **EmailOTP 2-factor 인증 기능 사용 가이드**
     - Authentication - Bindings - Brower Flow : **Browser with EmailOTP** 선택
     - OTP 인증을 추가 하고 싶은 user에게 **otpEnable : true** Attribute을 추가
