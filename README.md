@@ -3,6 +3,7 @@
 
   - https://github.com/tmax-cloud/install-hyperauth
     - kafka topic server 추가 설치의 경우, Step 4. Kafka Topic Server 설치 만 추가 수행하면 됨
+    
   - **Topic Consumer가이드**
     - [TopicConsumerExample.java](src/main/java/com/tmax/hyperauth/eventlistener/consumer/EventConsumer.java)
       - TODO 부분 수행해서 GROUP_ID_CONFIG를 각 hyperauth client name으로 수정
@@ -17,13 +18,16 @@
         - [TopicEvent.java](src/main/java/com/tmax/hyperauth/eventlistener/provider/TopicEvent.java)
     - https://cwiki.apache.org/confluence/display/KAFKA/Clients 
       - java외 다른 언어의 경우 참조할 것.
+      
   - **EmailOTP 2-factor 인증 기능 사용 가이드**
     - Authentication - Bindings - Brower Flow : **Browser with EmailOTP** 선택
     - OTP 인증을 추가 하고 싶은 user에게 **otpEnable : true** Attribute을 추가
     - id /pw 입력하고 난 후, 메일전송이 완료되면, otp code를 입력하는 화면으로 전환
+    
   - `SecretQuestion 2-factor 인증 기능 사용 가이드 `(Alpha)
     - Authentication - Bindings - Brower Flow : **Browser with secret question** 선택
     - Authentication - Required Actions : **Secret Question Enabled**, **Default Action**으로 선택하여 질문의 답을 추가하게 강제
+    
   - **IP 차단 기능 사용 가이드**
     - Authentication - Bindings - Brower Flow : **Browser with security policy** 선택
     - IP Block 정책을 걸고자 하는 user에게 Attribute을 추가
