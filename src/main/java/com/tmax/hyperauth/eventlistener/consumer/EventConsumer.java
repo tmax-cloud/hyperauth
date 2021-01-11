@@ -3,13 +3,11 @@ package com.tmax.hyperauth.eventlistener.consumer;
 import com.google.gson.Gson;
 import com.tmax.hyperauth.eventlistener.provider.HyperauthEventListenerProvider;
 import com.tmax.hyperauth.eventlistener.provider.TopicEvent;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.jboss.logging.Logger;
 
+import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
 
@@ -19,18 +17,19 @@ public class EventConsumer {
 
     public static void main(String[] args) {
         Properties properties = new Properties();
-        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "http://kafkas.hyperauth:9092");
+        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "http://kafkas.hyperauth:9092"); // k8s cluster 내부의 경우에 사용 , 외부에서 사용하는 경우 : http://{nodeIP}:32576
         properties.put(ConsumerConfig.ALLOW_AUTO_CREATE_TOPICS_CONFIG, false);
         properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, "hypercloud");   // TODO: Change group id to your Hyperauth client Name
         properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false"); //data 유실방지, 성능향상을 위해서는 true로 바꿔준다.
 
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(properties);
         consumer.subscribe(Collections.singletonList(TOPIC_NAME));
 
         while (true) {
-            ConsumerRecords<String, String> records = consumer.poll(500);
+            ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(1));
             for (ConsumerRecord<String, String> record : records) {
                 String s = record.topic();
                 if (TOPIC_NAME.equals(s)) {
@@ -59,8 +58,13 @@ public class EventConsumer {
                             break;
                     }
                 } else {
-                    throw new IllegalStateException("get message on topic " + record.topic());
+                    logger.error("get message on topic " + record.topic());
                 }
+            }
+            try{
+                consumer.commitSync();
+            }catch(CommitFailedException e){
+                logger.error("commit failed");
             }
         }
     }
