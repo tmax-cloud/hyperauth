@@ -7,6 +7,8 @@
   - **Topic Consumer가이드**
     - [TopicConsumerExample.java](src/main/java/com/tmax/hyperauth/eventlistener/consumer/EventConsumer.java)
       - TODO 부분 수행해서 GROUP_ID_CONFIG를 각 hyperauth client name으로 수정
+        - group id 별로 topic에 쌓인 데이터를 읽어가는 위치를 나타내는 offset이 달라짐
+        - 2 consumer가 한 group id를 공유할 경우, 데이터를 처리하지 못하는 경우 발생
       - Hyperauth가 설치된 k8s cluster 외부에서 Subscribe 하는 경우
         - BOOTSTRAP_SERVERS_CONFIG를 kafkas svc의 nodeport ip:port로 수정
         - ex) "http://172.22.6.2:32576"
