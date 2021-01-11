@@ -37,13 +37,13 @@ public class EventConsumer {
                     logger.info("[[ MESSAGE FROM TMAX TOPIC ]]");
                     logger.info(record.value());
                     Gson gson = new Gson();
-                    TopicEvent.Item topic = gson.fromJson(record.value(), TopicEvent.Item.class);
-                    switch (topic.getVerb()){
+                    TopicEvent.Event topicEvent = gson.fromJson(record.value(), TopicEvent.Event.class);
+                    switch (topicEvent.getVerb()){
                         case "USER_DELETE":
-                            logger.info("User [ " + topic.getUser().getUsername() + " ] Deleted !!");
+                            logger.info("User [ " + topicEvent.getUser().getUsername() + " ] Deleted !!");
                             break;
                         case "USER_WITHDRAWAL":
-                            logger.info("User [ " + topic.getUser().getUsername() + " ] Withdrawal request has been submitted !!");
+                            logger.info("User [ " + topicEvent.getUser().getUsername() + " ] Withdrawal request has been submitted !!");
                             break;
                         default:
                             logger.info("Unknown Event");

@@ -4,18 +4,6 @@ public class TopicEvent {
     public static class Event {
         private String kind = "Event";
         private String apiVersion = "audit.k8s.io/v1beta1";
-        private Item item;
-
-        public Item getItem() {
-            return item;
-        }
-
-        public void setItem(Item item) {
-            this.item = item;
-        }
-    }
-
-    public static class Item {
         private String verb;
 
         public User getUser() {
@@ -45,6 +33,7 @@ public class TopicEvent {
             this.verb = verb;
         }
     }
+
 
     public static class User {
         private String username;
@@ -81,16 +70,14 @@ public class TopicEvent {
 
     public static Event makeTopicEvent(String verb, String username, String reason, int code) {
         Event event = new Event();
-        Item item = new Item();
-        item.setVerb(verb);
+        event.setVerb(verb);
         User user = new User();
         user.setUsername(username);
-        item.setUser(user);
+        event.setUser(user);
         ResponseStatus status = new ResponseStatus();
         status.setReason(reason);
         status.setCode(code);
-        item.setResponseStatus(status);
-        event.setItem(item);
+        event.setResponseStatus(status);
         return event;
     }
 }
