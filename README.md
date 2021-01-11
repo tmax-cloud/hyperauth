@@ -10,7 +10,7 @@
       - Hyperauth가 설치된 k8s cluster 외부에서 Subscribe 하는 경우
         - BOOTSTRAP_SERVERS_CONFIG를 kafkas svc의 nodeport ip:port로 수정
         - ex) "http://172.22.6.2:32576"
-      - 현재 Publish 중인 Event (정책)
+      - 현재 Publish 중인 Event Verb (정책)
         - USER_WITHDRAWAL : 유저가 탈퇴 신청을 한 경우
         - USER_DELETE : 탈퇴 신청을 한 유저가 실제로 지워진 경우, Admin Console에서 Admin 권한으로 유저가 삭제된 경우
       - Topic Event 객체 (Json)
