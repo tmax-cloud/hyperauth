@@ -9,8 +9,8 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import java.util.Properties;
 
 public class Producer {
-    private final static String BOOTSTRAP_SERVER = "kafkas.hyperauth:9092";
-//    private final static String BOOTSTRAP_SERVER = "kafkas.hyperauth2:9092"; //FIXME : for testauth
+//    private final static String BOOTSTRAP_SERVER = "kafkas.hyperauth:9092";
+    private final static String BOOTSTRAP_SERVER = "kafkas.hyperauth2:9092"; //FIXME : for testauth
     public static void publishEvent(String topic, Object value){
         //reset thread context
         resetThreadContext();
