@@ -39,6 +39,15 @@ public class EventConsumer {
                     Gson gson = new Gson();
                     TopicEvent.Event topicEvent = gson.fromJson(record.value(), TopicEvent.Event.class);
                     switch (topicEvent.getVerb()){
+                        case "LOGIN":
+                            logger.info("User [ " + topicEvent.getUser().getUsername() + " ] Login !!");
+                            break;
+                        case "LOGOUT":
+                            logger.info("User [ " + topicEvent.getUser().getUsername() + " ] Logout !!");
+                            break;
+                        case "LOGIN_FAILED":
+                            logger.info("User [ " + topicEvent.getUser().getUsername() + " ] Login failed due to " + topicEvent.getResponseStatus().getReason());
+                            break;
                         case "USER_DELETE":
                             logger.info("User [ " + topicEvent.getUser().getUsername() + " ] Deleted !!");
                             break;

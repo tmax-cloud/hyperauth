@@ -53,6 +53,7 @@ public class UserDeleteJob implements Job {
                             Util.sendMail(null, email, subject, msg, null, null );
 
                             // Topic Event Publish
+
                             TopicEvent.Event topicEvent = TopicEvent.makeTopicEvent("USER_DELETE", userRepresentation.getUsername(), "Success", 200 );
                             Producer.publishEvent("tmax", topicEvent);
 
