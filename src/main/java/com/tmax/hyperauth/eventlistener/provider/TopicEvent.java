@@ -1,6 +1,20 @@
 package com.tmax.hyperauth.eventlistener.provider;
 
 public class TopicEvent {
+    public static class Event {
+        private String kind = "Event";
+        private String apiVersion = "audit.k8s.io/v1beta1";
+        private Item item;
+
+        public Item getItem() {
+            return item;
+        }
+
+        public void setItem(Item item) {
+            this.item = item;
+        }
+    }
+
     public static class Item {
         private String verb;
 
@@ -12,16 +26,16 @@ public class TopicEvent {
             this.user = user;
         }
 
-        public Status getStatus() {
-            return status;
+        public ResponseStatus getResponseStatus() {
+            return responseStatus;
         }
 
-        public void setStatus(Status status) {
-            this.status = status;
+        public void setResponseStatus(ResponseStatus responseStatus) {
+            this.responseStatus = responseStatus;
         }
 
         private User user;
-        private Status status;
+        private ResponseStatus responseStatus;
 
         public String getVerb() {
             return verb;
@@ -44,7 +58,7 @@ public class TopicEvent {
         }
     }
 
-    public static class Status {
+    public static class ResponseStatus {
         private String reason;
         private int code;
 
@@ -65,16 +79,18 @@ public class TopicEvent {
         }
     }
 
-    public static Item makeTopicEvent(String verb, String username, String reason, int code) {
+    public static Event makeTopicEvent(String verb, String username, String reason, int code) {
+        Event event = new Event();
         Item item = new Item();
         item.setVerb(verb);
         User user = new User();
         user.setUsername(username);
         item.setUser(user);
-        Status status = new Status();
+        ResponseStatus status = new ResponseStatus();
         status.setReason(reason);
         status.setCode(code);
-        item.setStatus(status);
-        return item;
+        item.setResponseStatus(status);
+        event.setItem(item);
+        return event;
     }
 }
