@@ -23,7 +23,7 @@ public class EventConsumer {
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, "hypercloud");   // TODO: Change group id to your Hyperauth client Name
         properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-        properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false"); //data 유실방지, 성능향상을 위해서는 true로 바꿔준다.
+        properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false"); //중복처리방지, 성능향상을 위해서는 true로 바꿔준다.
 
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(properties);
         consumer.subscribe(Collections.singletonList(TOPIC_NAME));
@@ -62,7 +62,7 @@ public class EventConsumer {
                 }
             }
             try{
-                consumer.commitSync();
+                consumer.commitSync(); // 중복 처리 방지
             }catch(CommitFailedException e){
                 logger.error("commit failed");
             }
