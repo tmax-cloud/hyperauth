@@ -11,9 +11,13 @@
         - BOOTSTRAP_SERVERS_CONFIG를 kafkas svc의 nodeport ip:port로 수정
         - ex) "http://172.22.6.2:32576"
       - Topic Event 객체 (Json)
-        - ex) {"verb":"USER_DELETE","user":{"username":"asdf@tmax.co.kr"},"status":{"reason":"success","code":200}}
+        - ex) {"kind":"Event","apiVersion":"audit.k8s.io/v1beta1","verb":"USER_DELETE","user":{"username":"admin@tmax.co.kr"},"responseStatus":{"reason":"Success","code":200}}
+        - ex) {"kind":"Event","apiVersion":"audit.k8s.io/v1beta1","verb":"LOGIN_FAILED","user":{"username":"admin@tmax.co.kr"},"responseStatus":{"reason":"invalid_user_credentials","code":400}}
         - [TopicEvent.java](src/main/java/com/tmax/hyperauth/eventlistener/provider/TopicEvent.java)
       - **현재 Publish 중인 Event Verb (정책)**
+        - LOGIN : 유저 로그인
+        - LOGOUT : 유저 로그아웃
+        - LOGIN_FAILED : 유저 로그인 실패 (reason에 실패 이유 존재)
         - USER_WITHDRAWAL : 유저가 탈퇴 신청을 한 경우
         - USER_DELETE : 탈퇴 신청을 한 유저가 실제로 지워진 경우, Admin Console에서 Admin 권한으로 유저가 삭제된 경우  
     - https://cwiki.apache.org/confluence/display/KAFKA/Clients 
