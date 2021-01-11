@@ -10,12 +10,12 @@
       - Hyperauth가 설치된 k8s cluster 외부에서 Subscribe 하는 경우
         - BOOTSTRAP_SERVERS_CONFIG를 kafkas svc의 nodeport ip:port로 수정
         - ex) "http://172.22.6.2:32576"
-      - 현재 Publish 중인 Event (정책)
-        - USER_WITHDRAWAL : 유저가 탈퇴 신청을 한 경우
-        - USER_DELETE : 탈퇴 신청을 한 유저가 실제로 지워진 경우, Admin Console에서 Admin 권한으로 유저가 삭제된 경우
       - Topic Event 객체 (Json)
         - ex) {"verb":"USER_DELETE","user":{"username":"asdf@tmax.co.kr"},"status":{"reason":"success","code":200}}
         - [TopicEvent.java](src/main/java/com/tmax/hyperauth/eventlistener/provider/TopicEvent.java)
+      - **현재 Publish 중인 Event Verb (정책)**
+        - USER_WITHDRAWAL : 유저가 탈퇴 신청을 한 경우
+        - USER_DELETE : 탈퇴 신청을 한 유저가 실제로 지워진 경우, Admin Console에서 Admin 권한으로 유저가 삭제된 경우  
     - https://cwiki.apache.org/confluence/display/KAFKA/Clients 
       - java외 다른 언어의 경우 참조할 것.
       
