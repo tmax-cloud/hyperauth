@@ -7,7 +7,6 @@ import com.tmax.hyperauth.caller.Constants;
 import com.tmax.hyperauth.caller.HyperAuthCaller;
 
 import com.tmax.hyperauth.rest.Util;
-import org.keycloak.models.KeycloakSession;
 import org.keycloak.representations.account.UserRepresentation;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -54,8 +53,8 @@ public class UserDeleteJob implements Job {
                             Util.sendMail(null, email, subject, msg, null, null );
 
                             // Topic Event Publish
-                            TopicEvent.Item item = TopicEvent.makeTopicEvent("USER_DELETE", userRepresentation.getUsername(), "success", 200 );
-                            Producer.publishEvent("tmax", item);
+                            TopicEvent.Event topicEvent = TopicEvent.makeTopicEvent("USER_DELETE", userRepresentation.getUsername(), "Success", 200 );
+                            Producer.publishEvent("tmax", topicEvent);
 
                             System.out.println(" [UserDelete Job] User [ " + userRepresentation.getUsername() + " ] Delete Success ");
                         }
