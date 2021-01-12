@@ -6,7 +6,7 @@ import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
 
-public class Producer implements Callback {
+public class Producer {
     private final static String BOOTSTRAP_SERVER = "kafkas.hyperauth:9092";
 //    private final static String BOOTSTRAP_SERVER = "kafkas.hyperauth2:9092"; //FIXME : for testauth
     public static void publishEvent(String topic, Object value){
@@ -28,6 +28,9 @@ public class Producer implements Callback {
                         producer.send(eventRecord, (metadata, exception) -> {
                             if (exception != null) {
                                 exception.printStackTrace();
+                                System.out.println("Failed to Send to Topic Server !!!!!");
+                                System.out.println("Failed to Send to Topic Server !!!!!");
+                                System.out.println("Failed to Send to Topic Server !!!!!");
                             }
                         });
                     } catch (Exception e) {
@@ -53,17 +56,17 @@ public class Producer implements Callback {
         return properties;
     }
 
-    @Override
-    public void onCompletion(RecordMetadata recordMetadata, Exception e) {
-        if (e != null){
-            System.out.println("Failed to Send to Topic Server !!!!!");
-            System.out.println("Failed to Send to Topic Server !!!!!");
-            System.out.println("Failed to Send to Topic Server !!!!!");
-        }else{
-            System.out.println("Send to Topic Server Success" );
-            System.out.println("TOPIC : " + recordMetadata.topic() + ", PARTITION : " + recordMetadata.partition() + ", OFFSET : " + recordMetadata.offset());
-        }
-    }
+//    @Override
+//    public void onCompletion(RecordMetadata recordMetadata, Exception e) {
+//        if (e != null){
+//            System.out.println("Failed to Send to Topic Server !!!!!");
+//            System.out.println("Failed to Send to Topic Server !!!!!");
+//            System.out.println("Failed to Send to Topic Server !!!!!");
+//        }else{
+//            System.out.println("Send to Topic Server Success" );
+//            System.out.println("TOPIC : " + recordMetadata.topic() + ", PARTITION : " + recordMetadata.partition() + ", OFFSET : " + recordMetadata.offset());
+//        }
+//    }
 }
 
 
