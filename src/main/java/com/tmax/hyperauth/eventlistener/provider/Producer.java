@@ -1,14 +1,12 @@
 package com.tmax.hyperauth.eventlistener.provider;
 
 import com.google.gson.Gson;
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
 
-public class Producer {
+public class Producer implements Callback {
     private final static String BOOTSTRAP_SERVER = "kafkas.hyperauth:9092";
 //    private final static String BOOTSTRAP_SERVER = "kafkas.hyperauth2:9092"; //FIXME : for testauth
     public static void publishEvent(String topic, Object value){
@@ -54,4 +52,18 @@ public class Producer {
         properties.setProperty(ProducerConfig.MAX_BLOCK_MS_CONFIG, "30000"); // Wait 5Seconds until producer.send() timeout
         return properties;
     }
+
+    @Override
+    public void onCompletion(RecordMetadata recordMetadata, Exception e) {
+        if (e != null){
+            System.out.println("Failed to Send to Topic Server !!!!!");
+            System.out.println("Failed to Send to Topic Server !!!!!");
+            System.out.println("Failed to Send to Topic Server !!!!!");
+        }else{
+            System.out.println("Send to Topic Server Success" );
+            System.out.println("TOPIC : " + recordMetadata.topic() + ", PARTITION : " + recordMetadata.partition() + ", OFFSET : " + recordMetadata.offset());
+        }
+    }
 }
+
+
