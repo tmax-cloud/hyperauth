@@ -49,15 +49,13 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                     }
                     break;
                 case "LOGIN":
-                    if (event.getClientId().equalsIgnoreCase("hypercloud4")
-                            && event.getDetails().get("response_type") == null) {
-                        TopicEvent.Event topicEvent = TopicEvent.makeTopicEvent("LOGIN", event.getDetails().get("username"), "Success", 200);
-                        try {
-                            Producer.publishEvent("tmax", topicEvent);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    TopicEvent.Event topicEvent = TopicEvent.makeTopicEvent("LOGIN", event.getDetails().get("username"), "Success", 200);
+                    try {
+                        Producer.publishEvent("tmax", topicEvent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+
                     // For Session-Restrict Policy
                     if (!event.getDetails().get("username").equalsIgnoreCase("admin@tmax.co.kr")) { //FIXME : Delete Later !!!!
                         System.out.println("User [ " + event.getDetails().get("username") + " ], Client [ " + event.getClientId() + " ] Session-Restrict Start");
@@ -74,19 +72,18 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                     }
                     break;
                 case "LOGIN_ERROR":
-                    if (event.getClientId() != null && event.getClientId().equalsIgnoreCase("hypercloud4")) {
-                        TopicEvent.Event topicEvent = TopicEvent.makeTopicEvent("LOGIN_FAILED", event.getDetails().get("username"), event.getError(), 400 );
+                    topicEvent = TopicEvent.makeTopicEvent("LOGIN_FAILED", event.getDetails().get("username"), event.getError(), 400 );
 
-                        try {
-                            Producer.publishEvent("tmax", topicEvent);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    try {
+                        Producer.publishEvent("tmax", topicEvent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+
                     break;
                 case "LOGOUT":
                     userName = session.users().getUserById(event.getUserId(), session.realms().getRealmByName("tmax")).getUsername();
-                    TopicEvent.Event topicEvent = TopicEvent.makeTopicEvent("LOGOUT", userName, "Success", 200 );
+                    topicEvent = TopicEvent.makeTopicEvent("LOGOUT", userName, "Success", 200 );
                     try {
                         Producer.publishEvent("tmax", topicEvent);
                     } catch (Exception e) {
@@ -120,19 +117,21 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                     }, interval, email);
                     break;
                 case "UPDATE_PROFILE":
-                    if (event.getDetails().get("userWithdrawal").equalsIgnoreCase("t")){
-                        topicEvent = TopicEvent.makeTopicEvent("USER_WITHDRAWAL", event.getDetails().get("username"), "Success", 200 );
-                        try {
-                            Producer.publishEvent("tmax", topicEvent);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }else if( event.getDetails().get("userDelete").equalsIgnoreCase("t")){
-                        topicEvent = TopicEvent.makeTopicEvent("USER_DELETE", event.getDetails().get("username"), "Success", 200 );
-                        try {
-                            Producer.publishEvent("tmax", topicEvent);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                    if (event.getDetails()!= null) {
+                        if (event.getDetails().get("userWithdrawal") != null && event.getDetails().get("userWithdrawal").equalsIgnoreCase("t")) {
+                            topicEvent = TopicEvent.makeTopicEvent("USER_WITHDRAWAL", event.getDetails().get("username"), "Success", 200);
+                            try {
+                                Producer.publishEvent("tmax", topicEvent);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else if (event.getDetails().get("userDelete") != null && event.getDetails().get("userDelete").equalsIgnoreCase("t")) {
+                            topicEvent = TopicEvent.makeTopicEvent("USER_DELETE", event.getDetails().get("username"), "Success", 200);
+                            try {
+                                Producer.publishEvent("tmax", topicEvent);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                     break;
