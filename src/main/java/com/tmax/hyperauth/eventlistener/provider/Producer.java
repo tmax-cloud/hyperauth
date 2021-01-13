@@ -8,7 +8,7 @@ import java.util.Properties;
 
 public class Producer {
     private final static String BOOTSTRAP_SERVER = "kafka-1.hyperauth:9092,kafka-2.hyperauth:9092,kafka-3.hyperauth:9092";
-//    private final static String BOOTSTRAP_SERVER = "kafkas.hyperauth2:9092"; //FIXME : for testauth
+//    private final static String BOOTSTRAP_SERVER = "kafka-1.hyperauth2:9092,kafka-2.hyperauth2:9092,kafka-3.hyperauth2:9092"; //FIXME : for testauth
     public static void publishEvent(String topic, Object value){
         //reset thread context
         resetThreadContext();
@@ -19,9 +19,9 @@ public class Producer {
         // create a producer record
         Gson gson = new Gson();
         String jsonValue = gson.toJson(value);
-        ProducerRecord<String, String> eventRecord =
-                new ProducerRecord<String, String>(topic, jsonValue);
+        ProducerRecord<String, String> eventRecord = new ProducerRecord<String, String>(topic, jsonValue);
 
+        // Async Call producer.send
         new Thread(
                 () -> {
                     try {
@@ -50,21 +50,10 @@ public class Producer {
         properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER);
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-//        properties.setProperty(ProducerConfig.MAX_BLOCK_MS_CONFIG, "30000"); // Wait 5Seconds until producer.send() timeout
+//        properties.setProperty(ProducerConfig.MAX_BLOCK_MS_CONFIG, "30000"); // Wait 30 Seconds until producer.send() timeout
         return properties;
     }
 
-//    @Override
-//    public void onCompletion(RecordMetadata recordMetadata, Exception e) {
-//        if (e != null){
-//            System.out.println("Failed to Send to Topic Server !!!!!");
-//            System.out.println("Failed to Send to Topic Server !!!!!");
-//            System.out.println("Failed to Send to Topic Server !!!!!");
-//        }else{
-//            System.out.println("Send to Topic Server Success" );
-//            System.out.println("TOPIC : " + recordMetadata.topic() + ", PARTITION : " + recordMetadata.partition() + ", OFFSET : " + recordMetadata.offset());
-//        }
-//    }
 }
 
 
