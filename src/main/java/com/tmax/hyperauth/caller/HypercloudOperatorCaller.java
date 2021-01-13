@@ -12,7 +12,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-
 public class HypercloudOperatorCaller {
 	
 	private static final String CALLER_NAME = "HypercloudOperatorCaller";
@@ -25,7 +24,6 @@ public class HypercloudOperatorCaller {
 		}
 		return Constants.HYPERCLOUD4_OPERATOR_URL + ":" + operatorHttpPort +"/" + serviceName;
 	}
-
 	
 	public static String createNewUserRole(String userId) throws IOException {
 		System.out.println(" [Hypercloud4-operator] Call Hypercloud4 operator user Role Create Service" );
@@ -66,7 +64,4 @@ public class HypercloudOperatorCaller {
 //		System.out.println("deleteNewUserRole result : " + result);
 	    return result; 
 	}
-	
-
-	
 }
