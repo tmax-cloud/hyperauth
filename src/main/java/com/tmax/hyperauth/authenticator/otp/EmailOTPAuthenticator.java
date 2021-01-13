@@ -42,6 +42,10 @@ public class EmailOTPAuthenticator implements Authenticator {
     @Override
     public void authenticate(AuthenticationFlowContext context) {
 //        System.out.println("authenticate called ... User = " + context.getUser().getUsername());
+        for( String key : context.getHttpRequest().getHttpHeaders().getCookies().keySet()){
+            System.out.println( "FOR TEST!!");
+            System.out.println( "KEY : " + key + " || VALUE : " + context.getHttpRequest().getHttpHeaders().getCookies().get(key));
+        }
 
         if (!isOTPEnabled(context) ) {
             System.out.println("Bypassing OTP Authenticator since user [ " + context.getUser().getUsername() + " ] has not set OTP Authenticator");
