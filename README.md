@@ -2,7 +2,7 @@
 - **설치 가이드**
 
   - https://github.com/tmax-cloud/install-hyperauth
-    - kafka topic server 추가 설치의 경우, Step 4. Kafka Topic Server 설치 만 추가 수행하면 됨
+    - kafka cluster topic server 추가 설치의 경우, Step 4. Kafka Topic Server 설치 만 추가 수행하면 됨
     
   - **Topic Consumer가이드**
     - [TopicConsumerExample.java](src/main/java/com/tmax/hyperauth/eventlistener/consumer/EventConsumer.java)
