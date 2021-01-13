@@ -7,7 +7,7 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import java.util.Properties;
 
 public class Producer {
-    private final static String BOOTSTRAP_SERVER = "kafkas.hyperauth:9092";
+    private final static String BOOTSTRAP_SERVER = "kafka-1.hyperauth:9092,kafka-2.hyperauth:9092,kafka-3.hyperauth:9092";
 //    private final static String BOOTSTRAP_SERVER = "kafkas.hyperauth2:9092"; //FIXME : for testauth
     public static void publishEvent(String topic, Object value){
         //reset thread context
@@ -28,9 +28,7 @@ public class Producer {
                         producer.send(eventRecord, (metadata, exception) -> {
                             if (exception != null) {
                                 exception.printStackTrace();
-                                System.out.println("Failed to Send to Topic Server !!!!!");
-                                System.out.println("Failed to Send to Topic Server !!!!!");
-                                System.out.println("Failed to Send to Topic Server !!!!!");
+                                System.out.println("Failed to Send to Topic Server");
                             }
                         });
                     } catch (Exception e) {
@@ -52,7 +50,7 @@ public class Producer {
         properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER);
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        properties.setProperty(ProducerConfig.MAX_BLOCK_MS_CONFIG, "30000"); // Wait 5Seconds until producer.send() timeout
+//        properties.setProperty(ProducerConfig.MAX_BLOCK_MS_CONFIG, "30000"); // Wait 5Seconds until producer.send() timeout
         return properties;
     }
 
