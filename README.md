@@ -10,13 +10,13 @@
         - group id 별로 topic에 쌓인 데이터를 읽어가는 위치를 나타내는 offset이 달라짐
         - 2 consumer가 한 group id를 공유할 경우, 데이터를 처리하지 못하는 경우 발생
       - Topic Event 객체 (Json)
-        - ex) {"kind":"Event","apiVersion":"audit.k8s.io/v1beta1","verb":"USER_DELETE","user":{"username":"admin@tmax.co.kr"},"responseStatus":{"reason":"Success","code":200}}
-        - ex) {"kind":"Event","apiVersion":"audit.k8s.io/v1beta1","verb":"LOGIN_FAILED","user":{"username":"admin@tmax.co.kr"},"responseStatus":{"reason":"invalid_user_credentials","code":400}}
+        - ex) {"type":"LOGIN","userName":"admin@tmax.co.kr","userId":"3c2f0ab5-5c6e-4739-b9db-877ebcfbcd29","time":1610614165834,"realmId":"tmax","clientId":"hypercloud4","sessionId":"fe9b95f7-eb51-4504-9110-d2322a9f1bc1","ipAddress":"192.168.6.107","details":{"auth_method":"openid-connect","auth_type":"code","redirect_uri":"https://172.22.6.2:31304/?first","consent":"no_consent_required","code_id":"fe9b95f7-eb51-4504-9110-d2322a9f1bc1","username":"admin@tmax.co.kr"}}
+        - ex) {"type":"LOGIN_ERROR","userName":"admin@tmax.co.kr","userId":"3c2f0ab5-5c6e-4739-b9db-877ebcfbcd29","time":1610614321868,"realmId":"tmax","clientId":"hypercloud4","ipAddress":"192.168.6.107","error":"invalid_user_credentials","details":{"auth_method":"openid-connect","auth_type":"code","redirect_uri":"https://172.22.6.2:31304/?first","code_id":"afa917bc-c54d-4fa0-b04e-d902baf0f3d5","username":"admin@tmax.co.kr"}}
         - [TopicEvent.java](src/main/java/com/tmax/hyperauth/eventlistener/provider/TopicEvent.java)
       - **현재 Publish 중인 Event Verb (정책)**
         - LOGIN : 유저 로그인
         - LOGOUT : 유저 로그아웃
-        - LOGIN_FAILED : 유저 로그인 실패 (reason에 실패 이유 존재)
+        - LOGIN_ERROR : 유저 로그인 실패 (error에 실패 이유 존재)
         - USER_WITHDRAWAL : 유저가 탈퇴 신청을 한 경우
         - USER_DELETE : 탈퇴 신청을 한 유저가 실제로 지워진 경우, Admin Console에서 Admin 권한으로 유저가 삭제된 경우  
     - https://cwiki.apache.org/confluence/display/KAFKA/Clients 
