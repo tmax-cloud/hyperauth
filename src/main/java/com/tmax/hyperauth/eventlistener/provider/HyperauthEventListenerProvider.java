@@ -72,15 +72,17 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                     }
                     break;
                 case "LOGIN_ERROR":
-                    if (event.getDetails().get("username")!= null){
+                    topicEvent = new TopicEvent.Event();dic
+                    if (event.getDetails() != null && event.getDetails().get("username")!= null){
                         topicEvent = TopicEvent.makeTopicEvent("LOGIN_FAILED", event.getDetails().get("username"), event.getError(), 400 );
-                        try {
-                            Producer.publishEvent("tmax", topicEvent);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    }else {
+                        topicEvent = TopicEvent.makeTopicEvent("LOGIN_FAILED", "unknown", event.getError(), 400 );
                     }
-
+                    try {
+                        Producer.publishEvent("tmax", topicEvent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case "LOGOUT":
                     userName = session.users().getUserById(event.getUserId(), session.realms().getRealmByName("tmax")).getUsername();
