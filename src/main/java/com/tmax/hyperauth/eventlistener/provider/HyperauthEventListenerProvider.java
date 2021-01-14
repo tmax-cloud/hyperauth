@@ -72,7 +72,7 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                     }
                     break;
                 case "LOGIN_ERROR":
-                    topicEvent = new TopicEvent.Event();dic
+                    topicEvent = new TopicEvent.Event();
                     if (event.getDetails() != null && event.getDetails().get("username")!= null){
                         topicEvent = TopicEvent.makeTopicEvent("LOGIN_FAILED", event.getDetails().get("username"), event.getError(), 400 );
                     }else {
