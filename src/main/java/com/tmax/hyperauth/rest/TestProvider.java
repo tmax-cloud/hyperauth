@@ -60,6 +60,27 @@ public class TestProvider implements RealmResourceProvider {
         return Util.setCors(status, out);
     }
 
+    @GET
+    @Path("{sessionId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response get(@PathParam("sessionId") final String sessionId) {
+        System.out.println("***** GET /test");
+        System.out.println("sessionId : " + sessionId);
+        try {
+            out = "off";
+            boolean isRememberMe = session.sessions().getUserSession(session.realms().getRealmByName("tmax"), sessionId).isRememberMe();
+            if (isRememberMe) out = "on";
+            status = Status.OK;
+            return Util.setCors(status, out);
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Exception " + e.getMessage());
+            status = Status.BAD_REQUEST;
+            out = "Get Session IsRememberMe failed";
+            return Util.setCors(status, out);
+        }
+    }
 
 
     @OPTIONS
