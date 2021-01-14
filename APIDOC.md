@@ -619,19 +619,12 @@
   - **RequestURL**
     
     POST https://{HYPERAUTH_IP}/auth/realms/tmax/session
-    
-  - **RequestHeader**
-      x
-    
-  - **QueryParam**
-      x
 
   - **PathParam**
 
       {sessionId}
 
-  - **RequestBody**
-      x
+
 
 
   
