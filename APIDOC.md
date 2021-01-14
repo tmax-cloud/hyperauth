@@ -623,6 +623,10 @@
   - **PathParam**
 
       {sessionId}
+      
+  - **ResponseBody**
+
+    String : on/off   
 
 
 
