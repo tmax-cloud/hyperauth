@@ -67,7 +67,7 @@ public class SessionProvider implements RealmResourceProvider {
     @OPTIONS
     @Path("{path : .*}")
     public Response other() {
-        System.out.println("***** OPTIONS /email");
+        System.out.println("***** OPTIONS /session");
         return Util.setCors( Status.OK, null);
     }
 
