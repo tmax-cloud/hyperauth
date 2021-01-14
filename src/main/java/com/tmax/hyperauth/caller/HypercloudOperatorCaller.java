@@ -1,7 +1,5 @@
 package com.tmax.hyperauth.caller;
 
-import java.io.IOException;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -25,7 +23,7 @@ public class HypercloudOperatorCaller {
 		return Constants.HYPERCLOUD4_OPERATOR_URL + ":" + operatorHttpPort +"/" + serviceName;
 	}
 	
-	public static String createNewUserRole(String userId) throws IOException {
+	public static String createNewUserRole(String userId) throws Exception {
 		System.out.println(" [Hypercloud4-operator] Call Hypercloud4 operator user Role Create Service" );
 		
 		JsonObject UserInDO = new JsonObject();		
@@ -45,7 +43,7 @@ public class HypercloudOperatorCaller {
 	    return result; 
 	}
 	
-	public static String deleteNewUserRole(String userId) throws IOException {
+	public static String deleteNewUserRole(String userId) throws Exception {
 		System.out.println(" [Hypercloud4-operator] Call Hypercloud4 operator user Role Delete Service" );
 		
 		JsonObject UserInDO = new JsonObject();		

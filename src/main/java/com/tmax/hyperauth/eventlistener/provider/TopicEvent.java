@@ -6,17 +6,17 @@ import java.util.Map;
 
 public class TopicEvent {
 
-    private long time;
-
     private String type;
+
+    private String userName;
+
+    private String userId;
+
+    private long time;
 
     private String realmId;
 
     private String clientId;
-
-    private String userId;
-
-    private String userName;
 
     private String sessionId;
 
@@ -124,6 +124,7 @@ public class TopicEvent {
         } else {
             topicEventType = keycloakEvent.getType().toString();
         }
+        topicEvent.setType(topicEventType);
 
         if ( userName != null) {
             if ( keycloakEvent.getDetails() != null && keycloakEvent.getDetails().get("username") != null){

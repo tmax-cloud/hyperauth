@@ -49,7 +49,7 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                     System.out.println("New User Registered in tmax Realm, Give New role for User in Kubernetes");
                     try {
                         HypercloudOperatorCaller.createNewUserRole(event.getDetails().get("username"));
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
@@ -101,7 +101,7 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                             } else {
                                 System.out.println("User [" + event.getDetails().get("username") + " ] Already Deleted, nothing to do");
                             }
-                        } catch (IOException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }, interval, email);
@@ -130,7 +130,7 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                 System.out.println("userName : " + userName);
 
                 HypercloudOperatorCaller.createNewUserRole(userName);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -147,7 +147,7 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                 // Topic Event
                 TopicEvent topicEvent = TopicEvent.makeOtherTopicEvent("USER_DELETE", user.get("username").toString().replaceAll("\"", ""), adminEvent.getTime());
                 Producer.publishEvent("tmax", topicEvent);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
