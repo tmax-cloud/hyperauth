@@ -608,5 +608,23 @@
   - **ResponseBody**
 
     X
+    
+## SESSION
+
+ #### Get
+  - **Description** 
+
+      <u>로그인시 발급받는 session id로 </u> 자동로그인 여부 (isRememberMe) 를 확인하는 API
+
+  - **RequestURL**
+    
+    POST https://{HYPERAUTH_IP}/auth/realms/tmax/session
+
+  - **PathParam**
+
+      {sessionId}
+
+
+
 
   
