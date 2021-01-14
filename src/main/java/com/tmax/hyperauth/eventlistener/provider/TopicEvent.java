@@ -1,84 +1,163 @@
 package com.tmax.hyperauth.eventlistener.provider;
 
+import org.keycloak.events.Event;
+import org.keycloak.events.EventType;
+import java.util.Map;
+
 public class TopicEvent {
-    public static class Event {
-        private String kind = "Event";
-        private String apiVersion = "audit.k8s.io/v1beta1";
-        private String verb;
 
-        public User getUser() {
-            return user;
-        }
+    private long time;
 
-        public void setUser(User user) {
-            this.user = user;
-        }
+    private String type;
 
-        public ResponseStatus getResponseStatus() {
-            return responseStatus;
-        }
+    private String realmId;
 
-        public void setResponseStatus(ResponseStatus responseStatus) {
-            this.responseStatus = responseStatus;
-        }
+    private String clientId;
 
-        private User user;
-        private ResponseStatus responseStatus;
+    private String userId;
 
-        public String getVerb() {
-            return verb;
-        }
+    private String userName;
 
-        public void setVerb(String verb) {
-            this.verb = verb;
-        }
+    private String sessionId;
 
+    private String ipAddress;
+
+    private String error;
+
+    private Map<String, String> details;
+
+    public long getTime() {
+        return time;
     }
 
-
-    public static class User {
-        private String username;
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
+    public void setTime(long time) {
+        this.time = time;
     }
 
-    public static class ResponseStatus {
-        private String reason;
-        private int code;
-
-        public String getReason() {
-            return reason;
-        }
-
-        public void setReason(String reason) {
-            this.reason = reason;
-        }
-
-        public int getCode() {
-            return code;
-        }
-
-        public void setCode(int code) {
-            this.code = code;
-        }
+    public String getType() {
+        return type;
     }
 
-    public static Event makeTopicEvent(String verb, String username, String reason, int code) {
-        Event event = new Event();
-        event.setVerb(verb);
-        User user = new User();
-        user.setUsername(username);
-        event.setUser(user);
-        ResponseStatus status = new ResponseStatus();
-        status.setReason(reason);
-        status.setCode(code);
-        event.setResponseStatus(status);
-        return event;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getRealmId() {
+        return realmId;
+    }
+
+    public void setRealmId(String realmId) {
+        this.realmId = maxLength(realmId, 255);
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = maxLength(clientId, 255);
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = maxLength(userId, 255);
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = maxLength(userName, 255);
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
+    public Map<String, String> getDetails() {
+        return details;
+    }
+
+    public void setDetails(Map<String, String> details) {
+        this.details = details;
+    }
+
+    public static TopicEvent makeTopicEvent(Event keycloakEvent, String userName) {
+        TopicEvent topicEvent = new TopicEvent();
+
+        topicEvent.setTime(keycloakEvent.getTime());
+
+        // for type, type conversion needs!
+        String topicEventType = "";
+        if ( keycloakEvent.getType().equals(EventType.UPDATE_PROFILE )){
+            if (keycloakEvent.getDetails().get("userWithdrawal") != null && keycloakEvent.getDetails().get("userWithdrawal").equalsIgnoreCase("t")) {
+                topicEventType = "USER_WITHDRAWAL";
+            } else if (keycloakEvent.getDetails().get("userDelete") != null && keycloakEvent.getDetails().get("userDelete").equalsIgnoreCase("t")) {
+                topicEventType = "USER_DELETE";
+            } else {
+                topicEventType = EventType.UPDATE_PROFILE.toString();
+            }
+        } else {
+            topicEventType = keycloakEvent.getType().toString();
+        }
+
+        if ( userName != null) {
+            if ( keycloakEvent.getDetails() != null && keycloakEvent.getDetails().get("username") != null){
+                userName = keycloakEvent.getDetails().get("username");
+            } else {
+                userName = "unknown";
+            }
+        }
+        topicEvent.setUserName(userName);
+
+        if (keycloakEvent.getUserId() != null) topicEvent.setUserId(keycloakEvent.getUserId());
+        if (keycloakEvent.getRealmId() != null) topicEvent.setRealmId(keycloakEvent.getRealmId());
+        if (keycloakEvent.getClientId() != null) topicEvent.setClientId(keycloakEvent.getClientId());
+        if (keycloakEvent.getSessionId() != null) topicEvent.setSessionId(keycloakEvent.getSessionId());
+        if (keycloakEvent.getIpAddress() != null) topicEvent.setIpAddress(keycloakEvent.getIpAddress());
+        if (keycloakEvent.getError() != null) topicEvent.setError(keycloakEvent.getError());
+        if (keycloakEvent.getDetails() != null) topicEvent.setDetails(keycloakEvent.getDetails());
+        return topicEvent;
+    }
+
+    public static TopicEvent makeOtherTopicEvent(String eventType, String userName, Long time) {
+        TopicEvent topicEvent = new TopicEvent();
+
+        topicEvent.setTime(time);
+        topicEvent.setUserName(userName);
+        topicEvent.setType(eventType);
+        topicEvent.setRealmId("tmax");
+        return topicEvent;
+    }
+
+    static String maxLength(String string, int length){
+        if (string != null && string.length() > length) {
+            return string.substring(0, length - 1);
+        }
+        return string;
     }
 }

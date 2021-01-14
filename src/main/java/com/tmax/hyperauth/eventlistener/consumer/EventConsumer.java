@@ -37,22 +37,22 @@ public class EventConsumer {
                     logger.info(record.value());
                     try {
                             Gson gson = new Gson();
-                        TopicEvent.Event topicEvent = gson.fromJson(record.value(), TopicEvent.Event.class);
-                        switch (topicEvent.getVerb()){
+                        TopicEvent topicEvent = gson.fromJson(record.value(), TopicEvent.class);
+                        switch (topicEvent.getType()){
                             case "LOGIN":
-                                logger.info("User [ " + topicEvent.getUser().getUsername() + " ] Login !!");
+                                logger.info("User [ " + topicEvent.getUserName() + " ] Login !!");
                                 break;
                             case "LOGOUT":
-                                logger.info("User [ " + topicEvent.getUser().getUsername() + " ] Logout !!");
+                                logger.info("User [ " + topicEvent.getUserName() + " ] Logout !!");
                                 break;
                             case "LOGIN_FAILED":
-                                logger.info("User [ " + topicEvent.getUser().getUsername() + " ] Login failed due to " + topicEvent.getResponseStatus().getReason());
+                                logger.info("User [ " + topicEvent.getUserName() + " ] Login failed due to " + topicEvent.getError());
                                 break;
                             case "USER_DELETE":
-                                logger.info("User [ " + topicEvent.getUser().getUsername() + " ] Deleted !!");
+                                logger.info("User [ " + topicEvent.getUserName() + " ] Deleted !!");
                                 break;
                             case "USER_WITHDRAWAL":
-                                logger.info("User [ " + topicEvent.getUser().getUsername() + " ] Withdrawal request has been submitted !!");
+                                logger.info("User [ " + topicEvent.getUserName() + " ] Withdrawal request has been submitted !!");
                                 break;
                             default:
                                 logger.info("Unknown Event");
