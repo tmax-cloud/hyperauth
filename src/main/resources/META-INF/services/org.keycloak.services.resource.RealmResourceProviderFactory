@@ -4,4 +4,5 @@ com.tmax.hyperauth.rest.SMSCodeProviderFactory
 com.tmax.hyperauth.rest.EmailProviderFactory
 com.tmax.hyperauth.rest.PasswordProviderFactory
 com.tmax.hyperauth.rest.GroupMemberProviderFactory
+com.tmax.hyperauth.rest.SessionProviderFactory
 com.tmax.hyperauth.rest.TestProviderFactory

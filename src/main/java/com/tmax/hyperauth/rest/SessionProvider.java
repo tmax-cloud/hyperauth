@@ -1,12 +1,9 @@
 package com.tmax.hyperauth.rest;
 
-import com.tmax.hyperauth.caller.Constants;
-import com.tmax.hyperauth.jpa.EmailVerification;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.common.ClientConnection;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
 import org.keycloak.models.KeycloakSession;
-import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.services.resource.RealmResourceProvider;
 
 import javax.persistence.EntityManager;
@@ -15,8 +12,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import java.sql.Connection;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +19,7 @@ import java.util.List;
  * @author taegeon_woo@tmax.co.kr
  */
 
-public class TestProvider implements RealmResourceProvider {
+public class SessionProvider implements RealmResourceProvider {
     @Context
     private KeycloakSession session;
 
@@ -34,7 +29,7 @@ public class TestProvider implements RealmResourceProvider {
     @Context
     private ClientConnection clientConnection;
 
-    public TestProvider(KeycloakSession session) {
+    public SessionProvider(KeycloakSession session) {
         this.session = session;
     }
     
@@ -46,19 +41,26 @@ public class TestProvider implements RealmResourceProvider {
     Status status = null;
 	String out = null;
 
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response post() throws Throwable {
-        System.out.println("***** POST /test");
-        return Util.setCors(status, out);
-    }
-
     @GET
     @Path("{sessionId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response get(@PathParam("sessionId") final String sessionId) {
-        System.out.println("***** GET /test");
-        return Util.setCors(status, out);
+        System.out.println("***** GET /session");
+        System.out.println("sessionId : " + sessionId);
+        try {
+            out = "off";
+            boolean isRememberMe = session.sessions().getUserSession(session.realms().getRealmByName("tmax"), sessionId).isRememberMe();
+            if (isRememberMe) out = "on";
+            status = Status.OK;
+            return Util.setCors(status, out);
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Exception " + e.getMessage());
+            status = Status.BAD_REQUEST;
+            out = "Get Session IsRememberMe failed";
+            return Util.setCors(status, out);
+        }
     }
 
 
