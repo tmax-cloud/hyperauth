@@ -14,11 +14,10 @@
         - ex) {"type":"LOGIN_ERROR","userName":"admin@tmax.co.kr","userId":"3c2f0ab5-5c6e-4739-b9db-877ebcfbcd29","time":1610614321868,"realmId":"tmax","clientId":"hypercloud4","ipAddress":"192.168.6.107","error":"invalid_user_credentials","details":{"auth_method":"openid-connect","auth_type":"code","redirect_uri":"https://172.22.6.2:31304/?first","code_id":"afa917bc-c54d-4fa0-b04e-d902baf0f3d5","username":"admin@tmax.co.kr"}}
         - [TopicEvent.java](src/main/java/com/tmax/hyperauth/eventlistener/provider/TopicEvent.java)
       - **현재 Publish 중인 Event Verb (정책)**
-        - LOGIN : 유저 로그인
-        - LOGOUT : 유저 로그아웃
-        - LOGIN_ERROR : 유저 로그인 실패 (error에 실패 이유 존재)
-        - USER_WITHDRAWAL : 유저가 탈퇴 신청을 한 경우
-        - USER_DELETE : 탈퇴 신청을 한 유저가 실제로 지워진 경우, Admin Console에서 Admin 권한으로 유저가 삭제된 경우  
+        - https://www.keycloak.org/docs-api/6.0/javadocs/org/keycloak/events/EventType.html 참조
+        - 추가
+          - USER_WITHDRAWAL : 유저가 탈퇴 신청을 한 경우
+          - USER_DELETE : 탈퇴 신청을 한 유저가 실제로 지워진 경우, Admin Console에서 Admin 권한으로 유저가 삭제된 경우  
     - https://cwiki.apache.org/confluence/display/KAFKA/Clients 
       - java외 다른 언어의 경우 참조할 것.
     - 현재 Topic Event Data 보관 기간 : 7일
