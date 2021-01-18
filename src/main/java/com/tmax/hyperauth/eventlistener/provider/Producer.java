@@ -1,7 +1,9 @@
 package com.tmax.hyperauth.eventlistener.provider;
 
 import com.google.gson.Gson;
+import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.producer.*;
+import org.apache.kafka.common.config.SslConfigs;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
@@ -50,7 +52,18 @@ public class Producer {
         properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER);
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+
 //        properties.setProperty(ProducerConfig.MAX_BLOCK_MS_CONFIG, "30000"); // Wait 30 Seconds until producer.send() timeout
+
+        // for SSL
+        properties.setProperty(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SSL");
+        properties.setProperty(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, "/etc/x509/kafka/hyperauth.truststore.jks");
+        properties.setProperty(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, "tmax@23");
+        properties.setProperty(SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG, "/etc/x509/kafka/hyperauth.keystore.jks");
+        properties.setProperty(SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG, "tmax@23");
+        properties.setProperty(SslConfigs.SSL_KEY_PASSWORD_CONFIG, "tmax@23");
+
+
         return properties;
     }
 
