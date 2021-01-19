@@ -618,7 +618,7 @@
 
   - **RequestURL**
     
-    POST https://{HYPERAUTH_IP}/auth/realms/tmax/session
+    GET https://{HYPERAUTH_IP}/auth/realms/tmax/session
 
   - **PathParam**
 
