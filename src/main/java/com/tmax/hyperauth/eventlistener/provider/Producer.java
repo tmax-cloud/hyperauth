@@ -12,35 +12,35 @@ public class Producer {
     private final static String BOOTSTRAP_SERVER = "kafka-1.hyperauth:9092,kafka-2.hyperauth:9092,kafka-3.hyperauth:9092";
 //    private final static String BOOTSTRAP_SERVER = "kafka-1.hyperauth2:9092,kafka-2.hyperauth2:9092,kafka-3.hyperauth2:9092"; //FIXME : for testauth
     public static void publishEvent(String topic, Object value){
-        //reset thread context
-        resetThreadContext();
-
-        // create the producer
-        KafkaProducer<String, String> producer = new KafkaProducer<>(getProperties());
-
-        // create a producer record
-        Gson gson = new Gson();
-        String jsonValue = gson.toJson(value);
-        ProducerRecord<String, String> eventRecord = new ProducerRecord<String, String>(topic, jsonValue);
-
-        // Async Call producer.send
-        new Thread(
-                () -> {
-                    try {
-                        producer.send(eventRecord, (metadata, exception) -> {
-                            if (exception != null) {
-                                exception.printStackTrace();
-                                System.out.println("Failed to Send to Topic Server");
-                            }
-                        });
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    } finally {
-                        producer.flush();
-                        producer.close();
-                    }
-                }
-        ).start();
+//        //reset thread context
+//        resetThreadContext();
+//
+//        // create the producer
+//        KafkaProducer<String, String> producer = new KafkaProducer<>(getProperties());
+//
+//        // create a producer record
+//        Gson gson = new Gson();
+//        String jsonValue = gson.toJson(value);
+//        ProducerRecord<String, String> eventRecord = new ProducerRecord<String, String>(topic, jsonValue);
+//
+//        // Async Call producer.send
+//        new Thread(
+//                () -> {
+//                    try {
+//                        producer.send(eventRecord, (metadata, exception) -> {
+//                            if (exception != null) {
+//                                exception.printStackTrace();
+//                                System.out.println("Failed to Send to Topic Server");
+//                            }
+//                        });
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    } finally {
+//                        producer.flush();
+//                        producer.close();
+//                    }
+//                }
+//        ).start();
     }
 
     private static void resetThreadContext() {

@@ -31,7 +31,7 @@ public class EventConsumer {
         properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false"); //중복처리방지, 성능향상을 위해서는 true로 바꿔준다.
 
         /**
-         * TODO : Keystore, Truststore를 가져오기 위해서는 Keystore, Truststore로 만든 secret을 mount해서 가져온다.
+         * TODO : Keystore, Truststore를 가져오기 위해서는 Keystore, Truststore로 만든 secret을 mount (특정 path)해서 가져온다.
          * < kafka-consumer (hypercloud) >
          * hypercloud 부분을 각자 상황에 맞는 제품명으로 바꿔서 사용
          * hypercloud4-system Namespace도 바꿔서 사용
