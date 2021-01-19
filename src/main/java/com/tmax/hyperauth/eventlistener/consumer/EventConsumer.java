@@ -31,8 +31,38 @@ public class EventConsumer {
         properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false"); //중복처리방지, 성능향상을 위해서는 true로 바꿔준다.
 
         /**
-         * Keystore, Truststore를 가져오기 위해서는 Keystore, Truststore로 만든 secret을 mount해서 가져온다.
-         * Password를 변수처리 하기 위해서는 Deployment Env의 ValueFrom secret을 이용한다.
+         * TODO : Keystore, Truststore를 가져오기 위해서는 Keystore, Truststore로 만든 secret을 mount해서 가져온다.
+         * < kafka-consumer (hypercloud) >
+         * hypercloud 부분을 각자 상황에 맞는 제품명으로 바꿔서 사용
+         * hypercloud4-system Namespace도 바꿔서 사용
+         *
+         * keytool -keystore hypercloud.truststore.jks -alias ca-cert -import -file /etc/kubernetes/pki/hypercloud-root-ca.crt -storepass tmax@23 -noprompt
+         * keytool -keystore hypercloud.keystore.jks -alias hypercloud -validity 3650 -genkey -keyalg RSA -ext SAN=dns:hypercloud4-operator-service.hypercloud4-system -dname "CN=hypercloud4-operator-service.hypercloud4-system" -storepass tmax@23 -keypass tmax@23
+         * keytool -keystore hypercloud.keystore.jks -alias hypercloud -certreq -file ca-request-hypercloud -storepass tmax@23
+         * openssl x509 -req -CA /etc/kubernetes/pki/hypercloud-root-ca.crt -CAkey /etc/kubernetes/pki/hypercloud-root-ca.key -in ca-request-hypercloud -out ca-signed-hypercloud -days 3650 -CAcreateserial
+         * keytool -keystore hypercloud.keystore.jks -alias ca-cert -import -file /etc/kubernetes/pki/hypercloud-root-ca.crt -storepass tmax@23 -noprompt
+         * keytool -keystore hypercloud.keystore.jks -alias hypercloud -import -file ca-signed-hypercloud -storepass tmax@23 -noprompt
+         *
+         * kubectl create secret generic hypercloud-kafka-jks --from-file=./hypercloud.keystore.jks --from-file=./hypercloud.truststore.jks -n hypercloud4-system
+         *
+         * TODO : Password를 변수처리 하기 위해서는 Secret을 생성하고 Deployment Env의 ValueFrom secret을 이용한다.
+         *
+         *  ex) apiVersion: v1
+         *      kind: Secret
+         *      metadata:
+         *        name: passwords
+         *        namespace: hyperauth
+         *      type: Opaque
+         *      data:
+         *        CERTS_PASSWORD: dG1heEAyMw==
+         *
+         *  ex)
+         *      env:
+         *      - name: CERTS_PASSWORD
+         *        valueFrom:
+         *          secretKeyRef:
+         *            name: passwords
+         *            key: CERTS_PASSWORD
          */
         // for SSL
         properties.setProperty(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SSL");
