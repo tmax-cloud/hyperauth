@@ -40,11 +40,17 @@ public class KakaoIdentityProvider extends AbstractOAuth2IdentityProvider implem
         // getJsonProperty 는 Oidc 관련 파싱만 가능하므로 JsonNode 의 get 메소드를 이용해서 가져온다.
         // BrokeredIdentityContext user = new BrokeredIdentityContext(getJsonProperty(profile, "response"));
         BrokeredIdentityContext user = new BrokeredIdentityContext(profile.get("id").asText());
+        System.out.println("profile!! : " + profile.asText());
 
         String email = profile.get("kakao_account").get("email").asText();
+        System.out.println("33333333333!!");
 
         user.setIdpConfig(getConfig());
+        System.out.println("44444444444!!");
+
         user.setUsername(email);
+        System.out.println("5555555555!!");
+
         user.setEmail(email);
         user.setIdp(this);
 
@@ -59,7 +65,7 @@ public class KakaoIdentityProvider extends AbstractOAuth2IdentityProvider implem
             JsonNode profile = SimpleHttp.doGet(PROFILE_URL, session).param("access_token", accessToken).asJson();
             System.out.println("httpGet Success!!");
             BrokeredIdentityContext user = extractIdentityFromProfile(null, profile);
-
+            System.out.println("1111111111!!");
             return user;
         } catch (Exception e) {
             throw new IdentityBrokerException("Could not obtain user profile from kakao.", e);
