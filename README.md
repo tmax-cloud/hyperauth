@@ -2,7 +2,7 @@
 - **설치 가이드**
 
   - https://github.com/tmax-cloud/install-hyperauth
-    - kafka cluster topic server 추가 설치의 경우, Step 4. Kafka Topic Server 설치 만 추가 수행하면 됨
+    - kafka cluster topic server 추가 설치의 경우, Step 4. Kafka Topic Server 설치 만 추가 수행하면 됨 
     
   - **Topic Consumer가이드**
     - [TopicConsumerExample.java](src/main/java/com/tmax/hyperauth/eventlistener/consumer/EventConsumer.java)
@@ -39,7 +39,12 @@
     - IP Block 정책을 걸고자 하는 user에게 Attribute을 추가
       1. **ipBlock** : true
       2. **ipPermitList** : 192.168.6.196/16##172.22.6.2/24##172.21.6.3/24 
-
+      
+- **LOG 수집 가이드**
+  - kubectl exec -it -n hyperauth -c log-collector $(kubectl get pod -n hyperauth | grep hyperauth | cut -d ' ' -f1) bash
+  - cd logs/
+  - 날짜별 수집된 로그를 확인 할 수 있음.
+  
 - **이미지 정보**
 
   ```sh
