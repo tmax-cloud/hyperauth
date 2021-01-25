@@ -5,9 +5,9 @@ public class Constants {
 	public static final String HYPERCLOUD4_OPERATOR_URL = "http://hypercloud4-operator-service.hypercloud4-system";
 	public static final String SERVICE_NAME_USER_NEW_ROLE_CREATE = "user";
 
-	// Webhook
-	public static final String HYPERCLOUD4_WEBHOOK_URL = "https://hypercloud4-webhook-svc.hypercloud4-system.svc";
-	public static final String SERVICE_NAME_AUDIT_AUTHENTICATION = "audit/authentication";
+//	// Webhook
+//	public static final String HYPERCLOUD4_WEBHOOK_URL = "https://hypercloud4-webhook-svc.hypercloud4-system.svc";
+//	public static final String SERVICE_NAME_AUDIT_AUTHENTICATION = "audit/authentication";
 
 	// hyperauth
 	public static final String SERVICE_NAME_LOGIN_AS_ADMIN = "auth/realms/master/protocol/openid-connect/token";
