@@ -39,8 +39,12 @@
     - IP Block 정책을 걸고자 하는 user에게 Attribute을 추가
       1. **ipBlock** : true
       2. **ipPermitList** : 192.168.6.196/16##172.22.6.2/24##172.21.6.3/24 
+      
 - **LOG 수집 가이드**
-  - kubectl 
+  - kubectl exec -it -n hyperauth -c log-collector $(kubectl get pod -n hyperauth | grep hyperauth | cut -d ' ' -f1) bash
+  - cd logs/
+  - 날짜별 수집된 로그를 확인 할 수 있음.
+  
 - **이미지 정보**
 
   ```sh
