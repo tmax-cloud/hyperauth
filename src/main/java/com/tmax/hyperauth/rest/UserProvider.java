@@ -386,6 +386,7 @@ public class UserProvider implements RealmResourceProvider {
                         String subject = "[Tmax 통합서비스] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
                         String msg = Constants.ACCOUNT_WITHDRAWAL_REQUEST_BODY;
                         Util.sendMail(session, email, subject, msg, null, null );
+                        status = Status.OK;
                         out = " User [" + userName + "] WithDrawal Request Success ";
                         event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).detail("userWithdrawal","t").success(); //FIXME
                     } else{
@@ -397,6 +398,8 @@ public class UserProvider implements RealmResourceProvider {
                     userModel.setEnabled(true);
                     if ( userModel.getAttributes() != null) userModel.removeAttribute("deletionDate");
                     event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).detail("userWithdrawal","f").success(); //FIXME
+                    status = Status.OK;
+                    out = "User [" + userName + "]  WithDrawal Cancellation Success";
                 }else {
                     // 유저 Attribute Update API
                     for ( String key : rep.getAttributes().keySet()) {
@@ -404,10 +407,10 @@ public class UserProvider implements RealmResourceProvider {
                         userModel.removeAttribute(key);
                         userModel.setAttribute(key, rep.getAttributes().get(key));
                     }
+                    status = Status.OK;
                     out = " User [" + userName + "] Update Success ";
                     event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).success();
                 }
-                status = Status.OK;
             } catch (Exception e) {
                 status = Status.BAD_REQUEST;
                 out = "User [" + userName + "] Update Falied  ";
