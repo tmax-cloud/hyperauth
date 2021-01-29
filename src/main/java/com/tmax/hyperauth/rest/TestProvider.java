@@ -1,13 +1,11 @@
 package com.tmax.hyperauth.rest;
 
-import com.tmax.hyperauth.caller.Constants;
-import com.tmax.hyperauth.jpa.EmailVerification;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.common.ClientConnection;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
 import org.keycloak.models.KeycloakSession;
-import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.services.resource.RealmResourceProvider;
+import org.keycloak.authentication.AuthenticationFlowContext;
 
 import javax.persistence.EntityManager;
 import javax.ws.rs.*;
@@ -15,10 +13,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import java.sql.Connection;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * @author taegeon_woo@tmax.co.kr

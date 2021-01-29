@@ -356,24 +356,49 @@ public class UserProvider implements RealmResourceProvider {
 
             try {
                 if (withdrawal != null && withdrawal.equalsIgnoreCase("t")){
-                    Date currentDate = new Date();
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTime(currentDate);
-                    cal.add(Calendar.DATE, 30);
-                    Date deletionDate = cal.getTime();
-                    SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    String deletionDateString = transFormat.format(deletionDate);
+                    // 유저 탈퇴 신청 API
+                    // Withdrawal Qualification Validation
+                    boolean isQualified = true;
+                    String unQualifiedReason = null;
+                    if(userModel.getAttributes()!=null) {
+                        for (String key : userModel.getAttributes().keySet()) {
+                            if ( key.startsWith( "withdrawal_unqualified_") && userModel.getAttribute(key).toString().equalsIgnoreCase("t")){
+                                isQualified = false;
+                                unQualifiedReason = key.substring(23);
+                                break;
+                            }
+                        }
+                    }
+                    if (isQualified){
+                        //Deletion Date Calculate
+                        Date currentDate = new Date();
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(currentDate);
+                        cal.add(Calendar.DATE, 30);
+                        Date deletionDate = cal.getTime();
+                        SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        String deletionDateString = transFormat.format(deletionDate);
 
-                    userModel.removeAttribute("deletionDate");
-                    userModel.setAttribute("deletionDate", Arrays.asList(deletionDateString));
-                    userModel.setEnabled(false);
-                    String email = userModel.getEmail();
-                    String subject = "[Tmax 통합서비스] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
-                    String msg = Constants.ACCOUNT_WITHDRAWAL_REQUEST_BODY;
-                    Util.sendMail(session, email, subject, msg, null, null );
-                    out = " User [" + userName + "] WithDrawal Request Success ";
-                    event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).detail("userWithdrawal","t").success(); //FIXME
-                } else {
+                        if(userModel.getAttributes()!=null) userModel.removeAttribute("deletionDate");
+                        userModel.setAttribute("deletionDate", Arrays.asList(deletionDateString));
+                        userModel.setEnabled(false);
+                        String email = userModel.getEmail();
+                        String subject = "[Tmax 통합서비스] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
+                        String msg = Constants.ACCOUNT_WITHDRAWAL_REQUEST_BODY;
+                        Util.sendMail(session, email, subject, msg, null, null );
+                        out = " User [" + userName + "] WithDrawal Request Success ";
+                        event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).detail("userWithdrawal","t").success(); //FIXME
+                    } else{
+                        status = Status.FORBIDDEN;
+                        out = "User [" + userName + "] is Unqualified to Withdraw from Account due to [" + unQualifiedReason + "] Policy, Check Withdrawal Policy or Contact Administrator";
+                    }
+                } else if (withdrawal != null && withdrawal.equalsIgnoreCase("f")) {
+                    // 유저 탈퇴 신청 철회 API
+                    userModel.setEnabled(true);
+                    if ( userModel.getAttributes() != null) userModel.removeAttribute("deletionDate");
+                    event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).detail("userWithdrawal","f").success(); //FIXME
+                }else {
+                    // 유저 Attribute Update API
                     for ( String key : rep.getAttributes().keySet()) {
                         System.out.println("[key] : " + key + " || [value] : " + userModel.getAttribute(key) + " ==> " + rep.getAttributes().get(key));
                         userModel.removeAttribute(key);
