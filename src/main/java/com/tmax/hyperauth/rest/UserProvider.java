@@ -361,8 +361,12 @@ public class UserProvider implements RealmResourceProvider {
                     boolean isQualified = true;
                     String unQualifiedReason = null;
                     if(userModel.getAttributes()!=null) {
+                        System.out.println("1111");
                         for (String key : userModel.getAttributes().keySet()) {
+                            System.out.println("key : " + key + " || " + userModel.getAttribute(key).toString());
                             if ( key.startsWith( "withdrawal_unqualified_") && userModel.getAttribute(key).toString().equalsIgnoreCase("t")){
+                                System.out.println("2222");
+
                                 isQualified = false;
                                 unQualifiedReason = key.substring(23);
                                 break;
