@@ -23,6 +23,7 @@
           - USER_DELETE : 탈퇴 신청을 한 유저가 실제로 지워진 경우, Admin Console에서 Admin 권한으로 유저가 삭제된 경우  
     - https://cwiki.apache.org/confluence/display/KAFKA/Clients 
       - java외 다른 언어의 경우 참조할 것.
+      - Golang 가이드 : https://github.com/tmax-cloud/hypercloud-api-server/blob/master/util/Consumer/KafkaConsumer.go
     - 현재 Topic Event Data 보관 기간 : 7일
       
   - **EmailOTP 2-factor 인증 기능 사용 가이드**
