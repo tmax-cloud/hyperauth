@@ -20,6 +20,7 @@
         - https://www.keycloak.org/docs-api/6.0/javadocs/org/keycloak/events/EventType.html 참조
         - 추가
           - USER_WITHDRAWAL : 유저가 탈퇴 신청을 한 경우
+          - USER_WITHDRAWAL_CANCEL : 유저가 탈퇴신청을 철회한 경우
           - USER_DELETE : 탈퇴 신청을 한 유저가 실제로 지워진 경우, Admin Console에서 Admin 권한으로 유저가 삭제된 경우  
     - https://cwiki.apache.org/confluence/display/KAFKA/Clients 
       - java외 다른 언어의 경우 참조할 것.
