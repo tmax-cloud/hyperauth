@@ -127,7 +127,7 @@
     
     <u>사용자 자신의 권한으로</u> 사용자 정보를 수정하는 API
     
-    <u>사용자 자신의 권한으로</u> 탈퇴를 신청하는 API (겸)
+    <u>사용자 자신의 권한으로</u> 탈퇴를 신청 / 탈퇴 신청을 철회하는 API (겸)
     
   - **RequestURL**
 
@@ -142,6 +142,8 @@
       token : {AccessToken}
 
        withdrawal : t  (사용자 탈퇴 신청을 할 경우 추가)
+       
+       withdrawal : f  (사용자 탈퇴 신청을 철회할 경우 추가)
 
   - **PathParam**
 
