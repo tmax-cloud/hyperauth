@@ -67,10 +67,9 @@
       - **isAdmin**
       - **otpEnable**
       - **agreeMailOpt**
-      - **agree_ischecked_portal**
-      - **agree_ischecked_hypermeeting**
-      - **agreeAdvPortalOpt**
-      - **agreeAdvHyperMeetingOpt**
+      - **agree_ischecked_{client_name}**
+      - **agreeAdv{client_name}Opt**
+      - **withdrawal_unqualified_{client_name}**
     - USER
       - 사용자의 username은 attribute으로 관리
         - user_name : 한글/영어
