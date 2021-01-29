@@ -5,10 +5,12 @@ import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.config.SslConfigs;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.jboss.logging.Logger;
 
 import java.util.Properties;
 
 public class Producer {
+    private static final Logger logger = Logger.getLogger(Producer.class);
     private final static String BOOTSTRAP_SERVER = "kafka-1."+System.getenv("NAMESPACE")+":9092,kafka-2."+System.getenv("NAMESPACE")+":9092,kafka-3."+System.getenv("NAMESPACE")+":9092";
     public static void publishEvent(String topic, Object value){
         //reset thread context
