@@ -16,20 +16,20 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 /**
- * @author taegeon_woo@tmax.co.kr
+ * @author taegeon_woo@tmax.co.krt
  */
 public class PasswordUpdateAlertAuthenticator implements Authenticator {
 
     protected boolean hasTimePassed(AuthenticationFlowContext context, int period) {
         try{
-            Long lastPWUpdateTime = (AuthenticatorUtil.getAttributeValue(context.getUser(), AuthenticatorConstants.USER_ATTR_LAST_PW_UPDATE_DATE) != null)?
+            long lastPWUpdateTime = (AuthenticatorUtil.getAttributeValue(context.getUser(), AuthenticatorConstants.USER_ATTR_LAST_PW_UPDATE_DATE) != null)?
                     Long.valueOf(AuthenticatorUtil.getAttributeValue(context.getUser(), AuthenticatorConstants.USER_ATTR_LAST_PW_UPDATE_DATE)) : context.getUser().getCreatedTimestamp();
             System.out.println( "lastPWUpdateTime : " + lastPWUpdateTime);
             // 1609228737654   1612023240732
-            Long now = System.currentTimeMillis();
+            long now = System.currentTimeMillis();
             System.out.println( "now : " + now);
 
-            long monthLong = 1000 * 60 * 60 * 24 * 30;  //2,592,000,000   2,794,503,078
+            long monthLong = 1000L * 60 * 60 * 24 * 30;  //2,592,000,000   2,794,503,078
             System.out.println( "monthLong : " + monthLong);
             System.out.println( "monthLong * period : " + monthLong * period);
             System.out.println( "now-lastPWUpdateTime : " + (now-lastPWUpdateTime));
@@ -75,8 +75,8 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
                 int skipPeriod = AuthenticatorUtil.getConfigInt(config, AuthenticatorConstants.CONF_PW_UPDATE_SKIP_PERIOD, 1);
                 System.out.println("User [ " + context.getUser().getUsername() + " ] Ask Again " + skipPeriod + "Month Later");
 
-                long monthLong = 1000 * 60 * 60 * 24 * 30;
-                Long newLastPWUpdateTime = System.currentTimeMillis() - monthLong * (updatePeriod - skipPeriod);
+                long monthLong = 1000L * 60 * 60 * 24 * 30;
+                long newLastPWUpdateTime = System.currentTimeMillis() - monthLong * (updatePeriod - skipPeriod);
                 context.getUser().setAttribute(AuthenticatorConstants.USER_ATTR_LAST_PW_UPDATE_DATE, Arrays.asList(Long.toString(newLastPWUpdateTime)));
                 context.success();
 
@@ -90,30 +90,31 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
                 if (StringUtil.isEmpty(password) ) {
                     Response challenge =  context.form()
                             .setError("Empty Password").createForm("password-update-alert-error.ftl");
-                    context.failureChallenge(AuthenticationFlowError.USER_DISABLED, challenge);
+                    context.failureChallenge(AuthenticationFlowError.CREDENTIAL_SETUP_REQUIRED, challenge);
                 } else if (!Pattern.compile("^(?:(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)|(?=.*[a-z])(?=.*[A-Z])(?=.*[$@$!%*?&])|(?=.*[a-z])(?=.*\\d)(?=.*[$@$!%*?&])|(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&]))[A-Za-z\\d$@$!%*?&]{9,20}$")
                         .matcher(password).matches()) {
                     Response challenge =  context.form()
                             .setError("Invalid password: violate the password policy").createForm("password-update-alert-error.ftl");
-                    context.failureChallenge(AuthenticationFlowError.USER_DISABLED, challenge);
+                    context.failureChallenge(AuthenticationFlowError.CREDENTIAL_SETUP_REQUIRED, challenge);
                 }
 //                else if (!password.equalsIgnoreCase(confirmPassword)){
 //                    Response challenge =  context.form()
 //                            .setError("Password and confirmation does not match. ").createForm("security-policy-validation-error.ftl");
 //                    context.failureChallenge(AuthenticationFlowError.USER_DISABLED, challenge);
 //                }
+                else{
+                    // Change Password
+                    System.out.println("User [ " + context.getUser().getUsername() + " ] Change Password to " + password);
+                    context.getSession().userCredentialManager().updateCredential(context.getRealm(),
+                            context.getUser(),
+                            UserCredentialModel.password(password, false));
+                    System.out.println("User [ " + context.getUser().getUsername() + " ] Change Password Success");
 
-                // Change Password
-                System.out.println("User [ " + context.getUser().getUsername() + " ] Change Password to " + password);
-                context.getSession().userCredentialManager().updateCredential(context.getRealm(),
-                        context.getUser(),
-                        UserCredentialModel.password(password, false));
-                System.out.println("User [ " + context.getUser().getUsername() + " ] Change Password Success");
-
-                // Event Publish
-                EventBuilder event = new EventBuilder(context.getRealm(), context.getSession(), context.getConnection());
-                event.event(EventType.UPDATE_PASSWORD).user(context.getUser()).realm("tmax").detail("username", context.getUser().getUsername()).success();
-                context.success();
+                    // Event Publish
+                    EventBuilder event = new EventBuilder(context.getRealm(), context.getSession(), context.getConnection());
+                    event.event(EventType.UPDATE_PASSWORD).user(context.getUser()).realm("tmax").detail("username", context.getUser().getUsername()).success();
+                    context.success();
+                }
             }
         }
     }
