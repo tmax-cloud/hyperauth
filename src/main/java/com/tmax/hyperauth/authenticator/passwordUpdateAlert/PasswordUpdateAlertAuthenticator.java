@@ -24,14 +24,10 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
         try{
             long lastPWUpdateTime = (AuthenticatorUtil.getAttributeValue(context.getUser(), AuthenticatorConstants.USER_ATTR_LAST_PW_UPDATE_DATE) != null)?
                     Long.valueOf(AuthenticatorUtil.getAttributeValue(context.getUser(), AuthenticatorConstants.USER_ATTR_LAST_PW_UPDATE_DATE)) : context.getUser().getCreatedTimestamp();
-            System.out.println( "lastPWUpdateTime : " + lastPWUpdateTime);
-            // 1609228737654   1612023240732
             long now = System.currentTimeMillis();
-            System.out.println( "now : " + now);
-
             long monthLong = 1000L * 60 * 60 * 24 * 30;  //2,592,000,000   2,794,503,078
-            System.out.println( "monthLong : " + monthLong);
-            System.out.println( "monthLong * period : " + monthLong * period);
+            System.out.println( "now : " + now);
+            System.out.println( "lastPWUpdateTime : " + lastPWUpdateTime);
             System.out.println( "now-lastPWUpdateTime : " + (now-lastPWUpdateTime));
 
             if ((now-lastPWUpdateTime) > monthLong * period){
