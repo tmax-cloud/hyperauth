@@ -1,11 +1,11 @@
-package com.tmax.hyperauth.authenticator.securityPolicy;
+package com.tmax.hyperauth.authenticator;
 
 import org.keycloak.models.AuthenticatorConfigModel;
 import org.keycloak.models.UserModel;
 
 import java.util.List;
-public class SecurityPolicyAuthenticatorUtil {
 
+public class AuthenticatorUtil {
     public static String getAttributeValue(UserModel user, String attributeName) {
         String result = null;
         List<String> values = user.getAttribute(attributeName);
@@ -24,7 +24,7 @@ public class SecurityPolicyAuthenticatorUtil {
 
         String value = defaultValue;
 
-        if (config.getConfig() != null) {
+        if (config != null && config.getConfig() != null) {
             // Get value
             value = config.getConfig().get(configName);
         }
@@ -36,20 +36,32 @@ public class SecurityPolicyAuthenticatorUtil {
         return getConfigLong(config, configName, null);
     }
 
+
     public static Long getConfigLong(AuthenticatorConfigModel config, String configName, Long defaultValue) {
-
         Long value = defaultValue;
-
-        if (config.getConfig() != null) {
+        if (config != null && config.getConfig() != null) {
             // Get value
             Object obj = config.getConfig().get(configName);
             try {
                 value = Long.valueOf((String) obj); // s --> ms
             } catch (NumberFormatException nfe) {
-                System.out.println("Can not convert " + obj + " to a number.");
+                System.out.println("NumberFormatException : Can not convert " + obj + " to a number.");
             }
         }
+        return value;
+    }
 
+    public static int getConfigInt(AuthenticatorConfigModel config, String configName, int defaultValue) {
+        int value = defaultValue;
+        if (config != null && config.getConfig() != null) {
+            // Get value
+            Object obj = config.getConfig().get(configName);
+            try {
+                value = Integer.valueOf((String) obj); // s --> ms
+            } catch (NumberFormatException nfe) {
+                System.out.println("NumberFormatException : Can not convert " + obj + " to a number int.");
+            }
+        }
         return value;
     }
 }

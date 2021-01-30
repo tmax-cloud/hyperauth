@@ -1,5 +1,6 @@
 package com.tmax.hyperauth.authenticator.securityPolicy;
 
+import com.tmax.hyperauth.authenticator.AuthenticatorUtil;
 import org.apache.commons.net.util.SubnetUtils;
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
@@ -18,7 +19,7 @@ public class SecurityPolicyAuthenticator implements Authenticator {
 
     protected boolean isSecurityPolicyEnabled(AuthenticationFlowContext context) {
         boolean flag = false;
-        String isIpBLock = SecurityPolicyAuthenticatorUtil.getAttributeValue(context.getUser(), "ipBlock");
+        String isIpBLock = AuthenticatorUtil.getAttributeValue(context.getUser(), "ipBlock");
         System.out.println("isSecurityPolicyEnabled From User Attribute : " + isIpBLock + ", user [ "+ context.getUser().getUsername() + " ]");
         if (isIpBLock != null && isIpBLock.equalsIgnoreCase("true")){
             flag = true;
@@ -68,10 +69,10 @@ public class SecurityPolicyAuthenticator implements Authenticator {
             return;
 
         }else{
+            System.out.println("Blocked by Security Policy!! , User[ " + context.getUser().getUsername() +" ]");
             Response challenge =  context.form()
                     .setError("Blocked by Security Policy.").createForm("security-policy-validation-error.ftl");
             context.failureChallenge(AuthenticationFlowError.USER_DISABLED, challenge);
-            System.out.println("Blocked by Security Policy!! , User[ " + context.getUser().getUsername() +" ]");
 
         }
     }

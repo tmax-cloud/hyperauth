@@ -1,5 +1,6 @@
 package com.tmax.hyperauth.authenticator.otp;
 
+import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
 import org.keycloak.Config;
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.authentication.AuthenticatorFactory;
@@ -67,7 +68,7 @@ public class EmailOTPAuthenticatorFactory implements AuthenticatorFactory, Confi
         // OTP CODE TTL
         ProviderConfigProperty property;
         property = new ProviderConfigProperty();
-        property.setName(EmailOTPAuthenticatorConstants.CONF_PRP_OTP_CODE_TTL);
+        property.setName(AuthenticatorConstants.CONF_PRP_OTP_CODE_TTL);
         property.setLabel("OTP code time to live");
         property.setType(ProviderConfigProperty.STRING_TYPE);
         property.setHelpText("The validity of the sent code in seconds.");
@@ -75,7 +76,7 @@ public class EmailOTPAuthenticatorFactory implements AuthenticatorFactory, Confi
 
         // OTP CODE LENGTH
         property = new ProviderConfigProperty();
-        property.setName(EmailOTPAuthenticatorConstants.CONF_PRP_OTP_CODE_LENGTH);
+        property.setName(AuthenticatorConstants.CONF_PRP_OTP_CODE_LENGTH);
         property.setLabel("Length of the OTP code");
         property.setType(ProviderConfigProperty.STRING_TYPE);
         property.setHelpText("Length of the SMS code.");
@@ -83,7 +84,7 @@ public class EmailOTPAuthenticatorFactory implements AuthenticatorFactory, Confi
 
         // OTP Text
         property = new ProviderConfigProperty();
-        property.setName(EmailOTPAuthenticatorConstants.CONF_PRP_OTP_TEXT);
+        property.setName(AuthenticatorConstants.CONF_PRP_OTP_TEXT);
         property.setLabel("Template of text to send to the user");
         property.setType(ProviderConfigProperty.STRING_TYPE);
         property.setHelpText("Use %sms-code% as placeholder for the generated SMS code.");

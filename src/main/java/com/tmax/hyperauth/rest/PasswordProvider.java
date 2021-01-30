@@ -13,6 +13,8 @@ import org.keycloak.credential.CredentialInput;
 import org.keycloak.credential.CredentialInputValidator;
 import org.keycloak.crypto.SignatureProvider;
 import org.keycloak.crypto.SignatureVerifierContext;
+import org.keycloak.events.EventBuilder;
+import org.keycloak.events.EventType;
 import org.keycloak.models.*;
 import org.keycloak.models.utils.CredentialValidation;
 import org.keycloak.models.utils.FormMessage;
@@ -79,6 +81,9 @@ public class PasswordProvider implements RealmResourceProvider {
             System.out.println("email : " + email);
 
             RealmModel realm = session.realms().getRealmByName("tmax");
+            clientConnection = session.getContext().getConnection();
+            EventBuilder event = new EventBuilder(realm, session, clientConnection); // FIXME
+
             List< EmailVerification > emailCodeList = null;
 
             boolean isVerified = false;
@@ -146,6 +151,9 @@ public class PasswordProvider implements RealmResourceProvider {
                 }
                 System.out.println("delete DB data Success");
             }
+
+            // Event Publish
+            event.event(EventType.UPDATE_PASSWORD).user(userModel).realm("tmax").detail("username", userModel.getUsername()).success(); // FIXME
 
             status = Status.OK;
             out = "Reset Password Success";

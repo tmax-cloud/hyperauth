@@ -1,10 +1,12 @@
 package com.tmax.hyperauth.eventlistener.provider;
 
-import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.ws.rs.core.Context;
 
+import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
 import org.jboss.logging.Logger;
 import org.keycloak.events.Event;
 import org.keycloak.events.EventListenerProvider;
@@ -49,7 +51,7 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                     // when user registered, operator call for new role
                     System.out.println("New User Registered in tmax Realm, Give New role for User in Kubernetes");
                     try {
-                        HypercloudOperatorCaller.createNewUserRole(event.getDetails().get("username"));
+                        HypercloudOperatorCaller.createNewUserRole(event.getDetails().get("username"));   //FIXME : Delete Later !!!!
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -107,8 +109,10 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                         }
                     }, interval, email);
                     break;
+                case "UPDATE_PASSWORD" :
+                        UserModel user = session.users().getUserById(event.getUserId(), session.realms().getRealmByName(event.getRealmId()));
+                        user.setAttribute(AuthenticatorConstants.USER_ATTR_LAST_PW_UPDATE_DATE, Arrays.asList(Long.toString(event.getTime())));
             }
-
             // TOPIC Event Publish !!
             try {
                 Producer.publishEvent("tmax", topicEvent);
@@ -121,7 +125,7 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
     @Override
     public void onEvent(AdminEvent adminEvent, boolean includeRepresentation) {
         System.out.println("Admin Event Occurred:" + toString(adminEvent));
-        // when user registered by admin, operator call for new role 
+        // when user registered by admin, operator call for new role   //FIXME : Delete Later !!!!
         if (adminEvent.getOperationType().toString().equalsIgnoreCase("CREATE")
                 && adminEvent.getResourcePath().toString().startsWith("users")
                 && adminEvent.getResourcePath().toString().length() == 42) {
@@ -136,7 +140,7 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
             }
         }
 
-        // when user deleted by admin, operator call for delete role
+        // when user deleted by admin, operator call for delete role  //FIXME : Delete Later !!!!
         if (adminEvent.getOperationType().toString().equalsIgnoreCase("DELETE") && adminEvent.getResourcePath().toString().startsWith("users")) {
             System.out.println("User Deleted in tmax Realm by Admin, Delete user role for new User in Kubernetes");
             try {

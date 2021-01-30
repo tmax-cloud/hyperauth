@@ -1,6 +1,7 @@
 package com.tmax.hyperauth.authenticator.otp;
 
-import com.tmax.hyperauth.authenticator.securityPolicy.SecurityPolicyAuthenticatorUtil;
+import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
+import com.tmax.hyperauth.authenticator.AuthenticatorUtil;
 import com.tmax.hyperauth.caller.Constants;
 import com.tmax.hyperauth.rest.Util;
 
@@ -16,7 +17,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.util.Date;
 import java.util.Random;
-import org.keycloak.services.messages.Messages;
 
 /**
  * @author taegeon_woo@tmax.co.kr
@@ -31,7 +31,7 @@ public class EmailOTPAuthenticator implements Authenticator {
 
     protected boolean isOTPEnabled(AuthenticationFlowContext context) {
         boolean flag = false;
-        String otpEnabled = EmailOTPAuthenticatorUtil.getAttributeValue(context.getUser(), "otpEnable");
+        String otpEnabled = AuthenticatorUtil.getAttributeValue(context.getUser(), "otpEnable");
         System.out.println("otpEnabled From Attribute : " + otpEnabled + ", user [ "+ context.getUser().getUsername() + " ]");
         if (otpEnabled != null && otpEnabled.equalsIgnoreCase("true")){
             flag = true;
@@ -49,10 +49,10 @@ public class EmailOTPAuthenticator implements Authenticator {
         }
 
         AuthenticatorConfigModel config = context.getAuthenticatorConfig();
-        long nrOfDigits = EmailOTPAuthenticatorUtil.getConfigLong(config, EmailOTPAuthenticatorConstants.CONF_PRP_OTP_CODE_LENGTH, 6L);
+        long nrOfDigits = AuthenticatorUtil.getConfigLong(config, AuthenticatorConstants.CONF_PRP_OTP_CODE_LENGTH, 6L);
         System.out.println("Using nrOfDigits " + nrOfDigits + ", user [ "+ context.getUser().getUsername() + " ]");
 
-        long ttl = EmailOTPAuthenticatorUtil.getConfigLong(config, EmailOTPAuthenticatorConstants.CONF_PRP_OTP_CODE_TTL, 10 * 60L); // 10 minutes in s
+        long ttl = AuthenticatorUtil.getConfigLong(config, AuthenticatorConstants.CONF_PRP_OTP_CODE_TTL, 10 * 60L); // 10 minutes in s
         System.out.println("Using ttl " + ttl + " (s) , user [ "+ context.getUser().getUsername() + " ]");
 
         String code = getOTPCode(nrOfDigits);
@@ -119,12 +119,12 @@ public class EmailOTPAuthenticator implements Authenticator {
 
         CODE_STATUS result = CODE_STATUS.INVALID;
         MultivaluedMap<String, String> formData = context.getHttpRequest().getDecodedFormParameters();
-        String enteredCode = formData.getFirst(EmailOTPAuthenticatorConstants.ANSW_OTP_CODE);
+        String enteredCode = formData.getFirst(AuthenticatorConstants.ANSW_OTP_CODE);
 
         String expectedCode = context.getSession().userCredentialManager().getStoredCredentialsByType(context.getRealm(), context.getUser(),
-                EmailOTPAuthenticatorConstants.USR_CRED_MDL_OTP_CODE).get(0).getCredentialData();
+                AuthenticatorConstants.USR_CRED_MDL_OTP_CODE).get(0).getCredentialData();
         String expTimeString = context.getSession().userCredentialManager().getStoredCredentialsByType(context.getRealm(), context.getUser(),
-                EmailOTPAuthenticatorConstants.USR_CRED_MDL_OTP_EXP_TIME).get(0).getCredentialData();
+                AuthenticatorConstants.USR_CRED_MDL_OTP_EXP_TIME).get(0).getCredentialData();
 
         System.out.println("Expected code = " + expectedCode + "    entered code = " + enteredCode + ", user [ "+ context.getUser().getUsername() + " ]");
 
@@ -172,12 +172,12 @@ public class EmailOTPAuthenticator implements Authenticator {
         CredentialModel credentials = new CredentialModel();
         credentials.setId(UUID.randomUUID().toString());
         credentials.setCreatedDate(new Date().getTime());
-        credentials.setType(EmailOTPAuthenticatorConstants.USR_CRED_MDL_OTP_CODE);
+        credentials.setType(AuthenticatorConstants.USR_CRED_MDL_OTP_CODE);
         credentials.setCredentialData(code);
 
         // Delete Previous Credentials if Exists
         List< CredentialModel > storedCredentials = context.getSession().userCredentialManager()
-                .getStoredCredentialsByType(context.getRealm(), context.getUser(), EmailOTPAuthenticatorConstants.USR_CRED_MDL_OTP_CODE);
+                .getStoredCredentialsByType(context.getRealm(), context.getUser(), AuthenticatorConstants.USR_CRED_MDL_OTP_CODE);
         removeCredentials(context, storedCredentials);
 
         // Create New Credentials
@@ -186,12 +186,12 @@ public class EmailOTPAuthenticator implements Authenticator {
         // For OTP Code TTL
         credentials.setId(UUID.randomUUID().toString());
         credentials.setCreatedDate(new Date().getTime());
-        credentials.setType(EmailOTPAuthenticatorConstants.USR_CRED_MDL_OTP_EXP_TIME);
+        credentials.setType(AuthenticatorConstants.USR_CRED_MDL_OTP_EXP_TIME);
         credentials.setCredentialData((expiringAt).toString());
 
         // Delete Previous Credentials if Exists
         storedCredentials = context.getSession().userCredentialManager()
-                .getStoredCredentialsByType(context.getRealm(), context.getUser(), EmailOTPAuthenticatorConstants.USR_CRED_MDL_OTP_EXP_TIME);
+                .getStoredCredentialsByType(context.getRealm(), context.getUser(), AuthenticatorConstants.USR_CRED_MDL_OTP_EXP_TIME);
         removeCredentials(context, storedCredentials);
 
         // Create New Credentials
