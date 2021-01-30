@@ -24,9 +24,18 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
         try{
             Long lastPWUpdateTime = (AuthenticatorUtil.getAttributeValue(context.getUser(), AuthenticatorConstants.USER_ATTR_LAST_PW_UPDATE_DATE) != null)?
                     Long.valueOf(AuthenticatorUtil.getAttributeValue(context.getUser(), AuthenticatorConstants.USER_ATTR_LAST_PW_UPDATE_DATE)) : context.getUser().getCreatedTimestamp();
+            System.out.println( "lastPWUpdateTime : " + lastPWUpdateTime);
+            // 1609228737654   1612023240732
             Long now = System.currentTimeMillis();
-            long monthLong = 1000 * 60 * 60 * 24 * 30;
+            System.out.println( "now : " + now);
+
+            long monthLong = 1000 * 60 * 60 * 24 * 30;  //2,592,000,000   2,794,503,078
+            System.out.println( "monthLong : " + monthLong);
+            System.out.println( "monthLong * period : " + monthLong * period);
+            System.out.println( "now-lastPWUpdateTime : " + (now-lastPWUpdateTime));
+
             if ((now-lastPWUpdateTime) > monthLong * period){
+                System.out.println( "return true");
                 return true;
             }
         }catch(Exception e){
@@ -104,6 +113,7 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
                 // Event Publish
                 EventBuilder event = new EventBuilder(context.getRealm(), context.getSession(), context.getConnection());
                 event.event(EventType.UPDATE_PASSWORD).user(context.getUser()).realm("tmax").detail("username", context.getUser().getUsername()).success();
+                context.success();
             }
         }
     }
