@@ -80,25 +80,30 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
 
                 System.out.println("User [ " + context.getUser().getUsername() + " ] Insert New Password !");
                 String password = formData.getFirst(AuthenticatorConstants.USER_PASSWORD);
-//                String confirmPassword = formData.getFirst(AuthenticatorConstants.USER_PASSWORD_CONFIRM); //TODO : ftl 받으면 살리자
+                String confirmPassword = formData.getFirst(AuthenticatorConstants.USER_PASSWORD_CONFIRM); //TODO : ftl 받으면 살리자
 
-//                if (StringUtil.isEmpty(password) || StringUtil.isEmpty(confirmPassword)) {
-                if (StringUtil.isEmpty(password) ) {
+                if (StringUtil.isEmpty(password) || StringUtil.isEmpty(confirmPassword)) {
+//                if (StringUtil.isEmpty(password) ) {
                     Response challenge =  context.form()
-                            .setError("Empty Password").createForm("password-update-alert-error.ftl");
+                            .setError("Empty Password").createForm("password-update-alert.ftl");
                     context.failureChallenge(AuthenticationFlowError.CREDENTIAL_SETUP_REQUIRED, challenge);
                 } else if (!Pattern.compile("^(?:(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)|(?=.*[a-z])(?=.*[A-Z])(?=.*[$@$!%*?&])|(?=.*[a-z])(?=.*\\d)(?=.*[$@$!%*?&])|(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&]))[A-Za-z\\d$@$!%*?&]{9,20}$")
                         .matcher(password).matches()) {
                     Response challenge =  context.form()
-                            .setError("Invalid password: violate the password policy").createForm("password-update-alert-error.ftl");
+                            .setError("Invalid password: violate the password policy").createForm("password-update-alert.ftl");
                     context.failureChallenge(AuthenticationFlowError.CREDENTIAL_SETUP_REQUIRED, challenge);
                 }
-//                else if (!password.equalsIgnoreCase(confirmPassword)){
-//                    Response challenge =  context.form()
-//                            .setError("Password and confirmation does not match. ").createForm("security-policy-validation-error.ftl");
-//                    context.failureChallenge(AuthenticationFlowError.USER_DISABLED, challenge);
-//                }
-                else{
+                else if (!password.equalsIgnoreCase(confirmPassword)){
+                    Response challenge =  context.form()
+                            .setError("Password and confirmation does not match. ").createForm("security-policy-validation-error.ftl");
+                    context.failureChallenge(AuthenticationFlowError.USER_DISABLED, challenge);
+                }
+                // Verfify if Same with Old password
+                else if ( sameWithOldPW( password, context) ){
+                    Response challenge =  context.form()
+                            .setError("It matches the old password").createForm("password-update-alert.ftl");
+                    context.failureChallenge(AuthenticationFlowError.CREDENTIAL_SETUP_REQUIRED, challenge);
+                } else{
                     // Change Password
                     System.out.println("User [ " + context.getUser().getUsername() + " ] Change Password to " + password);
                     context.getSession().userCredentialManager().updateCredential(context.getRealm(),
@@ -112,6 +117,15 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
                     context.success();
                 }
             }
+        }
+    }
+
+    private boolean sameWithOldPW(String password, AuthenticationFlowContext context) {
+        UserCredentialModel cred = UserCredentialModel.password(password);
+        if (context.getSession().userCredentialManager().isValid(context.getRealm(), context.getUser(), cred)) {
+            return true;
+        } else {
+            return false;
         }
     }
 
