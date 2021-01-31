@@ -95,7 +95,7 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
                 }
                 else if (!password.equalsIgnoreCase(confirmPassword)){
                     Response challenge =  context.form()
-                            .setError("Password and confirmation does not match. ").createForm("security-policy-validation-error.ftl");
+                            .setError("Password and confirmation does not match. ").createForm("password-update-alert.ftl");
                     context.failureChallenge(AuthenticationFlowError.USER_DISABLED, challenge);
                 }
                 // Verfify if Same with Old password
