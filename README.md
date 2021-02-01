@@ -28,13 +28,13 @@
     - 현재 Topic Event Data 보관 기간 : 7일
     
   - **비밀번호 변경 3개월 경과시 비밀번호 변경 유도 기능 사용 가이드**
-    - Authentication - Bindings - Brower Flow : **Browser with Browser With PasswordUpdateAlert** 선택
+    - Authentication - Bindings - Brower Flow : **Browser With PasswordUpdateAlert** 선택
     - 비밀번호 변경( 한적이 없는 경우, 최초 생성 ) 3개월 경과시, 로그인 시 비밀번호 변경 유도 화면 나타남
     - 과거에 사용하던 비밀번호 사용 불가능
     - 다음에 변경하기 : 1개월 후에 다시 나타남
     
   - **탈퇴 신청 로그인시, 탈퇴 신청 철회 화면 사용 가이드**
-    - Authentication - Bindings - Brower Flow : **Browser with Browser With User Withdrawal Cancel ** 선택
+    - Authentication - Bindings - Brower Flow : **Browser With User Withdrawal Cancel ** 선택
     - 탈퇴 취소 버튼 클릭 시, 탈퇴 신청이 취소되고, 정상적으로 서비스 이용가능
   
   - **EmailOTP 2-factor 인증 기능 사용 가이드**
