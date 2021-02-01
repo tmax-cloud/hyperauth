@@ -2,18 +2,11 @@ package com.tmax.hyperauth.authenticator.withdrawalCancel;
 
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
 import com.tmax.hyperauth.authenticator.AuthenticatorUtil;
-import com.tmax.hyperauth.caller.StringUtil;
 import org.keycloak.authentication.AuthenticationFlowContext;
-import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.authentication.Authenticator;
-import org.keycloak.events.EventBuilder;
-import org.keycloak.events.EventType;
 import org.keycloak.models.*;
-
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import java.util.*;
-import java.util.regex.Pattern;
+
 
 /**
  * @author taegeon_woo@tmax.co.krt

@@ -19,9 +19,7 @@ public class WithdrawalCancelAuthenticatorFactory implements AuthenticatorFactor
 
     public static final String PROVIDER_ID = "withdrawal-cancel-authenticator ";
     private static final WithdrawalCancelAuthenticator SINGLETON = new WithdrawalCancelAuthenticator();
-
     private static final List<ProviderConfigProperty> configProperties = new ArrayList<ProviderConfigProperty>();
-
 
     @Override
     public String getId() {
@@ -73,13 +71,13 @@ public class WithdrawalCancelAuthenticatorFactory implements AuthenticatorFactor
     @Override
     public String getDisplayType() {
         System.out.println("getDisplayType called ... returning Withdrawal Cancel");
-        return "Password Update Alert";
+        return "User Withdrawal Cancel";
     }
 
     @Override
     public String getReferenceCategory() {
         System.out.println("getReferenceCategory called ... returning withdrawal-cancel");
-        return "password-update-alert";
+        return "user-withdrawal-cancel";
     }
 
     @Override
