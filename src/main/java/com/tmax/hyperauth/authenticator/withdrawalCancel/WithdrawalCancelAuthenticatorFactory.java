@@ -22,16 +22,10 @@ public class WithdrawalCancelAuthenticatorFactory implements AuthenticatorFactor
     private static final List<ProviderConfigProperty> configProperties = new ArrayList<ProviderConfigProperty>();
 
     @Override
-    public String getId() {
-        System.out.println("getId called ... returning " + PROVIDER_ID);
-        return PROVIDER_ID;
-    }
+    public String getId() { return PROVIDER_ID; }
 
     @Override
-    public Authenticator create(KeycloakSession session) {
-        System.out.println("create called ... returning " + SINGLETON);
-        return SINGLETON;
-    }
+    public Authenticator create(KeycloakSession session) { return SINGLETON; }
 
     private static AuthenticationExecutionModel.Requirement[] REQUIREMENT_CHOICES = {
             AuthenticationExecutionModel.Requirement.REQUIRED,
@@ -39,56 +33,31 @@ public class WithdrawalCancelAuthenticatorFactory implements AuthenticatorFactor
             AuthenticationExecutionModel.Requirement.DISABLED
     };
     @Override
-    public AuthenticationExecutionModel.Requirement[] getRequirementChoices() {
-        System.out.println("getRequirementChoices called ... returning " + REQUIREMENT_CHOICES);
-        return REQUIREMENT_CHOICES;
-    }
+    public AuthenticationExecutionModel.Requirement[] getRequirementChoices() { return REQUIREMENT_CHOICES; }
 
     @Override
-    public boolean isUserSetupAllowed() {
-        System.out.println("isUserSetupAllowed called ... returning true");
-        return true;
-    }
+    public boolean isUserSetupAllowed() { return true; }
 
     @Override
-    public boolean isConfigurable() {
-        System.out.println("isConfigurable called ... returning true");
-        return true;
-    }
+    public boolean isConfigurable() { return true; }
 
     @Override
-    public List<ProviderConfigProperty> getConfigProperties() {
-        System.out.println("return Withdrawal Cancel ConfigProperties ");
-        return configProperties;
-    }
+    public List<ProviderConfigProperty> getConfigProperties() { return configProperties; }
 
     @Override
-    public String getHelpText() {
-        System.out.println("getHelpText called ...");
-        return "Withdrawal Cancel Page will be up to User who requested Withdrawal";
-    }
+    public String getHelpText() { return "Withdrawal Cancel Page will be up to User who requested Withdrawal"; }
 
     @Override
-    public String getDisplayType() {
-        System.out.println("getDisplayType called ... returning Withdrawal Cancel");
-        return "User Withdrawal Cancel";
-    }
+    public String getDisplayType() { return "User Withdrawal Cancel"; }
 
     @Override
-    public String getReferenceCategory() {
-        System.out.println("getReferenceCategory called ... returning withdrawal-cancel");
-        return "user-withdrawal-cancel";
-    }
+    public String getReferenceCategory() { return "user-withdrawal-cancel"; }
 
     @Override
-    public void init(Config.Scope config) {
-        System.out.println("init called ... config.scope = " + config);
-    }
+    public void init(Config.Scope config) { }
 
     @Override
-    public void postInit(KeycloakSessionFactory factory) {
-        System.out.println("postInit called ... factory = " + factory);
-    }
+    public void postInit(KeycloakSessionFactory factory) { }
 
     @Override
     public void close() {

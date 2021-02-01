@@ -20,6 +20,17 @@ public class SecretQuestionAuthenticatorFactory implements AuthenticatorFactory,
 
     public static final String PROVIDER_ID = "secret-question-authenticator";
     private static final SecretQuestionAuthenticator SINGLETON = new SecretQuestionAuthenticator();
+    private static final List<ProviderConfigProperty> configProperties = new ArrayList<ProviderConfigProperty>();
+
+    static {
+        ProviderConfigProperty property;
+        property = new ProviderConfigProperty();
+        property.setName("cookie.max.age");
+        property.setLabel("Cookie Max Age");
+        property.setType(ProviderConfigProperty.STRING_TYPE);
+        property.setHelpText("Max age in seconds of the SECRET_QUESTION_COOKIE.");
+        configProperties.add(property);
+    }
 
     @Override
     public String getId() {
@@ -47,34 +58,13 @@ public class SecretQuestionAuthenticatorFactory implements AuthenticatorFactory,
     }
 
     @Override
-    public boolean isConfigurable() {
-        System.out.println("return Secret Configurable true ");
-        return true;
-    }
+    public boolean isConfigurable() { return true; }
 
     @Override
-    public List<ProviderConfigProperty> getConfigProperties() {
-        System.out.println("return Secret ConfigProperties ");
-        return configProperties;
-    }
-
-    private static final List<ProviderConfigProperty> configProperties = new ArrayList<ProviderConfigProperty>();
-
-    static {
-        ProviderConfigProperty property;
-        property = new ProviderConfigProperty();
-        property.setName("cookie.max.age");
-        property.setLabel("Cookie Max Age");
-        property.setType(ProviderConfigProperty.STRING_TYPE);
-        property.setHelpText("Max age in seconds of the SECRET_QUESTION_COOKIE.");
-        configProperties.add(property);
-    }
-
+    public List<ProviderConfigProperty> getConfigProperties() { return configProperties; }
 
     @Override
-    public String getHelpText() {
-        return "A secret question that a user has to answer. i.e. What is your mother's maiden name.";
-    }
+    public String getHelpText() { return "A secret question that a user has to answer. i.e. What is your mother's maiden name."; }
 
     @Override
     public String getDisplayType() {
@@ -87,20 +77,12 @@ public class SecretQuestionAuthenticatorFactory implements AuthenticatorFactory,
     }
 
     @Override
-    public void init(Config.Scope config) {
-
-    }
+    public void init(Config.Scope config) { }
 
     @Override
-    public void postInit(KeycloakSessionFactory factory) {
-
-    }
+    public void postInit(KeycloakSessionFactory factory) { }
 
     @Override
-    public void close() {
-
-    }
-
-
+    public void close() { }
 }
 

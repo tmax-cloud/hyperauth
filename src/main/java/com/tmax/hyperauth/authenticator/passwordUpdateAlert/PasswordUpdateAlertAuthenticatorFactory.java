@@ -1,7 +1,6 @@
 package com.tmax.hyperauth.authenticator.passwordUpdateAlert;
 
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
-import com.tmax.hyperauth.authenticator.securityPolicy.SecurityPolicyAuthenticator;
 import org.keycloak.Config;
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.authentication.AuthenticatorFactory;
@@ -10,6 +9,7 @@ import org.keycloak.models.AuthenticationExecutionModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
+import org.keycloak.provider.ProviderConfigurationBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,6 @@ public class PasswordUpdateAlertAuthenticatorFactory implements AuthenticatorFac
 
     public static final String PROVIDER_ID = "password-update-alert-authenticator ";
     private static final PasswordUpdateAlertAuthenticator SINGLETON = new PasswordUpdateAlertAuthenticator();
-
     private static final List<ProviderConfigProperty> configProperties = new ArrayList<ProviderConfigProperty>();
 
     static {
@@ -42,16 +41,10 @@ public class PasswordUpdateAlertAuthenticatorFactory implements AuthenticatorFac
     }
 
     @Override
-    public String getId() {
-        System.out.println("getId called ... returning " + PROVIDER_ID);
-        return PROVIDER_ID;
-    }
+    public String getId() { return PROVIDER_ID; }
 
     @Override
-    public Authenticator create(KeycloakSession session) {
-        System.out.println("create called ... returning " + SINGLETON);
-        return SINGLETON;
-    }
+    public Authenticator create(KeycloakSession session) { return SINGLETON; }
 
     private static AuthenticationExecutionModel.Requirement[] REQUIREMENT_CHOICES = {
             AuthenticationExecutionModel.Requirement.REQUIRED,
@@ -59,62 +52,55 @@ public class PasswordUpdateAlertAuthenticatorFactory implements AuthenticatorFac
             AuthenticationExecutionModel.Requirement.DISABLED
     };
     @Override
-    public AuthenticationExecutionModel.Requirement[] getRequirementChoices() {
-        System.out.println("getRequirementChoices called ... returning " + REQUIREMENT_CHOICES);
-        return REQUIREMENT_CHOICES;
-    }
+    public AuthenticationExecutionModel.Requirement[] getRequirementChoices() { return REQUIREMENT_CHOICES; }
 
     @Override
-    public boolean isUserSetupAllowed() {
-        System.out.println("isUserSetupAllowed called ... returning true");
-        return true;
-    }
+    public boolean isUserSetupAllowed() { return false; }
 
     @Override
-    public boolean isConfigurable() {
-        System.out.println("isConfigurable called ... returning true");
-        return true;
-    }
+    public boolean isConfigurable() { return true; }
 
     @Override
     public List<ProviderConfigProperty> getConfigProperties() {
-        System.out.println("return PasswordUpdateAlert ConfigProperties ");
-        return configProperties;
-    }
-
-
-
-
-    @Override
-    public String getHelpText() {
-        System.out.println("getHelpText called ...");
-        return "Password Update Alert When User Login After Certain Month Since User Update Password";
-    }
-
-    @Override
-    public String getDisplayType() {
-        System.out.println("getDisplayType called ... returning User Security Policy");
-        return "Password Update Alert";
-    }
-
-    @Override
-    public String getReferenceCategory() {
-        System.out.println("getReferenceCategory called ... returning user-security-policy");
-        return "password-update-alert";
-    }
-
-    @Override
-    public void init(Config.Scope config) {
-        System.out.println("init called ... config.scope = " + config);
+        return ProviderConfigurationBuilder
+                .create()
+                .property().name("aaaa")
+                .type(ProviderConfigProperty.PASSWORD)
+                .label("Encryption Key")
+                .defaultValue("changeme")
+                .helpText("Encryption key")
+                .add()
+                .property().name("bbbb")
+                .type(ProviderConfigProperty.STRING_TYPE)
+                .label("Session Reference Mag Age")
+                .defaultValue("30")
+                .helpText("Maximum age of session reference in seconds")
+                .add().property().name("cccc")
+                .type(ProviderConfigProperty.STRING_TYPE)
+                .label("Session Validation URL")
+                .defaultValue("")
+                .helpText("Url to validate the encrypted session token against. " +
+                        "The URI placeholder {sessionHandle} will be replaced with the encrypted sessionHandle. " +
+                        "The URI placeholder {sessionHandleSalt} will be replaced with the salt used for the encrypted sessionHandle. " +
+                        "An example URI can look like this: http://myserver/myapp/sessions/keycloak?sessionHandle={sessionHandle}&sessionHandleSalt={sessionHandleSalt}")
+                .add().build();
     }
 
     @Override
-    public void postInit(KeycloakSessionFactory factory) {
-        System.out.println("postInit called ... factory = " + factory);
-    }
+    public String getHelpText() { return "Password Update Alert When User Login After Certain Month Since User Update Password"; }
 
     @Override
-    public void close() {
-        System.out.println("close called ...");
-    }
+    public String getDisplayType() { return "Password Update Alert"; }
+
+    @Override
+    public String getReferenceCategory() { return "password-update-alert"; }
+
+    @Override
+    public void init(Config.Scope config) { }
+
+    @Override
+    public void postInit(KeycloakSessionFactory factory) { }
+
+    @Override
+    public void close() { }
 }

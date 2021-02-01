@@ -122,9 +122,7 @@ public class SecretQuestionAuthenticator implements Authenticator, CredentialVal
     }
 
     @Override
-    public void close() {
-
-    }
+    public void close() { }
 
     @Override
     public SecretQuestionCredentialProvider getCredentialProvider(KeycloakSession session) {
