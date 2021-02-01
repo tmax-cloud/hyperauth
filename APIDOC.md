@@ -172,7 +172,8 @@
   
   - **etc**
   
-      withdrawal_unqualified_{client_name} : t  attribute을 가진 유저는 탈퇴 신청을 할 수 없음
+      withdrawal_unqualified_{client_name} : t  
+      attribute을 가진 유저는 탈퇴 신청을 할 수 없음 ex) withdrawal_unqualified_hypercloud : t
 
 ## GroupMember
 
