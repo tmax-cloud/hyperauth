@@ -169,6 +169,11 @@
   - **ResponseBody**
 
       X
+  
+  - **etc**
+  
+      withdrawal_unqualified_{client_name} : t  attribute을 가진 유저는 탈퇴 신청을 할 수 없음
+
 ## GroupMember
 
 - 중간관리자는 **isAdmin** Attribute에 자신이 관리자로 속해있는 GroupsName을 가짐
