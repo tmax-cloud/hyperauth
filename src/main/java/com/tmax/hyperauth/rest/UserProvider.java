@@ -394,13 +394,14 @@ public class UserProvider implements RealmResourceProvider {
                         status = Status.FORBIDDEN;
                         out = "User [" + userName + "] is Unqualified to Withdraw from Account due to [" + unQualifiedReason + "] Policy, Check Withdrawal Policy or Contact Administrator";
                     }
-                } else if (withdrawal != null && withdrawal.equalsIgnoreCase("f")) {
-                    // 유저 탈퇴 신청 철회 API
-//                    userModel.setEnabled(true);
-                    if ( userModel.getAttributes() != null) userModel.removeAttribute("deletionDate");
-                    event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).detail("userWithdrawal","f").success(); //FIXME
-                    status = Status.OK;
-                    out = "User [" + userName + "]  WithDrawal Cancellation Success";
+//                }
+//                else if (withdrawal != null && withdrawal.equalsIgnoreCase("f")) { //TODO : 정책에 따라 삭제!
+//                    // 유저 탈퇴 신청 철회 API
+////                    userModel.setEnabled(true);
+//                    if ( userModel.getAttributes() != null) userModel.removeAttribute("deletionDate");
+//                    event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).detail("userWithdrawal","f").success(); //FIXME
+//                    status = Status.OK;
+//                    out = "User [" + userName + "]  WithDrawal Cancellation Success";
                 }else {
                     // 유저 Attribute Update API
                     for ( String key : rep.getAttributes().keySet()) {
