@@ -2,6 +2,7 @@ package com.tmax.hyperauth.rest;
 
 import com.tmax.hyperauth.caller.StringUtil;
 import com.tmax.hyperauth.jpa.EmailVerification;
+import org.jboss.resteasy.spi.HttpRequest;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.TokenVerifier;
@@ -30,6 +31,7 @@ import javax.persistence.EntityManager;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import java.sql.Connection;
@@ -44,6 +46,9 @@ import java.util.regex.Pattern;
 public class PasswordProvider implements RealmResourceProvider {
     @Context
     private KeycloakSession session;
+
+    @Context
+    private HttpRequest request;
 
     @Context
     private HttpResponse response;
@@ -62,15 +67,12 @@ public class PasswordProvider implements RealmResourceProvider {
     private AccessToken token;
     private ClientModel clientModel;
 
-    Connection conn = null;
-    long time = System.currentTimeMillis();
     Status status = null;
 	String out = null;
 
 	@PUT
     @Produces(MediaType.APPLICATION_JSON)
-    public Response get(@QueryParam("email") final String email, @QueryParam("code") String code ,@QueryParam("token") String tokenString,
-                        @QueryParam("password") String password, @QueryParam("confirmPassword") String confirmPassword) {
+    public Response get(@QueryParam("email") final String email, @QueryParam("code") String code ,@QueryParam("token") String tokenString) {
         System.out.println("***** PUT /password");
         try {
             if (StringUtil.isEmpty(email)){
@@ -85,7 +87,6 @@ public class PasswordProvider implements RealmResourceProvider {
             EventBuilder event = new EventBuilder(realm, session, clientConnection); // FIXME
 
             List< EmailVerification > emailCodeList = null;
-
             boolean isVerified = false;
 
             if ( StringUtil.isNotEmpty(code) && StringUtil.isEmpty(tokenString)){
@@ -104,11 +105,16 @@ public class PasswordProvider implements RealmResourceProvider {
                     throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "Cannot change other user's password", Response.Status.BAD_REQUEST);
                 }
                 isVerified = true;
-            } else {
-
             }
-            System.out.println("isVerified : " + isVerified);
+
+            // Decoded FormParameters
+            MultivaluedMap<String, String> formData = request.getDecodedFormParameters();
+            String password = formData.getFirst("password");
+            String confirmPassword = formData.getFirst("passwordConfirm");
+
+
             // Validation
+            System.out.println("isVerified : " + isVerified);
             if (!isVerified) {
                 status = Status.UNAUTHORIZED;
                 out = "Unauthorized User";
@@ -172,13 +178,17 @@ public class PasswordProvider implements RealmResourceProvider {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response get( @QueryParam("userId") String userId,  @QueryParam("password") String password) {
+    public Response get( @QueryParam("userId") String userId) {
         System.out.println("***** Verify /password");
         if ( StringUtil.isEmpty(userId)){
             status = Status.BAD_REQUEST;
             out = "User Id is Empty";
             return Util.setCors(status, out);
         }
+
+        // Decoded FormParameters
+        MultivaluedMap<String, String> formData = request.getDecodedFormParameters();
+        String password = formData.getFirst("password");
 
         if ( StringUtil.isEmpty(password)){
             status = Status.BAD_REQUEST;

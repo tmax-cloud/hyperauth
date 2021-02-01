@@ -1,18 +1,13 @@
 package com.tmax.hyperauth.eventlistener.provider;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.*;
-
 import javax.ws.rs.core.Context;
-
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
 import org.jboss.logging.Logger;
 import org.keycloak.events.Event;
 import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.admin.AdminEvent;
 import org.keycloak.models.KeycloakSession;
-
 import com.google.gson.JsonObject;
 import com.tmax.hyperauth.caller.HyperAuthCaller;
 import com.tmax.hyperauth.caller.HypercloudOperatorCaller;
