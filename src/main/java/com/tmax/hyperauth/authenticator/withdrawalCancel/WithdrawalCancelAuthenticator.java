@@ -30,6 +30,7 @@ public class WithdrawalCancelAuthenticator implements Authenticator {
     @Override
     public void action(AuthenticationFlowContext context) {
         System.out.println("User [ " + context.getUser().getUsername() + " ] Cancelled withdrawal!!");
+        context.getUser().removeAttribute(AuthenticatorConstants.USER_ATTR_DELETION_DATE);
         context.success();
     }
 

@@ -396,7 +396,7 @@ public class UserProvider implements RealmResourceProvider {
                     }
                 } else if (withdrawal != null && withdrawal.equalsIgnoreCase("f")) {
                     // 유저 탈퇴 신청 철회 API
-                    userModel.setEnabled(true);
+//                    userModel.setEnabled(true);
                     if ( userModel.getAttributes() != null) userModel.removeAttribute("deletionDate");
                     event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).detail("userWithdrawal","f").success(); //FIXME
                     status = Status.OK;
