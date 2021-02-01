@@ -131,8 +131,6 @@
        - withdrawal_unqualified_{client_name} : t  
       attribute을 가진 유저는 탈퇴 신청을 할 수 없음 ex) withdrawal_unqualified_hypercloud : t 
     
-    <u> 탈퇴 신청을 철회하는 API (겸)
-    
   - **RequestURL**
 
       PUT https://{HYPERAUTH_IP}/auth/realms/tmax/user/{userName}
@@ -147,8 +145,6 @@
 
        withdrawal : t  (사용자 탈퇴 신청을 할 경우 추가)
        
-       withdrawal : f  (사용자 탈퇴 신청을 철회할 경우 추가)
-
   - **PathParam**
 
       x
@@ -543,15 +539,16 @@
 
     token : {accessToken}
 
-    password : {changedPassword}
-
-    confirmPassword : {changedPassword}
-
     email : {email_address}
 
   - **RequestBody**
 
-    X
+    <Form parameter>
+  
+    password : {changedPassword}
+
+    confirmPassword : {changedPassword}
+
 
   - **ResponseBody**
 
@@ -576,15 +573,15 @@
 
     code : {code}
 
-    password : {changedPassword}
-
-    confirmPassword : {changedPassword}
-
     email : {email_address}
 
   - **RequestBody**
+  
+    <Form parameter>
+  
+    password : {changedPassword}
 
-    X
+    confirmPassword : {changedPassword}
 
   - **ResponseBody**
 
@@ -607,11 +604,11 @@
 
     userId : {email_address}
 
-    password : {password}
-
   - **RequestBody**
 
-    X
+    <Form parameter>
+  
+    password : {changedPassword}
 
   - **ResponseBody**
 
