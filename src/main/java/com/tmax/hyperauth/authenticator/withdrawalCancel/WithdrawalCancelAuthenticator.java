@@ -25,7 +25,7 @@ public class WithdrawalCancelAuthenticator implements Authenticator {
         System.out.println("authenticate called ... User = " + context.getUser().getUsername());
         if (AuthenticatorUtil.getAttributeValue(context.getUser(), AuthenticatorConstants.USER_ATTR_DELETION_DATE) != null) {
             System.out.println("User [ " + context.getUser().getUsername() + " ] Need to Withdrawal Cancel to Login");
-            Response challenge = context.form().createForm("password-update-alert.ftl");
+            Response challenge = context.form().createForm("withdrawal-cancel.ftl");
             context.challenge(challenge);
         } else {
             System.out.println("User [ " + context.getUser().getUsername() + " ] Do Not Need to Withdrawal Check");
