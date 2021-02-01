@@ -71,8 +71,9 @@ public class PasswordProvider implements RealmResourceProvider {
 	String out = null;
 
 	@PUT
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response get(@QueryParam("email") final String email, @QueryParam("code") String code ,@QueryParam("token") String tokenString) {
+    @Produces(MediaType.MULTIPART_FORM_DATA)
+    public Response get(@QueryParam("email") final String email, @QueryParam("code") String code ,@QueryParam("token") String tokenString,
+                        @FormParam("password") String password, @FormParam("confirmPassword") String confirmPassword) {
         System.out.println("***** PUT /password");
         try {
             if (StringUtil.isEmpty(email)){
@@ -106,12 +107,6 @@ public class PasswordProvider implements RealmResourceProvider {
                 }
                 isVerified = true;
             }
-
-            // Decoded FormParameters
-            MultivaluedMap<String, String> formData = request.getDecodedFormParameters();
-            String password = formData.getFirst("password");
-            String confirmPassword = formData.getFirst("passwordConfirm");
-
 
             // Validation
             System.out.println("isVerified : " + isVerified);
@@ -177,18 +172,14 @@ public class PasswordProvider implements RealmResourceProvider {
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response get( @QueryParam("userId") String userId) {
+    @Produces(MediaType.MULTIPART_FORM_DATA)
+    public Response get( @QueryParam("userId") String userId, @FormParam("password") String password) {
         System.out.println("***** Verify /password");
         if ( StringUtil.isEmpty(userId)){
             status = Status.BAD_REQUEST;
             out = "User Id is Empty";
             return Util.setCors(status, out);
         }
-
-        // Decoded FormParameters
-        MultivaluedMap<String, String> formData = request.getDecodedFormParameters();
-        String password = formData.getFirst("password");
 
         if ( StringUtil.isEmpty(password)){
             status = Status.BAD_REQUEST;
