@@ -9,7 +9,6 @@ import org.keycloak.models.AuthenticationExecutionModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
-import org.keycloak.provider.ProviderConfigurationBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,7 @@ import java.util.List;
  */
 public class PasswordUpdateAlertAuthenticatorFactory implements AuthenticatorFactory, ConfigurableAuthenticatorFactory {
 
-    public static final String PROVIDER_ID = "password-update-alert-authenticator ";
+    public static final String PROVIDER_ID = "password-update-alert-authenticator";
     private static final PasswordUpdateAlertAuthenticator SINGLETON = new PasswordUpdateAlertAuthenticator();
     private static final List<ProviderConfigProperty> configProperties = new ArrayList<ProviderConfigProperty>();
 
@@ -61,30 +60,7 @@ public class PasswordUpdateAlertAuthenticatorFactory implements AuthenticatorFac
     public boolean isConfigurable() { return true; }
 
     @Override
-    public List<ProviderConfigProperty> getConfigProperties() {
-        return ProviderConfigurationBuilder
-                .create()
-                .property().name("aaaa")
-                .type(ProviderConfigProperty.PASSWORD)
-                .label("Encryption Key")
-                .defaultValue("changeme")
-                .helpText("Encryption key")
-                .add()
-                .property().name("bbbb")
-                .type(ProviderConfigProperty.STRING_TYPE)
-                .label("Session Reference Mag Age")
-                .defaultValue("30")
-                .helpText("Maximum age of session reference in seconds")
-                .add().property().name("cccc")
-                .type(ProviderConfigProperty.STRING_TYPE)
-                .label("Session Validation URL")
-                .defaultValue("")
-                .helpText("Url to validate the encrypted session token against. " +
-                        "The URI placeholder {sessionHandle} will be replaced with the encrypted sessionHandle. " +
-                        "The URI placeholder {sessionHandleSalt} will be replaced with the salt used for the encrypted sessionHandle. " +
-                        "An example URI can look like this: http://myserver/myapp/sessions/keycloak?sessionHandle={sessionHandle}&sessionHandleSalt={sessionHandleSalt}")
-                .add().build();
-    }
+    public List<ProviderConfigProperty> getConfigProperties() { return configProperties; }
 
     @Override
     public String getHelpText() { return "Password Update Alert When User Login After Certain Month Since User Update Password"; }
@@ -93,7 +69,7 @@ public class PasswordUpdateAlertAuthenticatorFactory implements AuthenticatorFac
     public String getDisplayType() { return "Password Update Alert"; }
 
     @Override
-    public String getReferenceCategory() { return "password-update-alert"; }
+    public String getReferenceCategory() { return "Password Update Alert"; }
 
     @Override
     public void init(Config.Scope config) { }
