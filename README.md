@@ -34,7 +34,7 @@
     - 다음에 변경하기 : 1개월 후에 다시 나타남
     
   - **탈퇴 신청 로그인시, 탈퇴 신청 철회 화면 사용 가이드**
-    - Authentication - Bindings - Brower Flow : **Browser With User Withdrawal Cancel ** 선택
+    - Authentication - Bindings - Brower Flow : **Browser With User Withdrawal Cancel** 선택
     - 탈퇴 취소 버튼 클릭 시, 탈퇴 신청이 취소되고, 정상적으로 서비스 이용가능
   
   - **EmailOTP 2-factor 인증 기능 사용 가이드**
