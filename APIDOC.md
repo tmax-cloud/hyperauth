@@ -576,13 +576,15 @@
 
     code : {code}
 
-    password : {changedPassword}
-
-    confirmPassword : {changedPassword}
-
     email : {email_address}
 
   - **RequestBody**
+  
+    <Form parameter>
+  
+    password : {changedPassword}
+
+    confirmPassword : {changedPassword}
 
     X
 
@@ -607,11 +609,11 @@
 
     userId : {email_address}
 
-    password : {password}
-
   - **RequestBody**
 
-    X
+    <Form parameter>
+  
+    password : {changedPassword}
 
   - **ResponseBody**
 
