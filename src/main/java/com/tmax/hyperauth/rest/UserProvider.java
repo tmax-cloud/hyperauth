@@ -9,6 +9,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
 import com.tmax.hyperauth.caller.Constants;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.OAuthErrorException;
@@ -379,9 +380,9 @@ public class UserProvider implements RealmResourceProvider {
                         SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
                         String deletionDateString = transFormat.format(deletionDate);
 
-                        if(userModel.getAttributes()!=null) userModel.removeAttribute("deletionDate");
-                        userModel.setAttribute("deletionDate", Arrays.asList(deletionDateString));
-                        userModel.setEnabled(false);
+                        if(userModel.getAttributes()!=null) userModel.removeAttribute(AuthenticatorConstants.USER_ATTR_DELETION_DATE);
+                        userModel.setAttribute(AuthenticatorConstants.USER_ATTR_DELETION_DATE, Arrays.asList(deletionDateString));
+//                        userModel.setEnabled(false);  //유저 탈퇴 철회 시나리오로 인해서 삭제
                         String email = userModel.getEmail();
                         String subject = "[Tmax 통합서비스] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
                         String msg = Constants.ACCOUNT_WITHDRAWAL_REQUEST_BODY;

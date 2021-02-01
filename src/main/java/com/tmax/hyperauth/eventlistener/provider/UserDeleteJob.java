@@ -3,6 +3,7 @@ package com.tmax.hyperauth.eventlistener.provider;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
 import com.tmax.hyperauth.caller.Constants;
 import com.tmax.hyperauth.caller.HyperAuthCaller;
 
@@ -21,6 +22,7 @@ public class UserDeleteJob implements Job {
     @Override
     @Transactional
     public void execute(JobExecutionContext context) {
+        // CronJob 선언부는 HyperauthEventListenerPropviderFactory PostInit()에 존재
         System.out.println(" [UserDelete Job] User Deletion Job Start !! ");
         Date currentDate = new Date();
         System.out.println( "Now : " + currentDate);
@@ -39,7 +41,7 @@ public class UserDeleteJob implements Job {
                 try {
                     if ( userRepresentation.getAttributes() != null && userRepresentation.getAttributes().get("deletionDate") != null){
                         SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
-                        Date deletionDate = transFormat.parse(userRepresentation.getAttributes().get("deletionDate").get(0)); // FIXME
+                        Date deletionDate = transFormat.parse(userRepresentation.getAttributes().get(AuthenticatorConstants.USER_ATTR_DELETION_DATE).get(0)); // FIXME
 
                         if ( currentDate.after(deletionDate)
                                 && user.getAsJsonObject().get("enabled").toString().replace("\"","").equalsIgnoreCase("false")){

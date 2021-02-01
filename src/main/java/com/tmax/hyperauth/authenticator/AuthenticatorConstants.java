@@ -24,4 +24,6 @@ public class AuthenticatorConstants {
     public static final String USER_PASSWORD = "password";
     public static final String USER_PASSWORD_CONFIRM = "confirmPassword";
 
+    //// Withdrawal Cancel
+    public static final String USER_ATTR_DELETION_DATE = "deletionDate";
 }

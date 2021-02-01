@@ -2,3 +2,4 @@ com.tmax.hyperauth.authenticator.secretQuestion.SecretQuestionAuthenticatorFacto
 com.tmax.hyperauth.authenticator.securityPolicy.SecurityPolicyAuthenticatorFactory
 com.tmax.hyperauth.authenticator.otp.EmailOTPAuthenticatorFactory
 com.tmax.hyperauth.authenticator.passwordUpdateAlert.PasswordUpdateAlertAuthenticatorFactory
+com.tmax.hyperauth.authenticator.withdrawalCancel.WithdrawalCancelAuthenticatorFactory

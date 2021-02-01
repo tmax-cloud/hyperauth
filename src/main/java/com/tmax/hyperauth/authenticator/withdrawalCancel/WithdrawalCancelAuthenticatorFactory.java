@@ -1,7 +1,5 @@
-package com.tmax.hyperauth.authenticator.passwordUpdateAlert;
+package com.tmax.hyperauth.authenticator.withdrawalCancel;
 
-import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
-import com.tmax.hyperauth.authenticator.securityPolicy.SecurityPolicyAuthenticator;
 import org.keycloak.Config;
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.authentication.AuthenticatorFactory;
@@ -17,29 +15,13 @@ import java.util.List;
 /**
  * @author taegeon_woo@tmax.co.kr
  */
-public class PasswordUpdateAlertAuthenticatorFactory implements AuthenticatorFactory, ConfigurableAuthenticatorFactory {
+public class WithdrawalCancelAuthenticatorFactory implements AuthenticatorFactory, ConfigurableAuthenticatorFactory {
 
-    public static final String PROVIDER_ID = "password-update-alert-authenticator ";
-    private static final PasswordUpdateAlertAuthenticator SINGLETON = new PasswordUpdateAlertAuthenticator();
+    public static final String PROVIDER_ID = "withdrawal-cancel-authenticator ";
+    private static final WithdrawalCancelAuthenticator SINGLETON = new WithdrawalCancelAuthenticator();
 
     private static final List<ProviderConfigProperty> configProperties = new ArrayList<ProviderConfigProperty>();
 
-    static {
-        ProviderConfigProperty property;
-        property = new ProviderConfigProperty();
-        property.setName(AuthenticatorConstants.CONF_PW_UPDATE_PERIOD);
-        property.setLabel("Password Update Period in Month");
-        property.setType(ProviderConfigProperty.STRING_TYPE);
-        property.setHelpText("User will be asked to change password after certain month since last password update Date");
-        configProperties.add(property);
-
-        property = new ProviderConfigProperty();
-        property.setName(AuthenticatorConstants.CONF_PW_UPDATE_SKIP_PERIOD);
-        property.setLabel("Password Update Skip Period in Month");
-        property.setType(ProviderConfigProperty.STRING_TYPE);
-        property.setHelpText("Password Update Will be asked certain Month later, Shold Less than Password Update Period");
-        configProperties.add(property);
-    }
 
     @Override
     public String getId() {
@@ -78,28 +60,25 @@ public class PasswordUpdateAlertAuthenticatorFactory implements AuthenticatorFac
 
     @Override
     public List<ProviderConfigProperty> getConfigProperties() {
-        System.out.println("return PasswordUpdateAlert ConfigProperties ");
+        System.out.println("return Withdrawal Cancel ConfigProperties ");
         return configProperties;
     }
-
-
-
 
     @Override
     public String getHelpText() {
         System.out.println("getHelpText called ...");
-        return "Password Update Alert When User Login After Certain Month Since User Update Password";
+        return "Withdrawal Cancel Page will be up to User who requested Withdrawal";
     }
 
     @Override
     public String getDisplayType() {
-        System.out.println("getDisplayType called ... returning User Security Policy");
+        System.out.println("getDisplayType called ... returning Withdrawal Cancel");
         return "Password Update Alert";
     }
 
     @Override
     public String getReferenceCategory() {
-        System.out.println("getReferenceCategory called ... returning user-security-policy");
+        System.out.println("getReferenceCategory called ... returning withdrawal-cancel");
         return "password-update-alert";
     }
 
