@@ -543,15 +543,16 @@
 
     token : {accessToken}
 
-    password : {changedPassword}
-
-    confirmPassword : {changedPassword}
-
     email : {email_address}
 
   - **RequestBody**
 
-    X
+    <Form parameter>
+  
+    password : {changedPassword}
+
+    confirmPassword : {changedPassword}
+
 
   - **ResponseBody**
 
@@ -585,8 +586,6 @@
     password : {changedPassword}
 
     confirmPassword : {changedPassword}
-
-    X
 
   - **ResponseBody**
 
