@@ -12,7 +12,6 @@ public class AuthenticatorUtil {
         if(values != null && values.size() > 0) {
             result = values.get(0);
         }
-
         return result;
     }
 
@@ -21,14 +20,11 @@ public class AuthenticatorUtil {
     }
 
     public static String getConfigString(AuthenticatorConfigModel config, String configName, String defaultValue) {
-
         String value = defaultValue;
-
         if (config != null && config.getConfig() != null) {
             // Get value
             value = config.getConfig().get(configName);
         }
-
         return value;
     }
 

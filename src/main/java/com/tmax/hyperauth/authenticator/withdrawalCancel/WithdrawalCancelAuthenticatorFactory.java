@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class WithdrawalCancelAuthenticatorFactory implements AuthenticatorFactory, ConfigurableAuthenticatorFactory {
 
-    public static final String PROVIDER_ID = "withdrawal-cancel-authenticator ";
+    public static final String PROVIDER_ID = "withdrawal-cancel-authenticator";
     private static final WithdrawalCancelAuthenticator SINGLETON = new WithdrawalCancelAuthenticator();
     private static final List<ProviderConfigProperty> configProperties = new ArrayList<ProviderConfigProperty>();
 

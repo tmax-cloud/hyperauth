@@ -56,12 +56,9 @@ public class SecurityPolicyAuthenticator implements Authenticator {
 
     @Override
     public void authenticate(AuthenticationFlowContext context) {
-//        System.out.println("authenticate called ... User = " + context.getUser().getUsername());
-
         if (!isSecurityPolicyEnabled(context) ) {
             System.out.println("Bypassing Security Policy since disabled user [ " + context.getUser().getUsername() +" ]");
             context.success();
-//            context.challenge(context.form().createForm("test.ftl"));
             return;
         } else if ( isSecurityPolicyPassed(context)) {
             System.out.println("Security Policy Passed!!, user [ "+ context.getUser().getUsername() + " ]");
@@ -78,32 +75,18 @@ public class SecurityPolicyAuthenticator implements Authenticator {
     }
 
     @Override
-    public void action(AuthenticationFlowContext context) {
-//        System.out.println("action called ... context = " + context);
-        context.success();
-    }
+    public void action(AuthenticationFlowContext context) { context.success(); }
 
 
     @Override
-    public boolean requiresUser() {
-//        System.out.println("requiresUser called ... returning true");
-        return true;
-    }
+    public boolean requiresUser() { return true; }
 
     @Override
-    public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) {
-//        System.out.println("configuredFor called ... session=" + session + ", realm=" + realm + ", user=" + user);
-//        System.out.println("... returning true");
-        return true;
-    }
+    public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) { return true; }
 
     @Override
-    public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) {
-//        System.out.println("setRequiredActions called ... session=" + session + ", realm=" + realm + ", user=" + user);
-    }
+    public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) { }
 
     @Override
-    public void close() {
-//        System.out.println("close called ...");
-    }
+    public void close() { }
 }

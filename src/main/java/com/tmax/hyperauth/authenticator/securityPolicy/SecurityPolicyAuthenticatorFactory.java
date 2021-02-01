@@ -18,40 +18,16 @@ import java.util.List;
  */
 public class SecurityPolicyAuthenticatorFactory implements AuthenticatorFactory, ConfigurableAuthenticatorFactory {
 
-    public static final String PROVIDER_ID = "security-policy-authenticator ";
+    public static final String PROVIDER_ID = "security-policy-authenticator";
     private static final SecurityPolicyAuthenticator SINGLETON = new SecurityPolicyAuthenticator();
 
     private static final List<ProviderConfigProperty> configProperties = new ArrayList<ProviderConfigProperty>();
 
-//    static {
-//        ProviderConfigProperty property;
-//
-//        property = new ProviderConfigProperty();
-//        property.setName("security-policy.enabled");
-//        property.setLabel("Ip block Enabled");
-//        property.setType(ProviderConfigProperty.BOOLEAN_TYPE);
-//        property.setHelpText("Is Ip block Enabled");
-//        configProperties.add(property);
-//
-//        property = new ProviderConfigProperty();
-//        property.setName("security-policy.whitelist");
-//        property.setLabel("Ip block white list");
-//        property.setType(ProviderConfigProperty.MULTIVALUED_STRING_TYPE);
-//        property.setHelpText("Ip block white list");
-//        configProperties.add(property);
-//    }
+    @Override
+    public String getId() { return PROVIDER_ID; }
 
     @Override
-    public String getId() {
-//        System.out.println("getId called ... returning " + PROVIDER_ID);
-        return PROVIDER_ID;
-    }
-
-    @Override
-    public Authenticator create(KeycloakSession session) {
-//        System.out.println("create called ... returning " + SINGLETON);
-        return SINGLETON;
-    }
+    public Authenticator create(KeycloakSession session) { return SINGLETON; }
 
     private static AuthenticationExecutionModel.Requirement[] REQUIREMENT_CHOICES = {
             AuthenticationExecutionModel.Requirement.REQUIRED,
@@ -59,62 +35,35 @@ public class SecurityPolicyAuthenticatorFactory implements AuthenticatorFactory,
             AuthenticationExecutionModel.Requirement.DISABLED
     };
     @Override
-    public AuthenticationExecutionModel.Requirement[] getRequirementChoices() {
-//        System.out.println("getRequirementChoices called ... returning " + REQUIREMENT_CHOICES);
-        return REQUIREMENT_CHOICES;
-    }
+    public AuthenticationExecutionModel.Requirement[] getRequirementChoices() { return REQUIREMENT_CHOICES; }
 
     @Override
-    public boolean isUserSetupAllowed() {
-//        System.out.println("isUserSetupAllowed called ... returning true");
-        return true;
-    }
+    public boolean isUserSetupAllowed() { return true; }
 
     @Override
-    public boolean isConfigurable() {
-//        System.out.println("isConfigurable called ... returning true");
-        return true;
-    }
+    public boolean isConfigurable() { return true; }
 
     @Override
     public List<ProviderConfigProperty> getConfigProperties() {
         return configProperties;
     }
 
-
-
+    @Override
+    public String getHelpText() { return "Ip Block based on User Security White List"; }
 
     @Override
-    public String getHelpText() {
-//        System.out.println("getHelpText called ...");
-        return "Ip Block based on User Security White List";
-    }
+    public String getDisplayType() { return "User Security Policy"; }
 
     @Override
-    public String getDisplayType() {
-//        System.out.println("getDisplayType called ... returning User Security Policy");
-        return "User Security Policy";
-    }
+    public String getReferenceCategory() { return "user-security-policy"; }
 
     @Override
-    public String getReferenceCategory() {
-//        System.out.println("getReferenceCategory called ... returning user-security-policy");
-        return "user-security-policy";
-    }
+    public void init(Config.Scope config) { }
 
     @Override
-    public void init(Config.Scope config) {
-//        System.out.println("init called ... config.scope = " + config);
-    }
+    public void postInit(KeycloakSessionFactory factory) { }
 
     @Override
-    public void postInit(KeycloakSessionFactory factory) {
-//        System.out.println("postInit called ... factory = " + factory);
-    }
-
-    @Override
-    public void close() {
-//        System.out.println("close called ...");
-    }
+    public void close() { }
 }
 

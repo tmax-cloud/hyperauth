@@ -35,26 +35,15 @@ public class WithdrawalCancelAuthenticator implements Authenticator {
     }
 
     @Override
-    public boolean requiresUser() {
-        System.out.println("requiresUser called ... returning true");
-        return true;
-    }
+    public boolean requiresUser() { return true; }
 
     @Override
-    public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) {
-        System.out.println("configuredFor called ... session=" + session + ", realm=" + realm + ", user=" + user);
-        System.out.println("... returning true");
-        return true;
-    }
+    public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) { return true;}
 
     @Override
-    public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) {
-        System.out.println("setRequiredActions called ... session=" + session + ", realm=" + realm + ", user=" + user);
-    }
+    public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) { }
 
     @Override
-    public void close() {
-        System.out.println("close called ...");
-    }
+    public void close() { }
 }
 

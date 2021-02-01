@@ -18,20 +18,14 @@ import java.util.List;
  */
 public class EmailOTPAuthenticatorFactory implements AuthenticatorFactory, ConfigurableAuthenticatorFactory {
 
-    public static final String PROVIDER_ID = "email-otp-authenticator ";
+    public static final String PROVIDER_ID = "email-otp-authenticator";
     private static final EmailOTPAuthenticator SINGLETON = new EmailOTPAuthenticator();
 
     @Override
-    public String getId() {
-//        System.out.println("getId called ... returning " + PROVIDER_ID);
-        return PROVIDER_ID;
-    }
+    public String getId() { return PROVIDER_ID; }
 
     @Override
-    public Authenticator create(KeycloakSession session) {
-//        System.out.println("create called ... returning " + SINGLETON);
-        return SINGLETON;
-    }
+    public Authenticator create(KeycloakSession session) { return SINGLETON; }
 
     private static AuthenticationExecutionModel.Requirement[] REQUIREMENT_CHOICES = {
             AuthenticationExecutionModel.Requirement.REQUIRED,
@@ -39,28 +33,16 @@ public class EmailOTPAuthenticatorFactory implements AuthenticatorFactory, Confi
             AuthenticationExecutionModel.Requirement.DISABLED
     };
     @Override
-    public AuthenticationExecutionModel.Requirement[] getRequirementChoices() {
-//        System.out.println("getRequirementChoices called ... returning " + REQUIREMENT_CHOICES);
-        return REQUIREMENT_CHOICES;
-    }
+    public AuthenticationExecutionModel.Requirement[] getRequirementChoices() { return REQUIREMENT_CHOICES; }
 
     @Override
-    public boolean isUserSetupAllowed() {
-//        System.out.println("isUserSetupAllowed called ... returning true");
-        return true;
-    }
+    public boolean isUserSetupAllowed() { return true; }
 
     @Override
-    public boolean isConfigurable() {
-        System.out.println("return EmailOTP Configurable true ");
-        return true;
-    }
+    public boolean isConfigurable() { return true; }
 
     @Override
-    public List<ProviderConfigProperty> getConfigProperties() {
-        System.out.println("return EmailOTP ConfigProperties ");
-        return configProperties;
-    }
+    public List<ProviderConfigProperty> getConfigProperties() { return configProperties; }
 
     private static final List<ProviderConfigProperty> configProperties = new ArrayList<ProviderConfigProperty>();
 
@@ -92,37 +74,21 @@ public class EmailOTPAuthenticatorFactory implements AuthenticatorFactory, Confi
     }
 
     @Override
-    public String getHelpText() {
-//        System.out.println("getHelpText called ...");
-        return "Email Based OTP Authenticator";
-    }
+    public String getHelpText() { return "Email Based OTP Authenticator"; }
 
     @Override
-    public String getDisplayType() {
-//        System.out.println("getDisplayType called ... returning Email OTP");
-        return "Email OTP";
-    }
+    public String getDisplayType() { return "Email OTP"; }
 
     @Override
-    public String getReferenceCategory() {
-//        System.out.println("getReferenceCategory called ... returning email-otp");
-        return "email-otp";
-    }
+    public String getReferenceCategory() { return "email-otp"; }
 
     @Override
-    public void init(Config.Scope config) {
-//        System.out.println("init called ... config.scope = " + config);
-    }
+    public void init(Config.Scope config) { }
 
     @Override
-    public void postInit(KeycloakSessionFactory factory) {
-//        System.out.println("postInit called ... factory = " + factory);
-
-    }
+    public void postInit(KeycloakSessionFactory factory) { }
 
     @Override
-    public void close() {
-//        System.out.println("close called ...");
-    }
+    public void close() { }
 }
 

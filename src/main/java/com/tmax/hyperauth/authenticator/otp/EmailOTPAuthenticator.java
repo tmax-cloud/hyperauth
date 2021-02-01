@@ -23,7 +23,7 @@ import java.util.Random;
  */
 public class EmailOTPAuthenticator implements Authenticator {
 
-    private static enum CODE_STATUS {
+    private enum CODE_STATUS {
         VALID,
         INVALID,
         EXPIRED
@@ -41,7 +41,6 @@ public class EmailOTPAuthenticator implements Authenticator {
 
     @Override
     public void authenticate(AuthenticationFlowContext context) {
-//        System.out.println("authenticate called ... User = " + context.getUser().getUsername());
         if (!isOTPEnabled(context) ) {
             System.out.println("Bypassing OTP Authenticator since user [ " + context.getUser().getUsername() + " ] has not set OTP Authenticator");
             context.success();
@@ -115,8 +114,6 @@ public class EmailOTPAuthenticator implements Authenticator {
     }
 
     protected CODE_STATUS validateCode(AuthenticationFlowContext context) {
-//        System.out.println("validateCode called ... ");
-
         CODE_STATUS result = CODE_STATUS.INVALID;
         MultivaluedMap<String, String> formData = context.getHttpRequest().getDecodedFormParameters();
         String enteredCode = formData.getFirst(AuthenticatorConstants.ANSW_OTP_CODE);
@@ -145,27 +142,16 @@ public class EmailOTPAuthenticator implements Authenticator {
     }
 
     @Override
-    public boolean requiresUser() {
-//        System.out.println("requiresUser called ... returning true");
-        return true;
-    }
+    public boolean requiresUser() { return true; }
 
     @Override
-    public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) {
-//        System.out.println("configuredFor called ... session=" + session + ", realm=" + realm + ", user=" + user);
-//        System.out.println("... returning true");
-        return true;
-    }
+    public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) { return true; }
 
     @Override
-    public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) {
-//        System.out.println("setRequiredActions called ... session=" + session + ", realm=" + realm + ", user=" + user);
-    }
+    public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) { }
 
     @Override
-    public void close() {
-//        System.out.println("close called ...");
-    }
+    public void close() { }
 
     private void storeOTPInfo(AuthenticationFlowContext context, String code, Long expiringAt) {
         // For OTP Code
