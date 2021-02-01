@@ -125,37 +125,47 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
     @Override
     public void onEvent(AdminEvent adminEvent, boolean includeRepresentation) {
         System.out.println("Admin Event Occurred:" + toString(adminEvent));
-        // when user registered by admin, operator call for new role   //FIXME : Delete Later !!!!
-        if (adminEvent.getOperationType().toString().equalsIgnoreCase("CREATE")
-                && adminEvent.getResourcePath().toString().startsWith("users")
-                && adminEvent.getResourcePath().toString().length() == 42) {
-            System.out.println("New User Registered in tmax Realm by Admin, Give New role for User in Kubernetes");
-            try {
-                String userName = session.users().getUserById(adminEvent.getResourcePath().toString().substring(6), session.realms().getRealmByName("tmax")).getUsername();
-                System.out.println("userName : " + userName);
 
-                HypercloudOperatorCaller.createNewUserRole(userName);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        switch (adminEvent.getOperationType().toString()) {
+            case "CREATE":
+                if (adminEvent.getResourcePath().startsWith("users") && adminEvent.getResourcePath().toString().length() == 42){
+                    // when user registered by admin, operator call for new role   //FIXME : Delete Later !!!!
+                    System.out.println("New User Registered in tmax Realm by Admin, Give New role for User in Kubernetes");
+                    try {
+                        String userName = session.users().getUserById(adminEvent.getResourcePath().toString().substring(6), session.realms().getRealmByName("tmax")).getUsername();
+                        System.out.println("userName : " + userName);
+
+                        HypercloudOperatorCaller.createNewUserRole(userName);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case "DELETE":
+                if (adminEvent.getResourcePath().startsWith("users")){ //FIXME : Delete Later !!!!
+                    System.out.println("User Deleted in tmax Realm by Admin, Delete user role for new User in Kubernetes");
+                    try {
+                        // important : session에는 이미 user가 지워져서 user 정보를 들고 올수 없음 그래서 http콜로 한다!
+                        String accessToken = HyperAuthCaller.loginAsAdmin();
+                        JsonObject user = HyperAuthCaller.getUser(adminEvent.getResourcePath().toString().substring(6), accessToken.replaceAll("\"", ""));
+                        HypercloudOperatorCaller.deleteNewUserRole(user.get("username").toString().replaceAll("\"", ""));
+
+                        // Topic Event
+                        TopicEvent topicEvent = TopicEvent.makeOtherTopicEvent("USER_DELETE", user.get("username").toString().replaceAll("\"", ""), adminEvent.getTime());
+                        Producer.publishEvent("tmax", topicEvent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case "ACTION":
+                if (adminEvent.getResourcePath().startsWith("users") && adminEvent.getResourcePath().endsWith("reset-password")){
+                    UserModel user = session.users().getUserById(adminEvent.getResourcePath().split("/")[1], session.realms().getRealmByName("tmax"));
+                    user.setAttribute(AuthenticatorConstants.USER_ATTR_LAST_PW_UPDATE_DATE, Arrays.asList(Long.toString(adminEvent.getTime())));
+                }
+                break;
         }
 
-        // when user deleted by admin, operator call for delete role  //FIXME : Delete Later !!!!
-        if (adminEvent.getOperationType().toString().equalsIgnoreCase("DELETE") && adminEvent.getResourcePath().toString().startsWith("users")) {
-            System.out.println("User Deleted in tmax Realm by Admin, Delete user role for new User in Kubernetes");
-            try {
-                // important : session에는 이미 user가 지워져서 user 정보를 들고 올수 없음 그래서 http콜로 한다!
-                String accessToken = HyperAuthCaller.loginAsAdmin();
-                JsonObject user = HyperAuthCaller.getUser(adminEvent.getResourcePath().toString().substring(6), accessToken.replaceAll("\"", ""));
-                HypercloudOperatorCaller.deleteNewUserRole(user.get("username").toString().replaceAll("\"", ""));
-
-                // Topic Event
-                TopicEvent topicEvent = TopicEvent.makeOtherTopicEvent("USER_DELETE", user.get("username").toString().replaceAll("\"", ""), adminEvent.getTime());
-                Producer.publishEvent("tmax", topicEvent);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     @Override
