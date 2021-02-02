@@ -73,7 +73,8 @@ public class PasswordProvider implements RealmResourceProvider {
 	@PUT
     @Produces(MediaType.MULTIPART_FORM_DATA)
     public Response get(@QueryParam("email") final String email, @QueryParam("code") String code ,@QueryParam("token") String tokenString,
-                        @FormParam("password") String password, @FormParam("confirmPassword") String confirmPassword) {
+                        @FormParam("password") String password, @FormParam("confirmPassword") String confirmPassword,
+                        @QueryParam("password") String password1, @QueryParam("confirmPassword") String confirmPassword1) {
         System.out.println("***** PUT /password");
         try {
             if (StringUtil.isEmpty(email)){
@@ -115,6 +116,10 @@ public class PasswordProvider implements RealmResourceProvider {
                 out = "Unauthorized User";
                 return Util.setCors(status, out);
             }
+
+            if(password1!= null) password = password1;
+            if(confirmPassword1!= null) confirmPassword = confirmPassword1;
+
             if (StringUtil.isEmpty(password)) {
                 status = Status.BAD_REQUEST;
                 out = "Empty Password";
@@ -173,13 +178,15 @@ public class PasswordProvider implements RealmResourceProvider {
 
     @GET
     @Produces(MediaType.MULTIPART_FORM_DATA)
-    public Response get( @QueryParam("userId") String userId, @FormParam("password") String password) {
+    public Response get( @QueryParam("userId") String userId,@FormParam("password") String password, @QueryParam("password") String password1) {
         System.out.println("***** Verify /password");
         if ( StringUtil.isEmpty(userId)){
             status = Status.BAD_REQUEST;
             out = "User Id is Empty";
             return Util.setCors(status, out);
         }
+
+        if(password1 != null) password = password1;   //FIXME : DELETE!!
 
         if ( StringUtil.isEmpty(password)){
             status = Status.BAD_REQUEST;
