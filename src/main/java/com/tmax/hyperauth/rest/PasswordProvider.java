@@ -71,7 +71,7 @@ public class PasswordProvider implements RealmResourceProvider {
 	String out = null;
 
 	@PUT
-//    @Produces(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response get(@QueryParam("email") final String email, @QueryParam("code") String code ,@QueryParam("token") String tokenString,
                         @FormParam("password") String password, @FormParam("confirmPassword") String confirmPassword,
@@ -178,6 +178,7 @@ public class PasswordProvider implements RealmResourceProvider {
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response get( @QueryParam("userId") String userId,@FormParam("password") String password, @QueryParam("password") String password1) {
         System.out.println("***** Verify /password");
