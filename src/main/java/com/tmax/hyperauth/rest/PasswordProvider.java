@@ -65,7 +65,7 @@ public class PasswordProvider implements RealmResourceProvider {
         return this;
     }
     private AccessToken token;
-    private ClientModel clientModel;setCors
+    private ClientModel clientModel;
 
     Status status = null;
 	String out = null;
@@ -129,7 +129,7 @@ public class PasswordProvider implements RealmResourceProvider {
                     .matcher(password).matches()) {
                 status = Status.BAD_REQUEST;
                 out = "Invalid password: violate the password policy";
-                return Util.(status, out);
+                return Util.setCors(status, out);
             } else if (!password.equalsIgnoreCase(confirmPassword)){
                 status = Status.BAD_REQUEST;
                 out = "Password and confirmation does not match. ";
