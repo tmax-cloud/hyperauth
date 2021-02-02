@@ -44,7 +44,7 @@
     - Authentication - Bindings - Brower Flow : **Browser with EmailOTP** 선택
     - OTP 인증을 추가 하고 싶은 user에게 **otpEnable : true** Attribute을 추가
     - id /pw 입력하고 난 후, 메일전송이 완료되면, otp code를 입력하는 화면으로 전환
-    - Config ( Authentication - Browser with Tmax Polices - Password Update Alert - Actions - Config 선택 )
+    - Config ( Authentication - Browser with Tmax Polices - Mail OTP - Actions - Config 선택 )
       - OTP code time to live : OTP 코드 만료시간 Seconds ( default : 600 )
       - Length of the OTP code : OTP 코드 길이 ( default: 6 ) 
       - ( Alpha ) Template of text to send to the user : 메일 template 
