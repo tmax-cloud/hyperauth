@@ -22,7 +22,7 @@ public class Util {
     			.header("Access-Control-Allow-Origin", "*")
 				.header("Access-Control-Allow-Credentials", "true")
     			.header("Access-Control-Max-Age", "3628800")
-    			.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE, HEAD")
+    			.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE, HEAD, PATCH")
         		.header("Access-Control-Allow-Headers", "*" ).build();
     }
 
