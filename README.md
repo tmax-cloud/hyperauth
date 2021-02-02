@@ -32,6 +32,9 @@
     - 비밀번호 변경( 한적이 없는 경우, 최초 생성 ) 3개월 경과시, 로그인 시 비밀번호 변경 유도 화면 나타남
     - 과거에 사용하던 비밀번호 사용 불가능
     - 다음에 변경하기 : 1개월 후에 다시 나타남
+    - Config ( Authentication - Browser with Tmax Polices - Password Update Alert - Actions - Config 선택 )
+      - Password Update Period in Month : 비밀번호 변경 주기 ( default : 3 )
+      - Password Update Skip Period in Month : 비밀번호 다음에 변경하기 클릭시 다음에 물어볼때 까지의 시간 ( default: 1 ) ( 비밀번호 변경주기 보다 항상 작아야함 )
     
   - **탈퇴 신청 로그인시, 탈퇴 신청 철회 화면 사용 가이드**
     - Authentication - Bindings - Brower Flow : **Browser With User Withdrawal Cancel** 선택
@@ -41,6 +44,10 @@
     - Authentication - Bindings - Brower Flow : **Browser with EmailOTP** 선택
     - OTP 인증을 추가 하고 싶은 user에게 **otpEnable : true** Attribute을 추가
     - id /pw 입력하고 난 후, 메일전송이 완료되면, otp code를 입력하는 화면으로 전환
+    - Config ( Authentication - Browser with Tmax Polices - Password Update Alert - Actions - Config 선택 )
+      - OTP code time to live : OTP 코드 만료시간 Seconds ( default : 600 )
+      - Length of the OTP code : OTP 코드 길이 ( default: 6 ) 
+      - ( Alpha ) Template of text to send to the user : 메일 template 
     
   - `SecretQuestion 2-factor 인증 기능 사용 가이드 `(Alpha)
     - Authentication - Bindings - Brower Flow : **Browser with secret question** 선택
