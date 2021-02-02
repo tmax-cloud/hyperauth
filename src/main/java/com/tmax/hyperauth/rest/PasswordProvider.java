@@ -208,6 +208,35 @@ public class PasswordProvider implements RealmResourceProvider {
         return Util.setCors(status, out);
     }
 
+    @PATCH
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Response patch( @QueryParam("userId") String userId, @FormParam("password") String password) {
+        System.out.println("***** Verify ( patch ) /password");
+        if ( StringUtil.isEmpty(userId)){
+            status = Status.BAD_REQUEST;
+            out = "User Id is Empty";
+            return Util.setCors(status, out);
+        }
+
+        if ( StringUtil.isEmpty(password)){
+            status = Status.BAD_REQUEST;
+            out = "Password is Empty";
+            return Util.setCors(status, out);
+        }
+        RealmModel realm = session.realms().getRealmByName("tmax");
+        UserModel user = session.users().getUserByEmail(userId, realm);
+        UserCredentialModel cred = UserCredentialModel.password(password);
+        if (session.userCredentialManager().isValid(realm, user, cred)) {
+            status = Status.OK;
+            out = "Password is Correct";
+        } else {
+            status = Status.BAD_REQUEST;
+            out = "Password is Wrong";
+        }
+        return Util.setCors(status, out);
+    }
+
     @OPTIONS
     @Path("{path : .*}")
     public Response other() {
