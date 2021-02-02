@@ -65,13 +65,14 @@ public class PasswordProvider implements RealmResourceProvider {
         return this;
     }
     private AccessToken token;
-    private ClientModel clientModel;
+    private ClientModel clientModel;setCors
 
     Status status = null;
 	String out = null;
 
 	@PUT
-    @Produces(MediaType.MULTIPART_FORM_DATA)
+//    @Produces(MediaType.MULTIPART_FORM_DATA)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response get(@QueryParam("email") final String email, @QueryParam("code") String code ,@QueryParam("token") String tokenString,
                         @FormParam("password") String password, @FormParam("confirmPassword") String confirmPassword,
                         @QueryParam("password") String password1, @QueryParam("confirmPassword") String confirmPassword1) {
@@ -128,7 +129,7 @@ public class PasswordProvider implements RealmResourceProvider {
                     .matcher(password).matches()) {
                 status = Status.BAD_REQUEST;
                 out = "Invalid password: violate the password policy";
-                return Util.setCors(status, out);
+                return Util.(status, out);
             } else if (!password.equalsIgnoreCase(confirmPassword)){
                 status = Status.BAD_REQUEST;
                 out = "Password and confirmation does not match. ";
@@ -177,7 +178,7 @@ public class PasswordProvider implements RealmResourceProvider {
     }
 
     @GET
-    @Produces(MediaType.MULTIPART_FORM_DATA)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response get( @QueryParam("userId") String userId,@FormParam("password") String password, @QueryParam("password") String password1) {
         System.out.println("***** Verify /password");
         if ( StringUtil.isEmpty(userId)){
