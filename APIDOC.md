@@ -577,7 +577,7 @@
 
   - **RequestBody**
   
-    <Form parameter>
+    **Form parameter**
   
     password : {changedPassword}
 
@@ -606,7 +606,7 @@
 
   - **RequestBody**
 
-    <Form parameter>
+    **Form parameter**
   
     password : {changedPassword}
 
