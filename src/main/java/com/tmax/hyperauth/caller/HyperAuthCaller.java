@@ -39,7 +39,7 @@ public class HyperAuthCaller {
 	    HttpUrl.Builder urlBuilder = HttpUrl.parse(setHyperAuthURL( Constants.SERVICE_NAME_LOGIN_AS_ADMIN )).newBuilder();
 	    String url = urlBuilder.build().toString();
 	    RequestBody formBody = new FormBody.Builder().add("grant_type", "password")
-	    		.add("username", "admin").add("password", "admin").add("client_id", "admin-cli").build(); 
+	    		.add("username", "admin").add("password", System.getenv("KEYCLOAK_PASSWORD")).add("client_id", "admin-cli").build();
 	    request = new Request.Builder().header("Content-Type", "application/x-www-form-urlencoded").url(url).post(formBody).build(); 
 	       
 		Response response = client.newCall(request).execute();
