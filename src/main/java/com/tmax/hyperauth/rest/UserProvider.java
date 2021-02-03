@@ -382,7 +382,7 @@ public class UserProvider implements RealmResourceProvider {
 
                         if(userModel.getAttributes()!=null) userModel.removeAttribute(AuthenticatorConstants.USER_ATTR_DELETION_DATE);
                         userModel.setAttribute(AuthenticatorConstants.USER_ATTR_DELETION_DATE, Arrays.asList(deletionDateString));
-//                        userModel.setEnabled(false);  //유저 탈퇴 철회 시나리오로 인해서 삭제
+                        userModel.setEnabled(false);  //유저 탈퇴 철회 시나리오로 인해서 삭제
                         String email = userModel.getEmail();
                         String subject = "[Tmax 통합서비스] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
                         String msg = Constants.ACCOUNT_WITHDRAWAL_REQUEST_BODY;
