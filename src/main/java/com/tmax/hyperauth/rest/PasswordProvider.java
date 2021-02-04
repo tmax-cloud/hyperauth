@@ -72,7 +72,7 @@ public class PasswordProvider implements RealmResourceProvider {
 
 	@PUT
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+//    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response get(@QueryParam("email") final String email, @QueryParam("code") String code ,@QueryParam("token") String tokenString,
                         @FormParam("password") String password, @FormParam("confirmPassword") String confirmPassword
                       ,@QueryParam("password") String password1, @QueryParam("confirmPassword") String confirmPassword1
