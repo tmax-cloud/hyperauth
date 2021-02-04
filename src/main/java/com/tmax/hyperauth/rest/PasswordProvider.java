@@ -72,11 +72,9 @@ public class PasswordProvider implements RealmResourceProvider {
 
 	@PUT
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes({MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON})
-    public Response get(@QueryParam("email") final String email, @QueryParam("code") String code ,@QueryParam("token") String tokenString,
-                        @FormParam("password") String password, @FormParam("confirmPassword") String confirmPassword
-                      ,@QueryParam("password") String password1, @QueryParam("confirmPassword") String confirmPassword1
-    ) {
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Response put(@QueryParam("email") final String email, @QueryParam("code") String code ,@QueryParam("token") String tokenString,
+                        @FormParam("password") String password, @FormParam("confirmPassword") String confirmPassword) {
         System.out.println("***** PUT /password");
         try {
             if (StringUtil.isEmpty(email)){
@@ -118,9 +116,6 @@ public class PasswordProvider implements RealmResourceProvider {
                 out = "Unauthorized User";
                 return Util.setCors(status, out);
             }
-
-            if(password1!= null) password = password1;
-            if(confirmPassword1!= null) confirmPassword = confirmPassword1;
 
             if (StringUtil.isEmpty(password)) {
                 status = Status.BAD_REQUEST;
@@ -176,33 +171,6 @@ public class PasswordProvider implements RealmResourceProvider {
         	out = "Reset Password Failed";
             return Util.setCors(status, out);
         }
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response get( @QueryParam("userId") String userId,  @QueryParam("password") String password) {
-        System.out.println("***** Verify /password");
-        if ( StringUtil.isEmpty(userId)){
-            status = Status.BAD_REQUEST;
-            out = "User Id is Empty";
-            return Util.setCors(status, out);
-        }
-        if ( StringUtil.isEmpty(password)){
-            status = Status.BAD_REQUEST;
-            out = "Password is Empty";
-            return Util.setCors(status, out);
-        }
-        RealmModel realm = session.realms().getRealmByName("tmax");
-        UserModel user = session.users().getUserByEmail(userId, realm);
-        UserCredentialModel cred = UserCredentialModel.password(password);
-        if (session.userCredentialManager().isValid(realm, user, cred)) {
-            status = Status.OK;
-            out = "Password is Correct";
-        } else {
-            status = Status.BAD_REQUEST;
-            out = "Password is Wrong";
-        }
-        return Util.setCors(status, out);
     }
 
     @PATCH
