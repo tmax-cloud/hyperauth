@@ -87,7 +87,7 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
                     Response challenge =  context.form()
                             .setError("Empty Password").createForm("password-update-alert.ftl");
                     context.failureChallenge(AuthenticationFlowError.CREDENTIAL_SETUP_REQUIRED, challenge);
-                } else if (!Pattern.compile("^(?:(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)|(?=.*[a-z])(?=.*[A-Z])(?=.*[$@$!%*?&])|(?=.*[a-z])(?=.*\\d)(?=.*[$@$!%*?&])|(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&]))[A-Za-z\\d$@$!%*?&]{9,20}$")
+                } else if (!Pattern.compile(AuthenticatorConstants.TMAX_REALM_PASSWORD_POLICY)
                         .matcher(password).matches()) {
                     Response challenge =  context.form()
                             .setError("Invalid password: violate the password policy").createForm("password-update-alert.ftl");

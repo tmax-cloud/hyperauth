@@ -26,4 +26,8 @@ public class AuthenticatorConstants {
 
     //// Withdrawal Cancel
     public static final String USER_ATTR_DELETION_DATE = "deletionDate";
+
+    //// Tmax Password Policy
+    public static final String TMAX_REALM_PASSWORD_POLICY = "^(?:(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)|(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()<>?])|(?=.*[a-z])(?=.*\\d)(?=.*[!@#$%^&*()<>?])|(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()<>?]))[A-Za-z\\d!@#$%^&*()<>?]{9,20}$";
+
 }

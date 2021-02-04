@@ -1,5 +1,6 @@
 package com.tmax.hyperauth.rest;
 
+import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
 import com.tmax.hyperauth.caller.StringUtil;
 import com.tmax.hyperauth.jpa.EmailVerification;
 import org.jboss.resteasy.spi.HttpRequest;
@@ -121,7 +122,7 @@ public class PasswordProvider implements RealmResourceProvider {
                 status = Status.BAD_REQUEST;
                 out = "Empty Password";
                 return Util.setCors(status, out);
-            } else if (!Pattern.compile("^(?:(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)|(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()<>?])|(?=.*[a-z])(?=.*\\d)(?=.*[!@#$%^&*()<>?])|(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()<>?]))[A-Za-z\\d!@#$%^&*()<>?]{9,20}$")
+            } else if (!Pattern.compile(AuthenticatorConstants.TMAX_REALM_PASSWORD_POLICY)
                     .matcher(password).matches()) {
                 status = Status.BAD_REQUEST;
                 out = "Invalid password: violate the password policy";
