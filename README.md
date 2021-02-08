@@ -7,6 +7,9 @@
   - Hyperauth 서버 이중화 및 세션 클러스터링 적용
     - Protocol : KUBE_PING
     - 참고 : https://github.com/jgroups-extras/jgroups-kubernetes/blob/master/README.adoc
+    - https://github.com/tmax-cloud/install-hyperauth/blob/main/manifest/2.hyperauth_deployment.yaml 
+      - replica : 2
+      - 이중화 관련 Env 추가
     - **LOG 수집 가이드**
       - kubectl exec -it -n hyperauth $(kubectl get pod -n hyperauth | grep hyperauth | cut -d ' ' -f1) bash
       - cd logs/
