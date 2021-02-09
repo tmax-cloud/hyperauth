@@ -3,7 +3,19 @@
 
   - https://github.com/tmax-cloud/install-hyperauth
     - kafka cluster topic server 추가 설치의 경우, Step 4. Kafka Topic Server 설치 만 추가 수행하면 됨 
-    
+  
+  - Hyperauth 서버 이중화 및 세션 클러스터링 적용
+    - Protocol : KUBE_PING
+    - 참고 : https://github.com/jgroups-extras/jgroups-kubernetes/blob/master/README.adoc
+    - 설치 변경 : https://github.com/tmax-cloud/install-hyperauth/blob/main/manifest/2.hyperauth_deployment.yaml 
+      - replica : 2
+      - 이중화 관련 Env 추가
+    - **LOG 수집 가이드**
+      - kubectl exec -it -n hyperauth $(kubectl get pod -n hyperauth | grep hyperauth | cut -d ' ' -f1) bash
+      - cd logs/
+      - hyperauth_1.log , hyperauth_2.log : 5초에 한번 실시간 이중화된 2개의 파드의 로그를 확인할 수 있음
+      - logs/1/, logs/2 폴더에 날짜별 로그가 저장된다.
+      
   - **Topic Consumer가이드**
     - [TopicConsumerExample.java](src/main/java/com/tmax/hyperauth/eventlistener/consumer/EventConsumer.java)
       - TODO 부분 수행 
@@ -58,11 +70,6 @@
     - IP Block 정책을 걸고자 하는 user에게 Attribute을 추가
       1. **ipBlock** : true
       2. **ipPermitList** : 192.168.6.196/16##172.22.6.2/24##172.21.6.3/24 
-      
-- **LOG 수집 가이드**
-  - kubectl exec -it -n hyperauth -c log-collector $(kubectl get pod -n hyperauth | grep hyperauth | cut -d ' ' -f1) bash
-  - cd logs/
-  - 날짜별 수집된 로그를 확인 할 수 있음.
   
 - **이미지 정보**
 

@@ -173,7 +173,7 @@
 
 ## GroupMember
 
-- 중간관리자는 **isAdmin** Attribute에 자신이 관리자로 속해있는 GroupsName을 가짐
+- 중간관리자는 **isAdmin** Attribute에 자신이 관리자로 속해있는 GroupsName을 추가 해줘야함
 
 - 여러 Group의 관리자인 유저는 , 로 구분해서 띄워쓰기 없이 추가
 
