@@ -53,7 +53,7 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
             return;
         } else {
             System.out.println("User [ " + context.getUser().getUsername() + " ] Need to Update Password");
-            Response challenge = context.form().createForm("password-update-alert.ftl");
+            Response challenge = context.form().createForm("password-update-alert-choose.ftl");
             context.challenge(challenge);
         }
     }
@@ -61,49 +61,49 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
     @Override
     public void action(AuthenticationFlowContext context) {
         System.out.println("action called ... context = " + context);
+
         if (context.getHttpRequest().getDecodedFormParameters() != null) {
             MultivaluedMap<String, String> formData = context.getHttpRequest().getDecodedFormParameters();
             String skip = formData.getFirst(AuthenticatorConstants.PW_UPDATE_SKIP);
-            if (skip != null && skip.equalsIgnoreCase("t")) {
-                System.out.println("User [ " + context.getUser().getUsername() + " ] Skip Password Update !");
-                AuthenticatorConfigModel config = context.getAuthenticatorConfig();
-                int updatePeriod = AuthenticatorUtil.getConfigInt(config, AuthenticatorConstants.CONF_PW_UPDATE_PERIOD, 3);
-                int skipPeriod = AuthenticatorUtil.getConfigInt(config, AuthenticatorConstants.CONF_PW_UPDATE_SKIP_PERIOD, 1);
-                System.out.println("User [ " + context.getUser().getUsername() + " ] Ask Again " + skipPeriod + "Month Later");
 
-                long monthLong = 1000L * 60 * 60 * 24 * 30;
-                long newLastPWUpdateTime = System.currentTimeMillis() - monthLong * (updatePeriod - skipPeriod);
-                context.getUser().setAttribute(AuthenticatorConstants.USER_ATTR_LAST_PW_UPDATE_DATE, Arrays.asList(Long.toString(newLastPWUpdateTime)));
+            if (skip != null && skip.equalsIgnoreCase("t")) {
+                // 다음에 변경하기 클릭시
+                System.out.println("User [ " + context.getUser().getUsername() + " ] Skip Password Update !");
+                System.out.println("User [ " + context.getUser().getUsername() + " ] Ask Again Later");
                 context.success();
 
-            } else {
+            } else if (skip != null && skip.equalsIgnoreCase("f")){
+                // 변경하기 클릭시, 비밀번호 변경 페이지를 던진다.
+                Response challenge = context.form().createForm("password-update-alert.ftl");
+                context.challenge(challenge);
 
+            } else {
+                // 비밀번호 변경 페이지
                 System.out.println("User [ " + context.getUser().getUsername() + " ] Insert New Password !");
                 String password = formData.getFirst(AuthenticatorConstants.USER_PASSWORD);
-                String confirmPassword = formData.getFirst(AuthenticatorConstants.USER_PASSWORD_CONFIRM); //TODO : ftl 받으면 살리자
+                String confirmPassword = formData.getFirst(AuthenticatorConstants.USER_PASSWORD_CONFIRM);
 
                 if (StringUtil.isEmpty(password) || StringUtil.isEmpty(confirmPassword)) {
 //                if (StringUtil.isEmpty(password) ) {
-                    Response challenge =  context.form()
+                    Response challenge = context.form()
                             .setError("Empty Password").createForm("password-update-alert.ftl");
                     context.failureChallenge(AuthenticationFlowError.CREDENTIAL_SETUP_REQUIRED, challenge);
                 } else if (!Pattern.compile(AuthenticatorConstants.TMAX_REALM_PASSWORD_POLICY)
                         .matcher(password).matches()) {
-                    Response challenge =  context.form()
+                    Response challenge = context.form()
                             .setError("Invalid password: violate the password policy").createForm("password-update-alert.ftl");
                     context.failureChallenge(AuthenticationFlowError.CREDENTIAL_SETUP_REQUIRED, challenge);
-                }
-                else if (!password.equalsIgnoreCase(confirmPassword)){
-                    Response challenge =  context.form()
+                } else if (!password.equalsIgnoreCase(confirmPassword)) {
+                    Response challenge = context.form()
                             .setError("Password and confirmation does not match. ").createForm("password-update-alert.ftl");
                     context.failureChallenge(AuthenticationFlowError.USER_DISABLED, challenge);
                 }
                 // Verfify if Same with Old password
-                else if ( sameWithOldPW( password, context) ){
-                    Response challenge =  context.form()
+                else if (sameWithOldPW(password, context)) {
+                    Response challenge = context.form()
                             .setError("It matches the old password").createForm("password-update-alert.ftl");
                     context.failureChallenge(AuthenticationFlowError.CREDENTIAL_SETUP_REQUIRED, challenge);
-                } else{
+                } else {
                     // Change Password
                     System.out.println("User [ " + context.getUser().getUsername() + " ] Change Password to " + password);
                     context.getSession().userCredentialManager().updateCredential(context.getRealm(),

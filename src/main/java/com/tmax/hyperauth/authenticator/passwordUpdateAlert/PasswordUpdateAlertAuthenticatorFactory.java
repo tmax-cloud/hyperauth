@@ -31,12 +31,12 @@ public class PasswordUpdateAlertAuthenticatorFactory implements AuthenticatorFac
         property.setHelpText("User will be asked to change password after certain month since last password update Date");
         configProperties.add(property);
 
-        property = new ProviderConfigProperty();
-        property.setName(AuthenticatorConstants.CONF_PW_UPDATE_SKIP_PERIOD);
-        property.setLabel("Password Update Skip Period in Month");
-        property.setType(ProviderConfigProperty.STRING_TYPE);
-        property.setHelpText("Password Update Will be asked certain Month later, Shold Less than Password Update Period");
-        configProperties.add(property);
+//        property = new ProviderConfigProperty();
+//        property.setName(AuthenticatorConstants.CONF_PW_UPDATE_SKIP_PERIOD);
+//        property.setLabel("Password Update Skip Period in Month");
+//        property.setType(ProviderConfigProperty.STRING_TYPE);
+//        property.setHelpText("Password Update Will be asked certain Month later, Shold Less than Password Update Period");
+//        configProperties.add(property);
     }
 
     @Override

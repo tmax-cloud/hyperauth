@@ -86,26 +86,36 @@ public class UserProvider implements RealmResourceProvider {
                     username = rep.getEmail();
                 }
                 if (ObjectUtil.isBlank(username)) {
-                    return ErrorResponse.error("User name is missing", Status.BAD_REQUEST);
+                    out = "User name is missing";
+                    status = Status.BAD_REQUEST;
+                    return Util.setCors(status, out);
                 }
 
                 // Double-check duplicated username and email here due to federation
                 if (session.users().getUserByUsername(username, realm) != null) {
-                    return ErrorResponse.exists("User exists with same username");
+                    out = "User exists with same username";
+                    status = Status.BAD_REQUEST;
+                    return Util.setCors(status, out);
                 }
                 if (rep.getEmail() != null && !realm.isDuplicateEmailsAllowed()) {
                     try {
                         if (session.users().getUserByEmail(rep.getEmail(), realm) != null) {
-                            return ErrorResponse.exists("User exists with same email");
+                            out = "User exists with same email";
+                            status = Status.BAD_REQUEST;
+                            return Util.setCors(status, out);
                         }
                     } catch (ModelDuplicateException e) {
-                        return ErrorResponse.exists("User exists with same email");
+                        out = "User exists with same email";
+                        status = Status.BAD_REQUEST;
+                        return Util.setCors(status, out);
                     }
                 }
                 userNameSet.add(rep.getEmail()); // FIXME : For Policy, check Email but could be change
             }
             if ( reps.size() != userNameSet.size()){
-                return ErrorResponse.exists("User Email Duplicated");
+                out = "User Email Duplicated";
+                status = Status.BAD_REQUEST;
+                return Util.setCors(status, out);
             }
 
             // For Logic
@@ -130,22 +140,30 @@ public class UserProvider implements RealmResourceProvider {
                     if (session.getTransactionManager().isActive()) {
                         session.getTransactionManager().setRollbackOnly();
                     }
-                    return ErrorResponse.exists("User exists with same username or email");
+                    out = "User exists with same username or email";
+                    status = Status.BAD_REQUEST;
+                    return Util.setCors(status, out);
                 } catch (PasswordPolicyNotMetException e) {
                     if (session.getTransactionManager().isActive()) {
                         session.getTransactionManager().setRollbackOnly();
                     }
-                    return ErrorResponse.error("Password policy not met", Status.BAD_REQUEST);
+                    out = "Password policy not met";
+                    status = Status.BAD_REQUEST;
+                    return Util.setCors(status, out);
                 } catch (ModelException me){
                     if (session.getTransactionManager().isActive()) {
                         session.getTransactionManager().setRollbackOnly();
                     }
                     System.out.println("Could not create user");
-                    return ErrorResponse.error("Could not create user", Status.BAD_REQUEST);
+                    out = "Could not create user";
+                    status = Status.BAD_REQUEST;
+                    return Util.setCors(status, out);
                 }
             }
         } else {
-            return ErrorResponse.exists("No User to Register");
+            out = "No User to Register";
+            status = Status.BAD_REQUEST;
+            return Util.setCors(status, out);
         }
 
         if (session.getTransactionManager().isActive()) {
@@ -257,7 +275,8 @@ public class UserProvider implements RealmResourceProvider {
             verifyToken(tokenString, realm);
             if (!token.getPreferredUsername().equalsIgnoreCase(userName)) {
                 out = "Cannot delete other user";
-                throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "Cannot delete other user", Response.Status.BAD_REQUEST);
+                status = Status.BAD_REQUEST;
+                return Util.setCors(status, out);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -280,7 +299,8 @@ public class UserProvider implements RealmResourceProvider {
             try {
                 if (userModel == null) {
                     out = "User not found";
-                    throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "User not found", Response.Status.BAD_REQUEST);
+                    status = Status.BAD_REQUEST;
+                    return Util.setCors(status, out);
                 }
             } catch (Exception e) {
                 status = Status.BAD_REQUEST;
@@ -324,7 +344,8 @@ public class UserProvider implements RealmResourceProvider {
 
             if (!token.getPreferredUsername().equalsIgnoreCase(userName)) {
                 out = "Cannot update other user";
-                throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "Cannot update other user", Response.Status.BAD_REQUEST);
+                status = Status.BAD_REQUEST;
+                return Util.setCors(status, out);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -347,7 +368,8 @@ public class UserProvider implements RealmResourceProvider {
             try {
                 if (userModel == null) {
                     out = "User not found";
-                    throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "User not found", Response.Status.BAD_REQUEST);
+                    status = Status.BAD_REQUEST;
+                    return Util.setCors(status, out);
                 }
             } catch (Exception e) {
                 status = Status.BAD_REQUEST;

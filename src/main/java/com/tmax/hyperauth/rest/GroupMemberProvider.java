@@ -83,7 +83,9 @@ public class GroupMemberProvider implements RealmResourceProvider {
         if (token.getOtherClaims().get("isAdmin") != null && token.getOtherClaims().get("isAdmin").toString() != null){
             isAdmin = Arrays.asList(token.getOtherClaims().get("isAdmin").toString().split(","));
         } else {
-            throw new ErrorResponseException(OAuthErrorException.INVALID_TOKEN, "No Authorization", Status.UNAUTHORIZED);
+            out = "No Authorization";
+            status = Status.BAD_REQUEST;
+            return Util.setCors(status, out);
         }
         List < String > groupNameList = null;
         for ( String groupName : isAdmin){
@@ -96,7 +98,9 @@ public class GroupMemberProvider implements RealmResourceProvider {
         }
 
         if(groupNameList == null){
-            throw new ErrorResponseException(OAuthErrorException.INVALID_TOKEN, "No Authorization", Status.UNAUTHORIZED);
+            out = "No Authorization";
+            status = Status.BAD_REQUEST;
+            return Util.setCors(status, out);
         }
 
         // For Validation
@@ -105,34 +109,44 @@ public class GroupMemberProvider implements RealmResourceProvider {
             HashSet<String> userNameSet = new HashSet<String>();
             for ( UserRepresentation rep : reps ) {
                 if (!groupNameList.containsAll(rep.getGroups())) {
-                    throw new ErrorResponseException(OAuthErrorException.INVALID_TOKEN, "No Authorization", Status.UNAUTHORIZED);
-                }
+                    out = "No Authorization";
+                    status = Status.BAD_REQUEST;
+                    return Util.setCors(status, out);                }
 
                 String username = rep.getUsername();
                 if (realm.isRegistrationEmailAsUsername()) {
                     username = rep.getEmail();
                 }
                 if (ObjectUtil.isBlank(username)) {
-                    return ErrorResponse.error("User name is missing", Status.BAD_REQUEST);
-                }
+                    out = "User Name is Missing";
+                    status = Status.BAD_REQUEST;
+                    return Util.setCors(status, out);                }
 
                 // Double-check duplicated username and email here due to federation
                 if (session.users().getUserByUsername(username, realm) != null) {
-                    return ErrorResponse.exists("User exists with same username");
+                    out = "User exists with same username";
+                    status = Status.BAD_REQUEST;
+                    return Util.setCors(status, out);
                 }
                 if (rep.getEmail() != null && !realm.isDuplicateEmailsAllowed()) {
                     try {
                         if (session.users().getUserByEmail(rep.getEmail(), realm) != null) {
-                            return ErrorResponse.exists("User exists with same email");
+                            out = "User exists with same email";
+                            status = Status.BAD_REQUEST;
+                            return Util.setCors(status, out);
                         }
                     } catch (ModelDuplicateException e) {
-                        return ErrorResponse.exists("User exists with same email");
+                        out = "User exists with same email";
+                        status = Status.BAD_REQUEST;
+                        return Util.setCors(status, out);
                     }
                 }
                 userNameSet.add(rep.getEmail()); // FIXME : For Policy, check Email but could be change
             }
             if ( reps.size() != userNameSet.size()){
-                return ErrorResponse.exists("User Email Duplicated");
+                out = "User Email Duplicated";
+                status = Status.BAD_REQUEST;
+                return Util.setCors(status, out);
             }
 
             // For Logic
@@ -156,22 +170,30 @@ public class GroupMemberProvider implements RealmResourceProvider {
                     if (session.getTransactionManager().isActive()) {
                         session.getTransactionManager().setRollbackOnly();
                     }
-                    return ErrorResponse.exists("User exists with same username or email");
+                    out = "User exists with same username or email";
+                    status = Status.BAD_REQUEST;
+                    return Util.setCors(status, out);
                 } catch (PasswordPolicyNotMetException e) {
                     if (session.getTransactionManager().isActive()) {
                         session.getTransactionManager().setRollbackOnly();
                     }
-                    return ErrorResponse.error("Password policy not met", Status.BAD_REQUEST);
+                    out = "Password policy not met";
+                    status = Status.BAD_REQUEST;
+                    return Util.setCors(status, out);
                 } catch (ModelException me){
                     if (session.getTransactionManager().isActive()) {
                         session.getTransactionManager().setRollbackOnly();
                     }
                     System.out.println("Could not create user");
-                    return ErrorResponse.error("Could not create user", Status.BAD_REQUEST);
+                    out = "Could not create user";
+                    status = Status.BAD_REQUEST;
+                    return Util.setCors(status, out);
                 }
             }
         } else {
-            return ErrorResponse.exists("No User to Register");
+            out = "No User to Register";
+            status = Status.BAD_REQUEST;
+            return Util.setCors(status, out);
         }
         if (session.getTransactionManager().isActive()) {  // If commit every time, Error occurred
             session.getTransactionManager().commit();
@@ -208,7 +230,9 @@ public class GroupMemberProvider implements RealmResourceProvider {
             if (token.getOtherClaims().get("isAdmin") != null && token.getOtherClaims().get("isAdmin").toString() != null){
                 isAdmin = Arrays.asList(token.getOtherClaims().get("isAdmin").toString().split(","));
             } else {
-                throw new ErrorResponseException(OAuthErrorException.INVALID_TOKEN, "No Authorization", Status.UNAUTHORIZED);
+                out = "No Authorization";
+                status = Status.BAD_REQUEST;
+                return Util.setCors(status, out);
             }
             List < String > groupNameList = null;
             for ( String groupName : isAdmin){
@@ -221,10 +245,14 @@ public class GroupMemberProvider implements RealmResourceProvider {
             }
 
             if(groupNameList == null){
-                throw new ErrorResponseException(OAuthErrorException.INVALID_TOKEN, "No Authorization", Status.UNAUTHORIZED);
+                out = "No Authorization";
+                status = Status.BAD_REQUEST;
+                return Util.setCors(status, out);
             }
             if ( !groupNameList.contains(group)){
-                throw new ErrorResponseException(OAuthErrorException.INVALID_TOKEN, "No Authorization", Status.UNAUTHORIZED);
+                out = "No Authorization";
+                status = Status.BAD_REQUEST;
+                return Util.setCors(status, out);
             }
 
         } catch (Exception e) {
@@ -275,8 +303,9 @@ public class GroupMemberProvider implements RealmResourceProvider {
             if (token.getOtherClaims().get("isAdmin") != null && token.getOtherClaims().get("isAdmin").toString() != null){
                 isAdmin = Arrays.asList(token.getOtherClaims().get("isAdmin").toString().split(","));
             } else {
-                throw new ErrorResponseException(OAuthErrorException.INVALID_TOKEN, "No Authorization", Status.UNAUTHORIZED);
-            }
+                out = "No Authorization";
+                status = Status.BAD_REQUEST;
+                return Util.setCors(status, out);            }
             List < String > groupNameList = null;
             for ( String groupName : isAdmin){
                 System.out.println("User [ " + groupAdminName + " ] is Admin of group [ " + groupName + " ]");
@@ -287,10 +316,14 @@ public class GroupMemberProvider implements RealmResourceProvider {
                 }
             }
             if(groupNameList == null){
-                throw new ErrorResponseException(OAuthErrorException.INVALID_TOKEN, "No Authorization", Status.UNAUTHORIZED);
+                out = "No Authorization";
+                status = Status.BAD_REQUEST;
+                return Util.setCors(status, out);
             }
             if ( !groupNameList.contains(group)){
-                throw new ErrorResponseException(OAuthErrorException.INVALID_TOKEN, "No Authorization", Status.UNAUTHORIZED);
+                out = "No Authorization";
+                status = Status.BAD_REQUEST;
+                return Util.setCors(status, out);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -314,7 +347,8 @@ public class GroupMemberProvider implements RealmResourceProvider {
             }
             if (userModel == null) {
                 out = "User not found in Group";
-                throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "User not found in Group", Status.BAD_REQUEST);
+                status = Status.BAD_REQUEST;
+                return Util.setCors(status, out);
             }
             userModel = session.users().getUserByUsername(userName, realm); // 이유는 모르지만 다시 이걸로 가져오지 않으면, DB는 update되는데 session이 update가 느림.
             try {
