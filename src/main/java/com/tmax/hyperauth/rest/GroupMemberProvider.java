@@ -1,6 +1,5 @@
 package com.tmax.hyperauth.rest;
 
-import com.tmax.hyperauth.caller.HypercloudOperatorCaller;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.TokenVerifier;
