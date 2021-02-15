@@ -84,7 +84,6 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
                 String confirmPassword = formData.getFirst(AuthenticatorConstants.USER_PASSWORD_CONFIRM);
 
                 if (StringUtil.isEmpty(password) || StringUtil.isEmpty(confirmPassword)) {
-//                if (StringUtil.isEmpty(password) ) {
                     Response challenge = context.form()
                             .setError("Empty Password").createForm("password-update-alert.ftl");
                     context.failureChallenge(AuthenticationFlowError.CREDENTIAL_SETUP_REQUIRED, challenge);

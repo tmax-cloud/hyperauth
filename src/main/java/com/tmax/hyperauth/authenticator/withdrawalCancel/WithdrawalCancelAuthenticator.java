@@ -33,6 +33,7 @@ public class WithdrawalCancelAuthenticator implements Authenticator {
     public void action(AuthenticationFlowContext context) {
         System.out.println("User [ " + context.getUser().getUsername() + " ] Cancelled withdrawal!!");
         context.getUser().removeAttribute(AuthenticatorConstants.USER_ATTR_DELETION_DATE);
+        //TODO : 탈퇴 취소 이메일 전송 로직 구현~!!
 //        try {
 //            Util.sendMail(context.getSession(), context.getUser().getEmail(), subject, msg, null, null );
 //        } catch (Exception e) {

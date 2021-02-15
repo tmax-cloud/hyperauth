@@ -43,13 +43,13 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                 case "REGISTER":
                     topicEvent = TopicEvent.makeTopicEvent(event, event.getDetails().get("username"));
 
-                    // when user registered, operator call for new role
-                    System.out.println("New User Registered in tmax Realm, Give New role for User in Kubernetes");
-                    try {
-                        HypercloudOperatorCaller.createNewUserRole(event.getDetails().get("username"));   //FIXME : Delete Later !!!!
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+//                    // when user registered, operator call for new role
+//                    System.out.println("New User Registered in tmax Realm, Give New role for User in Kubernetes");
+//                    try {
+//                        HypercloudOperatorCaller.createNewUserRole(event.getDetails().get("username"));   //FIXME : Delete Later !!!!
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
                     break;
                 case "LOGIN":
                     topicEvent = TopicEvent.makeTopicEvent(event, event.getDetails().get("username"));
@@ -91,8 +91,8 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                                 if (!user.isEmailVerified()) {
                                     keycloakSession.users().removeUser(keycloakSession.realms().getRealmByName(event.getRealmId()), user);
                                     System.out.println("User [" + event.getDetails().get("username") + " ] Deleted");
-                                    System.out.println("Delete user role in k8s");
-                                    HypercloudOperatorCaller.deleteNewUserRole(user.getUsername());
+//                                    System.out.println("Delete user role in k8s");
+//                                    HypercloudOperatorCaller.deleteNewUserRole(user.getUsername());
                                 } else {
                                     System.out.println("Already Verified, Nothing to do");
                                 }
@@ -123,35 +123,35 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
 
         switch (adminEvent.getOperationType().toString()) {
             case "CREATE":
-                if (adminEvent.getResourcePath().startsWith("users") && adminEvent.getResourcePath().toString().length() == 42){
-                    // when user registered by admin, operator call for new role   //FIXME : Delete Later !!!!
-                    System.out.println("New User Registered in tmax Realm by Admin, Give New role for User in Kubernetes");
-                    try {
-                        String userName = session.users().getUserById(adminEvent.getResourcePath().toString().substring(6), session.realms().getRealmByName("tmax")).getUsername();
-                        System.out.println("userName : " + userName);
-
-                        HypercloudOperatorCaller.createNewUserRole(userName);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+//                if (adminEvent.getResourcePath().startsWith("users") && adminEvent.getResourcePath().toString().length() == 42){
+//                    // when user registered by admin, operator call for new role   //FIXME : Delete Later !!!!
+//                    System.out.println("New User Registered in tmax Realm by Admin, Give New role for User in Kubernetes");
+//                    try {
+//                        String userName = session.users().getUserById(adminEvent.getResourcePath().toString().substring(6), session.realms().getRealmByName("tmax")).getUsername();
+//                        System.out.println("userName : " + userName);
+//
+//                        HypercloudOperatorCaller.createNewUserRole(userName);
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
                 break;
             case "DELETE":
-                if (adminEvent.getResourcePath().startsWith("users")){ //FIXME : Delete Later !!!!
-                    System.out.println("User Deleted in tmax Realm by Admin, Delete user role for new User in Kubernetes");
-                    try {
-                        // important : session에는 이미 user가 지워져서 user 정보를 들고 올수 없음 그래서 http콜로 한다!
-                        String accessToken = HyperAuthCaller.loginAsAdmin();
-                        JsonObject user = HyperAuthCaller.getUser(adminEvent.getResourcePath().toString().substring(6), accessToken.replaceAll("\"", ""));
-                        HypercloudOperatorCaller.deleteNewUserRole(user.get("username").toString().replaceAll("\"", ""));
-
-                        // Topic Event
-                        TopicEvent topicEvent = TopicEvent.makeOtherTopicEvent("USER_DELETE", user.get("username").toString().replaceAll("\"", ""), adminEvent.getTime());
-                        Producer.publishEvent("tmax", topicEvent);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+//                if (adminEvent.getResourcePath().startsWith("users")){ //FIXME : Delete Later !!!!
+//                    System.out.println("User Deleted in tmax Realm by Admin, Delete user role for new User in Kubernetes");
+//                    try {
+////                         important : session에는 이미 user가 지워져서 user 정보를 들고 올수 없음 그래서 http콜로 한다!
+//                        String accessToken = HyperAuthCaller.loginAsAdmin();
+//                        JsonObject user = HyperAuthCaller.getUser(adminEvent.getResourcePath().toString().substring(6), accessToken.replaceAll("\"", ""));
+//                        HypercloudOperatorCaller.deleteNewUserRole(user.get("username").toString().replaceAll("\"", ""));
+//
+//                        // Topic Event
+//                        TopicEvent topicEvent = TopicEvent.makeOtherTopicEvent("USER_DELETE", user.get("username").toString().replaceAll("\"", ""), adminEvent.getTime());
+//                        Producer.publishEvent("tmax", topicEvent);
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
                 break;
             case "ACTION":
                 if (adminEvent.getResourcePath().startsWith("users") && adminEvent.getResourcePath().endsWith("reset-password")){
