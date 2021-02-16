@@ -172,7 +172,7 @@ public class Util {
 				if (img != null){
 					DataSource ds = new FileDataSource(img.getPath());
 					messageImgPart.setDataHandler(new DataHandler(ds));
-					messageImgPart.setHeader("Content-Type", "image/svg");
+//					messageImgPart.setHeader("Content-Type", "image/svg");
 					messageImgPart.setHeader("Content-ID", "<"+img.getCid()+">");
 					System.out.println( " img.getPath() : "  + img.getPath() );
 					System.out.println( " img.getCid() : "  + img.getCid() );
