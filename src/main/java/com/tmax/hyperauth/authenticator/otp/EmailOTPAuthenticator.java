@@ -5,8 +5,8 @@ import com.tmax.hyperauth.authenticator.AuthenticatorUtil;
 import com.tmax.hyperauth.caller.Constants;
 import com.tmax.hyperauth.rest.Util;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.authentication.Authenticator;
@@ -15,8 +15,6 @@ import org.keycloak.models.*;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import java.util.Date;
-import java.util.Random;
 
 /**
  * @author taegeon_woo@tmax.co.kr
@@ -61,9 +59,17 @@ public class EmailOTPAuthenticator implements Authenticator {
         System.out.println("OTP code Store Success , user [ "+ context.getUser().getUsername() + " ]");
 
         String subject = "[Tmax 통합계정] 로그인을 위해 인증번호를 입력해주세요.";
-        String msg = Constants.LOGIN_VERIFY_OTP_BODY.replaceAll("%%VERIFY_CODE%%", code);
+//        String body = Constants.LOGIN_VERIFY_OTP_BODY.replaceAll("%%VERIFY_CODE%%", code);
+        String body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/tmax/email/html/etc/password-verification-code.html").replaceAll("%%VERIFY_CODE%%", code);
+
+        //        List<Util.MailImage> imageParts = new ArrayList<>(
+//                Arrays.asList(
+//                        new Util.MailImage( "/opt/jboss/keycloak/themes/tmax/email/html/resources/img/logo_tmax.svg","logo_tmax.svg" ),
+//                )
+//        );
+
         try {
-            Util.sendMail(context.getSession(), context.getUser().getEmail(), subject, msg, null, null);
+            Util.sendMail(context.getSession(), context.getUser().getEmail(), subject, body, null);
             Response challenge = context.form().createForm("email-otp-validation.ftl");
             context.challenge(challenge);
 

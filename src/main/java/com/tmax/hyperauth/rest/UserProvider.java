@@ -1,7 +1,13 @@
 package com.tmax.hyperauth.rest;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -407,8 +413,18 @@ public class UserProvider implements RealmResourceProvider {
 //                        userModel.setEnabled(false);  //유저 탈퇴 철회 시나리오로 인해서 삭제
                         String email = userModel.getEmail();
                         String subject = "[Tmax 통합서비스] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
-                        String msg = Constants.ACCOUNT_WITHDRAWAL_REQUEST_BODY;
-                        Util.sendMail(session, email, subject, msg, null, null );
+//                        String body = Constants.ACCOUNT_WITHDRAWAL_REQUEST_BODY;
+
+                        String body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/tmax/email/html/etc/account-withdrawal-request.html");
+//                        List<Util.MailImage> imageParts = new ArrayList<>(
+//                                Arrays.asList(
+//                                        new Util.MailImage( "/opt/jboss/keycloak/themes/tmax/email/html/resources/img/logo_tmax.svg","logo_tmax.svg" ),
+//                                        new Util.MailImage( "/opt/jboss/keycloak/themes/tmax/email/html/resources/img/secession_success.svg","secession_success.svg" ),
+//                                        new Util.MailImage( "/opt/jboss/keycloak/themes/tmax/email/html/resources/img/bg.svg","bg.svg" )
+//                                )
+//                        );
+
+                        Util.sendMail(session, email, subject, body, null );
                         status = Status.OK;
                         out = " User [" + userName + "] WithDrawal Request Success ";
                         event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).detail("userWithdrawal","t").success(); //FIXME

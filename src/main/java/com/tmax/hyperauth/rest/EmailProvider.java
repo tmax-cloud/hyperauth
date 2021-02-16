@@ -102,7 +102,7 @@ public class EmailProvider implements RealmResourceProvider {
         String msg = Constants.PASSWORD_VERIFY_CODE_BODY.replaceAll("%%VERIFY_CODE%%", code);
 
         try {
-            Util.sendMail(session, email, subject, msg, null, null );
+            Util.sendMail(session, email, subject, msg, null );
             status = Status.OK;
             out = "Email Send Success";
             return Util.setCors(status, out);

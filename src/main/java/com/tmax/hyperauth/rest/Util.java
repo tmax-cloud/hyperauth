@@ -11,12 +11,44 @@ import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.Properties;
 import java.util.Random;
+import java.util.stream.Stream;
 
 public class Util {
+
+	public static class MailImage {
+		private String path;
+		private String cid;
+		public MailImage(String path, String cid ) {
+			this.path = path;
+			this.cid = cid;
+		}
+		public String getPath() {
+			return path;
+		}
+
+		public void setPath(String path) {
+			this.path = path;
+		}
+
+		public String getCid() {
+			return cid;
+		}
+
+		public void setCid(String cid) {
+			this.cid = cid;
+		}
+	}
+
     public static Response setCors( Status status, Object out ) {
 		return Response.status(status).entity(out)
     			.header("Access-Control-Allow-Origin", "*")
@@ -56,7 +88,7 @@ public class Util {
 		return numStr;
 	}
 
-	public static void sendMail(KeycloakSession keycloakSession, String recipient, String subject, String body, String imgPath, String imgCid ) throws Throwable {
+	public static void sendMail(KeycloakSession keycloakSession, String recipient, String subject, String body, List<MailImage> imgParts) throws Throwable {
 		System.out.println( " Send Mail to User [ " + recipient + " ] Start");
 		String host = "mail.tmax.co.kr";
 		int port = 25;
@@ -133,15 +165,20 @@ public class Util {
 		messageBodyPart.setContent(body, "text/html; charset="+charSetUtf);
 		multiPart.addBodyPart(messageBodyPart);
 
-		BodyPart messageImgPart = new MimeBodyPart();
-		if (imgPath != null){
-			DataSource ds = new FileDataSource(imgPath);
-			messageImgPart.setDataHandler(new DataHandler(ds));
-			messageImgPart.setHeader("Content-Type", "image/svg");
-			messageImgPart.setHeader("Content-ID", "<"+imgCid+">");
-			multiPart.addBodyPart(messageImgPart);
+		// Image Parts
+		if (imgParts != null && imgParts.size() > 0){
+			for ( MailImage img : imgParts ){
+				BodyPart messageImgPart = new MimeBodyPart();
+				if (img != null){
+					DataSource ds = new FileDataSource(img.getPath());
+					messageImgPart.setDataHandler(new DataHandler(ds));
+					messageImgPart.setHeader("Content-Type", "image/svg");
+					messageImgPart.setHeader("Content-ID", "<"+img.getCid()+">");
+					multiPart.addBodyPart(messageImgPart);
+				}
+				mimeMessage.setContent(multiPart);
+			}
 		}
-		mimeMessage.setContent(multiPart);
 
 		System.out.println( " Ready to Send Mail to " + recipient);
 		try {
@@ -153,5 +190,18 @@ public class Util {
 			System.out.println( e.getMessage() + e.getStackTrace());
 			throw e;
 		}
+	}
+
+	public static String readLineByLineJava8(String filePath)
+	{
+		StringBuilder contentBuilder = new StringBuilder();
+
+		try (Stream<String> stream = Files.lines( Paths.get(filePath), StandardCharsets.UTF_8)) {
+			stream.forEach(s -> contentBuilder.append(s).append("\n"));
+		}
+		catch (IOException e){
+			e.printStackTrace();
+		}
+		return contentBuilder.toString();
 	}
 }
