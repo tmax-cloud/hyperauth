@@ -434,7 +434,7 @@ public class UserProvider implements RealmResourceProvider {
                                 )
                         );
 
-                        Util.sendMail(session, email, subject, body, null );
+                        Util.sendMail(session, email, subject, body, imageParts );
                         status = Status.OK;
                         out = " User [" + userName + "] WithDrawal Request Success ";
                         event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).detail("userWithdrawal","t").success(); //FIXME
