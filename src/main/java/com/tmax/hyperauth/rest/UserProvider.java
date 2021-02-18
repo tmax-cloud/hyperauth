@@ -184,47 +184,11 @@ public class UserProvider implements RealmResourceProvider {
         return Util.setCors(status, out);
     }
 
-
-	@GET
+    @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@QueryParam("startsWith") String startsWith, @QueryParam("except") List<String> except) {
         System.out.println("***** LIST /User");
-        List<String> userListOut;
-    	System.out.println("startsWith request : " + startsWith);
-    	System.out.println("except request : " + except);
-
-        if (startsWith == null){
-            startsWith = "";
-        }
-        if (except == null){
-            except = new ArrayList<>();
-        }
-        List<String> finalExcept = except;
-        String finalStartsWith = startsWith;
-
-        try{
-            userListOut = session.users().getUsers(session.getContext().getRealm()).stream()
-                    .map(UserModel::getUsername)
-                    .filter(userName -> userName.startsWith(finalStartsWith))
-                    .filter(userName -> !finalExcept.contains(userName))
-                    .collect(Collectors.toList());
-            status = Status.OK;
-        	return Util.setCors(status, userListOut);
-        }catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Exception " + e.getMessage());
-        	status = Status.BAD_REQUEST;
-        	out = "User ListGet Failed";
-        	return Util.setCors(status, out);
-        }  
-    }
-
-    @GET
-    @Path("list2")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response list2(@QueryParam("startsWith") String startsWith, @QueryParam("except") List<String> except) {
-        System.out.println("***** LIST2 /User");
         List<String> userListOut;
         System.out.println("startsWith request : " + startsWith);
         System.out.println("except request : " + except);
@@ -594,5 +558,42 @@ public class UserProvider implements RealmResourceProvider {
     @Override
     public void close() {
     }
+
+
+    // 성능상 이슈로 쿼리로 한것이 낫다고 판단함. 추가 요건 구현이 Stream이용하면 편할 수도 있으니 일단 남겨둠.
+//    @GET
+//    @Path("list")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response list(@QueryParam("startsWith") String startsWith, @QueryParam("except") List<String> except) {
+//        System.out.println("***** LIST /User");
+//        List<String> userListOut;
+//        System.out.println("startsWith request : " + startsWith);
+//        System.out.println("except request : " + except);
+//
+//        if (startsWith == null){
+//            startsWith = "";
+//        }
+//        if (except == null){
+//            except = new ArrayList<>();
+//        }
+//        List<String> finalExcept = except;
+//        String finalStartsWith = startsWith;
+//
+//        try{
+//            userListOut = session.users().getUsers(session.getContext().getRealm()).stream()
+//                    .map(UserModel::getUsername)
+//                    .filter(userName -> userName.startsWith(finalStartsWith))
+//                    .filter(userName -> !finalExcept.contains(userName))
+//                    .collect(Collectors.toList());
+//            status = Status.OK;
+//            return Util.setCors(status, userListOut);
+//        }catch (Exception e) {
+//            e.printStackTrace();
+//            System.out.println("Exception " + e.getMessage());
+//            status = Status.BAD_REQUEST;
+//            out = "User ListGet Failed";
+//            return Util.setCors(status, out);
+//        }
+//    }
 
 }
