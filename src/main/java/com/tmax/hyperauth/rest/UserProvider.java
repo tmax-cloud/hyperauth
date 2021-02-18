@@ -9,6 +9,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.persistence.EntityManager;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -17,12 +18,14 @@ import javax.ws.rs.core.Response.Status;
 
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
 import com.tmax.hyperauth.caller.Constants;
+import com.tmax.hyperauth.jpa.Agreement;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.TokenVerifier;
 import org.keycloak.common.ClientConnection;
 import org.keycloak.common.VerificationException;
 import org.keycloak.common.util.ObjectUtil;
+import org.keycloak.connections.jpa.JpaConnectionProvider;
 import org.keycloak.crypto.SignatureProvider;
 import org.keycloak.crypto.SignatureVerifierContext;
 import org.keycloak.events.EventBuilder;
@@ -215,6 +218,52 @@ public class UserProvider implements RealmResourceProvider {
         	out = "User ListGet Failed";
         	return Util.setCors(status, out);
         }  
+    }
+
+    @GET
+    @Path("list2")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response list2(@QueryParam("startsWith") String startsWith, @QueryParam("except") List<String> except) {
+        System.out.println("***** LIST2 /User");
+        List<String> userListOut;
+        System.out.println("startsWith request : " + startsWith);
+        System.out.println("except request : " + except);
+
+        try{
+            StringBuilder query = new StringBuilder();
+            query.append("select username from user_entity where realm_id = '"+ session.getContext().getRealm() +"'");
+
+            if (startsWith != null){
+                query.append(" and username like '" + startsWith + "%'");
+            }
+
+            if (except != null){
+                query.append(" and not username in (");
+                for (int i=0 ; i < except.size() ; i ++){
+                    query.append("'" + except.get(i) + "'");
+                    if (i != except.size()-1){
+                        query.append(",");
+                    }
+                }
+                query.append(" )");
+            }
+
+            System.out.println("query : " + query.toString());
+
+            userListOut = getEntityManager().createNamedQuery(query.toString(), String.class).getResultList();
+            status = Status.OK;
+            return Util.setCors(status, userListOut);
+        }catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Exception " + e.getMessage());
+            status = Status.BAD_REQUEST;
+            out = "User ListGet Failed";
+            return Util.setCors(status, out);
+        }
+    }
+
+    private EntityManager getEntityManager() {
+        return session.getProvider(JpaConnectionProvider.class).getEntityManager();
     }
 
     @GET
