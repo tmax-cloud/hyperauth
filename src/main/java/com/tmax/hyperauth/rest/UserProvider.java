@@ -183,19 +183,54 @@ public class UserProvider implements RealmResourceProvider {
 
 
 	@GET
+    @Path("list")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response list(@QueryParam("startsWith") String startsWith, @QueryParam("except") List<String> except) {
+        System.out.println("***** LIST /User");
+        List<String> userListOut;
+    	System.out.println("startsWith request : " + startsWith);
+    	System.out.println("except request : " + except);
+
+        if (startsWith == null){
+            startsWith = "";
+        }
+        if (except == null){
+            except = new ArrayList<>();
+        }
+        List<String> finalExcept = except;
+        String finalStartsWith = startsWith;
+
+        try{
+            userListOut = session.users().getUsers(session.getContext().getRealm()).stream()
+                    .map(UserModel::getUsername)
+                    .filter(userName -> userName.startsWith(finalStartsWith))
+                    .filter(userName -> !finalExcept.contains(userName))
+                    .collect(Collectors.toList());
+            status = Status.OK;
+        	return Util.setCors(status, userListOut);
+        }catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Exception " + e.getMessage());
+        	status = Status.BAD_REQUEST;
+        	out = "User ListGet Failed";
+        	return Util.setCors(status, out);
+        }  
+    }
+
+    @GET
     @Path("{userName}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response get(@PathParam("userName") final String userName) {
         System.out.println("***** GET /User");
 
         UserRepresentation userOut = new UserRepresentation();
-    	System.out.println("userName request : " + userName);
+        System.out.println("userName request : " + userName);
 
         RealmModel realm = session.getContext().getRealm();
 
         String realmName = realm.getDisplayName();
         if (realmName == null) {
-        	realmName = realm.getName();
+            realmName = realm.getName();
         }
         List <String> groupName = null;
         try {
@@ -209,14 +244,14 @@ public class UserProvider implements RealmResourceProvider {
             System.out.println("email : " + user.getEmail());
 
             for( GroupModel group : user.getGroups()) {
-        		if(groupName == null) groupName = new ArrayList<>();
-        		groupName.add(group.getName());
-            	System.out.println("groupName : " + group.getName());
-        	}
+                if(groupName == null) groupName = new ArrayList<>();
+                groupName.add(group.getName());
+                System.out.println("groupName : " + group.getName());
+            }
 
-        	userOut.setUsername(userName);
-        	userOut.setEmail(user.getEmail());
-        	userOut.setGroups(groupName);
+            userOut.setUsername(userName);
+            userOut.setEmail(user.getEmail());
+            userOut.setGroups(groupName);
             userOut.setEnabled(user.isEnabled());
 
             // User Credential Data
@@ -252,15 +287,15 @@ public class UserProvider implements RealmResourceProvider {
 //            }
 
             status = Status.OK;
-        	return Util.setCors(status, userOut);        
+            return Util.setCors(status, userOut);
         }catch (Exception e) {
             e.printStackTrace();
             System.out.println("No Corresponding UserName");
             System.out.println("Exception " + e.getMessage());
-        	status = Status.BAD_REQUEST;
-        	out = "No Corresponding UserName";
-        	return Util.setCors(status, out);
-        }  
+            status = Status.BAD_REQUEST;
+            out = "No Corresponding UserName";
+            return Util.setCors(status, out);
+        }
     }
     
     @SuppressWarnings("unchecked")
