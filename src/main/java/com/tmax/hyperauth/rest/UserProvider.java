@@ -237,7 +237,7 @@ public class UserProvider implements RealmResourceProvider {
                 query.append(" and username like '" + startsWith + "%'");
             }
 
-            if (except != null){
+            if (except != null && except.size() > 0){
                 query.append(" and not username in (");
                 for (int i=0 ; i < except.size() ; i ++){
                     query.append("'" + except.get(i) + "'");
