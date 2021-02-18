@@ -231,7 +231,7 @@ public class UserProvider implements RealmResourceProvider {
 
         try{
             StringBuilder query = new StringBuilder();
-            query.append("select username from user_entity where realm_id = '"+ session.getContext().getRealm() +"'");
+            query.append("select username from user_entity where realm_id = '"+ session.getContext().getRealm().getName() +"'");
 
             if (startsWith != null){
                 query.append(" and username like '" + startsWith + "%'");
@@ -250,7 +250,7 @@ public class UserProvider implements RealmResourceProvider {
 
             System.out.println("query : " + query.toString());
 
-            userListOut = getEntityManager().createNamedQuery(query.toString(), String.class).getResultList();
+            userListOut = getEntityManager().createQuery(query.toString(), String.class).getResultList();
             status = Status.OK;
             return Util.setCors(status, userListOut);
         }catch (Exception e) {
