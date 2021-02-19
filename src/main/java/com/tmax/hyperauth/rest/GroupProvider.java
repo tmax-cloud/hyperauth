@@ -53,7 +53,7 @@ public class GroupProvider implements RealmResourceProvider {
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@QueryParam("startsWith") String startsWith, @QueryParam("except") List<String> except) {
-        System.out.println("***** list /group");
+        System.out.println("***** LIST /group");
         List<String> groupListOut;
         System.out.println("startsWith request : " + startsWith);
         System.out.println("except request : " + except);
@@ -63,7 +63,8 @@ public class GroupProvider implements RealmResourceProvider {
             query.append("select g.name from GroupEntity g where g.realm = '"+ session.getContext().getRealm().getName() +"'");
 
             if (startsWith != null){
-                query.append(" and g.name like '" + startsWith + "%'");
+                startsWith = startsWith.toLowerCase();
+                query.append(" and lower(g.name) like '" + startsWith + "%'");
             }
 
             if (except != null && except.size() > 0){
@@ -78,7 +79,6 @@ public class GroupProvider implements RealmResourceProvider {
             }
 
             System.out.println("query : " + query.toString());
-
             groupListOut = getEntityManager().createQuery(query.toString(), String.class).getResultList();
             status = Status.OK;
             return Util.setCors(status, groupListOut);

@@ -198,7 +198,8 @@ public class UserProvider implements RealmResourceProvider {
             query.append("select u.username from UserEntity u where u.realmId = '"+ session.getContext().getRealm().getName() +"'");
 
             if (startsWith != null){
-                query.append(" and u.username like '" + startsWith + "%'");
+                startsWith = startsWith.toLowerCase();
+                query.append(" and lower(u.username) like '" + startsWith + "%'");
             }
 
             if (except != null && except.size() > 0){
