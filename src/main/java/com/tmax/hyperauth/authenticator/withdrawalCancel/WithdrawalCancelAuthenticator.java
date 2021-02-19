@@ -7,6 +7,9 @@ import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.models.*;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -33,13 +36,23 @@ public class WithdrawalCancelAuthenticator implements Authenticator {
     public void action(AuthenticationFlowContext context) {
         System.out.println("User [ " + context.getUser().getUsername() + " ] Cancelled withdrawal!!");
         context.getUser().removeAttribute(AuthenticatorConstants.USER_ATTR_DELETION_DATE);
-        //TODO : 탈퇴 취소 이메일 전송 로직 구현~!!
-//        try {
-//            Util.sendMail(context.getSession(), context.getUser().getEmail(), subject, msg, null, null );
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            System.out.println("Exception " + e.getMessage());
-//        }
+
+        // Send Mail
+        String subject = "[Tmax 통합계정] 탈퇴 신청이 취소되었습니다.";
+        String body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/tmax/email/html/etc/account-withdrawal-cancel.html");
+        List<Util.MailImage> imageParts = new ArrayList<>(
+                Arrays.asList(
+                        new Util.MailImage( "/opt/jboss/keycloak/themes/tmax/email/html/resources/img/secession_cancel.svg","secession_cancel" )
+                )
+        );        try {
+            Util.sendMail(context.getSession(), context.getUser().getEmail(), subject, body, imageParts );
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Exception " + e.getMessage());
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+            System.out.println("Exception " + throwable.getMessage());
+        }
         context.success();
     }
 

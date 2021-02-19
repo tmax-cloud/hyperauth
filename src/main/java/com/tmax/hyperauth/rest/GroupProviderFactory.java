@@ -7,9 +7,9 @@ import org.keycloak.services.resource.RealmResourceProvider;
 import org.keycloak.services.resource.RealmResourceProviderFactory;
 
 
-public class TestProviderFactory implements RealmResourceProviderFactory {
+public class GroupProviderFactory implements RealmResourceProviderFactory {
 
-    public static final String ID = "test";
+    public static final String ID = "group";
 
     @Override
     public String getId() {
@@ -18,7 +18,7 @@ public class TestProviderFactory implements RealmResourceProviderFactory {
 
     @Override
     public RealmResourceProvider create(KeycloakSession session) {
-        return new TestProvider(session);
+        return new GroupProvider(session);
     }
 
     @Override

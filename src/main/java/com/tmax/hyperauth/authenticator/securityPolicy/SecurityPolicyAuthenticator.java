@@ -38,6 +38,7 @@ public class SecurityPolicyAuthenticator implements Authenticator {
                     utils = new SubnetUtils(ipPermit);
                     utils.setInclusiveHostCount(true);
                 }catch(IllegalArgumentException e) {
+                    e.printStackTrace();
                     System.out.println("Invalid CIDR syntax : " + ipPermit);
                     return false;
                 }

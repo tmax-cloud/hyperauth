@@ -53,7 +53,7 @@ public class UserDeleteJob implements Job {
 
                             // Mail Send
                             String email = userRepresentation.getEmail();
-                            String subject = "[Tmax 통합서비스] 고객님의 계정 탈퇴가 완료되었습니다.";
+                            String subject = "[Tmax 통합계정] 고객님의 계정 탈퇴가 완료되었습니다.";
 //                            String msg = Constants.ACCOUNT_WITHDRAWAL_APPROVAL_BODY;
                             String body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/tmax/email/html/etc/account-withdrawal-completed.html");
                             List<Util.MailImage> imageParts = new ArrayList<>(
