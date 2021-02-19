@@ -121,6 +121,38 @@
   - **ResponseBody**
 
        X
+       
+ #### List
+   - **Description** 
+     
+      <u>권한체크 없이</u> 사용자 리스트를 조회하는 API
+      
+  - **RequestURL**
+
+       GET https://{HYPERAUTH_IP}/auth/realms/tmax/user/list
+
+  - **RequestHeader**
+
+       X
+
+  - **QueryParam**
+
+       startsWith : {startsString}  ( 시작단어를 통한 검색기능 지원 )
+       except : **{StringArray}**  ( 검색에서 제외할 username 입력 )
+       ex ) startsWith=a&except=aaa@tmax.co.kr&except=admin@gmail.com
+
+  - **PathParam**
+
+       x
+
+  - **RequestBody**
+
+       X
+
+  - **ResponseBody**
+
+       X
+      
 
  #### AttributeUpdate
   - **Description** 
