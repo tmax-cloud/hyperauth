@@ -19,7 +19,6 @@ public class WithdrawalCancelAuthenticator implements Authenticator {
 
     @Override
     public void authenticate(AuthenticationFlowContext context) {
-        System.out.println("authenticate called ... User = " + context.getUser().getUsername());
         if (AuthenticatorUtil.getAttributeValue(context.getUser(), AuthenticatorConstants.USER_ATTR_DELETION_DATE) != null) {
             System.out.println("User [ " + context.getUser().getUsername() + " ] Need to Withdrawal Cancel to Login");
             Response challenge = context.form().setAttribute(AuthenticatorConstants.USER_ATTR_DELETION_DATE,
