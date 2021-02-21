@@ -114,11 +114,11 @@ public class TopicEvent {
         // for type, type conversion needs!
         String topicEventType = "";
         if ( keycloakEvent.getType().equals(EventType.UPDATE_PROFILE )){
-            if (keycloakEvent.getDetails().get("userWithdrawal") != null && keycloakEvent.getDetails().get("userWithdrawal").equalsIgnoreCase("t")) {
+            if (keycloakEvent.getDetails()!= null && keycloakEvent.getDetails().get("userWithdrawal") != null && keycloakEvent.getDetails().get("userWithdrawal").equalsIgnoreCase("t")) {
                 topicEventType = "USER_WITHDRAWAL";
-            } else if (keycloakEvent.getDetails().get("userDelete") != null && keycloakEvent.getDetails().get("userWithdrawal").equalsIgnoreCase("f")) {
+            } else if (keycloakEvent.getDetails()!= null && keycloakEvent.getDetails().get("userDelete") != null && keycloakEvent.getDetails().get("userWithdrawal").equalsIgnoreCase("f")) {
                 topicEventType = "USER_WITHDRAWAL_CANCEL";
-            } else if (keycloakEvent.getDetails().get("userDelete") != null && keycloakEvent.getDetails().get("userDelete").equalsIgnoreCase("t")) {
+            } else if (keycloakEvent.getDetails()!= null && keycloakEvent.getDetails().get("userDelete") != null && keycloakEvent.getDetails().get("userDelete").equalsIgnoreCase("t")) {
                 topicEventType = "USER_DELETE";
             } else {
                 topicEventType = EventType.UPDATE_PROFILE.toString();
