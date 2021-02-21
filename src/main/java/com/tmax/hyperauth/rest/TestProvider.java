@@ -45,24 +45,28 @@ public class TestProvider implements RealmResourceProvider {
     @Context
     private ClientConnection clientConnection;
 
+    private final AuthenticationManager.AuthResult auth;
+
     public TestProvider(KeycloakSession session) {
         this.session = session;
-        this.auth = resolveAuthentication(session);
+        this.auth = resolveAuthentication();
     }
 
-    private AuthenticationManager.AuthResult resolveAuthentication(KeycloakSession keycloakSession) {
+    private AuthenticationManager.AuthResult resolveAuthentication() {
         AppAuthManager appAuthManager = new AppAuthManager();
-        RealmModel realm = keycloakSession.getContext().getRealm();
+        RealmModel realm = session.getContext().getRealm();
+        if (realm == null){
+            System.out.println("realm is null!!!!!!!!!!!!!");
+            realm = session.realms().getRealmByName("tmax");
+        }
 
-        AuthenticationManager.AuthResult authResult = appAuthManager.authenticateIdentityCookie(keycloakSession, realm);
+        AuthenticationManager.AuthResult authResult = appAuthManager.authenticateIdentityCookie(session, realm);
         if (authResult != null) {
             return authResult;
         }
-
         return null;
     }
 
-    private final AuthenticationManager.AuthResult auth;
 
     @Override
     public Object getResource() {
