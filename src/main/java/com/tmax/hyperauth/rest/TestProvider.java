@@ -45,21 +45,19 @@ public class TestProvider implements RealmResourceProvider {
     @Context
     private ClientConnection clientConnection;
 
-    private final AuthenticationManager.AuthResult auth;
+//    private final AuthenticationManager.AuthResult auth;
 
     public TestProvider(KeycloakSession session) {
         this.session = session;
-        this.auth = resolveAuthentication();
     }
 
-    private AuthenticationManager.AuthResult resolveAuthentication() {
+    private AuthenticationManager.AuthResult resolveAuthentication( KeycloakSession session) {
         AppAuthManager appAuthManager = new AppAuthManager();
         RealmModel realm = session.getContext().getRealm();
         if (realm == null){
             System.out.println("realm is null!!!!!!!!!!!!!");
             realm = session.realms().getRealmByName("tmax");
         }
-
         AuthenticationManager.AuthResult authResult = appAuthManager.authenticateIdentityCookie(session, realm);
         if (authResult != null) {
             return authResult;
@@ -81,7 +79,6 @@ public class TestProvider implements RealmResourceProvider {
     }
 
     private boolean isValidStateChecker(MultipartFormDataInput input) {
-
         try {
             String actualStateChecker = input.getFormDataPart(STATE_CHECKER_PARAMETER, String.class, null);
             String requiredStateChecker = (String) session.getAttribute(STATE_CHECKER_ATTRIBUTE);
@@ -100,6 +97,7 @@ public class TestProvider implements RealmResourceProvider {
     public Response post(@PathParam("userName") final String userName, MultipartFormDataInput input) {
         System.out.println("***** post /test");
         System.out.println("userName : " + userName);
+        AuthenticationManager.AuthResult auth = resolveAuthentication(session);
         if (auth == null) {
             return badRequest();
         }
@@ -194,6 +192,11 @@ public class TestProvider implements RealmResourceProvider {
     @Produces(MediaType.APPLICATION_JSON)
     public Response get() {
         System.out.println("***** GET /test");
+        AuthenticationManager.AuthResult auth = resolveAuthentication(session);
+        if (auth == null) {
+            return badRequest();
+        }
+        System.out.println("good!!");
         return Util.setCors( Status.OK, null);
     }
 
