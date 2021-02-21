@@ -6,3 +6,4 @@ com.tmax.hyperauth.rest.PasswordProviderFactory
 com.tmax.hyperauth.rest.GroupMemberProviderFactory
 com.tmax.hyperauth.rest.SessionProviderFactory
 com.tmax.hyperauth.rest.GroupProviderFactory
+com.tmax.hyperauth.rest.TestProviderFactory
