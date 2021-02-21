@@ -93,8 +93,8 @@ public class TestProvider implements RealmResourceProvider {
     @Path("{userName}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response put(@PathParam("userName") final String userName, MultipartFormDataInput input) {
-        System.out.println("***** PUT /test");
+    public Response post(@PathParam("userName") final String userName, MultipartFormDataInput input) {
+        System.out.println("***** post /test");
         System.out.println("userName : " + userName);
         if (auth == null) {
             return badRequest();
@@ -186,11 +186,17 @@ public class TestProvider implements RealmResourceProvider {
         }
         return Util.setCors(status, out);
     }
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response get() {
+        System.out.println("***** GET /test");
+        return Util.setCors( Status.OK, null);
+    }
 
     @OPTIONS
     @Path("{path : .*}")
     public Response other() {
-        System.out.println("***** OPTIONS /group");
+        System.out.println("***** OPTIONS /test");
         return Util.setCors( Status.OK, null);
     }
 
