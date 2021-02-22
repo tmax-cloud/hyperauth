@@ -55,7 +55,7 @@ public class TestProvider implements RealmResourceProvider {
         AppAuthManager appAuthManager = new AppAuthManager();
         RealmModel realm = session.getContext().getRealm();
         if (realm == null){
-            System.out.println("realm is null!!!!!!!!!!!!!");
+            System.out.println("realm is null!!");
             realm = session.realms().getRealmByName("tmax");
         }
         AuthenticationManager.AuthResult authResult = appAuthManager.authenticateIdentityCookie(session, realm);
@@ -76,6 +76,10 @@ public class TestProvider implements RealmResourceProvider {
 
     protected Response badRequest() {
         return Response.status(Response.Status.BAD_REQUEST).build();
+    }
+
+    protected Response forbiddenRequest() {
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     private boolean isValidStateChecker(MultipartFormDataInput input) {
@@ -116,9 +120,7 @@ public class TestProvider implements RealmResourceProvider {
         }
         UserModel userModel = session.users().getUserByUsername(userName, session.realms().getRealmByName(realmName));
         if (userModel == null) {
-            out = "User not found";
-            status = Status.BAD_REQUEST;
-            return Util.setCors(status, out);
+            return badRequest();
         }
 
         try {
@@ -172,21 +174,17 @@ public class TestProvider implements RealmResourceProvider {
 ////                        );
 //
 //                Util.sendMail(session, email, subject, body, null );
-                status = Status.OK;
-                out = " User [" + userName + "] WithDrawal Request Success ";
                 event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).detail("userWithdrawal","t").success(); //FIXME
             } else{
-                status = Status.FORBIDDEN;
                 out = "User [" + userName + "] is Unqualified to Withdraw from Account due to [" + unQualifiedReason + "] Policy, Check Withdrawal Policy or Contact Administrator";
+                return badRequest();
             }
         } catch (Exception e) {
-            status = Status.BAD_REQUEST;
-            out = "User [" + userName + "] Withdrawal Falied  ";
+            return badRequest();
         } catch (Throwable throwable) {
-            status = Status.BAD_REQUEST;
-            out = "User [" + userName + "] Withdrawal Request Falied  ";
+            return badRequest();
         }
-        return Util.setCors(status, out);
+        return Response.ok().build();
     }
     @GET
     @Produces(MediaType.APPLICATION_JSON)
