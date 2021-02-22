@@ -1,7 +1,6 @@
 package com.tmax.hyperauth.rest;
 
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
-import com.tmax.hyperauth.caller.Constants;
 import org.jboss.resteasy.annotations.cache.NoCache;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.jboss.resteasy.spi.HttpResponse;
@@ -12,7 +11,6 @@ import org.keycloak.events.EventType;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
-import org.keycloak.representations.idm.UserRepresentation;
 import org.keycloak.services.managers.AppAuthManager;
 import org.keycloak.services.managers.AuthenticationManager;
 import org.keycloak.services.resource.RealmResourceProvider;
@@ -95,7 +93,7 @@ public class TestProvider implements RealmResourceProvider {
 
     @POST
     @NoCache
-    @Path("{userName}")
+    @Path("/{userName}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response post(@PathParam("userName") final String userName, MultipartFormDataInput input) {
         System.out.println("***** post /test");
