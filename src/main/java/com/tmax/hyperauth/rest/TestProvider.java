@@ -1,6 +1,7 @@
 package com.tmax.hyperauth.rest;
 
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
+import com.tmax.hyperauth.authenticator.AuthenticatorUtil;
 import org.jboss.resteasy.annotations.cache.NoCache;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.jboss.resteasy.spi.HttpResponse;
@@ -14,6 +15,7 @@ import org.keycloak.models.UserModel;
 import org.keycloak.services.managers.AppAuthManager;
 import org.keycloak.services.managers.AuthenticationManager;
 import org.keycloak.services.resource.RealmResourceProvider;
+import org.keycloak.services.resources.RealmsResource;
 
 import javax.persistence.EntityManager;
 import javax.ws.rs.*;
@@ -21,6 +23,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -95,7 +98,8 @@ public class TestProvider implements RealmResourceProvider {
     @NoCache
     @Path("/{userName}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response post(@PathParam("userName") final String userName, MultipartFormDataInput input) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response post(@PathParam("userName") final String userName, MultipartFormDataInput input ) {
         System.out.println("***** post /test");
         System.out.println("userName : " + userName);
         AuthenticationManager.AuthResult auth = resolveAuthentication(session);
@@ -181,7 +185,7 @@ public class TestProvider implements RealmResourceProvider {
         } catch (Throwable throwable) {
             return badRequest();
         }
-        return Response.ok().build();
+        return Response.seeOther(RealmsResource.accountUrl(session.getContext().getUri().getBaseUriBuilder()).build(realmName)).build();
     }
     @GET
     @Produces(MediaType.APPLICATION_JSON)
