@@ -97,7 +97,6 @@ public class TestProvider implements RealmResourceProvider {
     @NoCache
     @Path("{userName}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response post(@PathParam("userName") final String userName, MultipartFormDataInput input) {
         System.out.println("***** post /test");
         System.out.println("userName : " + userName);
@@ -177,7 +176,7 @@ public class TestProvider implements RealmResourceProvider {
                 event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).detail("userWithdrawal","t").success(); //FIXME
             } else{
                 out = "User [" + userName + "] is Unqualified to Withdraw from Account due to [" + unQualifiedReason + "] Policy, Check Withdrawal Policy or Contact Administrator";
-                return badRequest();
+                return forbiddenRequest();
             }
         } catch (Exception e) {
             return badRequest();
