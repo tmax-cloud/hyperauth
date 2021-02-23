@@ -70,7 +70,8 @@ public class EmailOTPAuthenticator implements Authenticator {
 
         try {
             Util.sendMail(context.getSession(), context.getUser().getEmail(), subject, body, null);
-            Response challenge = context.form().createForm("email-otp-validation.ftl");
+            Response challenge = context.form().setAttribute(AuthenticatorConstants.CONF_PRP_OTP_CODE_TTL, Long.valueOf(ttl).intValue())
+                    .createForm("email-otp-validation.ftl");
             context.challenge(challenge);
 
         } catch (Throwable e) {
