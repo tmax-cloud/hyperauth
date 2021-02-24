@@ -49,13 +49,15 @@ public class EmailOTPAuthenticator implements Authenticator {
         long nrOfDigits = AuthenticatorUtil.getConfigLong(config, AuthenticatorConstants.CONF_PRP_OTP_CODE_LENGTH, 6L);
         System.out.println("Using nrOfDigits " + nrOfDigits + ", user [ "+ context.getUser().getUsername() + " ]");
 
-        long ttl = AuthenticatorUtil.getConfigLong(config, AuthenticatorConstants.CONF_PRP_OTP_CODE_TTL, 10 * 60L); // 10 minutes in s
+        long ttl = AuthenticatorUtil.getConfigLong(config, AuthenticatorConstants.CONF_PRP_OTP_CODE_TTL, 5 * 60L); // 5 minutes in s
         System.out.println("Using ttl " + ttl + " (s) , user [ "+ context.getUser().getUsername() + " ]");
 
         String code = getOTPCode(nrOfDigits);
         System.out.println("code : " + code + ", user [ "+ context.getUser().getUsername() + " ]");
 
-        storeOTPInfo(context, code, new Date().getTime() + (ttl * 1000)); // s --> ms
+        Long expiringAt = new Date().getTime() + (ttl * 1000);
+
+        storeOTPInfo(context, code, expiringAt); // s --> ms
         System.out.println("OTP code Store Success , user [ "+ context.getUser().getUsername() + " ]");
 
         String subject = "[Tmax 통합계정] 로그인을 위해 인증번호를 입력해주세요.";
@@ -70,7 +72,9 @@ public class EmailOTPAuthenticator implements Authenticator {
 
         try {
             Util.sendMail(context.getSession(), context.getUser().getEmail(), subject, body, null);
-            Response challenge = context.form().setAttribute(AuthenticatorConstants.CONF_PRP_OTP_CODE_TTL, Long.valueOf(ttl).intValue())
+            Response challenge = context.form()
+                    .setAttribute(AuthenticatorConstants.CONF_PRP_OTP_CODE_TTL, Long.valueOf(ttl).intValue())
+                    .setAttribute(AuthenticatorConstants.CONF_PRP_OTP_EXP_AT, (expiringAt).toString())
                     .createForm("email-otp-validation.ftl");
             context.challenge(challenge);
 
@@ -86,8 +90,10 @@ public class EmailOTPAuthenticator implements Authenticator {
 
     @Override
     public void action(AuthenticationFlowContext context) {
-//        System.out.println("action called ... context = " + context);
-        CODE_STATUS status = validateCode(context);
+        long ttl = AuthenticatorUtil.getConfigLong(context.getAuthenticatorConfig(), AuthenticatorConstants.CONF_PRP_OTP_CODE_TTL, 5 * 60L); // 5 minutes in s
+        String expTimeString = context.getSession().userCredentialManager().getStoredCredentialsByType(context.getRealm(), context.getUser(),
+                AuthenticatorConstants.USR_CRED_MDL_OTP_EXP_TIME).get(0).getCredentialData();
+        CODE_STATUS status = validateCode(context, expTimeString);
         Response challenge = null;
         switch (status) {
             case EXPIRED:
@@ -105,6 +111,8 @@ public class EmailOTPAuthenticator implements Authenticator {
                 } else if(context.getExecution().getRequirement() == AuthenticationExecutionModel.Requirement.REQUIRED) {
                     challenge =  context.form()
                             .setError("인증번호가 틀렸습니다.")
+                            .setAttribute(AuthenticatorConstants.CONF_PRP_OTP_CODE_TTL, Long.valueOf(ttl).intValue())
+                            .setAttribute(AuthenticatorConstants.CONF_PRP_OTP_EXP_AT, expTimeString)
                             .createForm("email-otp-validation.ftl");
                     context.failureChallenge(AuthenticationFlowError.INVALID_CREDENTIALS, challenge);
                 } else {
@@ -120,15 +128,13 @@ public class EmailOTPAuthenticator implements Authenticator {
         }
     }
 
-    protected CODE_STATUS validateCode(AuthenticationFlowContext context) {
+    protected CODE_STATUS validateCode(AuthenticationFlowContext context, String expTimeString) {
         CODE_STATUS result = CODE_STATUS.INVALID;
         MultivaluedMap<String, String> formData = context.getHttpRequest().getDecodedFormParameters();
         String enteredCode = formData.getFirst(AuthenticatorConstants.ANSW_OTP_CODE);
 
         String expectedCode = context.getSession().userCredentialManager().getStoredCredentialsByType(context.getRealm(), context.getUser(),
                 AuthenticatorConstants.USR_CRED_MDL_OTP_CODE).get(0).getCredentialData();
-        String expTimeString = context.getSession().userCredentialManager().getStoredCredentialsByType(context.getRealm(), context.getUser(),
-                AuthenticatorConstants.USR_CRED_MDL_OTP_EXP_TIME).get(0).getCredentialData();
 
         System.out.println("Expected code = " + expectedCode + "    entered code = " + enteredCode + ", user [ "+ context.getUser().getUsername() + " ]");
 
