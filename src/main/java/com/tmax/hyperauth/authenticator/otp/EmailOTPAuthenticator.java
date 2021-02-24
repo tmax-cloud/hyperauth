@@ -62,13 +62,7 @@ public class EmailOTPAuthenticator implements Authenticator {
 
         String subject = "[Tmax 통합계정] 로그인을 위해 인증번호를 입력해주세요.";
 //        String body = Constants.LOGIN_VERIFY_OTP_BODY.replaceAll("%%VERIFY_CODE%%", code);
-        String body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/tmax/email/html/etc/password-verification-code.html").replaceAll("%%VERIFY_CODE%%", code);
-
-        //        List<Util.MailImage> imageParts = new ArrayList<>(
-//                Arrays.asList(
-//                        new Util.MailImage( "/opt/jboss/keycloak/themes/tmax/email/html/resources/img/logo_tmax.svg","logo_tmax.svg" ),
-//                )
-//        );
+        String body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/tmax/email/html/etc/otp-verification-code.html").replaceAll("%%VERIFY_CODE%%", code);
 
         try {
             Util.sendMail(context.getSession(), context.getUser().getEmail(), subject, body, null);

@@ -56,14 +56,7 @@ public class UserDeleteJob implements Job {
                             String subject = "[Tmax 통합계정] 고객님의 계정 탈퇴가 완료되었습니다.";
 //                            String msg = Constants.ACCOUNT_WITHDRAWAL_APPROVAL_BODY;
                             String body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/tmax/email/html/etc/account-withdrawal-completed.html");
-                            List<Util.MailImage> imageParts = new ArrayList<>(
-                                    Arrays.asList(
-                                            new Util.MailImage( "/opt/jboss/keycloak/themes/tmax/email/html/resources/img/logo_tmax.svg","logo_tmax.svg" ),
-                                            new Util.MailImage( "/opt/jboss/keycloak/themes/tmax/email/html/resources/img/secession_success.svg","secession_success.svg" ),
-                                            new Util.MailImage( "/opt/jboss/keycloak/themes/tmax/email/html/resources/img/bg.svg","bg.svg" )
-                                    )
-                            );
-                            Util.sendMail(null, email, subject, body, imageParts);
+                            Util.sendMail(null, email, subject, body, null);
 
                             // Topic Event Publish
                             TopicEvent topicEvent = TopicEvent.makeOtherTopicEvent("USER_DELETE", userRepresentation.getUsername(), currentDate.getTime() );

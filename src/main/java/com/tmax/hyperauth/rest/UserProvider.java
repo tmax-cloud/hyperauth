@@ -462,26 +462,7 @@ public class UserProvider implements RealmResourceProvider {
 //                        userModel.setEnabled(false);  //유저 탈퇴 철회 시나리오로 인해서 삭제
                         String email = userModel.getEmail();
                         String subject = "[Tmax 통합계정] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
-//                        String body = Constants.ACCOUNT_WITHDRAWAL_REQUEST_BODY;
-
-//                        String body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/tmax/email/html/etc/account-withdrawal-request.html"); // TODO
-//                        List<Util.MailImage> imageParts = new ArrayList<>(
-//                                Arrays.asList(
-//                                        new Util.MailImage( "/opt/jboss/keycloak/themes/tmax/email/html/resources/img/logo_tmax.svg","logo_tmax.svg" ),
-//                                        new Util.MailImage( "/opt/jboss/keycloak/themes/tmax/email/html/resources/img/secession_success.svg","secession_success.svg" ),
-//                                        new Util.MailImage( "/opt/jboss/keycloak/themes/tmax/email/html/resources/img/bg.svg","bg.svg" )
-//                                )
-//                        );
-
-                        //FIXME : TESTCODE
-                        String body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/tmax/email/html/etc/account-withdrawal-completed.html");
-//                        List<Util.MailImage> imageParts = new ArrayList<>(
-//                                Arrays.asList(
-//                                        new Util.MailImage( "/opt/jboss/keycloak/themes/tmax/email/html/resources/img/logo_tmax.png","logo_tmax" ),
-//                                        new Util.MailImage( "/opt/jboss/keycloak/themes/tmax/email/html/resources/img/secession_success.png","secession_success" ),
-//                                        new Util.MailImage( "/opt/jboss/keycloak/themes/tmax/email/html/resources/img/bg.png","bg" )
-//                                )
-//                        );
+                        String body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/tmax/email/html/etc/account-withdrawal-request.html");
 
                         Util.sendMail(session, email, subject, body, null );
                         status = Status.OK;

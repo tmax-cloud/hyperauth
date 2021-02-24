@@ -39,12 +39,8 @@ public class WithdrawalCancelAuthenticator implements Authenticator {
         // Send Mail
         String subject = "[Tmax 통합계정] 탈퇴 신청이 취소되었습니다.";
         String body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/tmax/email/html/etc/account-withdrawal-cancel.html");
-        List<Util.MailImage> imageParts = new ArrayList<>(
-                Arrays.asList(
-                        new Util.MailImage( "/opt/jboss/keycloak/themes/tmax/email/html/resources/img/secession_cancel.svg","secession_cancel" )
-                )
-        );        try {
-            Util.sendMail(context.getSession(), context.getUser().getEmail(), subject, body, imageParts );
+        try {
+            Util.sendMail(context.getSession(), context.getUser().getEmail(), subject, body, null );
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Exception " + e.getMessage());
