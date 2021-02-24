@@ -73,8 +73,8 @@ public class EmailOTPAuthenticator implements Authenticator {
         try {
             Util.sendMail(context.getSession(), context.getUser().getEmail(), subject, body, null);
             Response challenge = context.form()
-                    .setAttribute(AuthenticatorConstants.CONF_PRP_OTP_CODE_TTL, Long.valueOf(ttl).intValue())
-                    .setAttribute(AuthenticatorConstants.CONF_PRP_OTP_EXP_AT, (expiringAt).toString())
+                    .setAttribute(AuthenticatorConstants.ATTR_PRP_OTP_CODE_TTL, Long.valueOf(ttl).intValue())
+                    .setAttribute(AuthenticatorConstants.ATTR_PRP_OTP_EXP_AT, (expiringAt).toString())
                     .createForm("email-otp-validation.ftl");
             context.challenge(challenge);
 
@@ -111,8 +111,8 @@ public class EmailOTPAuthenticator implements Authenticator {
                 } else if(context.getExecution().getRequirement() == AuthenticationExecutionModel.Requirement.REQUIRED) {
                     challenge =  context.form()
                             .setError("인증번호가 틀렸습니다.")
-                            .setAttribute(AuthenticatorConstants.CONF_PRP_OTP_CODE_TTL, Long.valueOf(ttl).intValue())
-                            .setAttribute(AuthenticatorConstants.CONF_PRP_OTP_EXP_AT, expTimeString)
+                            .setAttribute(AuthenticatorConstants.ATTR_PRP_OTP_CODE_TTL, Long.valueOf(ttl).intValue())
+                            .setAttribute(AuthenticatorConstants.ATTR_PRP_OTP_EXP_AT, expTimeString)
                             .createForm("email-otp-validation.ftl");
                     context.failureChallenge(AuthenticationFlowError.INVALID_CREDENTIALS, challenge);
                 } else {

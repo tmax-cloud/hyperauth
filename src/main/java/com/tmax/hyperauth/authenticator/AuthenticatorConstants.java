@@ -9,7 +9,8 @@ public class AuthenticatorConstants {
     public static final String CONF_PRP_OTP_CODE_TTL = "email.otp.code.ttl";
     public static final String CONF_PRP_OTP_CODE_LENGTH = "email.otp.code.length";
     public static final String CONF_PRP_OTP_TEXT = "email.otp.msg.text";
-    public static final String CONF_PRP_OTP_EXP_AT = "email.otp.code.exp.at";
+    public static final String ATTR_PRP_OTP_EXP_AT = "emailOtpCodeExpAt";
+    public static final String ATTR_PRP_OTP_CODE_TTL = "emailOtpCodeTtl";
 
     // User credentials (used to persist the sent otp code + expiration time cluster wide)
     public static final String USR_CRED_MDL_OTP_CODE = "email-otp.code";
