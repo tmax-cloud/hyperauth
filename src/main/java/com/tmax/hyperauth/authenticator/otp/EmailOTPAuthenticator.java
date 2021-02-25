@@ -40,10 +40,13 @@ public class EmailOTPAuthenticator implements Authenticator {
     @Override
     public void authenticate(AuthenticationFlowContext context) {
         // FIXME :  delete
-        if(context.getSession().getAttribute("selection").equals("secretQuestion")) context.success();
+        if(context.getSession().getAttribute("selection").equals("secretQuestion")){
+            context.success();
+            return;
+        }
         // FIXME :  delete
 
-            if (!isOTPEnabled(context) ) {
+        if (!isOTPEnabled(context) ) {
             System.out.println("Bypassing OTP Authenticator since user [ " + context.getUser().getUsername() + " ] has not set OTP Authenticator");
             context.success();
             return;
