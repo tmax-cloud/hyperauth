@@ -42,7 +42,6 @@ public class selectAuthenticator implements Authenticator {
             }
             context.success();
         }
-        context.success();
     }
 
     @Override
