@@ -40,20 +40,13 @@ public class HyperAuthCaller {
 	    String url = urlBuilder.build().toString();
 
 		RequestBody formBody = new FormBody.Builder().add("grant_type", "password")
-				.add("username", "admin").add("password", System.getenv("KEYCLOAK_PASSWORD")).add("client_id", "admin-cli").build();
-		request = new Request.Builder().header("Content-Type", "application/x-www-form-urlencoded").url(url).post(formBody).build();
-
-		System.out.println(" System.getenv(KEYCLOAK_PASSWORD) !! : " + System.getenv("KEYCLOAK_PASSWORD"));
-		System.out.println(" Login As Admin formBody !! : " + formBody.toString());
-
-//		RequestBody formBody = new FormBody.Builder().add("grant_type", "password")
-//	    		.add("username", System.getenv("KEYCLOAK_USER")).add("password", System.getenv("KEYCLOAK_PASSWORD")).add("client_id", "admin-cli").build();
-//	    request = new Request.Builder().header("Content-Type", "application/x-www-form-urlencoded").url(url).post(formBody).build();
-		System.out.println(" Login As Admin request !! : " + request.toString());
+	    		.add("username", System.getenv("KEYCLOAK_USER")).add("password", System.getenv("KEYCLOAK_PASSWORD")).add("client_id", "admin-cli").build();
+	    request = new Request.Builder().header("Content-Type", "application/x-www-form-urlencoded").url(url).post(formBody).build();
+//		System.out.println(" Login As Admin request !! : " + request.toString());
 
 		Response response = client.newCall(request).execute();
 		String result = response.body().string();
-		System.out.println(" Login As Admin result : " + result);
+//		System.out.println(" Login As Admin result : " + result);
 		
 		Gson gson = new Gson();
 	    JsonObject resultJson = gson.fromJson(result, JsonObject.class);
