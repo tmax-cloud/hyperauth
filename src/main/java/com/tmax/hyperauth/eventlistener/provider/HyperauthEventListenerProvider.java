@@ -155,7 +155,7 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                 break;
             case "ACTION":
                 if (adminEvent.getResourcePath().startsWith("users") && adminEvent.getResourcePath().endsWith("reset-password")){
-                    UserModel user = session.users().getUserById(adminEvent.getResourcePath().split("/")[1], session.realms().getRealmByName("tmax"));
+                    UserModel user = session.users().getUserById(adminEvent.getResourcePath().split("/")[1], session.realms().getRealmByName(adminEvent.getRealmId()));
                     user.setAttribute(AuthenticatorConstants.USER_ATTR_LAST_PW_UPDATE_DATE, Arrays.asList(Long.toString(adminEvent.getTime())));
                 }
                 break;
