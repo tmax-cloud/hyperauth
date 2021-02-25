@@ -43,6 +43,8 @@ public class HyperAuthCaller {
 				.add("username", "admin").add("password", System.getenv("KEYCLOAK_PASSWORD")).add("client_id", "admin-cli").build();
 		request = new Request.Builder().header("Content-Type", "application/x-www-form-urlencoded").url(url).post(formBody).build();
 
+		System.out.println(" System.getenv(KEYCLOAK_PASSWORD) !! : " + System.getenv("KEYCLOAK_PASSWORD"));
+		System.out.println(" Login As Admin formBody !! : " + formBody.toString());
 
 //		RequestBody formBody = new FormBody.Builder().add("grant_type", "password")
 //	    		.add("username", System.getenv("KEYCLOAK_USER")).add("password", System.getenv("KEYCLOAK_PASSWORD")).add("client_id", "admin-cli").build();
