@@ -40,7 +40,7 @@ public class EmailOTPAuthenticator implements Authenticator {
     @Override
     public void authenticate(AuthenticationFlowContext context) {
         // FIXME :  delete
-        if(context.getSession().getAttribute("selection").equals("secretQuestion")){
+        if(!context.getSession().getAttribute("selection").equals("mailOtp")){
             context.success();
             return;
         }
