@@ -40,13 +40,21 @@ public class EmailOTPAuthenticator implements Authenticator {
     @Override
     public void authenticate(AuthenticationFlowContext context) {
         // FIXME :  delete
-        if(context.getSession().getAttribute("selection")!= null) {
-            System.out.println(" context.getSession().getAttribute(\"selection\") : " + context.getSession().getAttribute("selection"));
-            if (!context.getSession().getAttribute("selection").equals("mailOtp")){
+        if(context.getAuthenticationSession().getAuthNote("selection")!= null) {
+            System.out.println(" context.getAuthenticationSession().getAuthNote(\"selection\") : " + context.getAuthenticationSession().getAuthNote("selection"));
+            if (!context.getAuthenticationSession().getAuthNote("selection").equals("mailOtp")){
                 context.success();
                 return;
             }
         }
+
+//        if(context.getSession().getAttribute("selection")!= null) {
+//            System.out.println(" context.getSession().getAttribute(\"selection\") : " + context.getSession().getAttribute("selection"));
+//            if (!context.getSession().getAttribute("selection").equals("mailOtp")){
+//                context.success();
+//                return;
+//            }
+//        }
         // FIXME :  delete
 
         if (!isOTPEnabled(context) ) {

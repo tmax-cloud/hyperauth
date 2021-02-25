@@ -30,11 +30,15 @@ public class selectAuthenticator implements Authenticator {
             switch (selection){
                 case "o":
                     System.out.println("Select OTP!!");
-                    context.getSession().setAttribute("selection", "mailOtp");
+//                    context.getSession().setAttribute("selection", "mailOtp");
+                    context.getAuthenticationSession().setAuthNote("selection", "mailOtp");
+
                     break;
                 case "p":
                     System.out.println("Password Form!!");
-                    context.getSession().setAttribute("selection", "password");
+//                    context.getSession().setAttribute("selection", "password");
+                    context.getAuthenticationSession().setAuthNote("selection", "password");
+
                     break;
                 default:
                     System.out.println("Unknown Auth!!");
