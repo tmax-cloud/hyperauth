@@ -46,8 +46,7 @@ public class UserDeleteJob implements Job {
                         SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
                         Date deletionDate = transFormat.parse(userRepresentation.getAttributes().get(AuthenticatorConstants.USER_ATTR_DELETION_DATE).get(0)); // FIXME
 
-                        if ( currentDate.after(deletionDate)
-                                && user.getAsJsonObject().get("enabled").toString().replace("\"","").equalsIgnoreCase("false")){
+                        if ( currentDate.after(deletionDate)){
                             System.out.println(" [UserDelete Job] User [ " + userRepresentation.getUsername() + " ] Delete Start ");
                             HyperAuthCaller.deleteUser(userRepresentation.getId(), accessToken);
 
