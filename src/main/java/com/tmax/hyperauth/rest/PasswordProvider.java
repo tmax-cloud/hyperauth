@@ -134,7 +134,7 @@ public class PasswordProvider implements RealmResourceProvider {
             }
 
             // Change Password
-            System.out.println("Change Password to " + password);
+//            System.out.println("Change Password to " + password);
             session.userCredentialManager().updateCredential(session.realms().getRealmByName("tmax"),
                     session.users().getUserByEmail(email, session.realms().getRealmByName("tmax")),
                     UserCredentialModel.password(password, false));
