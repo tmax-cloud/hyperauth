@@ -32,7 +32,7 @@ import java.util.*;
  * @author taegeon_woo@tmax.co.kr
  */
 
-public class TestProvider implements RealmResourceProvider {
+public class ConsoleProvider implements RealmResourceProvider {
 
     public static final String STATE_CHECKER_ATTRIBUTE = "state_checker";
     public static final String STATE_CHECKER_PARAMETER = "stateChecker";
@@ -48,7 +48,7 @@ public class TestProvider implements RealmResourceProvider {
 
 //    private final AuthenticationManager.AuthResult auth;
 
-    public TestProvider(KeycloakSession session) {
+    public ConsoleProvider(KeycloakSession session) {
         this.session = session;
     }
 
@@ -96,11 +96,11 @@ public class TestProvider implements RealmResourceProvider {
 
     @POST
     @NoCache
-    @Path("/{userName}")
+    @Path("withdrawal/{userName}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response post(@PathParam("userName") final String userName, MultipartFormDataInput input ) {
-        System.out.println("***** post /test");
+    public Response withdrawal(@PathParam("userName") final String userName, MultipartFormDataInput input ) {
+        System.out.println("***** post /USER WITHDRAWAL");
         System.out.println("userName : " + userName);
         AuthenticationManager.AuthResult auth = resolveAuthentication(session);
         if (auth == null) {
@@ -151,30 +151,11 @@ public class TestProvider implements RealmResourceProvider {
                 if(userModel.getAttributes()!=null) userModel.removeAttribute(AuthenticatorConstants.USER_ATTR_DELETION_DATE);
                 userModel.setAttribute(AuthenticatorConstants.USER_ATTR_DELETION_DATE, Arrays.asList(deletionDateString));
 //                        userModel.setEnabled(false);  //유저 탈퇴 철회 시나리오로 인해서 삭제
-//                String email = userModel.getEmail();
-//                String subject = "[Tmax 통합계정] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
-//                String body = Constants.ACCOUNT_WITHDRAWAL_REQUEST_BODY;
-//
-////                        String body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/tmax/email/html/etc/account-withdrawal-request.html"); // TODO
-////                        List<Util.MailImage> imageParts = new ArrayList<>(
-////                                Arrays.asList(
-////                                        new Util.MailImage( "/opt/jboss/keycloak/themes/tmax/email/html/resources/img/logo_tmax.svg","logo_tmax.svg" ),
-////                                        new Util.MailImage( "/opt/jboss/keycloak/themes/tmax/email/html/resources/img/secession_success.svg","secession_success.svg" ),
-////                                        new Util.MailImage( "/opt/jboss/keycloak/themes/tmax/email/html/resources/img/bg.svg","bg.svg" )
-////                                )
-////                        );
-//
-////                        //FIXME : TESTCODE
-////                        String body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/tmax/email/html/etc/account-withdrawal-completed.html");
-////                        List<Util.MailImage> imageParts = new ArrayList<>(
-////                                Arrays.asList(
-////                                        new Util.MailImage( "/opt/jboss/keycloak/themes/tmax/email/html/resources/img/logo_tmax.png","logo_tmax" ),
-////                                        new Util.MailImage( "/opt/jboss/keycloak/themes/tmax/email/html/resources/img/secession_success.png","secession_success" ),
-////                                        new Util.MailImage( "/opt/jboss/keycloak/themes/tmax/email/html/resources/img/bg.png","bg" )
-////                                )
-////                        );
-//
-//                Util.sendMail(session, email, subject, body, null );
+                String email = userModel.getEmail();
+                String subject = "[Tmax 통합계정] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
+                String body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/tmax/email/html/etc/account-withdrawal-request.html");
+
+                Util.sendMail(session, email, subject, body, null );
                 event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).detail("userWithdrawal","t").success(); //FIXME
             } else{
                 out = "User [" + userName + "] is Unqualified to Withdraw from Account due to [" + unQualifiedReason + "] Policy, Check Withdrawal Policy or Contact Administrator";
@@ -187,6 +168,7 @@ public class TestProvider implements RealmResourceProvider {
         }
         return Response.seeOther(RealmsResource.accountUrl(session.getContext().getUri().getBaseUriBuilder()).build(realmName)).build();
     }
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response get() {
