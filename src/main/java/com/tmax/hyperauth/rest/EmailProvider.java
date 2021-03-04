@@ -99,7 +99,7 @@ public class EmailProvider implements RealmResourceProvider {
         }
 
         String subject = "[Tmax 통합계정] 비밀번호를 재설정 해주세요.";
-        String body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/tmax/email/html/etc/forgot-password-verification-code.html");
+        String body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/tmax/email/html/etc/forgot-password-verification-code.html").replaceAll("%%VERIFY_CODE%%", code);
 
         try {
             Util.sendMail(session, email, subject, body, null );
