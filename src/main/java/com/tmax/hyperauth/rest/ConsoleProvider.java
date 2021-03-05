@@ -11,14 +11,18 @@ import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
 import org.keycloak.forms.account.AccountPages;
 import org.keycloak.forms.account.AccountProvider;
+import org.keycloak.models.ClientModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
+import org.keycloak.protocol.oidc.utils.RedirectUtils;
 import org.keycloak.services.managers.AppAuthManager;
 import org.keycloak.services.managers.AuthenticationManager;
 import org.keycloak.services.messages.Messages;
 import org.keycloak.services.resource.RealmResourceProvider;
 import org.keycloak.services.resources.RealmsResource;
+import org.keycloak.services.util.ResolveRelative;
+import org.keycloak.services.validation.Validation;
 
 import javax.persistence.EntityManager;
 import javax.ws.rs.*;
@@ -202,7 +206,8 @@ public class ConsoleProvider implements RealmResourceProvider {
             return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.AGREEMENT);
         }
         account.setUser(userModel);
-        account.setReferrer(new String[] { session.getContext().getUri().getQueryParameters().getFirst("referrer")});
+        setReferrerOnPage( account);
+
         if (auth == null) {
             return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.AGREEMENT);
         }
@@ -229,7 +234,49 @@ public class ConsoleProvider implements RealmResourceProvider {
         return account.setSuccess(Messages.ACCOUNT_UPDATED).createResponse(AccountPages.AGREEMENT);
     }
 
+    private void setReferrerOnPage(AccountProvider account) {
+        String[] referrer = getReferrer();
+        if (referrer != null) {
+            account.setReferrer(referrer);
+        }
+    }
 
+    private String[] getReferrer() {
+        RealmModel realm = session.getContext().getRealm();
+        ClientModel client = session.getContext().getClient();
+        String referrer = session.getContext().getUri().getQueryParameters().getFirst("referrer");
+        if (referrer == null) {
+            return null;
+        }
+
+        String referrerUri = session.getContext().getUri().getQueryParameters().getFirst("referrer_uri");
+
+        ClientModel referrerClient = realm.getClientByClientId(referrer);
+        if (referrerClient != null) {
+            if (referrerUri != null) {
+                referrerUri = RedirectUtils.verifyRedirectUri(session, referrerUri, referrerClient);
+            } else {
+                referrerUri = ResolveRelative.resolveRelativeUri(session, referrerClient.getRootUrl(), referrerClient.getBaseUrl());
+            }
+
+            if (referrerUri != null) {
+                String referrerName = referrerClient.getName();
+                if (Validation.isBlank(referrerName)) {
+                    referrerName = referrer;
+                }
+                return new String[]{referrerName, referrerUri};
+            }
+        } else if (referrerUri != null) {
+            if (client != null) {
+                referrerUri = RedirectUtils.verifyRedirectUri(session, referrerUri, client);
+
+                if (referrerUri != null) {
+                    return new String[]{referrer, referrerUri};
+                }
+            }
+        }
+        return null;
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
