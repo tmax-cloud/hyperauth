@@ -184,8 +184,25 @@ public class ConsoleProvider implements RealmResourceProvider {
         System.out.println("userName : " + userName);
 
         AuthenticationManager.AuthResult auth = resolveAuthentication(session);
+
+        System.out.println("TEST auth.getUser() : " + auth.getUser().getUsername());
+        System.out.println("auth.getUser() : " + auth.getUser().getUsername());
+        System.out.println("auth.getUser() : " + auth.getUser().getUsername());
+        System.out.println("auth.getUser() : " + auth.getUser().getUsername());
+
         RealmModel realm = session.getContext().getRealm();
+        String realmName = realm.getDisplayName();
+        if (realmName == null) {
+            realmName = session.getContext().getRealm().getName();
+        }
+
         AccountProvider account = session.getProvider(AccountProvider.class).setRealm(realm).setUriInfo(session.getContext().getUri()).setHttpHeaders(session.getContext().getRequestHeaders());
+        UserModel userModel = session.users().getUserByUsername(userName, session.realms().getRealmByName(realmName));
+        if (userModel == null) {
+            return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.AGREEMENT);
+        }
+        account.setUser(userModel);
+        account.setReferrer(new String[] { session.getContext().getUri().getQueryParameters().getFirst("referrer")});
         if (auth == null) {
             return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.AGREEMENT);
         }
@@ -197,15 +214,6 @@ public class ConsoleProvider implements RealmResourceProvider {
         clientConnection = session.getContext().getConnection();
         EventBuilder event = new EventBuilder(realm, session, clientConnection); // FIXME
 
-        String realmName = realm.getDisplayName();
-        if (realmName == null) {
-            realmName = session.getContext().getRealm().getName();
-        }
-        UserModel userModel = session.users().getUserByUsername(userName, session.realms().getRealmByName(realmName));
-        if (userModel == null) {
-            return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.AGREEMENT);
-        }
-
         try {
             // 유저 이용약관 업데이트 API
             for (String key : input.getFormDataMap().keySet()) {
@@ -214,13 +222,14 @@ public class ConsoleProvider implements RealmResourceProvider {
                 }
             }
             event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).success(); //FIXME
-
         } catch (Exception e) {
             System.out.println("Failed to Update Agreement Attribute, User [ " + userName);
             return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.AGREEMENT);
         }
         return account.setSuccess(Messages.ACCOUNT_UPDATED).createResponse(AccountPages.AGREEMENT);
     }
+
+
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
