@@ -174,7 +174,7 @@ public class ConsoleProvider implements RealmResourceProvider {
     }
 
 
-    @PUT
+    @POST
     @NoCache
     @Path("agreement/{userName}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
