@@ -9,11 +9,14 @@ import org.keycloak.common.ClientConnection;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
+import org.keycloak.forms.account.AccountPages;
+import org.keycloak.forms.account.AccountProvider;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.services.managers.AppAuthManager;
 import org.keycloak.services.managers.AuthenticationManager;
+import org.keycloak.services.messages.Messages;
 import org.keycloak.services.resource.RealmResourceProvider;
 import org.keycloak.services.resources.RealmsResource;
 
@@ -24,6 +27,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -167,6 +171,55 @@ public class ConsoleProvider implements RealmResourceProvider {
             return badRequest();
         }
         return Response.seeOther(RealmsResource.accountUrl(session.getContext().getUri().getBaseUriBuilder()).build(realmName)).build();
+    }
+
+
+    @PUT
+    @NoCache
+    @Path("agreement/{userName}")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response agreementUpdate(@PathParam("userName") final String userName, MultipartFormDataInput input ) {
+        System.out.println("***** put /USER AGREEMENT");
+        System.out.println("userName : " + userName);
+
+        AuthenticationManager.AuthResult auth = resolveAuthentication(session);
+        RealmModel realm = session.getContext().getRealm();
+        AccountProvider account = session.getProvider(AccountProvider.class).setRealm(realm).setUriInfo(session.getContext().getUri()).setHttpHeaders(session.getContext().getRequestHeaders());
+        if (auth == null) {
+            return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.AGREEMENT);
+        }
+
+        if (!isValidStateChecker(input)) {
+            return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.AGREEMENT);
+        }
+
+        clientConnection = session.getContext().getConnection();
+        EventBuilder event = new EventBuilder(realm, session, clientConnection); // FIXME
+
+        String realmName = realm.getDisplayName();
+        if (realmName == null) {
+            realmName = session.getContext().getRealm().getName();
+        }
+        UserModel userModel = session.users().getUserByUsername(userName, session.realms().getRealmByName(realmName));
+        if (userModel == null) {
+            return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.AGREEMENT);
+        }
+
+        try {
+            // 유저 이용약관 업데이트 API
+            for (String key : input.getFormDataMap().keySet()) {
+                if(!key.equalsIgnoreCase(STATE_CHECKER_PARAMETER)){
+                    userModel.setAttribute(key, Collections.singletonList(input.getFormDataPart(key, String.class, null)));
+                }
+            }
+            event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).success(); //FIXME
+
+        } catch (Exception e) {
+            System.out.println("Failed to Update Agreement Attribute, User [ " + userName);
+            return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.AGREEMENT);
+        }
+        return account.setSuccess(Messages.ACCOUNT_UPDATED).createResponse(AccountPages.AGREEMENT);
     }
 
     @GET

@@ -23,11 +23,16 @@
             <artifactId>keycloak-common</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency> 
-            <groupId>org.keycloak</groupId>
-            <artifactId>keycloak-server-spi</artifactId>
-            <scope>provided</scope>
+        <dependency>
+            <groupId>com.tmax.hyperauth</groupId>
+            <artifactId>server-spi-private</artifactId>
+            <version>11.0.2</version>
         </dependency>
+<!--        <dependency> -->
+<!--            <groupId>org.keycloak</groupId>-->
+<!--            <artifactId>keycloak-server-spi</artifactId>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-server-spi-private</artifactId>
