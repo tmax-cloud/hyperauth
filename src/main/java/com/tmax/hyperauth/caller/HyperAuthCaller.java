@@ -81,13 +81,14 @@ public class HyperAuthCaller {
 	    return resultJson; 
 	}
 
-	public static JsonArray getUserList(String token) throws IOException {
+	public static JsonArray getUserList(String token, int first, int max) throws IOException {
 		System.out.println(" [HyperAuth] HyperAuth Get User List Service" );
 
 		Request request = null;
 
 		//GET svc
-		HttpUrl.Builder urlBuilder = HttpUrl.parse(setHyperAuthURL( Constants.SERVICE_NAME_USER_DETAIL )).newBuilder();
+		HttpUrl.Builder urlBuilder = HttpUrl.parse(setHyperAuthURL( Constants.SERVICE_NAME_USER_DETAIL )).newBuilder().addQueryParameter("first", Integer.toString(first));
+		if(max != 0) urlBuilder.addQueryParameter("max", Integer.toString(max));
 
 		String url = urlBuilder.build().toString();
 		request = new Request.Builder().url(url).addHeader("Authorization", "Bearer " + token).get().build();
@@ -102,6 +103,26 @@ public class HyperAuthCaller {
 		JsonArray resultJson = gson.fromJson(result, JsonArray.class);
 
 		return resultJson;
+	}
+
+	public static int getUserCount(String token) throws IOException {
+		System.out.println(" [HyperAuth] HyperAuth Get User Count Service" );
+
+		Request request = null;
+
+		//GET svc
+		HttpUrl.Builder urlBuilder = HttpUrl.parse(setHyperAuthURL( Constants.SERVICE_NAME_USER_COUNT )).newBuilder();
+
+		String url = urlBuilder.build().toString();
+		request = new Request.Builder().url(url).addHeader("Authorization", "Bearer " + token).get().build();
+
+		System.out.println(" UserCount Request" + request.toString() );
+
+		Response response = client.newCall(request).execute();
+		String result = response.body().string();
+		System.out.println(" UserCount Result : " + result);
+
+		return Integer.parseInt(result);
 	}
 
 	public static JsonObject deleteUser(String userId, String token) throws IOException {
