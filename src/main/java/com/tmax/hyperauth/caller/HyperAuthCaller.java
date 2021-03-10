@@ -116,11 +116,11 @@ public class HyperAuthCaller {
 		String url = urlBuilder.build().toString();
 		request = new Request.Builder().url(url).addHeader("Authorization", "Bearer " + token).get().build();
 
-		System.out.println(" UserCount Request" + request.toString() );
+//		System.out.println(" UserCount Request" + request.toString() );
 
 		Response response = client.newCall(request).execute();
 		String result = response.body().string();
-		System.out.println(" UserCount Result : " + result);
+//		System.out.println(" UserCount Result : " + result);
 
 		return Integer.parseInt(result);
 	}
