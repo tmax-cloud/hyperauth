@@ -93,6 +93,11 @@ public class Util {
 		String host = "mail.tmax.co.kr";
 		int port = 25;
 		String sender = "tmaxcloud_ck@tmax.co.kr";
+		if(System.getenv("DEFAULT_EMAIL_SENDER")!= null){
+			sender = System.getenv("DEFAULT_EMAIL_SENDER");
+		}
+		System.out.println( " Default Sender : "  + sender );
+
 		String un = "tmaxcloud_ck@tmax.co.kr";
 		String pw = "Miracle!";
 		try{
@@ -139,7 +144,7 @@ public class Util {
 		String finalUn = un;
 		String finalPw = pw;
 
-		Session session = Session.getDefaultInstance( props, new javax.mail.Authenticator() {
+		Session session = Session.getInstance( props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(finalUn, finalPw);
 			}
