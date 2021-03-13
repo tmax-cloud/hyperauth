@@ -38,6 +38,7 @@ import java.util.*;
 
 /**
  * @author taegeon_woo@tmax.co.kr
+ * Console Provider contains restAPI for Custom Account Console
  */
 
 public class ConsoleProvider implements RealmResourceProvider {
@@ -122,16 +123,8 @@ public class ConsoleProvider implements RealmResourceProvider {
         clientConnection = session.getContext().getConnection();
         EventBuilder event = new EventBuilder(realm, session, clientConnection); // FIXME
 
-        String realmName = realm.getDisplayName();
-        if (realmName == null) {
-            realmName = session.getContext().getRealm().getName();
-        }
         UserModel userModel = auth.getUser();
         System.out.println("userName : " + userModel.getUsername());
-
-        if (userModel == null) {
-            return badRequest();
-        }
 
         try {
             // 유저 탈퇴 신청 API
@@ -173,9 +166,10 @@ public class ConsoleProvider implements RealmResourceProvider {
         } catch (Exception e) {
             return badRequest();
         } catch (Throwable throwable) {
+            System.out.println(Arrays.toString(throwable.getStackTrace()));
             return badRequest();
         }
-        return Response.seeOther(RealmsResource.accountUrl(session.getContext().getUri().getBaseUriBuilder()).build(realmName)).build();
+        return Response.seeOther(RealmsResource.accountUrl(session.getContext().getUri().getBaseUriBuilder()).build(realm.getDisplayName())).build();
     }
 
 
@@ -190,25 +184,14 @@ public class ConsoleProvider implements RealmResourceProvider {
         AuthenticationManager.AuthResult auth = resolveAuthentication(session);
 
         RealmModel realm = session.getContext().getRealm();
-        String realmName = realm.getDisplayName();
-        if (realmName == null) {
-            realmName = session.getContext().getRealm().getName();
-        }
 
         AccountProvider account = session.getProvider(AccountProvider.class).setRealm(realm).setUriInfo(session.getContext().getUri()).setHttpHeaders(session.getContext().getRequestHeaders());
         UserModel userModel = auth.getUser();
         System.out.println("userName : " + userModel.getUsername());
 
-        if (userModel == null) {
-            return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.AGREEMENT);
-        }
         account.setUser(userModel);
         account.setStateChecker((String) session.getAttribute(STATE_CHECKER_ATTRIBUTE));
         setReferrerOnPage( account);
-
-        if (auth == null) {
-            return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.AGREEMENT);
-        }
 
         if (!isValidStateChecker(input)) {
             return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.AGREEMENT);
