@@ -201,7 +201,7 @@ public class UserProvider implements RealmResourceProvider {
 
         try{
             StringBuilder query = new StringBuilder();
-            query.append("select u.username, ua.value from UserEntity u left outer join UserAttributeEntity ua on u.id = ua.user_id and ua.name = 'user_name' where u.realmId = '"+ session.getContext().getRealm().getName() +"' ");
+            query.append("select u.username, ua.value from UserEntity u left outer join UserAttributeEntity ua on u.id = ua.user and ua.name = 'user_name' where u.realmId = '"+ session.getContext().getRealm().getName() +"' ");
 
             if (startsWith != null){
                 startsWith = startsWith.toLowerCase();
