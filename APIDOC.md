@@ -137,7 +137,7 @@
 
   - **QueryParam**
 
-       startsWith : {startsString}  ( 시작단어를 통한 검색기능 지원 )
+       startsWith : {startsString}  ( 시작단어를 통한 검색기능 지원 ( email, user_name 으로  )
        except : **{StringArray}**  ( 검색에서 제외할 username 입력 )
        ex ) startsWith=a&except=aaa@tmax.co.kr&except=admin@gmail.com
 
@@ -221,7 +221,8 @@
 
        startsWith : {startsString}  ( 시작단어를 통한 검색기능 지원 )
        except : **{StringArray}**  ( 검색에서 제외할 username 입력 )
-       ex ) startsWith=a&except=aaa&except=adminGroup
+       exceptDefault: true / false ( hyperauth의 default group은 제외하고 검색할지 말지 선택 )
+       ex ) startsWith=a&except=aaa&except=adminGroup&exceptDefault=true
 
   - **PathParam**
 
