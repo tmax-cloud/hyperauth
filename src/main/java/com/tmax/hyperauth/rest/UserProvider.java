@@ -205,7 +205,7 @@ public class UserProvider implements RealmResourceProvider {
 
             if (startsWith != null){
                 startsWith = startsWith.toLowerCase();
-                query.append(" and (lower(u.username) like '" + startsWith + "%' or  (lower(u.username) like '" + startsWith + "%')");
+                query.append(" and (lower(u.username) like '" + startsWith + "%' or lower(u.username) like '" + startsWith + "%')");
             }
 
             if (except != null && except.size() > 0){
