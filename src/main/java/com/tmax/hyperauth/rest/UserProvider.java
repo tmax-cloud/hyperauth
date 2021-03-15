@@ -184,22 +184,28 @@ public class UserProvider implements RealmResourceProvider {
         return Util.setCors(status, out);
     }
 
+    public class listOut{
+        private String email;
+        private String userName;
+    }
+
+
     @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@QueryParam("startsWith") String startsWith, @QueryParam("except") List<String> except) {
         System.out.println("***** LIST /User");
-        List<String> userListOut;
+        List<listOut> userListOut;
         System.out.println("startsWith request : " + startsWith);
         System.out.println("except request : " + except);
 
         try{
             StringBuilder query = new StringBuilder();
-            query.append("select u.username from UserEntity u where u.realmId = '"+ session.getContext().getRealm().getName() +"'");
+            query.append("select u.username, ua.value from UserEntity u left outer join UserAttributeEntity ua where u.realmId = '"+ session.getContext().getRealm().getName() +"' ");
 
             if (startsWith != null){
                 startsWith = startsWith.toLowerCase();
-                query.append(" and lower(u.username) like '" + startsWith + "%'");
+                query.append(" and (lower(u.username) like '" + startsWith + "%' or  (lower(u.username) like '" + startsWith + "%')");
             }
 
             if (except != null && except.size() > 0){
@@ -215,7 +221,7 @@ public class UserProvider implements RealmResourceProvider {
 
             System.out.println("query : " + query.toString());
 
-            userListOut = getEntityManager().createQuery(query.toString(), String.class).getResultList();
+            userListOut = getEntityManager().createQuery(query.toString(), listOut.class).getResultList();
             status = Status.OK;
             return Util.setCors(status, userListOut);
         }catch (Exception e) {
