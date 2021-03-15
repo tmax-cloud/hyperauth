@@ -195,7 +195,7 @@ public class UserProvider implements RealmResourceProvider {
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@QueryParam("startsWith") String startsWith, @QueryParam("except") List<String> except) {
         System.out.println("***** LIST /User");
-        List<Object> userListOut;
+        List userListOut;
         System.out.println("startsWith request : " + startsWith);
         System.out.println("except request : " + except);
 
@@ -221,10 +221,10 @@ public class UserProvider implements RealmResourceProvider {
 
             System.out.println("query : " + query.toString());
 
-            userListOut = getEntityManager().createQuery(query.toString(), Object.class).getResultList();
-            for (Object userOut : userListOut){
+            userListOut = getEntityManager().createQuery(query.toString()).getResultList();
+            userListOut.forEach(userOut -> {
                 System.out.println(userOut.toString());
-            }
+            });
             status = Status.OK;
             return Util.setCors(status, userListOut);
         }catch (Exception e) {
