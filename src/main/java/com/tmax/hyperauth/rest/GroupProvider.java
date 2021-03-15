@@ -83,13 +83,18 @@ public class GroupProvider implements RealmResourceProvider {
 
             System.out.println("query : " + query.toString());
             groupListOut = getEntityManager().createQuery(query.toString(), String.class).getResultList();
+
             if (exceptDefault){
                 List<GroupModel> defaultGroups = session.getContext().getRealm().getDefaultGroups();
                 if (defaultGroups != null && defaultGroups.size() > 0){
-                    groupListOut.removeIf(group ->(defaultGroups.stream().map(GroupModel::getName).collect(Collectors.toList()).contains(group)));
+                    groupListOut.removeIf(
+                            group ->(
+                                    defaultGroups.stream()
+                                            .map(GroupModel::getName)
+                                            .collect(Collectors.toList())
+                                            .contains(group)));
                 }
             }
-
             status = Status.OK;
             return Util.setCors(status, groupListOut);
         }catch (Exception e) {
