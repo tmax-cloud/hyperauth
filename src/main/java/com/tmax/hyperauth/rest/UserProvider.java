@@ -205,7 +205,7 @@ public class UserProvider implements RealmResourceProvider {
 
             if (startsWith != null){
                 startsWith = startsWith.toLowerCase();
-                query.append(" and (lower(u.username) like '" + startsWith + "%' or lower(u.username) like '" + startsWith + "%')");
+                query.append(" and (lower(u.username) like '" + startsWith + "%' or lower(ua.value) like '" + startsWith + "%')");
             }
 
             if (except != null && except.size() > 0){
@@ -218,7 +218,6 @@ public class UserProvider implements RealmResourceProvider {
                 }
                 query.append(" )");
             }
-
             System.out.println("query : " + query.toString());
 
             userListOut = getEntityManager().createQuery(query.toString()).getResultList();
