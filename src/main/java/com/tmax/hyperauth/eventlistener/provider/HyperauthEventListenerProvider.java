@@ -143,11 +143,13 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
 //                         important : session에는 이미 user가 지워져서 user 정보를 들고 올수 없음 그래서 http콜로 한다!
                         String accessToken = HyperAuthCaller.loginAsAdmin();
                         JsonObject user = HyperAuthCaller.getUser(adminEvent.getResourcePath().toString().substring(6), accessToken.replaceAll("\"", ""));
-                        HypercloudOperatorCaller.deleteNewUserRole(user.get("username").toString().replaceAll("\"", ""));
+                        if ( user.get("username")!= null ){ // admin console에서 identity provider 삭제시 에러발생으로 인해 추가
+                            HypercloudOperatorCaller.deleteNewUserRole(user.get("username").toString().replaceAll("\"", ""));
 
-                        // Topic Event
-                        TopicEvent topicEvent = TopicEvent.makeOtherTopicEvent("USER_DELETE", user.get("username").toString().replaceAll("\"", ""), adminEvent.getTime());
-                        Producer.publishEvent("tmax", topicEvent);
+                            // Topic Event
+                            TopicEvent topicEvent = TopicEvent.makeOtherTopicEvent("USER_DELETE", user.get("username").toString().replaceAll("\"", ""), adminEvent.getTime());
+                            Producer.publishEvent("tmax", topicEvent);
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
