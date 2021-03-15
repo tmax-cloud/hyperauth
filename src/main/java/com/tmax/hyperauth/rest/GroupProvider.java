@@ -3,6 +3,7 @@ package com.tmax.hyperauth.rest;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.common.ClientConnection;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
+import org.keycloak.models.GroupModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.services.resource.RealmResourceProvider;
 import org.keycloak.authentication.AuthenticationFlowContext;
@@ -13,7 +14,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -52,7 +55,7 @@ public class GroupProvider implements RealmResourceProvider {
     @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response list(@QueryParam("startsWith") String startsWith, @QueryParam("except") List<String> except) {
+    public Response list(@QueryParam("startsWith") String startsWith, @QueryParam("except") List<String> except, @QueryParam("exceptDefault") boolean exceptDefault) {
         System.out.println("***** LIST /group");
         List<String> groupListOut;
         System.out.println("startsWith request : " + startsWith);
@@ -80,6 +83,13 @@ public class GroupProvider implements RealmResourceProvider {
 
             System.out.println("query : " + query.toString());
             groupListOut = getEntityManager().createQuery(query.toString(), String.class).getResultList();
+            if (exceptDefault){
+                List<GroupModel> defaultGroups = session.getContext().getRealm().getDefaultGroups();
+                if (defaultGroups != null && defaultGroups.size() > 0){
+                    groupListOut.removeIf(group ->(defaultGroups.stream().map(GroupModel::getName).collect(Collectors.toList()).contains(group)));
+                }
+            }
+
             status = Status.OK;
             return Util.setCors(status, groupListOut);
         }catch (Exception e) {
