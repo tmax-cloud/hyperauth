@@ -114,7 +114,7 @@ public class Util {
 				JsonObject realmInfo = HyperAuthCaller.getRealmInfo( "tmax", accessToken);
 				JsonObject smtpServer = realmInfo.get("smtpServer").getAsJsonObject();
 				host = smtpServer.get("host").getAsString().replace("\"", "");
-				if ( smtpServer.get("host") != null) {
+				if ( smtpServer.get("port") != null) {
 					port = Integer.parseInt(smtpServer.get("port").getAsString().replace("\"", ""));
 				}
 				sender = smtpServer.get("from").getAsString().replace("\"", "");
