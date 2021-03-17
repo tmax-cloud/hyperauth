@@ -81,15 +81,10 @@ public class ConsoleProvider implements RealmResourceProvider {
         return this;
     }
 
-    Status status = null;
 	String out = null;
 
     protected Response badRequest() {
         return Response.status(Response.Status.BAD_REQUEST).build();
-    }
-
-    protected Response forbiddenRequest() {
-        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     private boolean isValidStateChecker(MultipartFormDataInput input) {
@@ -115,16 +110,22 @@ public class ConsoleProvider implements RealmResourceProvider {
             return badRequest();
         }
 
-        if (!isValidStateChecker(input)) {
-            return badRequest();
-        }
-
         RealmModel realm = session.getContext().getRealm();
-        clientConnection = session.getContext().getConnection();
-        EventBuilder event = new EventBuilder(realm, session, clientConnection); // FIXME
-
+        AccountProvider account = session.getProvider(AccountProvider.class).setRealm(realm).setUriInfo(session.getContext().getUri()).setHttpHeaders(session.getContext().getRequestHeaders());
         UserModel userModel = auth.getUser();
         System.out.println("userName : " + userModel.getUsername());
+
+        account.setUser(userModel);
+        account.setStateChecker((String) session.getAttribute(STATE_CHECKER_ATTRIBUTE));
+        setReferrerOnPage( account);
+
+        if (!isValidStateChecker(input)) {
+            System.out.println("State Checker Error, User [ " + userModel.getUsername() + " ]");
+            return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.ACCOUNT);
+        }
+
+        clientConnection = session.getContext().getConnection();
+        EventBuilder event = new EventBuilder(realm, session, clientConnection); // FIXME
 
         try {
             // 유저 탈퇴 신청 API
@@ -161,15 +162,17 @@ public class ConsoleProvider implements RealmResourceProvider {
                 event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userModel.getUsername()).detail("userWithdrawal","t").success(); //FIXME
             } else{
                 out = "User [" + userModel.getUsername() + "] is Unqualified to Withdraw from Account due to [" + unQualifiedReason + "] Policy, Check Withdrawal Policy or Contact Administrator";
-                return forbiddenRequest();
+                return account.setError(Status.FORBIDDEN, out).createResponse(AccountPages.ACCOUNT);
             }
         } catch (Exception e) {
-            return badRequest();
+            e.printStackTrace();
+            return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.ACCOUNT);
         } catch (Throwable throwable) {
             System.out.println(Arrays.toString(throwable.getStackTrace()));
-            return badRequest();
+            return account.setError(Response.Status.BAD_REQUEST, "Mail Send Failed").createResponse(AccountPages.ACCOUNT);
         }
-        return Response.seeOther(RealmsResource.accountUrl(session.getContext().getUri().getBaseUriBuilder()).build(realm.getDisplayName())).build();
+        return account.setSuccess(Messages.ACCOUNT_UPDATED).createResponse(AccountPages.ACCOUNT);
+//        return Response.seeOther(RealmsResource.accountUrl(session.getContext().getUri().getBaseUriBuilder()).build(realm.getDisplayName())).build();
     }
 
 
@@ -182,9 +185,11 @@ public class ConsoleProvider implements RealmResourceProvider {
         System.out.println("***** put /USER AGREEMENT");
 
         AuthenticationManager.AuthResult auth = resolveAuthentication(session);
+        if (auth == null) {
+            return badRequest();
+        }
 
         RealmModel realm = session.getContext().getRealm();
-
         AccountProvider account = session.getProvider(AccountProvider.class).setRealm(realm).setUriInfo(session.getContext().getUri()).setHttpHeaders(session.getContext().getRequestHeaders());
         UserModel userModel = auth.getUser();
         System.out.println("userName : " + userModel.getUsername());
@@ -194,6 +199,7 @@ public class ConsoleProvider implements RealmResourceProvider {
         setReferrerOnPage( account);
 
         if (!isValidStateChecker(input)) {
+            System.out.println("State Checker Error, User [ " + userModel.getUsername() + " ]");
             return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.AGREEMENT);
         }
 
@@ -209,8 +215,9 @@ public class ConsoleProvider implements RealmResourceProvider {
             }
             event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userModel.getUsername()).success(); //FIXME
         } catch (Exception e) {
-            System.out.println("Failed to Update Agreement Attribute, User [ " + userModel.getUsername());
-            return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.AGREEMENT);
+            System.out.println("Failed to Update Agreement Attribute, User [ " + userModel.getUsername() + " ]");
+            out = "Failed to Update Agreement Attribute, User [ " + userModel.getUsername() + " ]";
+            return account.setError(Response.Status.BAD_REQUEST, out).createResponse(AccountPages.AGREEMENT);
         }
         return account.setSuccess(Messages.ACCOUNT_UPDATED).createResponse(AccountPages.AGREEMENT);
     }
