@@ -405,7 +405,6 @@ public class UserProvider implements RealmResourceProvider {
 
         try {
             verifyToken(tokenString, realm);
-
             if (!token.getPreferredUsername().equalsIgnoreCase(userName)) {
                 out = "Cannot update other user";
                 status = Status.BAD_REQUEST;

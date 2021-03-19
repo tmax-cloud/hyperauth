@@ -8,8 +8,12 @@ import com.tmax.hyperauth.caller.Constants;
 import com.tmax.hyperauth.caller.HyperAuthCaller;
 
 import com.tmax.hyperauth.rest.Util;
+import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.representations.account.UserRepresentation;
 import org.quartz.Job;
+import org.quartz.JobDataMap;
+import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 
 import javax.transaction.Transactional;
@@ -27,6 +31,8 @@ public class UserDeleteJob implements Job {
     @Override
     @Transactional
     public void execute(JobExecutionContext context) {
+        KeycloakSessionFactory keycloakSessionFactory = (KeycloakSessionFactory) context.getJobDetail().getJobDataMap().get("keycloakSessionFactory");
+        KeycloakSession session = keycloakSessionFactory.create();
 
         // CronJob 선언부는 HyperauthEventListenerPropviderFactory PostInit()에 존재
         System.out.println(" [UserDelete Job] User Deletion Job Start !! ");
@@ -71,7 +77,7 @@ public class UserDeleteJob implements Job {
                             String subject = "[Tmax 통합계정] 고객님의 계정 탈퇴가 완료되었습니다.";
 //                            String msg = Constants.ACCOUNT_WITHDRAWAL_APPROVAL_BODY;
                             String body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/tmax/email/html/etc/account-withdrawal-completed.html");
-                            Util.sendMail(null, email, subject, body, null);
+                            Util.sendMail(session, email, subject, body, null);
 
                             // Topic Event Publish
                             TopicEvent topicEvent = TopicEvent.makeOtherTopicEvent("USER_DELETE", userRepresentation.getUsername(), currentDate.getTime() );

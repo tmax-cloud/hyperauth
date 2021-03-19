@@ -118,8 +118,8 @@ public class Util {
 					port = Integer.parseInt(smtpServer.get("port").getAsString().replace("\"", ""));
 				}
 				sender = smtpServer.get("from").getAsString().replace("\"", "");
-				un = smtpServer.get("user").getAsString().replace("\"", "");
-				pw = smtpServer.get("password").getAsString().replace("\"", "");
+//				un = smtpServer.get("user").getAsString().replace("\"", "");
+//				pw = smtpServer.get("password").getAsString().replace("\"", "");
 			}
 		}catch( Exception e){
 			e.printStackTrace();
