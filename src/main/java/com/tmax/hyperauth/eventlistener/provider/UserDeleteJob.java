@@ -56,6 +56,7 @@ public class UserDeleteJob implements Job {
                 users.addAll(userListGet);
             }
         }catch( Exception e){
+            e.printStackTrace();
             System.out.println(" [UserDelete Job] HyperAuth Not Ready yet ");
         }
 

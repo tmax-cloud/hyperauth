@@ -93,11 +93,11 @@ public class HyperAuthCaller {
 		String url = urlBuilder.build().toString();
 		request = new Request.Builder().url(url).addHeader("Authorization", "Bearer " + token).get().build();
 
-//		System.out.println(" request" + request.toString() );
+		System.out.println(" request" + request.toString() );
 
 		Response response = client.newCall(request).execute();
 		String result = response.body().string();
-//		System.out.println(" UserListResult : " + result);
+		System.out.println(" UserListResult : " + result);
 
 		Gson gson = new Gson();
 		JsonArray resultJson = gson.fromJson(result, JsonArray.class);
