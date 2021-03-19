@@ -38,7 +38,7 @@ public class UserDeleteJob implements Job {
         System.out.println(" [UserDelete Job] User Deletion Job Start !! ");
         Date currentDate = new Date();
         System.out.println( "Now : " + currentDate);
-        JsonArray users = null;
+        JsonArray users = new JsonArray();
         String accessToken = null;
         try{
             // Get Admin AccessToken
