@@ -109,19 +109,9 @@ public class Util {
 				sender = keycloakSession.realms().getRealmByName("tmax").getSmtpConfig().get("from");
 				un = keycloakSession.realms().getRealmByName("tmax").getSmtpConfig().get("user");
 				pw = keycloakSession.realms().getRealmByName("tmax").getSmtpConfig().get("password");
-			} else {
-				String accessToken = HyperAuthCaller.loginAsAdmin();
-				JsonObject realmInfo = HyperAuthCaller.getRealmInfo( "tmax", accessToken);
-				JsonObject smtpServer = realmInfo.get("smtpServer").getAsJsonObject();
-				host = smtpServer.get("host").getAsString().replace("\"", "");
-				if ( smtpServer.get("port") != null) {
-					port = Integer.parseInt(smtpServer.get("port").getAsString().replace("\"", ""));
-				}
-				sender = smtpServer.get("from").getAsString().replace("\"", "");
-//				un = smtpServer.get("user").getAsString().replace("\"", "");
-//				pw = smtpServer.get("password").getAsString().replace("\"", "");
 			}
 		}catch( Exception e){
+			System.out.println( " Failed to get SmtpConfig from Session " );
 			e.printStackTrace();
 		}
 
@@ -129,7 +119,7 @@ public class Util {
 		System.out.println( " host : "  + host );
 		System.out.println( " port : "  + port );
 		System.out.println( " un : "  + un );
-		System.out.println( " pw : "  + pw );
+//		System.out.println( " pw : "  + pw );
 
 		String charSetUtf = "UTF-8" ;
 		Properties props = System.getProperties();
