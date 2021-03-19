@@ -27,7 +27,6 @@ public class HyperauthEventListenerProviderFactory implements EventListenerProvi
 
     @Override
     public void postInit(KeycloakSessionFactory keycloakSessionFactory) {
-
         try {
             JobDataMap data = new JobDataMap();
             data.put("keycloakSessionFactory", keycloakSessionFactory);

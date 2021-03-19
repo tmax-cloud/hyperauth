@@ -102,13 +102,13 @@ public class Util {
 		String pw = "Miracle!";
 		try{
 			if (keycloakSession != null) {
-				host = keycloakSession.getContext().getRealm().getSmtpConfig().get("host");
-				if ((keycloakSession.getContext().getRealm().getSmtpConfig().get("port") !=  null)) {
-					port = Integer.parseInt(keycloakSession.getContext().getRealm().getSmtpConfig().get("port"));
+				host = keycloakSession.realms().getRealmByName("tmax").getSmtpConfig().get("host");
+				if ((keycloakSession.realms().getRealmByName("tmax").getSmtpConfig().get("port") !=  null)) {
+					port = Integer.parseInt(keycloakSession.realms().getRealmByName("tmax").getSmtpConfig().get("port"));
 				}
-				sender = keycloakSession.getContext().getRealm().getSmtpConfig().get("from");
-				un = keycloakSession.getContext().getRealm().getSmtpConfig().get("user");
-				pw = keycloakSession.getContext().getRealm().getSmtpConfig().get("password");
+				sender = keycloakSession.realms().getRealmByName("tmax").getSmtpConfig().get("from");
+				un = keycloakSession.realms().getRealmByName("tmax").getSmtpConfig().get("user");
+				pw = keycloakSession.realms().getRealmByName("tmax").getSmtpConfig().get("password");
 			} else {
 				String accessToken = HyperAuthCaller.loginAsAdmin();
 				JsonObject realmInfo = HyperAuthCaller.getRealmInfo( "tmax", accessToken);
@@ -129,7 +129,7 @@ public class Util {
 		System.out.println( " host : "  + host );
 		System.out.println( " port : "  + port );
 		System.out.println( " un : "  + un );
-//		System.out.println( " pw : "  + pw );
+		System.out.println( " pw : "  + pw );
 
 		String charSetUtf = "UTF-8" ;
 		Properties props = System.getProperties();
