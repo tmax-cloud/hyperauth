@@ -38,6 +38,9 @@
       - java외 다른 언어의 경우 참조할 것.
       - Golang 가이드 : https://github.com/tmax-cloud/hypercloud-api-server/blob/master/util/Consumer/KafkaConsumer.go
     - 현재 Topic Event Data 보관 기간 : 7일
+  
+  - **Fido 기반 생체 인증 기능 사용 가이드**
+    - [hyperauth_fido_guide.pptx](https://github.com/tmax-cloud/hyperauth/blob/main/hyperauth_fido_guide.pptx)   
     
   - **비밀번호 변경 3개월 경과시 비밀번호 변경 유도 기능 사용 가이드**
     - Authentication - Bindings - Brower Flow : **Browser With PasswordUpdateAlert** 선택
