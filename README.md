@@ -105,6 +105,9 @@
         - user_name : 한글/영어
         - user_name_ko : 한글
         - user_name_en : 영어
+      - 사용자의 나이가 14세 미만인 경우 
+        - under_14 : true 
+        - 14세 이상인 경우, attribute이 존재하지 않거나 value 값이 true가 아님
     - AGREEMENT
       - Hyperauth(공통)의 선택 약관
         - agreeMailOpt : true / false
