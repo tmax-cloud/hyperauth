@@ -99,6 +99,7 @@
       - **withdrawal_unqualified_{client_name}**
       - **lastPasswordUpdateTime**
       - **deletionDate**
+      - **under_14**
     - USER
       - 사용자의 username은 attribute으로 관리
         - user_name : 한글/영어
