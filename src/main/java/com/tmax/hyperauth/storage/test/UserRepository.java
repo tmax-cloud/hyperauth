@@ -35,6 +35,8 @@ public class UserRepository {
     }
 
     public User findUserByEmail(String email) {
+        System.out.println("findUserByEmail Email : " + email);
+
         return users.stream()
                 .filter(user -> user.getEmail().equalsIgnoreCase(email))
                 .findFirst().get();
@@ -47,6 +49,9 @@ public class UserRepository {
     }
 
     public boolean validateCredentials(String email, String password) {
+        System.out.println("validateCredentials Email : " + email);
+        System.out.println("validateCredentials password : " + password);
+        System.out.println("findUserByEmail(email).getPassword() : " + findUserByEmail(email).getPassword());
         return findUserByEmail(email).getPassword().equals(password);
     }
 

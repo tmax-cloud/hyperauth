@@ -53,13 +53,13 @@ public class TestUserStorageProvider implements UserStorageProvider, UserLookupP
 
     @Override
     public UserModel getUserByUsername(String username, RealmModel realm) {
-        System.out.println("lookup user by username: realm=" + realm.getId() + ", username=" + username  );
+        System.out.println("lookup user by Username: realm=" + realm.getId() + ", username=" + username  );
         return new UserAdapter(session, realm, model, repository.findUserByUsernameOrEmail(username));
     }
 
     @Override
     public UserModel getUserByEmail(String email, RealmModel realm) {
-        System.out.println("lookup user by username: realm=" + realm.getId() + ", email=" + email  );
+        System.out.println("lookup user by Email: realm=" + realm.getId() + ", email=" + email  );
         return getUserByUsername(email, realm);
     }
 
