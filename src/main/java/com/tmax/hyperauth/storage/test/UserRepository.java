@@ -12,7 +12,8 @@ public class UserRepository {
         users = Arrays.asList(
                 new User("1", "wootmax","taegeon_woo@tmax.co.kr",  "admin"),
                 new User("2", "woonaver","dnxorjs1@naver.co.kr",  "admin"),
-                new User("3", "woonate","dnxorjs1@nate.co.kr",  "admin")
+                new User("3", "woonate","dnxorjs1@nate.co.kr",  "admin"),
+                new User("4", "song","song@tmax.co.kr",  "admin")
         );
     }
 
