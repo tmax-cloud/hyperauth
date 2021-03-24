@@ -38,6 +38,9 @@
       - java외 다른 언어의 경우 참조할 것.
       - Golang 가이드 : https://github.com/tmax-cloud/hypercloud-api-server/blob/master/util/Consumer/KafkaConsumer.go
     - 현재 Topic Event Data 보관 기간 : 7일
+  
+  - **Fido 기반 생체 인증 기능 사용 가이드**
+    - [hyperauth_fido_guide.pptx](https://github.com/tmax-cloud/hyperauth/blob/main/hyperauth_fido_guide.pptx)   
     
   - **비밀번호 변경 3개월 경과시 비밀번호 변경 유도 기능 사용 가이드**
     - Authentication - Bindings - Brower Flow : **Browser With PasswordUpdateAlert** 선택
@@ -96,11 +99,15 @@
       - **withdrawal_unqualified_{client_name}**
       - **lastPasswordUpdateTime**
       - **deletionDate**
+      - **under_14**
     - USER
       - 사용자의 username은 attribute으로 관리
         - user_name : 한글/영어
         - user_name_ko : 한글
         - user_name_en : 영어
+      - 사용자의 나이가 14세 미만인 경우 
+        - under_14 : true 
+        - 14세 이상인 경우, attribute이 존재하지 않거나 value 값이 true가 아님
     - AGREEMENT
       - Hyperauth(공통)의 선택 약관
         - agreeMailOpt : true / false
