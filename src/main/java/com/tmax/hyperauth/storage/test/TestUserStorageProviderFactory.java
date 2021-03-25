@@ -14,7 +14,6 @@ public class TestUserStorageProviderFactory  implements UserStorageProviderFacto
     @Override
     public TestUserStorageProvider create(KeycloakSession session, ComponentModel model) {
 // here you can setup the user storage provider, initiate some connections, etc.
-
         System.out.println("CreateProvider ");
 
         UserRepository repository = new UserRepository();
@@ -23,12 +22,13 @@ public class TestUserStorageProviderFactory  implements UserStorageProviderFacto
 
     @Override
     public String getId() {
+        System.out.println("getId ");
         return "woo-user-storage";
     }
 
     @Override
     public List<ProviderConfigProperty> getConfigProperties() {
-
+        System.out.println("getConfigProperties ");
         // this configuration is configurable in the admin-console
         return ProviderConfigurationBuilder.create()
                 .property()

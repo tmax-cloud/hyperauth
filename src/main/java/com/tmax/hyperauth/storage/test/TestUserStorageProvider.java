@@ -65,6 +65,7 @@ public class TestUserStorageProvider implements UserStorageProvider, UserLookupP
 
     @Override
     public int getUsersCount(RealmModel realm) {
+        System.out.println("getUsersCount(RealmModel realm)"  );
         return repository.getUsersCount();
     }
 
@@ -84,48 +85,60 @@ public class TestUserStorageProvider implements UserStorageProvider, UserLookupP
 
     @Override
     public List<UserModel> searchForUser(String search, RealmModel realm) {
-        System.out.println("searchForUser");
+        System.out.println("searchForUser(String search, RealmModel realm)");
         return repository.findUsers(search).stream()
                 .map(user -> new UserAdapter(session, realm, model, user))
                 .collect(Collectors.toList());    }
 
     @Override
     public List<UserModel> searchForUser(String search, RealmModel realm, int firstResult, int maxResults) {
+        System.out.println("searchForUser(String search, RealmModel realm, int firstResult, int maxResults)");
         return searchForUser(search, realm);
     }
 
     @Override
     public List<UserModel> searchForUser(Map<String, String> params, RealmModel realm) {
+        System.out.println("searchForUser(Map<String, String> params, RealmModel realm)");
         return null;
     }
 
     @Override
     public List<UserModel> searchForUser(Map<String, String> params, RealmModel realm, int firstResult, int maxResults) {
+        System.out.println("searchForUser(Map<String, String> params, RealmModel realm, int firstResult, int maxResults) ");
+
         return null;
     }
 
     @Override
     public List<UserModel> getGroupMembers(RealmModel realm, GroupModel group, int firstResult, int maxResults) {
+        System.out.println("getGroupMembers(RealmModel realm, GroupModel group, int firstResult, int maxResults)");
+
         return Collections.emptyList();
     }
 
     @Override
     public List<UserModel> getGroupMembers(RealmModel realm, GroupModel group) {
+        System.out.println("getGroupMembers(RealmModel realm, GroupModel group)");
         return Collections.emptyList();
     }
 
     @Override
     public List<UserModel> searchForUserByUserAttribute(String attrName, String attrValue, RealmModel realm) {
+        System.out.println("searchForUserByUserAttribute");
+
         return null;
     }
 
     @Override
     public boolean supportsCredentialType(String credentialType) {
+        System.out.println("supportsCredentialType");
+
         return CredentialModel.PASSWORD.equals(credentialType);
     }
 
     @Override
     public boolean isConfiguredFor(RealmModel realm, UserModel user, String credentialType) {
+        System.out.println("isConfiguredFor");
         return supportsCredentialType(credentialType);
     }
 
@@ -154,11 +167,12 @@ public class TestUserStorageProvider implements UserStorageProvider, UserLookupP
 
     @Override
     public void disableCredentialType(RealmModel realm, UserModel user, String credentialType) {
-
+        System.out.println("disableCredentialType(RealmModel realm, UserModel user, String credentialType)" );
     }
 
     @Override
     public Set<String> getDisableableCredentialTypes(RealmModel realm, UserModel user) {
+        System.out.println("getDisableableCredentialTypes(RealmModel realm, UserModel user)" );
         return Collections.emptySet();
     }
 }

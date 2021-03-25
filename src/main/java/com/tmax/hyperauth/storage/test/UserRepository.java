@@ -18,18 +18,22 @@ public class UserRepository {
     }
 
     public List<User> getAllUsers() {
+        System.out.println("getAllUsers()");
         return users;
     }
 
     public int getUsersCount() {
+        System.out.println("getUsersCount() : " + users.size());
         return users.size();
     }
 
     public User findUserById(String id) {
+        System.out.println("findUserById(String id) :" + id);
         return users.stream().filter(user -> user.getId().equals(id)).findFirst().get();
     }
 
     public User findUserByUsernameOrEmail(String username) {
+        System.out.println("findUserByUsernameOrEmail(String username) : " + username);
         return users.stream()
                 .filter(user -> user.getUsername().equalsIgnoreCase(username) || user.getEmail().equalsIgnoreCase(username))
                 .findFirst().get();
@@ -44,6 +48,8 @@ public class UserRepository {
     }
 
     public List<User> findUsers(String query) {
+        System.out.println("findUsers(String query) : " + query);
+
         return users.stream()
                 .filter(user -> user.getUsername().contains(query) || user.getEmail().contains(query))
                 .collect(Collectors.toList());
@@ -57,6 +63,7 @@ public class UserRepository {
     }
 
     public boolean updateCredentials(String email, String password) {
+        System.out.println("updateCredentials(String email, String password) email :  " + email + "   password : " + password);
         findUserByEmail(email).setPassword(password);
         return true;
     }
