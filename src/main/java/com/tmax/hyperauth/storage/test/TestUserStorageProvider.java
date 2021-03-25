@@ -145,6 +145,12 @@ public class TestUserStorageProvider implements UserStorageProvider, UserLookupP
     @Override
     public boolean isValid(RealmModel realm, UserModel user, CredentialInput input) {
         System.out.println("isValid user credential: userId= " +  user.getId());
+        System.out.println("isValid user credential: userEmail first = " +  user.getEmail());
+
+        //TODO : user에 id 만 채워 져있는 상황인듯
+        user = getUserById ( user.getId(), realm);
+
+        System.out.println("isValid user credential: userEmail second = " +  user.getEmail());
 
         if (!supportsCredentialType(input.getType()) || !(input instanceof UserCredentialModel)) {
             return false;
