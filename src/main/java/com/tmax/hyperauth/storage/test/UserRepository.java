@@ -22,6 +22,11 @@ public class UserRepository {
         return users;
     }
 
+    public List<User> getAllUsers(int start, int max) {
+        System.out.println("getAllUsers(int start, int max)");
+        return users.subList(start, start + max);
+    }
+
     public int getUsersCount() {
         System.out.println("getUsersCount() : " + users.size());
         return users.size();

@@ -104,9 +104,10 @@ public class TestUserStorageProvider implements UserStorageProvider, UserLookupP
 
     @Override
     public List<UserModel> searchForUser(Map<String, String> params, RealmModel realm, int firstResult, int maxResults) {
-        System.out.println("searchForUser(Map<String, String> params, RealmModel realm, int firstResult, int maxResults) ");
-
-        return null;
+        System.out.println("searchForUser(Map<String, String> params, RealmModel realm, int firstResult, int maxResults)  firstResult : " + firstResult + ", maxResult : " + maxResults);
+        return repository.getAllUsers(firstResult,maxResults).stream()
+                .map(user -> new UserAdapter(session, realm, model, user))
+                .collect(Collectors.toList());
     }
 
     @Override
