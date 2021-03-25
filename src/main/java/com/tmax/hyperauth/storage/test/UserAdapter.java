@@ -25,15 +25,15 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 
     @Override
     public String getUsername() {
-        System.out.println("UserAdapter -  getUsername  : " + user.getUsername());
+        System.out.println("UserAdapter -  getUsername  : " + user.getEmail());
 
-        return user.getUsername();
+        return user.getEmail();
     }
 
     @Override
-    public void setUsername(String username) {
-        System.out.println("UserAdapter -  setUsername  : " + username);
-        user.setUsername(username);
+    public void setUsername(String email) {
+        System.out.println("UserAdapter -  setUsername  : " + email);
+        user.setUsername(email);
     }
 
     @Override

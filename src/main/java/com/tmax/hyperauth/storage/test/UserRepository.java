@@ -24,7 +24,11 @@ public class UserRepository {
 
     public List<User> getAllUsers(int start, int max) {
         System.out.println("getAllUsers(int start, int max)");
-        return users.subList(start, start + max);
+        if ( users.size() >= start + max) {
+            return users.subList(start, start + max);
+        } else{
+            return users;
+        }
     }
 
     public int getUsersCount() {
