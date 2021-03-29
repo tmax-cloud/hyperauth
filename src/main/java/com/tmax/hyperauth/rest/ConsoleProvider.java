@@ -161,7 +161,7 @@ public class ConsoleProvider implements RealmResourceProvider {
                 Util.sendMail(session, email, subject, body, null );
                 event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userModel.getUsername()).detail("userWithdrawal","t").success(); //FIXME
             } else{
-                out = "User [" + userModel.getUsername() + "] is Unqualified to Withdraw from Account due to [" + unQualifiedReason + "] Policy, Check Withdrawal Policy or Contact Administrator";
+                out = unQualifiedReason;
                 return account.setError(Status.FORBIDDEN, out).createResponse(AccountPages.ACCOUNT);
             }
         } catch (Exception e) {
