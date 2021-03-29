@@ -4,8 +4,11 @@ import java.util.*;
 import javax.ws.rs.core.Context;
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
 import org.jboss.logging.Logger;
+import org.keycloak.common.util.Time;
 import org.keycloak.events.Event;
+import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventListenerProvider;
+import org.keycloak.events.EventType;
 import org.keycloak.events.admin.AdminEvent;
 import org.keycloak.models.KeycloakSession;
 import com.google.gson.JsonObject;
@@ -78,6 +81,7 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                     topicEvent = TopicEvent.makeTopicEvent(event, session.users().getUserById(event.getUserId(), session.realms().getRealmByName("tmax")).getUsername());
                     break;
                 case "SEND_VERIFY_EMAIL":
+                case "SEND_VERIFY_EMAIL_ERROR":
                     String email = event.getDetails().get("email");
                     topicEvent = TopicEvent.makeTopicEvent(event, email);
                     long interval = 1000 * 60 * 10;
@@ -91,8 +95,13 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                                 if (!user.isEmailVerified()) {
                                     keycloakSession.users().removeUser(keycloakSession.realms().getRealmByName(event.getRealmId()), user);
                                     System.out.println("User [" + event.getDetails().get("username") + " ] Deleted");
-//                                    System.out.println("Delete user role in k8s");
-//                                    HypercloudOperatorCaller.deleteNewUserRole(user.getUsername());
+                                    System.out.println("Delete user role in k8s");
+                                    HypercloudOperatorCaller.deleteNewUserRole(user.getUsername());
+
+                                    // Topic Event
+                                    TopicEvent topicEventDelete = TopicEvent.makeOtherTopicEvent("USER_DELETE", userName, Time.currentTimeMillis());
+                                    Producer.publishEvent("tmax", topicEventDelete);
+
                                 } else {
                                     System.out.println("Already Verified, Nothing to do");
                                 }
