@@ -162,7 +162,9 @@ public class ConsoleProvider implements RealmResourceProvider {
                 event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userModel.getUsername()).detail("userWithdrawal","t").success(); //FIXME
             } else{
                 out = unQualifiedReason;
-                return account.setError(Status.FORBIDDEN, out).createResponse(AccountPages.ACCOUNT);
+                Status status = Status.FORBIDDEN;
+                return Util.setCors(status, out); //console 팝업 내에서 사용하기 위해서
+//                return account.setError(Status.FORBIDDEN, out).createResponse(AccountPages.ACCOUNT);
             }
         } catch (Exception e) {
             e.printStackTrace();
