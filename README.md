@@ -96,7 +96,7 @@
       - **agreeMailOpt**
       - **agree_ischecked_{client_name}**
       - **agreeAdv{client_name}Opt**
-      - **withdrawal_unqualified_{client_name}**
+      - **withdrawal_unqualified_{client_name}**  
       - **lastPasswordUpdateTime**
       - **deletionDate**
       - **under_14**
@@ -108,6 +108,9 @@
       - 사용자의 나이가 14세 미만인 경우 
         - under_14 : true 
         - 14세 이상인 경우, attribute이 존재하지 않거나 value 값이 true가 아님
+      - 탈퇴 신청을 Block 해야하는 유저의 경우
+        - withdrawal_unqualified_{client_name} : t
+          - ex) withdrawal_unqualified_wapl : t   
     - AGREEMENT
       - Hyperauth(공통)의 선택 약관
         - agreeMailOpt : true / false
