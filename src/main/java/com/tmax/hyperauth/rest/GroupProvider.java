@@ -103,7 +103,8 @@ public class GroupProvider implements RealmResourceProvider {
             status = Status.BAD_REQUEST;
             out = "Group ListGet Failed";
             return Util.setCors(status, out);
-        }    }
+        }
+    }
 
 
     @OPTIONS
