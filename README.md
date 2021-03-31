@@ -138,7 +138,7 @@
 - **Client 별 약관 CRUD 기능**
 
 - `네이버로 로그인, 카카오로 로그인` (Alpha)
-  - 카카오로 로그인 가이드 : https://github.com/tmax-cloud/hyperauth/blob/main/kakako_login_guide.pptx   
+  - 카카오로 로그인 가이드 : [kakako_login_guide](https://github.com/tmax-cloud/hyperauth/blob/main/kakako_login_guide.pptx)
 - `회원가입 시, 핸드폰 번호 인증 기능` (Alpha)
 - **회원 탈퇴 신청 기능**
   - 탈퇴 신청 후, 사용자 데이터 30일 유지
