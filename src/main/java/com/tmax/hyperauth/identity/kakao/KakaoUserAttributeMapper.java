@@ -8,11 +8,13 @@ public class KakaoUserAttributeMapper extends AbstractJsonUserAttributeMapper {
 
     @Override
     public String[] getCompatibleProviders() {
+        System.out.println("kakao : getCompatibleProviders()");
         return cp;
     }
 
     @Override
     public String getId() {
+        System.out.println("kakao : getId()");
         return "kakao-user-attribute-mapper";
     }
 }

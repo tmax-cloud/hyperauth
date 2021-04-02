@@ -27,16 +27,19 @@ public class KakaoIdentityProvider extends AbstractOAuth2IdentityProvider implem
 
     @Override
     protected boolean supportsExternalExchange() {
+        System.out.println("kakao : supportsExternalExchange()");
         return true;
     }
 
     @Override
     protected String getProfileEndpointForValidation(EventBuilder event) {
+        System.out.println("kakao : getProfileEndpointForValidation(EventBuilder event)");
         return PROFILE_URL;
     }
 
     @Override
     protected BrokeredIdentityContext extractIdentityFromProfile(EventBuilder event, JsonNode profile) {
+        System.out.println("kakao : extractIdentityFromProfile(EventBuilder event, JsonNode profile)");
         // getJsonProperty 는 Oidc 관련 파싱만 가능하므로 JsonNode 의 get 메소드를 이용해서 가져온다.
         // BrokeredIdentityContext user = new BrokeredIdentityContext(getJsonProperty(profile, "response"));
         BrokeredIdentityContext user = new BrokeredIdentityContext(profile.get("id").asText());
@@ -46,13 +49,13 @@ public class KakaoIdentityProvider extends AbstractOAuth2IdentityProvider implem
         user.setEmail(email);
         user.setIdp(this);
         AbstractJsonUserAttributeMapper.storeUserProfileForMapper(user, profile, getConfig().getAlias());
-
         return user;
     }
 
     @Override
     protected BrokeredIdentityContext doGetFederatedIdentity(String accessToken) {
         try {
+            System.out.println("kakao : doGetFederatedIdentity(String accessToken)");
             JsonNode profile = SimpleHttp.doGet(PROFILE_URL, session).param("access_token", accessToken).asJson();
             System.out.println("httpGet Success!!");
             BrokeredIdentityContext user = extractIdentityFromProfile(null, profile);
@@ -64,6 +67,7 @@ public class KakaoIdentityProvider extends AbstractOAuth2IdentityProvider implem
 
     @Override
     protected String getDefaultScopes() {
+        System.out.println("kakao : getDefaultScopes()");
         return "";
     }
 }

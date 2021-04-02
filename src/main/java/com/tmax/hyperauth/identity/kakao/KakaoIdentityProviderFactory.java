@@ -12,21 +12,25 @@ public class KakaoIdentityProviderFactory extends AbstractIdentityProviderFactor
 
     @Override
     public String getName() {
+        System.out.println("kakao : getName()");
         return "kakao";
     }
 
     @Override
     public KakaoIdentityProvider create(KeycloakSession session, IdentityProviderModel model) {
+        System.out.println("kakao : create(KeycloakSession session, IdentityProviderModel model)");
         return new KakaoIdentityProvider(session, new OAuth2IdentityProviderConfig(model));
     }
 
     @Override
     public String getId() {
+        System.out.println("kakao : getId()");
         return PROVIDER_ID;
     }
 
     @Override
     public OAuth2IdentityProviderConfig createConfig() {
+        System.out.println("kakao : createConfig()");
         return new OAuth2IdentityProviderConfig();
     }
 }
