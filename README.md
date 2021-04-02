@@ -127,7 +127,7 @@
     - First Broker Login : Identity Providers - First Login Flow 에서 바꿔준다.
       - ![image](https://user-images.githubusercontent.com/61040426/113104565-a8f0a100-923b-11eb-96dd-3a23abc9adf1.png)
     - Post Login for Broker : Identity Providers - Post Login Flow 에서 선택해준다.
-      - ![image](https://user-images.githubusercontent.com/61040426/113374225-95624900-93a7-11eb-8543-26127167e77f.png)       
+      - ![image](https://user-images.githubusercontent.com/61040426/113380904-70c29d00-93b8-11eb-9acf-110f9f74413c.png)      
   
 - **API 정보**
 
