@@ -9,6 +9,8 @@ import org.keycloak.authentication.Authenticator;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
 import org.keycloak.models.*;
+import org.keycloak.models.utils.ModelToRepresentation;
+import org.keycloak.representations.idm.CredentialRepresentation;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
@@ -40,12 +42,27 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
         return false;
     }
 
+    private boolean isUserHasPasswordCredential(AuthenticationFlowContext context) {
+        if( context.getSession().userCredentialManager().getStoredCredentialsByType(context.getRealm(), context.getUser(), "password")!= null
+                && context.getSession().userCredentialManager().getStoredCredentialsByType(context.getRealm(), context.getUser(), "password").size() >0
+                && context.getSession().userCredentialManager().getStoredCredentialsByType(context.getRealm(), context.getUser(), "password") != null ) {
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void authenticate(AuthenticationFlowContext context) {
         System.out.println("authenticate called ... User = " + context.getUser().getUsername());
         AuthenticatorConfigModel config = context.getAuthenticatorConfig();
         int period = AuthenticatorUtil.getConfigInt(config, AuthenticatorConstants.CONF_PW_UPDATE_PERIOD, 3);
         System.out.println("Using Password Update Period  : " + period + ", user [ "+ context.getUser().getUsername() + " ]");
+
+        if (!isUserHasPasswordCredential(context)){
+            System.out.println("User [ " + context.getUser().getUsername() + " ] Has no Password Credential in Hyperauth, Do Not Need to Update Password");
+            context.success();
+            return;
+        }
 
         if (!hasTimePassed(context, period) ) {
             System.out.println("User [ " + context.getUser().getUsername() + " ] Do Not Need to Update Password");
@@ -57,6 +74,8 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
             context.challenge(challenge);
         }
     }
+
+
 
     @Override
     public void action(AuthenticationFlowContext context) {
