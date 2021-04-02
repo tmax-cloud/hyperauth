@@ -123,12 +123,11 @@
   
   - 설계 해야할 Authentication Flow ( 여러 정책 및 기능들이 로그인 / SNS로 로그인에 적용될수 있도록 설정 해줘야함 ) 
     - Browser :  Authentication - Bindings - Browser Flow에서 바꿔줘야한다.
-      - ![image](https://user-images.githubusercontent.com/61040426/113104447-852d5b00-923b-11eb-88b7-8014738f3429.png)
+      - ![image](https://user-images.githubusercontent.com/61040426/113374160-6ba92200-93a7-11eb-81ff-724e579f6dee.png)
     - First Broker Login : Identity Providers - First Login Flow 에서 바꿔준다.
       - ![image](https://user-images.githubusercontent.com/61040426/113104565-a8f0a100-923b-11eb-96dd-3a23abc9adf1.png)
     - Post Login for Broker : Identity Providers - Post Login Flow 에서 선택해준다.
-      - ![image](https://user-images.githubusercontent.com/61040426/113104707-d0476e00-923b-11eb-89f7-6259c053331e.png)
-         
+      - ![image](https://user-images.githubusercontent.com/61040426/113374225-95624900-93a7-11eb-8543-26127167e77f.png)       
   
 - **API 정보**
 
