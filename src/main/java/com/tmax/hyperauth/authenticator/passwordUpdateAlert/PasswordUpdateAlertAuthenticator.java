@@ -113,13 +113,13 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
                     context.failureChallenge(AuthenticationFlowError.CREDENTIAL_SETUP_REQUIRED, challenge);
                 } else if (!password.equalsIgnoreCase(confirmPassword)) {
                     Response challenge = context.form()
-                            .setError("Password and confirmation does not match. ").createForm("password-update-alert.ftl");
+                            .setError("Password and confirmation does not match.").createForm("password-update-alert.ftl");
                     context.failureChallenge(AuthenticationFlowError.USER_DISABLED, challenge);
                 }
                 // Verfify if Same with Old password
                 else if (sameWithOldPW(password, context)) {
                     Response challenge = context.form()
-                            .setError("It matches the old password").createForm("password-update-alert.ftl");
+                            .setError("sameWithOldPassword").createForm("password-update-alert.ftl");
                     context.failureChallenge(AuthenticationFlowError.CREDENTIAL_SETUP_REQUIRED, challenge);
                 } else {
                     // Change Password
