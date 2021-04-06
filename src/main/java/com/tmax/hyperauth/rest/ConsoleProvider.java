@@ -173,6 +173,7 @@ public class ConsoleProvider implements RealmResourceProvider {
             System.out.println(Arrays.toString(throwable.getStackTrace()));
             return account.setError(Response.Status.BAD_REQUEST, "Mail Send Failed").createResponse(AccountPages.ACCOUNT);
         }
+        System.out.println("Withdrawal Request Success, User [ " + userModel.getUsername() + " ]");
         return account.setSuccess(Messages.ACCOUNT_UPDATED).createResponse(AccountPages.ACCOUNT);
 //        return Response.seeOther(RealmsResource.accountUrl(session.getContext().getUri().getBaseUriBuilder()).build(realm.getDisplayName())).build();
     }
@@ -221,6 +222,7 @@ public class ConsoleProvider implements RealmResourceProvider {
             out = "Failed to Update Agreement Attribute, User [ " + userModel.getUsername() + " ]";
             return account.setError(Response.Status.BAD_REQUEST, out).createResponse(AccountPages.AGREEMENT);
         }
+        System.out.println("Agreement Option Update Success, User [ " + userModel.getUsername() + " ]");
         return account.setSuccess(Messages.ACCOUNT_UPDATED).createResponse(AccountPages.AGREEMENT);
     }
 
@@ -268,18 +270,6 @@ public class ConsoleProvider implements RealmResourceProvider {
         return null;
     }
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response get() {
-        System.out.println("***** GET /test");
-        AuthenticationManager.AuthResult auth = resolveAuthentication(session);
-        if (auth == null) {
-            return badRequest();
-        }
-        System.out.println("good!!");
-        return Util.setCors( Status.OK, null);
-    }
-
     @OPTIONS
     @Path("{path : .*}")
     public Response other() {
@@ -289,9 +279,5 @@ public class ConsoleProvider implements RealmResourceProvider {
 
     @Override
     public void close() {
-    }
-
-    private EntityManager getEntityManager() {
-        return session.getProvider(JpaConnectionProvider.class).getEntityManager();
     }
 }

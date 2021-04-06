@@ -47,14 +47,6 @@ public class EmailOTPAuthenticator implements Authenticator {
                 return;
             }
         }
-
-//        if(context.getSession().getAttribute("selection")!= null) {
-//            System.out.println(" context.getSession().getAttribute(\"selection\") : " + context.getSession().getAttribute("selection"));
-//            if (!context.getSession().getAttribute("selection").equals("mailOtp")){
-//                context.success();
-//                return;
-//            }
-//        }
         // FIXME :  delete
 
         if (!isOTPEnabled(context) ) {

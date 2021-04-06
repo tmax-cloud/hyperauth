@@ -159,10 +159,8 @@ public class PasswordProvider implements RealmResourceProvider {
             // Event Publish
             event.event(EventType.UPDATE_PASSWORD).user(userModel).realm("tmax").detail("username", userModel.getUsername()).success(); // FIXME
 
-
             status = Status.OK;
             out = "Reset Password Success";
-
             return Util.setCors(status, out);
 
         }catch (Exception e) {

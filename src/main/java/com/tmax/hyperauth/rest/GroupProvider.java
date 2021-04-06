@@ -106,7 +106,6 @@ public class GroupProvider implements RealmResourceProvider {
         }
     }
 
-
     @OPTIONS
     @Path("{path : .*}")
     public Response other() {
