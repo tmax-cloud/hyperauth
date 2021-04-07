@@ -97,7 +97,7 @@ public class HyperAuthCaller {
 
 		Response response = client.newCall(request).execute();
 		String result = response.body().string();
-		System.out.println(" UserListResult : " + result);
+//		System.out.println(" UserListResult : " + result);
 
 		Gson gson = new Gson();
 		JsonArray resultJson = gson.fromJson(result, JsonArray.class);
