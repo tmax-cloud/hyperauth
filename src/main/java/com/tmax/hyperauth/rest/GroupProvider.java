@@ -1,10 +1,21 @@
 package com.tmax.hyperauth.rest;
 
 import org.jboss.resteasy.spi.HttpResponse;
+import org.keycloak.OAuthErrorException;
+import org.keycloak.TokenVerifier;
 import org.keycloak.common.ClientConnection;
+import org.keycloak.common.VerificationException;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
+import org.keycloak.crypto.SignatureProvider;
+import org.keycloak.crypto.SignatureVerifierContext;
+import org.keycloak.models.ClientModel;
 import org.keycloak.models.GroupModel;
 import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.RealmModel;
+import org.keycloak.protocol.oidc.TokenManager;
+import org.keycloak.representations.AccessToken;
+import org.keycloak.services.ErrorResponseException;
+import org.keycloak.services.Urls;
 import org.keycloak.services.resource.RealmResourceProvider;
 import org.keycloak.authentication.AuthenticationFlowContext;
 
@@ -36,7 +47,10 @@ public class GroupProvider implements RealmResourceProvider {
     public GroupProvider(KeycloakSession session) {
         this.session = session;
     }
-    
+
+    private AccessToken token;
+    private ClientModel clientModel;
+
     @Override
     public Object getResource() {
         return this;
@@ -55,13 +69,26 @@ public class GroupProvider implements RealmResourceProvider {
     @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response list(@QueryParam("startsWith") String startsWith, @QueryParam("except") List<String> except, @QueryParam("exceptDefault") boolean exceptDefault) {
+    public Response list(@QueryParam("startsWith") String startsWith, @QueryParam("except") List<String> except, @QueryParam("exceptDefault") boolean exceptDefault,  @QueryParam("token") String tokenString) {
         System.out.println("***** LIST /group");
         List<String> groupListOut;
+        System.out.println("token : " + tokenString);
         System.out.println("startsWith request : " + startsWith);
         System.out.println("except request : " + except);
 
         try{
+            verifyToken(tokenString, session.getContext().getRealm());
+            System.out.println(" User Who Requested Group List : " + token.getPreferredUsername());
+
+            if (!(token.getResourceAccess("realm-management")!= null
+                    && token.getResourceAccess("realm-management").getRoles() != null
+                    && token.getResourceAccess("realm-management").getRoles().contains("view-users"))){
+                System.out.println("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to get User List" );
+                status = Status.UNAUTHORIZED;
+                out = "User ListGet Failed";
+                return Util.setCors(status, out);
+            }
+
             StringBuilder query = new StringBuilder();
             query.append("select g.name from GroupEntity g where g.realm = '"+ session.getContext().getRealm().getName() +"'");
 
@@ -119,5 +146,33 @@ public class GroupProvider implements RealmResourceProvider {
 
     private EntityManager getEntityManager() {
         return session.getProvider(JpaConnectionProvider.class).getEntityManager();
+    }
+
+    private void verifyToken(String tokenString, RealmModel realm) throws VerificationException {
+        if (tokenString == null) {
+            out = "Token not provided";
+            throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "Token not provided", Status.BAD_REQUEST);
+        }
+        TokenVerifier<AccessToken> verifier = TokenVerifier.create(tokenString, AccessToken.class).withDefaultChecks()
+                .realmUrl(Urls.realmIssuer(session.getContext().getUri().getBaseUri(), realm.getName()));
+
+        SignatureVerifierContext verifierContext = session.getProvider(SignatureProvider.class,
+                verifier.getHeader().getAlgorithm().name()).verifier(verifier.getHeader().getKeyId());
+        verifier.verifierContext(verifierContext);
+        try {
+            token = verifier.verify().getToken();
+        } catch (Exception e) {
+            out = "token invalid";
+            throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "token invalid", Status.UNAUTHORIZED);
+        }
+        clientModel = realm.getClientByClientId(token.getIssuedFor());
+        if (clientModel == null) {
+            out = "Client not found";
+            throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "Client not found", Status.NOT_FOUND);
+        }
+
+        TokenVerifier.createWithoutSignature(token)
+                .withChecks(TokenManager.NotBeforeCheck.forModel(clientModel))
+                .verify();
     }
 }

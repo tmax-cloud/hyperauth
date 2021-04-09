@@ -204,16 +204,14 @@ public class UserProvider implements RealmResourceProvider {
             verifyToken(tokenString, session.getContext().getRealm());
             System.out.println(" User Who Requested User List : " + token.getPreferredUsername());
 
-            token.getResourceAccess().keySet().forEach(System.out::println);
-
             if (!(token.getResourceAccess("realm-management")!= null
                     && token.getResourceAccess("realm-management").getRoles() != null
                     && token.getResourceAccess("realm-management").getRoles().contains("view-users"))){
                 System.out.println("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to get User List" );
                 status = Status.UNAUTHORIZED;
                 out = "User ListGet Failed";
+                return Util.setCors(status, out);
             }
-
 
             StringBuilder query = new StringBuilder();
             query.append("select u.username, ua.value from UserEntity u left outer join UserAttributeEntity ua on u.id = ua.user and ua.name = 'user_name' where u.realmId = '"+ session.getContext().getRealm().getName() +"' ");
@@ -236,9 +234,9 @@ public class UserProvider implements RealmResourceProvider {
             System.out.println("query : " + query.toString());
 
             userListOut = getEntityManager().createQuery(query.toString()).getResultList();
-            userListOut.forEach(userOut -> {
-                System.out.println(userOut.toString());
-            });
+//            userListOut.forEach(userOut -> {
+//                System.out.println(userOut.toString());
+//            });
             status = Status.OK;
             return Util.setCors(status, userListOut);
         }catch (Exception e) {
