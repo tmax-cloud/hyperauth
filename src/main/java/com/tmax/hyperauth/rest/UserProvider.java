@@ -190,50 +190,65 @@ public class UserProvider implements RealmResourceProvider {
     }
 
 
-//    @GET
-//    @Path("list")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response list(@QueryParam("startsWith") String startsWith, @QueryParam("except") List<String> except) {
-//        System.out.println("***** LIST /User");
-//        List userListOut;
-//        System.out.println("startsWith request : " + startsWith);
-//        System.out.println("except request : " + except);
-//
-//        try{
-//            StringBuilder query = new StringBuilder();
-//            query.append("select u.username, ua.value from UserEntity u left outer join UserAttributeEntity ua on u.id = ua.user and ua.name = 'user_name' where u.realmId = '"+ session.getContext().getRealm().getName() +"' ");
-//
-//            if (startsWith != null){
-//                startsWith = startsWith.toLowerCase();
-//                query.append(" and (lower(u.username) like '" + startsWith + "%' or lower(ua.value) like '" + startsWith + "%')");
-//            }
-//
-//            if (except != null && except.size() > 0){
-//                query.append(" and not u.username in (");
-//                for (int i=0 ; i < except.size() ; i ++){
-//                    query.append("'" + except.get(i) + "'");
-//                    if (i != except.size()-1){
-//                        query.append(",");
-//                    }
-//                }
-//                query.append(" )");
-//            }
-//            System.out.println("query : " + query.toString());
-//
-//            userListOut = getEntityManager().createQuery(query.toString()).getResultList();
-//            userListOut.forEach(userOut -> {
-//                System.out.println(userOut.toString());
-//            });
-//            status = Status.OK;
-//            return Util.setCors(status, userListOut);
-//        }catch (Exception e) {
-//            e.printStackTrace();
-//            System.out.println("Exception " + e.getMessage());
-//            status = Status.BAD_REQUEST;
-//            out = "User ListGet Failed";
-//            return Util.setCors(status, out);
-//        }
-//    }
+    @GET
+    @Path("list")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response list(@QueryParam("startsWith") String startsWith, @QueryParam("except") List<String> except, @QueryParam("token") String tokenString) {
+        System.out.println("***** LIST /User");
+        List userListOut;
+        System.out.println("token : " + tokenString);
+        System.out.println("startsWith request : " + startsWith);
+        System.out.println("except request : " + except);
+
+        try{
+            verifyToken(tokenString, session.getContext().getRealm());
+            System.out.println(" User Who Requested User List : " + token.getPreferredUsername());
+
+            token.getResourceAccess().keySet().forEach(System.out::println);
+
+            if (!(token.getResourceAccess("realm-management")!= null
+                    && token.getResourceAccess("realm-management").getRoles() != null
+                    && token.getResourceAccess("realm-management").getRoles().contains("view-users"))){
+                System.out.println("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to get User List" );
+                status = Status.UNAUTHORIZED;
+                out = "User ListGet Failed";
+            }
+
+
+            StringBuilder query = new StringBuilder();
+            query.append("select u.username, ua.value from UserEntity u left outer join UserAttributeEntity ua on u.id = ua.user and ua.name = 'user_name' where u.realmId = '"+ session.getContext().getRealm().getName() +"' ");
+
+            if (startsWith != null){
+                startsWith = startsWith.toLowerCase();
+                query.append(" and (lower(u.username) like '" + startsWith + "%' or lower(ua.value) like '" + startsWith + "%')");
+            }
+
+            if (except != null && except.size() > 0){
+                query.append(" and not u.username in (");
+                for (int i=0 ; i < except.size() ; i ++){
+                    query.append("'" + except.get(i) + "'");
+                    if (i != except.size()-1){
+                        query.append(",");
+                    }
+                }
+                query.append(" )");
+            }
+            System.out.println("query : " + query.toString());
+
+            userListOut = getEntityManager().createQuery(query.toString()).getResultList();
+            userListOut.forEach(userOut -> {
+                System.out.println(userOut.toString());
+            });
+            status = Status.OK;
+            return Util.setCors(status, userListOut);
+        }catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Exception " + e.getMessage());
+            status = Status.BAD_REQUEST;
+            out = "User ListGet Failed";
+            return Util.setCors(status, out);
+        }
+    }
 
     private EntityManager getEntityManager() {
         return session.getProvider(JpaConnectionProvider.class).getEntityManager();
