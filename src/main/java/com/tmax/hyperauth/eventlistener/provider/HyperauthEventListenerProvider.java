@@ -3,6 +3,7 @@ package com.tmax.hyperauth.eventlistener.provider;
 import java.util.*;
 import javax.ws.rs.core.Context;
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
+import lombok.extern.slf4j.Slf4j;
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.Time;
 import org.keycloak.events.Event;
@@ -22,7 +23,7 @@ import org.keycloak.timer.TimerSpi;
 /**
  * @author taegeon_woo@tmax.co.kr
  */
-
+@Slf4j
 public class HyperauthEventListenerProvider extends TimerSpi implements EventListenerProvider {
 
     private static final Logger logger = Logger.getLogger(HyperauthEventListenerProvider.class);
@@ -35,6 +36,7 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
     @Override
     public void onEvent(Event event) {
         String userName = "";
+        log.info("LOMBOK!!!!! Event Occurred:" + toString(event));
         logger.info("Event Occurred:" + toString(event));
 
         if (event.getRealmId().equalsIgnoreCase("tmax")) {

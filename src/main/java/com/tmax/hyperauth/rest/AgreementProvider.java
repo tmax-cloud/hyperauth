@@ -9,6 +9,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.annotations.cache.NoCache;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
 import org.keycloak.models.KeycloakSession;
@@ -21,6 +22,7 @@ import com.tmax.hyperauth.jpa.Agreement;
  * @author taegeon_woo@tmax.co.kr
  */
 
+@Slf4j
 public class AgreementProvider implements RealmResourceProvider { 
     @Context
     private KeycloakSession session;
@@ -42,7 +44,7 @@ public class AgreementProvider implements RealmResourceProvider {
     @NoCache
     @Produces("text/plain; charset=utf-8")
     public Response get(@PathParam("clientName") final String clientName, @QueryParam("realmName") String realmName , @QueryParam("version") String version ) {
-    	System.out.println("clientName : " + clientName + ", version : " + version + "Agreement Get Service");
+    	log.info("clientName : " + clientName + ", version : " + version + "Agreement Get Service");
     	List< Agreement > agreementList = getEntityManager().createNamedQuery("findByRealmAndClient", Agreement.class)
                 .setParameter("realmName", realmName).setParameter("clientName", clientName).setParameter("version", version).getResultList();
     	if (agreementList != null && agreementList.size() != 0) {
