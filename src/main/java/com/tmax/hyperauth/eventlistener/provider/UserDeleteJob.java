@@ -4,27 +4,23 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
-import com.tmax.hyperauth.caller.Constants;
 import com.tmax.hyperauth.caller.HyperAuthCaller;
 
 import com.tmax.hyperauth.rest.Util;
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.representations.account.UserRepresentation;
 import org.quartz.Job;
-import org.quartz.JobDataMap;
-import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
+@Slf4j
 public class UserDeleteJob implements Job {
     public static final int USER_COUNT_UNIT = 1000;
 
@@ -35,9 +31,9 @@ public class UserDeleteJob implements Job {
         KeycloakSession session = keycloakSessionFactory.create();
 
         // CronJob 선언부는 HyperauthEventListenerPropviderFactory PostInit()에 존재
-        System.out.println(" [UserDelete Job] User Deletion Job Start !! ");
+        log.info(" [UserDelete Job] User Deletion Job Start !! ");
         Date currentDate = new Date();
-        System.out.println( "Now : " + currentDate);
+        log.info( "Now : " + currentDate);
         JsonArray users = new JsonArray();
         String accessToken = null;
         try{
@@ -46,7 +42,7 @@ public class UserDeleteJob implements Job {
 
             // Get User Count
             int userCount = HyperAuthCaller.getUserCount(accessToken);
-            System.out.println(" [UserDelete Job] User Count : " + userCount);
+            log.info(" [UserDelete Job] User Count : " + userCount);
 
             // Get UserList per 1000 Person for preventing memory problem
             for (int i = 0; i < (userCount / USER_COUNT_UNIT) + 1; i++){
@@ -56,8 +52,8 @@ public class UserDeleteJob implements Job {
                 users.addAll(userListGet);
             }
         }catch( Exception e){
-            e.printStackTrace();
-            System.out.println(" [UserDelete Job] HyperAuth Not Ready yet ");
+            log.error(" [UserDelete Job] HyperAuth Not Ready yet ");
+            log.error("Error Occurs!!", e);
         }
 
         if ( users != null) {
@@ -70,7 +66,7 @@ public class UserDeleteJob implements Job {
                         Date deletionDate = transFormat.parse(userRepresentation.getAttributes().get(AuthenticatorConstants.USER_ATTR_DELETION_DATE).get(0)); // FIXME
 
                         if ( currentDate.after(deletionDate)){
-                            System.out.println(" [UserDelete Job] User [ " + userRepresentation.getUsername() + " ] Delete Start ");
+                            log.info(" [UserDelete Job] User [ " + userRepresentation.getUsername() + " ] Delete Start ");
                             HyperAuthCaller.deleteUser(userRepresentation.getId(), accessToken);
 
                             // Mail Send
@@ -84,16 +80,16 @@ public class UserDeleteJob implements Job {
                             TopicEvent topicEvent = TopicEvent.makeOtherTopicEvent("USER_DELETE", userRepresentation.getUsername(), currentDate.getTime() );
                             Producer.publishEvent("tmax", topicEvent);
 
-                            System.out.println(" [UserDelete Job] User [ " + userRepresentation.getUsername() + " ] Delete Success ");
+                            log.info(" [UserDelete Job] User [ " + userRepresentation.getUsername() + " ] Delete Success ");
                         }
                     }
                 } catch (ParseException | IOException e) {
-                    e.printStackTrace();
+                    log.error("Error Occurs!!", e);
                 } catch (Throwable throwable) {
-                    throwable.printStackTrace();
+                    log.error("Error Occurs!!", throwable);
                 }
             }
         }
-        System.out.println(" [UserDelete Job] User Deletion Job Finish !! ");
+        log.info(" [UserDelete Job] User Deletion Job Finish !! ");
     }
 }

@@ -1,5 +1,6 @@
 package com.tmax.hyperauth.authenticator.secretQuestion;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
@@ -27,15 +28,17 @@ import java.util.List;
  * @author <a href="mailto:bill@burkecentral.com">Bill Burke</a>
  * @version $Revision: 1 $
  */
+
+@Slf4j
 public class SecretQuestionAuthenticator implements Authenticator, CredentialValidator<SecretQuestionCredentialProvider> {
 
     protected boolean hasCookie(AuthenticationFlowContext context) {
         Cookie cookie = context.getHttpRequest().getHttpHeaders().getCookies().get("SECRET_QUESTION_ANSWERED");
-        System.out.println("context.getConnection().getRemoteAddr() : " + context.getConnection().getRemoteAddr());
+        log.debug("context.getConnection().getRemoteAddr() : " + context.getConnection().getRemoteAddr());
 
         boolean result = cookie != null;
         if (result) {
-            System.out.println("Bypassing secret question because cookie is set");
+            log.info("Bypassing secret question because cookie is set");
         }
         return result;
     }

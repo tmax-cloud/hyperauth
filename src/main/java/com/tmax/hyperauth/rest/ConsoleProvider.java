@@ -2,6 +2,7 @@ package com.tmax.hyperauth.rest;
 
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
 import com.tmax.hyperauth.authenticator.AuthenticatorUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.annotations.cache.NoCache;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.jboss.resteasy.spi.HttpResponse;
@@ -41,6 +42,7 @@ import java.util.*;
  * Console Provider contains restAPI for Custom Account Console
  */
 
+@Slf4j
 public class ConsoleProvider implements RealmResourceProvider {
 
     public static final String STATE_CHECKER_ATTRIBUTE = "state_checker";
@@ -65,7 +67,7 @@ public class ConsoleProvider implements RealmResourceProvider {
         AppAuthManager appAuthManager = new AppAuthManager();
         RealmModel realm = session.getContext().getRealm();
         if (realm == null){
-            System.out.println("realm is null!!");
+            log.info("realm is null!!");
             realm = session.realms().getRealmByName("tmax");
         }
         AuthenticationManager.AuthResult authResult = appAuthManager.authenticateIdentityCookie(session, realm);
@@ -104,7 +106,7 @@ public class ConsoleProvider implements RealmResourceProvider {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     public Response withdrawal( MultipartFormDataInput input ) {
-        System.out.println("***** post /USER WITHDRAWAL");
+        log.info("***** post /USER WITHDRAWAL");
         AuthenticationManager.AuthResult auth = resolveAuthentication(session);
         if (auth == null) {
             return badRequest();
@@ -113,14 +115,14 @@ public class ConsoleProvider implements RealmResourceProvider {
         RealmModel realm = session.getContext().getRealm();
         AccountProvider account = session.getProvider(AccountProvider.class).setRealm(realm).setUriInfo(session.getContext().getUri()).setHttpHeaders(session.getContext().getRequestHeaders());
         UserModel userModel = auth.getUser();
-        System.out.println("userName : " + userModel.getUsername());
+        log.info("userName : " + userModel.getUsername());
 
         account.setUser(userModel);
         account.setStateChecker((String) session.getAttribute(STATE_CHECKER_ATTRIBUTE));
         setReferrerOnPage( account);
 
         if (!isValidStateChecker(input)) {
-            System.out.println("State Checker Error, User [ " + userModel.getUsername() + " ]");
+            log.error("State Checker Error, User [ " + userModel.getUsername() + " ]");
             return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.ACCOUNT);
         }
 
@@ -167,13 +169,13 @@ public class ConsoleProvider implements RealmResourceProvider {
 //                return account.setError(Status.FORBIDDEN, out).createResponse(AccountPages.ACCOUNT);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error Occurs!!", e);
             return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.ACCOUNT);
         } catch (Throwable throwable) {
-            System.out.println(Arrays.toString(throwable.getStackTrace()));
+            log.error("Error Occurs!!", throwable);
             return account.setError(Response.Status.BAD_REQUEST, "Mail Send Failed").createResponse(AccountPages.ACCOUNT);
         }
-        System.out.println("Withdrawal Request Success, User [ " + userModel.getUsername() + " ]");
+        log.info("Withdrawal Request Success, User [ " + userModel.getUsername() + " ]");
         return account.setSuccess(Messages.ACCOUNT_UPDATED).createResponse(AccountPages.ACCOUNT);
 //        return Response.seeOther(RealmsResource.accountUrl(session.getContext().getUri().getBaseUriBuilder()).build(realm.getDisplayName())).build();
     }
@@ -185,7 +187,7 @@ public class ConsoleProvider implements RealmResourceProvider {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     public Response agreementUpdate( MultipartFormDataInput input ) {
-        System.out.println("***** put /USER AGREEMENT");
+        log.info("***** put /USER AGREEMENT");
 
         AuthenticationManager.AuthResult auth = resolveAuthentication(session);
         if (auth == null) {
@@ -195,14 +197,14 @@ public class ConsoleProvider implements RealmResourceProvider {
         RealmModel realm = session.getContext().getRealm();
         AccountProvider account = session.getProvider(AccountProvider.class).setRealm(realm).setUriInfo(session.getContext().getUri()).setHttpHeaders(session.getContext().getRequestHeaders());
         UserModel userModel = auth.getUser();
-        System.out.println("userName : " + userModel.getUsername());
+        log.info("userName : " + userModel.getUsername());
 
         account.setUser(userModel);
         account.setStateChecker((String) session.getAttribute(STATE_CHECKER_ATTRIBUTE));
         setReferrerOnPage( account);
 
         if (!isValidStateChecker(input)) {
-            System.out.println("State Checker Error, User [ " + userModel.getUsername() + " ]");
+            log.error("State Checker Error, User [ " + userModel.getUsername() + " ]");
             return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.AGREEMENT);
         }
 
@@ -218,11 +220,12 @@ public class ConsoleProvider implements RealmResourceProvider {
             }
             event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userModel.getUsername()).success(); //FIXME
         } catch (Exception e) {
-            System.out.println("Failed to Update Agreement Attribute, User [ " + userModel.getUsername() + " ]");
+            log.error("Error Occurs!!", e);
+            log.error("Failed to Update Agreement Attribute, User [ " + userModel.getUsername() + " ]");
             out = "Failed to Update Agreement Attribute, User [ " + userModel.getUsername() + " ]";
             return account.setError(Response.Status.BAD_REQUEST, out).createResponse(AccountPages.AGREEMENT);
         }
-        System.out.println("Agreement Option Update Success, User [ " + userModel.getUsername() + " ]");
+        log.info("Agreement Option Update Success, User [ " + userModel.getUsername() + " ]");
         return account.setSuccess(Messages.ACCOUNT_UPDATED).createResponse(AccountPages.AGREEMENT);
     }
 
@@ -273,7 +276,7 @@ public class ConsoleProvider implements RealmResourceProvider {
     @OPTIONS
     @Path("{path : .*}")
     public Response other() {
-        System.out.println("***** OPTIONS /test");
+        log.info("***** OPTIONS /test");
         return Util.setCors( Status.OK, null);
     }
 

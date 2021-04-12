@@ -1,6 +1,7 @@
 package com.tmax.hyperauth.eventlistener.provider;
 
 import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.config.SslConfigs;
@@ -9,8 +10,8 @@ import org.jboss.logging.Logger;
 
 import java.util.Properties;
 
+@Slf4j
 public class Producer {
-    private static final Logger logger = Logger.getLogger(Producer.class);
     private final static String BOOTSTRAP_SERVER = "kafka-1."+System.getenv("NAMESPACE")+":9092,kafka-2."+System.getenv("NAMESPACE")+":9092,kafka-3."+System.getenv("NAMESPACE")+":9092";
     public static void publishEvent(String topic, Object value){
         //reset thread context
@@ -30,12 +31,12 @@ public class Producer {
                     try {
                         producer.send(eventRecord, (metadata, exception) -> {
                             if (exception != null) {
-                                exception.printStackTrace();
-                                System.out.println("Failed to Send to Topic Server");
+                                log.error("Error Occurs!!", exception);
+                                log.error("Failed to Send to Topic Server");
                             }
                         });
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        log.error("Error Occurs!!", e);
                     } finally {
                         producer.flush();
                         producer.close();

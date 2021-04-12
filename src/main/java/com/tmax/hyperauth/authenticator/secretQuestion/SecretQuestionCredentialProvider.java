@@ -1,6 +1,7 @@
 package com.tmax.hyperauth.authenticator.secretQuestion;
 
 import com.tmax.hyperauth.authenticator.secretQuestion.credential.SecretQuestionCredentialModel;
+import lombok.extern.slf4j.Slf4j;
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.Time;
 import org.keycloak.credential.CredentialInput;
@@ -19,8 +20,9 @@ import org.keycloak.models.UserModel;
  * @author <a href="mailto:bill@burkecentral.com">Bill Burke</a>
  * @version $Revision: 1 $
  */
+
+@Slf4j
 public class SecretQuestionCredentialProvider implements CredentialProvider<SecretQuestionCredentialModel>, CredentialInputValidator {
-    private static final Logger logger = Logger.getLogger(SecretQuestionCredentialProvider.class);
 
     protected KeycloakSession session;
 
@@ -36,7 +38,7 @@ public class SecretQuestionCredentialProvider implements CredentialProvider<Secr
     @Override
     public boolean isValid(RealmModel realm, UserModel user, CredentialInput input) {
         if (!(input instanceof UserCredentialModel)) {
-            logger.debug("Expected instance of UserCredentialModel for CredentialInput");
+            log.debug("Expected instance of UserCredentialModel for CredentialInput");
             return false;
         }
         if (!input.getType().equals(getType())) {

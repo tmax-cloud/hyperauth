@@ -1,6 +1,7 @@
 package com.tmax.hyperauth.register;
 
 import com.tmax.hyperauth.caller.StringUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.Config;
 import org.keycloak.authentication.FormAction;
 import org.keycloak.authentication.FormActionFactory;
@@ -27,6 +28,7 @@ import java.util.regex.Pattern;
  * @author taegeon_woo@tmax.co.kr
  */
 
+@Slf4j
 public class PhoneValidationForm  implements FormAction, FormActionFactory {
 
     public static final String PROVIDER_ID = "tmax-phone-validation"; // MAX 36 chars !!!!
@@ -49,10 +51,10 @@ public class PhoneValidationForm  implements FormAction, FormActionFactory {
         context.getEvent().detail(Details.REGISTER_METHOD, "form");
         String eventError = Errors.INVALID_REGISTRATION;
         String userName = formData.getFirst(Validation.FIELD_USERNAME);
-        System.out.println("userName : " + userName);
+        log.info("userName : " + userName);
 
         String phone = formData.getFirst("user.attributes.phone");
-        System.out.println("Phone : " + phone);
+        log.info("Phone : " + phone);
 
         if (StringUtil.isEmpty(phone)) {
             errors.add(new FormMessage("phone", "Please specify phone."));
@@ -67,7 +69,7 @@ public class PhoneValidationForm  implements FormAction, FormActionFactory {
             return;
 
         } else {
-            System.out.println("Phone Validation Passes");
+            log.info("Phone Validation Passes");
             context.success();
         }
     }

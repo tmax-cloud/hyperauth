@@ -1,5 +1,6 @@
 package com.tmax.hyperauth.authenticator.authSelectBox;
 
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.Config;
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.authentication.AuthenticatorFactory;
@@ -15,6 +16,8 @@ import java.util.List;
 /**
  * @author taegeon_woo@tmax.co.kr
  */
+
+@Slf4j
 public class selectAuthenticatorFactory implements AuthenticatorFactory, ConfigurableAuthenticatorFactory {
 
     public static final String PROVIDER_ID = "selectBoxAuthenticator";

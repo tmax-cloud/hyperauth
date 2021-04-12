@@ -1,6 +1,7 @@
 package com.tmax.hyperauth.authenticator.securityPolicy;
 
 import com.tmax.hyperauth.authenticator.AuthenticatorUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.util.SubnetUtils;
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
@@ -15,12 +16,14 @@ import java.util.List;
 /**
  * @author taegeon_woo@tmax.co.kr
  */
+
+@Slf4j
 public class SecurityPolicyAuthenticator implements Authenticator {
 
     protected boolean isSecurityPolicyEnabled(AuthenticationFlowContext context) {
         boolean flag = false;
         String isIpBLock = AuthenticatorUtil.getAttributeValue(context.getUser(), "ipBlock");
-        System.out.println("isSecurityPolicyEnabled From User Attribute : " + isIpBLock + ", user [ "+ context.getUser().getUsername() + " ]");
+        log.info("isSecurityPolicyEnabled From User Attribute : " + isIpBLock + ", user [ "+ context.getUser().getUsername() + " ]");
         if (isIpBLock != null && isIpBLock.equalsIgnoreCase("true")){
             flag = true;
         }
@@ -28,25 +31,23 @@ public class SecurityPolicyAuthenticator implements Authenticator {
     }
 
     protected boolean isSecurityPolicyPassed(AuthenticationFlowContext context) {
-        System.out.println("User [ "+ context.getUser().getUsername() + " ] Login from IP Address : " + context.getConnection().getRemoteAddr());
+        log.info("User [ "+ context.getUser().getUsername() + " ] Login from IP Address : " + context.getConnection().getRemoteAddr());
         List< String > ipPermitList = context.getUser().getAttribute("ipPermitList");
         if ( ipPermitList != null ){
             for (String ipPermit : ipPermitList) {
-                System.out.println("ipPermit From User Attribute : " + ipPermit + ", user [ "+ context.getUser().getUsername() + " ]");
+                log.info("ipPermit From User Attribute : " + ipPermit + ", user [ "+ context.getUser().getUsername() + " ]");
                 SubnetUtils utils = null;
                 try{
                     utils = new SubnetUtils(ipPermit);
                     utils.setInclusiveHostCount(true);
                 }catch(IllegalArgumentException e) {
-                    e.printStackTrace();
-                    System.out.println("Invalid CIDR syntax : " + ipPermit);
+                    log.error("Error Occurs!!", e);
+                    log.info("Invalid CIDR syntax : " + ipPermit);
                     return false;
                 }
-                // for test
-//                for ( String address :  utils.getInfo().getAllAddresses()){
-//                    System.out.println(address);
-//                }
-                // for test
+                for ( String address :  utils.getInfo().getAllAddresses()){
+                    log.debug(address);
+                }
                 if (utils.getInfo().isInRange(context.getConnection().getRemoteAddr())){
                     return true;
                 }
@@ -58,20 +59,19 @@ public class SecurityPolicyAuthenticator implements Authenticator {
     @Override
     public void authenticate(AuthenticationFlowContext context) {
         if (!isSecurityPolicyEnabled(context) ) {
-            System.out.println("Bypassing Security Policy since disabled user [ " + context.getUser().getUsername() +" ]");
+            log.info("Bypassing Security Policy since disabled user [ " + context.getUser().getUsername() +" ]");
             context.success();
             return;
         } else if ( isSecurityPolicyPassed(context)) {
-            System.out.println("Security Policy Passed!!, user [ "+ context.getUser().getUsername() + " ]");
+            log.info("Security Policy Passed!!, user [ "+ context.getUser().getUsername() + " ]");
             context.success();
             return;
 
         }else{
-            System.out.println("Blocked by Security Policy!! , User[ " + context.getUser().getUsername() +" ]");
+            log.info("Blocked by Security Policy!! , User[ " + context.getUser().getUsername() +" ]");
             Response challenge =  context.form()
                     .setError("Blocked by Security Policy.").createForm("security-policy-validation-error.ftl");
             context.failureChallenge(AuthenticationFlowError.USER_DISABLED, challenge);
-
         }
     }
 

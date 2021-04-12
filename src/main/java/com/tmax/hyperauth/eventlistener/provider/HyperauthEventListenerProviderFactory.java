@@ -1,5 +1,6 @@
 package com.tmax.hyperauth.eventlistener.provider;
 
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.Config;
 import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.EventListenerProviderFactory;
@@ -12,7 +13,7 @@ import org.quartz.impl.StdSchedulerFactory;
 /**
  * @author taegeon_woo@tmax.co.kr
  */
-
+@Slf4j
 public class HyperauthEventListenerProviderFactory implements EventListenerProviderFactory {
 
     @Override
@@ -22,12 +23,12 @@ public class HyperauthEventListenerProviderFactory implements EventListenerProvi
 
     @Override
     public void init(Config.Scope scope) {
-
     }
 
     @Override
     public void postInit(KeycloakSessionFactory keycloakSessionFactory) {
         try {
+            log.info("Register UserDeleteJob Cronjob");
             JobDataMap data = new JobDataMap();
             data.put("keycloakSessionFactory", keycloakSessionFactory);
 
@@ -46,7 +47,7 @@ public class HyperauthEventListenerProviderFactory implements EventListenerProvi
             sch.scheduleJob( job, cronTrigger );
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error Occurs!!", e);
         }
     }
 

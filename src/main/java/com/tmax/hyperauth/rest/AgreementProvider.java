@@ -64,11 +64,11 @@ public class AgreementProvider implements RealmResourceProvider {
     @NoCache
     @Produces("text/plain; charset=utf-8")
     public Response post(Agreement agreement) {
-    	System.out.println("clientName : " + agreement.getClientName());
-    	System.out.println("realmName : " + agreement.getRealmName());
-    	System.out.println("agreement : " + agreement.getAgreement());
-    	System.out.println("version : " + agreement.getVersion());
-    	System.out.println("Agreement Create Service");
+        log.info("clientName : " + agreement.getClientName());
+        log.info("realmName : " + agreement.getRealmName());
+        log.info("agreement : " + agreement.getAgreement());
+        log.info("version : " + agreement.getVersion());
+        log.info("Agreement Create Service");
 
         String id = agreement.getId()==null ?  KeycloakModelUtils.generateId() : agreement.getId();
 
@@ -95,7 +95,8 @@ public class AgreementProvider implements RealmResourceProvider {
             status = Status.OK;
         	out = "Agreement " + agreement.getClientName() + " is Added ( Version : " + agreement.getVersion() + " )";
         } catch (Exception e) {
-        	status = Status.BAD_REQUEST;
+            log.error("Error Occurs!!", e);
+            status = Status.BAD_REQUEST;
         	out = "Agreement " + agreement.getClientName() + " ( Version : " + agreement.getVersion() + " ) Create Failed";
         }	 
     	return Util.setCors(status, out);
@@ -106,7 +107,7 @@ public class AgreementProvider implements RealmResourceProvider {
     @NoCache
     @Produces("text/plain; charset=utf-8")
     public Response delete(@PathParam("clientName") final String clientName, @QueryParam("realmName") String realmName , @QueryParam("version") String version ) {
-    	System.out.println("clientName : " + clientName + ", version : " + version + "Agreement Delete Service");
+    	log.info("clientName : " + clientName + ", version : " + version + "Agreement Delete Service");
     	List< Agreement > agreementList = getEntityManager().createNamedQuery("findByRealmAndClient", Agreement.class)
                 .setParameter("realmName", realmName).setParameter("clientName", clientName).setParameter("version", version).getResultList();
     	if (agreementList != null && agreementList.size() != 0) {
@@ -123,7 +124,7 @@ public class AgreementProvider implements RealmResourceProvider {
     @OPTIONS
     @Path("{path : .*}")
     public Response other() {
-        System.out.println("***** OPTIONS /Agreement");
+        log.info("***** OPTIONS /Agreement");
         return Util.setCors( Status.OK, null);
     }
 

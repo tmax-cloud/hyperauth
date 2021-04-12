@@ -2,6 +2,7 @@ package com.tmax.hyperauth.eventlistener.consumer;
 
 import com.google.gson.Gson;
 import com.tmax.hyperauth.eventlistener.provider.TopicEvent;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.config.SslConfigs;
@@ -16,8 +17,8 @@ import java.util.Properties;
  * @author taegeon_woo@tmax.co.kr
  */
 
+@Slf4j
 public class EventConsumer {
-    private static final Logger logger = Logger.getLogger(EventConsumer.class);
     private static final String TOPIC_NAME = "tmax";
 
     public static void main(String[] args) {
@@ -81,42 +82,42 @@ public class EventConsumer {
             for (ConsumerRecord<String, String> record : records) {
                 String s = record.topic();
                 if (TOPIC_NAME.equals(s)) {
-                    logger.info("[[ MESSAGE FROM TMAX TOPIC ]]");
-                    logger.info(record.value());
+                    log.info("[[ MESSAGE FROM TMAX TOPIC ]]");
+                    log.info(record.value());
                     try {
                             Gson gson = new Gson();
                         TopicEvent topicEvent = gson.fromJson(record.value(), TopicEvent.class);
                         switch (topicEvent.getType()){
                             case "LOGIN":
-                                logger.info("User [ " + topicEvent.getUserName() + " ] Login !!");
+                                log.info("User [ " + topicEvent.getUserName() + " ] Login !!");
                                 break;
                             case "LOGOUT":
-                                logger.info("User [ " + topicEvent.getUserName() + " ] Logout !!");
+                                log.info("User [ " + topicEvent.getUserName() + " ] Logout !!");
                                 break;
                             case "LOGIN_FAILED":
-                                logger.info("User [ " + topicEvent.getUserName() + " ] Login failed due to " + topicEvent.getError());
+                                log.info("User [ " + topicEvent.getUserName() + " ] Login failed due to " + topicEvent.getError());
                                 break;
                             case "USER_DELETE":
-                                logger.info("User [ " + topicEvent.getUserName() + " ] Deleted !!");
+                                log.info("User [ " + topicEvent.getUserName() + " ] Deleted !!");
                                 break;
                             case "USER_WITHDRAWAL":
-                                logger.info("User [ " + topicEvent.getUserName() + " ] Withdrawal request has been submitted !!");
+                                log.info("User [ " + topicEvent.getUserName() + " ] Withdrawal request has been submitted !!");
                                 break;
                             default:
-                                logger.info("Unknown Event");
+                                log.info("Unknown Event");
                                 break;
                         }
                     }catch(Exception e) {
-                        logger.info(e.getMessage());
+                        log.error("Error Occurs!!", e);
                     }
                 } else {
-                    logger.error("get message on topic " + record.topic());
+                    log.error("get message on topic " + record.topic());
                 }
             }
             try{
                 consumer.commitSync(); // 중복 처리 방지
             }catch(CommitFailedException e){
-                logger.error("commit failed");
+                log.error("Error Occurs, commit failed!!", e);
             }
         }
     }

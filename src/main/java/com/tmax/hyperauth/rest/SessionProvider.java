@@ -1,5 +1,6 @@
 package com.tmax.hyperauth.rest;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.common.ClientConnection;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
@@ -19,6 +20,7 @@ import java.util.List;
  * @author taegeon_woo@tmax.co.kr
  */
 
+@Slf4j
 public class SessionProvider implements RealmResourceProvider {
     @Context
     private KeycloakSession session;
@@ -45,8 +47,8 @@ public class SessionProvider implements RealmResourceProvider {
     @Path("{sessionId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response get(@PathParam("sessionId") final String sessionId) {
-        System.out.println("***** GET /session");
-        System.out.println("sessionId : " + sessionId);
+        log.info("***** GET /session");
+        log.info("sessionId : " + sessionId);
         try {
             out = "off";
             boolean isRememberMe = session.sessions().getUserSession(session.realms().getRealmByName("tmax"), sessionId).isRememberMe();
@@ -55,8 +57,7 @@ public class SessionProvider implements RealmResourceProvider {
             return Util.setCors(status, out);
 
         }catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Exception " + e.getMessage());
+            log.error("Error Occurs!!", e);
             status = Status.BAD_REQUEST;
             out = "Get Session IsRememberMe failed";
             return Util.setCors(status, out);
@@ -67,7 +68,7 @@ public class SessionProvider implements RealmResourceProvider {
     @OPTIONS
     @Path("{path : .*}")
     public Response other() {
-        System.out.println("***** OPTIONS /session");
+        log.info("***** OPTIONS /session");
         return Util.setCors( Status.OK, null);
     }
 

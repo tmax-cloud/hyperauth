@@ -1,5 +1,6 @@
 package com.tmax.hyperauth.storage.test;
 
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.credential.CredentialInput;
 import org.keycloak.credential.CredentialInputUpdater;
@@ -17,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class TestUserStorageProvider implements UserStorageProvider, UserLookupProvider, UserQueryProvider, CredentialInputUpdater, CredentialInputValidator {
 
     private final KeycloakSession session;
@@ -31,47 +33,47 @@ public class TestUserStorageProvider implements UserStorageProvider, UserLookupP
 
     @Override
     public void preRemove(RealmModel realm, GroupModel group) {
-        System.out.println("pre-remove group");
+        log.debug("pre-remove group");
     }
 
     @Override
     public void preRemove(RealmModel realm, RoleModel role) {
-        System.out.println("pre-remove role");
+        log.debug("pre-remove role");
     }
 
     @Override
     public void close() {
-        System.out.println("closing");
+        log.debug("closing");
     }
 
     @Override
     public UserModel getUserById(String id, RealmModel realm) {
-        System.out.println("lookup user by id: realm=" + realm.getId() + ", userId=" + id  );
+        log.debug("lookup user by id: realm=" + realm.getId() + ", userId=" + id  );
         String externalId = StorageId.externalId(id);
         return new UserAdapter(session, realm, model, repository.findUserById(externalId));
     }
 
     @Override
     public UserModel getUserByUsername(String username, RealmModel realm) {
-        System.out.println("lookup user by Username: realm=" + realm.getId() + ", username=" + username  );
+        log.debug("lookup user by Username: realm=" + realm.getId() + ", username=" + username  );
         return new UserAdapter(session, realm, model, repository.findUserByUsernameOrEmail(username));
     }
 
     @Override
     public UserModel getUserByEmail(String email, RealmModel realm) {
-        System.out.println("lookup user by Email: realm=" + realm.getId() + ", email=" + email  );
+        log.debug("lookup user by Email: realm=" + realm.getId() + ", email=" + email  );
         return getUserByUsername(email, realm);
     }
 
     @Override
     public int getUsersCount(RealmModel realm) {
-        System.out.println("getUsersCount(RealmModel realm)"  );
+        log.debug("getUsersCount(RealmModel realm)"  );
         return repository.getUsersCount();
     }
 
     @Override
     public List<UserModel> getUsers(RealmModel realm) {
-        System.out.println("list users: realm=" + realm.getId() );
+        log.debug("list users: realm=" + realm.getId() );
         return repository.getAllUsers().stream()
                 .map(user -> new UserAdapter(session, realm, model, user))
                 .collect(Collectors.toList());
@@ -79,32 +81,32 @@ public class TestUserStorageProvider implements UserStorageProvider, UserLookupP
 
     @Override
     public List<UserModel> getUsers(RealmModel realm, int firstResult, int maxResults) {
-        System.out.println("list users: realm=" + realm.getId() + " firstResult=" + firstResult + " maxResults="+  maxResults);
+        log.debug("list users: realm=" + realm.getId() + " firstResult=" + firstResult + " maxResults="+  maxResults);
         return getUsers(realm);
     }
 
     @Override
     public List<UserModel> searchForUser(String search, RealmModel realm) {
-        System.out.println("searchForUser(String search, RealmModel realm)");
+        log.debug("searchForUser(String search, RealmModel realm)");
         return repository.findUsers(search).stream()
                 .map(user -> new UserAdapter(session, realm, model, user))
                 .collect(Collectors.toList());    }
 
     @Override
     public List<UserModel> searchForUser(String search, RealmModel realm, int firstResult, int maxResults) {
-        System.out.println("searchForUser(String search, RealmModel realm, int firstResult, int maxResults)");
+        log.debug("searchForUser(String search, RealmModel realm, int firstResult, int maxResults)");
         return searchForUser(search, realm);
     }
 
     @Override
     public List<UserModel> searchForUser(Map<String, String> params, RealmModel realm) {
-        System.out.println("searchForUser(Map<String, String> params, RealmModel realm)");
+        log.debug("searchForUser(Map<String, String> params, RealmModel realm)");
         return null;
     }
 
     @Override
     public List<UserModel> searchForUser(Map<String, String> params, RealmModel realm, int firstResult, int maxResults) {
-        System.out.println("searchForUser(Map<String, String> params, RealmModel realm, int firstResult, int maxResults)  firstResult : " + firstResult + ", maxResult : " + maxResults);
+        log.debug("searchForUser(Map<String, String> params, RealmModel realm, int firstResult, int maxResults)  firstResult : " + firstResult + ", maxResult : " + maxResults);
         return repository.getAllUsers(firstResult,maxResults).stream()
                 .map(user -> new UserAdapter(session, realm, model, user))
                 .collect(Collectors.toList());
@@ -112,46 +114,46 @@ public class TestUserStorageProvider implements UserStorageProvider, UserLookupP
 
     @Override
     public List<UserModel> getGroupMembers(RealmModel realm, GroupModel group, int firstResult, int maxResults) {
-        System.out.println("getGroupMembers(RealmModel realm, GroupModel group, int firstResult, int maxResults)");
+        log.debug("getGroupMembers(RealmModel realm, GroupModel group, int firstResult, int maxResults)");
 
         return Collections.emptyList();
     }
 
     @Override
     public List<UserModel> getGroupMembers(RealmModel realm, GroupModel group) {
-        System.out.println("getGroupMembers(RealmModel realm, GroupModel group)");
+        log.debug("getGroupMembers(RealmModel realm, GroupModel group)");
         return Collections.emptyList();
     }
 
     @Override
     public List<UserModel> searchForUserByUserAttribute(String attrName, String attrValue, RealmModel realm) {
-        System.out.println("searchForUserByUserAttribute");
+        log.debug("searchForUserByUserAttribute");
 
         return null;
     }
 
     @Override
     public boolean supportsCredentialType(String credentialType) {
-        System.out.println("supportsCredentialType");
+        log.debug("supportsCredentialType");
 
         return CredentialModel.PASSWORD.equals(credentialType);
     }
 
     @Override
     public boolean isConfiguredFor(RealmModel realm, UserModel user, String credentialType) {
-        System.out.println("isConfiguredFor");
+        log.debug("isConfiguredFor");
         return supportsCredentialType(credentialType);
     }
 
     @Override
     public boolean isValid(RealmModel realm, UserModel user, CredentialInput input) {
-        System.out.println("isValid user credential: userId= " +  user.getId());
-        System.out.println("isValid user credential: userEmail first = " +  user.getEmail());
+        log.debug("isValid user credential: userId= " +  user.getId());
+        log.debug("isValid user credential: userEmail first = " +  user.getEmail());
 
         //TODO : user에 id 만 채워 져있는 상황인듯
         user = getUserById ( user.getId(), realm);
 
-        System.out.println("isValid user credential: userEmail second = " +  user.getEmail());
+        log.debug("isValid user credential: userEmail second = " +  user.getEmail());
 
         if (!supportsCredentialType(input.getType()) || !(input instanceof UserCredentialModel)) {
             return false;
@@ -163,7 +165,7 @@ public class TestUserStorageProvider implements UserStorageProvider, UserLookupP
 
     @Override
     public boolean updateCredential(RealmModel realm, UserModel user, CredentialInput input) {
-        System.out.println("updating credential: realm=" + realm.getId()+ ", user=" + user.getUsername() );
+        log.debug("updating credential: realm=" + realm.getId()+ ", user=" + user.getUsername() );
 
         if (!supportsCredentialType(input.getType()) || !(input instanceof UserCredentialModel)) {
             return false;
@@ -174,12 +176,12 @@ public class TestUserStorageProvider implements UserStorageProvider, UserLookupP
 
     @Override
     public void disableCredentialType(RealmModel realm, UserModel user, String credentialType) {
-        System.out.println("disableCredentialType(RealmModel realm, UserModel user, String credentialType)" );
+        log.debug("disableCredentialType(RealmModel realm, UserModel user, String credentialType)" );
     }
 
     @Override
     public Set<String> getDisableableCredentialTypes(RealmModel realm, UserModel user) {
-        System.out.println("getDisableableCredentialTypes(RealmModel realm, UserModel user)" );
+        log.debug("getDisableableCredentialTypes(RealmModel realm, UserModel user)" );
         return Collections.emptySet();
     }
 }

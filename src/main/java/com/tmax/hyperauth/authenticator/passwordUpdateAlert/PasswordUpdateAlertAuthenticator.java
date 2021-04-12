@@ -3,6 +3,7 @@ package com.tmax.hyperauth.authenticator.passwordUpdateAlert;
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
 import com.tmax.hyperauth.authenticator.AuthenticatorUtil;
 import com.tmax.hyperauth.caller.StringUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.authentication.Authenticator;
@@ -20,6 +21,8 @@ import java.util.regex.Pattern;
 /**
  * @author taegeon_woo@tmax.co.krt
  */
+
+@Slf4j
 public class PasswordUpdateAlertAuthenticator implements Authenticator {
 
     protected boolean hasTimePassed(AuthenticationFlowContext context, int period) {
@@ -28,16 +31,16 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
                     Long.valueOf(AuthenticatorUtil.getAttributeValue(context.getUser(), AuthenticatorConstants.USER_ATTR_LAST_PW_UPDATE_DATE)) : context.getUser().getCreatedTimestamp();
             long now = System.currentTimeMillis();
             long monthLong = 1000L * 60 * 60 * 24 * 30;  //2,592,000,000   2,794,503,078
-            System.out.println( "now : " + now);
-            System.out.println( "lastPWUpdateTime : " + lastPWUpdateTime);
-            System.out.println( "now-lastPWUpdateTime : " + (now-lastPWUpdateTime));
+            log.info( "now : " + now);
+            log.info( "lastPWUpdateTime : " + lastPWUpdateTime);
+            log.info( "now-lastPWUpdateTime : " + (now-lastPWUpdateTime));
 
             if ((now-lastPWUpdateTime) > monthLong * period){
-                System.out.println( "return true");
+                log.debug( "return true");
                 return true;
             }
         }catch(Exception e){
-            e.printStackTrace();
+            log.error("Error Occurs!!", e);
         }
         return false;
     }
@@ -53,23 +56,23 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
 
     @Override
     public void authenticate(AuthenticationFlowContext context) {
-        System.out.println("authenticate called ... User = " + context.getUser().getUsername());
+        log.debug("authenticate called ... User = " + context.getUser().getUsername());
         AuthenticatorConfigModel config = context.getAuthenticatorConfig();
         int period = AuthenticatorUtil.getConfigInt(config, AuthenticatorConstants.CONF_PW_UPDATE_PERIOD, 3);
-        System.out.println("Using Password Update Period  : " + period + ", user [ "+ context.getUser().getUsername() + " ]");
+        log.info("Using Password Update Period  : " + period + ", user [ "+ context.getUser().getUsername() + " ]");
 
         if (!isUserHasPasswordCredential(context)){
-            System.out.println("User [ " + context.getUser().getUsername() + " ] Has no Password Credential in Hyperauth, Do Not Need to Update Password");
+            log.info("User [ " + context.getUser().getUsername() + " ] Has no Password Credential in Hyperauth, Do Not Need to Update Password");
             context.success();
             return;
         }
 
         if (!hasTimePassed(context, period) ) {
-            System.out.println("User [ " + context.getUser().getUsername() + " ] Do Not Need to Update Password");
+            log.info("User [ " + context.getUser().getUsername() + " ] Do Not Need to Update Password");
             context.success();
             return;
         } else {
-            System.out.println("User [ " + context.getUser().getUsername() + " ] Need to Update Password");
+            log.info("User [ " + context.getUser().getUsername() + " ] Need to Update Password");
             Response challenge = context.form().createForm("password-update-alert-choose.ftl");
             context.challenge(challenge);
         }
@@ -79,7 +82,7 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
 
     @Override
     public void action(AuthenticationFlowContext context) {
-        System.out.println("action called ... context = " + context);
+        log.debug("action called ... context = " + context);
 
         if (context.getHttpRequest().getDecodedFormParameters() != null) {
             MultivaluedMap<String, String> formData = context.getHttpRequest().getDecodedFormParameters();
@@ -87,8 +90,8 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
 
             if (skip != null && skip.equalsIgnoreCase("t")) {
                 // 다음에 변경하기 클릭시
-                System.out.println("User [ " + context.getUser().getUsername() + " ] Skip Password Update !");
-                System.out.println("User [ " + context.getUser().getUsername() + " ] Ask Again Later");
+                log.info("User [ " + context.getUser().getUsername() + " ] Skip Password Update !");
+                log.info("User [ " + context.getUser().getUsername() + " ] Ask Again Later");
                 context.success();
 
             } else if (skip != null && skip.equalsIgnoreCase("f")){
@@ -98,7 +101,7 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
 
             } else {
                 // 비밀번호 변경 페이지
-                System.out.println("User [ " + context.getUser().getUsername() + " ] Insert New Password !");
+                log.info("User [ " + context.getUser().getUsername() + " ] Insert New Password !");
                 String password = formData.getFirst(AuthenticatorConstants.USER_PASSWORD);
                 String confirmPassword = formData.getFirst(AuthenticatorConstants.USER_PASSWORD_CONFIRM);
 
@@ -123,11 +126,11 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
                     context.failureChallenge(AuthenticationFlowError.CREDENTIAL_SETUP_REQUIRED, challenge);
                 } else {
                     // Change Password
-                    System.out.println("User [ " + context.getUser().getUsername() + " ] Change Password to " + password);
+//                    log.debug("User [ " + context.getUser().getUsername() + " ] Change Password to " + password);
                     context.getSession().userCredentialManager().updateCredential(context.getRealm(),
                             context.getUser(),
                             UserCredentialModel.password(password, false));
-                    System.out.println("User [ " + context.getUser().getUsername() + " ] Change Password Success");
+                    log.info("User [ " + context.getUser().getUsername() + " ] Change Password Success");
 
                     // Event Publish
                     EventBuilder event = new EventBuilder(context.getRealm(), context.getSession(), context.getConnection());

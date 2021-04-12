@@ -1,5 +1,6 @@
 package com.tmax.hyperauth.rest;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.TokenVerifier;
@@ -34,6 +35,7 @@ import org.keycloak.models.utils.ModelToRepresentation;
  * @author taegeon_woo@tmax.co.kr
  */
 
+@Slf4j
 public class GroupMemberProvider implements RealmResourceProvider {
     @Context
     private KeycloakSession session;
@@ -61,7 +63,7 @@ public class GroupMemberProvider implements RealmResourceProvider {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response POST(List< UserRepresentation > reps, @QueryParam("token") String tokenString) {
-        System.out.println("***** POST /GroupMember");
+        log.info("***** POST /GroupMember");
 
         RealmModel realm = session.realms().getRealmByName("tmax");
 
@@ -71,9 +73,9 @@ public class GroupMemberProvider implements RealmResourceProvider {
         try {
             verifyToken(tokenString, realm);
             groupAdminName = token.getPreferredUsername();
-            System.out.println("groupAdminName : " + groupAdminName);
+            log.info("groupAdminName : " + groupAdminName);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error Occurs!!", e);
             out = "token is invalid";
             status = Status.BAD_REQUEST;
             return Util.setCors(status, out);
@@ -89,7 +91,7 @@ public class GroupMemberProvider implements RealmResourceProvider {
         }
         List < String > groupNameList = null;
         for ( String groupName : isAdmin){
-            System.out.println("User [ " + groupAdminName + " ] is Admin of group [ " + groupName + " ]");
+            log.info("User [ " + groupAdminName + " ] is Admin of group [ " + groupName + " ]");
             if ( realm.searchForGroupByName(groupName, 0, realm.getGroupsCount(false).intValue()) != null ){
                 GroupModel group = realm.searchForGroupByName(groupName, 0, realm.getGroupsCount(false).intValue()).get(0);
                 if (groupNameList == null) groupNameList = new ArrayList<>();
@@ -157,16 +159,17 @@ public class GroupMemberProvider implements RealmResourceProvider {
                     if (realm.isRegistrationEmailAsUsername()) {
                         username = rep.getEmail();
                     }
-                    System.out.println("User [ " + username + " ] Register Start");
+                    log.info("User [ " + username + " ] Register Start");
                     user = session.users().addUser(realm, username);
                     Set<String> emptySet = Collections.emptySet();
                     UserResource.updateUserFromRep(user, rep, emptySet, realm, session, false);
                     RepresentationToModel.createFederatedIdentities(rep, session, realm, user);
                     RepresentationToModel.createGroups(rep, realm, user);
                     RepresentationToModel.createCredentials(rep, session, realm, user, true);
-                    System.out.println("User [ " + username + " ] Register Success");
+                    log.info("User [ " + username + " ] Register Success");
                     event.event(EventType.REGISTER).user(user).realm("tmax").detail("username", username).success(); // FIXME
                 } catch (ModelDuplicateException e) {
+                    log.error("Error Occurs!!", e);
                     if (session.getTransactionManager().isActive()) {
                         session.getTransactionManager().setRollbackOnly();
                     }
@@ -174,6 +177,7 @@ public class GroupMemberProvider implements RealmResourceProvider {
                     status = Status.BAD_REQUEST;
                     return Util.setCors(status, out);
                 } catch (PasswordPolicyNotMetException e) {
+                    log.error("Error Occurs!!", e);
                     if (session.getTransactionManager().isActive()) {
                         session.getTransactionManager().setRollbackOnly();
                     }
@@ -181,10 +185,11 @@ public class GroupMemberProvider implements RealmResourceProvider {
                     status = Status.BAD_REQUEST;
                     return Util.setCors(status, out);
                 } catch (ModelException me){
+                    log.error("Error Occurs!!", me);
                     if (session.getTransactionManager().isActive()) {
                         session.getTransactionManager().setRollbackOnly();
                     }
-                    System.out.println("Could not create user");
+                    log.error("Could not create user");
                     out = "Could not create user";
                     status = Status.BAD_REQUEST;
                     return Util.setCors(status, out);
@@ -209,11 +214,11 @@ public class GroupMemberProvider implements RealmResourceProvider {
     @Path("{group}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response get(@PathParam("group") final String group, @QueryParam("token") String tokenString) {
-        System.out.println("***** GET /GroupMember");
+        log.info("***** GET /GroupMember");
 
         List < UserRepresentation > userOutList = new ArrayList<>();
         UserRepresentation userOut = new UserRepresentation();
-    	System.out.println("group : " + group);
+        log.info("group : " + group);
         RealmModel realm = session.getContext().getRealm();
         String realmName = realm.getDisplayName();
         if (realmName == null) {
@@ -224,7 +229,7 @@ public class GroupMemberProvider implements RealmResourceProvider {
         try {
             verifyToken(tokenString, realm);
             groupAdminName = token.getPreferredUsername();
-            System.out.println("groupAdminName : " + groupAdminName);
+            log.info("groupAdminName : " + groupAdminName);
 
             List< String > isAdmin = null;
             if (token.getOtherClaims().get("isAdmin") != null && token.getOtherClaims().get("isAdmin").toString() != null){
@@ -236,7 +241,7 @@ public class GroupMemberProvider implements RealmResourceProvider {
             }
             List < String > groupNameList = null;
             for ( String groupName : isAdmin){
-                System.out.println("User [ " + groupAdminName + " ] is Admin of group [ " + groupName + " ]");
+                log.info("User [ " + groupAdminName + " ] is Admin of group [ " + groupName + " ]");
                 if ( realm.searchForGroupByName(groupName, 0, realm.getGroupsCount(false).intValue()) != null ){
                     GroupModel groupModel = realm.searchForGroupByName(groupName, 0, realm.getGroupsCount(false).intValue()).get(0);
                     if (groupNameList == null) groupNameList = new ArrayList<>();
@@ -256,7 +261,7 @@ public class GroupMemberProvider implements RealmResourceProvider {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error Occurs!!", e);
             out = "token is invalid";
             status = Status.BAD_REQUEST;
             return Util.setCors(status, out);
@@ -272,9 +277,8 @@ public class GroupMemberProvider implements RealmResourceProvider {
             status = Status.OK;
         	return Util.setCors(status, userOutList);
         }catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Exception " + e.getMessage());
-            System.out.println("GroupMember ListGet Failed");
+            log.error("Error Occurs!!", e);
+            log.error("GroupMember ListGet Failed");
         	status = Status.BAD_REQUEST;
         	out = "GroupMember ListGet Failed";
         	return Util.setCors(status, out);
@@ -286,9 +290,9 @@ public class GroupMemberProvider implements RealmResourceProvider {
     @QueryParam("token")
     @Produces(MediaType.APPLICATION_JSON)
     public Response put(@PathParam("group") final String group,@QueryParam("userName") String userName, @QueryParam("token") String tokenString, UserRepresentation rep) {
-        System.out.println("group : " + group);
-        System.out.println("userName : " + userName);
-//        System.out.println("token : " + tokenString);
+        log.info("group : " + group);
+        log.info("userName : " + userName);
+        log.debug("token : " + tokenString);
         RealmModel realm = session.getContext().getRealm();
         clientConnection = session.getContext().getConnection();
         EventBuilder event = new EventBuilder(realm, session, clientConnection);
@@ -297,7 +301,7 @@ public class GroupMemberProvider implements RealmResourceProvider {
         try {
             verifyToken(tokenString, realm);
             groupAdminName = token.getPreferredUsername();
-            System.out.println("groupAdminName : " + groupAdminName);
+            log.info("groupAdminName : " + groupAdminName);
 
             List< String > isAdmin = null;
             if (token.getOtherClaims().get("isAdmin") != null && token.getOtherClaims().get("isAdmin").toString() != null){
@@ -308,7 +312,7 @@ public class GroupMemberProvider implements RealmResourceProvider {
                 return Util.setCors(status, out);            }
             List < String > groupNameList = null;
             for ( String groupName : isAdmin){
-                System.out.println("User [ " + groupAdminName + " ] is Admin of group [ " + groupName + " ]");
+                log.info("User [ " + groupAdminName + " ] is Admin of group [ " + groupName + " ]");
                 if ( realm.searchForGroupByName(groupName, 0, realm.getGroupsCount(false).intValue()) != null ){
                     GroupModel groupModel = realm.searchForGroupByName(groupName, 0, realm.getGroupsCount(false).intValue()).get(0);
                     if (groupNameList == null) groupNameList = new ArrayList<>();
@@ -326,7 +330,7 @@ public class GroupMemberProvider implements RealmResourceProvider {
                 return Util.setCors(status, out);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error Occurs!!", e);
             out = "token is invalid";
             status = Status.BAD_REQUEST;
             return Util.setCors(status, out);
@@ -353,7 +357,7 @@ public class GroupMemberProvider implements RealmResourceProvider {
             userModel = session.users().getUserByUsername(userName, realm); // 이유는 모르지만 다시 이걸로 가져오지 않으면, DB는 update되는데 session이 update가 느림.
             try {
                 for ( String key : rep.getAttributes().keySet()){
-                    System.out.println("[key] : " + key  + " || [value] : "+userModel.getAttribute(key) + " ==> " + rep.getAttributes().get(key));
+                    log.info("[key] : " + key  + " || [value] : "+userModel.getAttribute(key) + " ==> " + rep.getAttributes().get(key));
                     userModel.removeAttribute(key);
                     userModel.setAttribute(key, rep.getAttributes().get(key));
                 }
@@ -361,6 +365,7 @@ public class GroupMemberProvider implements RealmResourceProvider {
                 status = Status.OK;
                out = " GroupMember [" + userName + "] Update Success ";
             } catch (Exception e) {
+                log.error("Error Occurs!!", e);
                 status = Status.BAD_REQUEST;
                 out = "GroupMember [" + userName + "] Update Falied  ";
             }
@@ -371,7 +376,7 @@ public class GroupMemberProvider implements RealmResourceProvider {
     @OPTIONS
     @Path("{path : .*}")
     public Response other() {
-        System.out.println("***** OPTIONS /GroupMember");
+        log.info("***** OPTIONS /GroupMember");
         return Util.setCors( Status.OK, null);
     }
 

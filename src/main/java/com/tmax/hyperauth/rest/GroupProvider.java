@@ -1,5 +1,6 @@
 package com.tmax.hyperauth.rest;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.TokenVerifier;
@@ -34,6 +35,7 @@ import java.util.stream.Collectors;
  * @author taegeon_woo@tmax.co.kr
  */
 
+@Slf4j
 public class GroupProvider implements RealmResourceProvider {
     @Context
     private KeycloakSession session;
@@ -62,7 +64,7 @@ public class GroupProvider implements RealmResourceProvider {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response post() {
-        System.out.println("***** POST /group");
+        log.info("***** POST /group");
         return Util.setCors(status, out);
     }
 
@@ -70,20 +72,20 @@ public class GroupProvider implements RealmResourceProvider {
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@QueryParam("startsWith") String startsWith, @QueryParam("except") List<String> except, @QueryParam("exceptDefault") boolean exceptDefault,  @QueryParam("token") String tokenString) {
-        System.out.println("***** LIST /group");
+        log.info("***** LIST /group");
         List<String> groupListOut;
-        System.out.println("token : " + tokenString);
-        System.out.println("startsWith request : " + startsWith);
-        System.out.println("except request : " + except);
+        log.debug("token : " + tokenString);
+        log.info("startsWith request : " + startsWith);
+        log.info("except request : " + except);
 
         try{
             verifyToken(tokenString, session.getContext().getRealm());
-            System.out.println(" User Who Requested Group List : " + token.getPreferredUsername());
+            log.info(" User Who Requested Group List : " + token.getPreferredUsername());
 
             if (!(token.getResourceAccess("realm-management")!= null
                     && token.getResourceAccess("realm-management").getRoles() != null
                     && token.getResourceAccess("realm-management").getRoles().contains("view-users"))){
-                System.out.println("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to get User List" );
+                log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to get User List" );
                 status = Status.UNAUTHORIZED;
                 out = "User ListGet Failed";
                 return Util.setCors(status, out);
@@ -108,7 +110,7 @@ public class GroupProvider implements RealmResourceProvider {
                 query.append(" )");
             }
 
-            System.out.println("query : " + query.toString());
+            log.info("query : " + query.toString());
             groupListOut = getEntityManager().createQuery(query.toString(), String.class).getResultList();
 
             if (exceptDefault){
@@ -125,8 +127,7 @@ public class GroupProvider implements RealmResourceProvider {
             status = Status.OK;
             return Util.setCors(status, groupListOut);
         }catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Exception " + e.getMessage());
+            log.error("Error Occurs!!", e);
             status = Status.BAD_REQUEST;
             out = "Group ListGet Failed";
             return Util.setCors(status, out);
@@ -136,7 +137,7 @@ public class GroupProvider implements RealmResourceProvider {
     @OPTIONS
     @Path("{path : .*}")
     public Response other() {
-        System.out.println("***** OPTIONS /group");
+        log.info("***** OPTIONS /group");
         return Util.setCors( Status.OK, null);
     }
 
@@ -162,6 +163,7 @@ public class GroupProvider implements RealmResourceProvider {
         try {
             token = verifier.verify().getToken();
         } catch (Exception e) {
+            log.error("Error Occurs!!", e);
             out = "token invalid";
             throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "token invalid", Status.UNAUTHORIZED);
         }

@@ -3,6 +3,7 @@ package com.tmax.hyperauth.caller;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -10,10 +11,10 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+@Slf4j
 public class HypercloudOperatorCaller {
 	
-	private static final String CALLER_NAME = "HypercloudOperatorCaller";
-    static OkHttpClient client = new OkHttpClient();	
+    static OkHttpClient client = new OkHttpClient();
 
 	private static String setHypercloudOperatorURL( String serviceName )  {
 		int operatorHttpPort = 28677;
@@ -24,7 +25,7 @@ public class HypercloudOperatorCaller {
 	}
 	
 	public static String createNewUserRole(String userId) throws Exception {
-		System.out.println(" [Hypercloud4-operator] Call Hypercloud4 operator user Role Create Service" );
+		log.info(" [Hypercloud4-operator] Call Hypercloud4 operator user Role Create Service" );
 		
 		JsonObject UserInDO = new JsonObject();		
 		Gson gson = new Gson();
@@ -39,12 +40,12 @@ public class HypercloudOperatorCaller {
 	   
 		Response response = client.newCall(request).execute();
 		String result = response.body().string();
-//		System.out.println("createNewUserRole result : " + result);
+		log.debug("createNewUserRole result : " + result);
 	    return result; 
 	}
 	
 	public static String deleteNewUserRole(String userId) throws Exception {
-		System.out.println(" [Hypercloud4-operator] Call Hypercloud4 operator user Role Delete Service" );
+		log.info(" [Hypercloud4-operator] Call Hypercloud4 operator user Role Delete Service" );
 		
 		JsonObject UserInDO = new JsonObject();		
 		Gson gson = new Gson();
@@ -59,7 +60,7 @@ public class HypercloudOperatorCaller {
 	   
 		Response response = client.newCall(request).execute();
 		String result = response.body().string();
-//		System.out.println("deleteNewUserRole result : " + result);
+		log.debug("deleteNewUserRole result : " + result);
 	    return result; 
 	}
 }

@@ -1,6 +1,7 @@
 package com.tmax.hyperauth.identity.kakao;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.broker.oidc.AbstractOAuth2IdentityProvider;
 import org.keycloak.broker.oidc.OAuth2IdentityProviderConfig;
 import org.keycloak.broker.oidc.mappers.AbstractJsonUserAttributeMapper;
@@ -11,6 +12,7 @@ import org.keycloak.broker.social.SocialIdentityProvider;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.models.KeycloakSession;
 
+@Slf4j
 public class KakaoIdentityProvider extends AbstractOAuth2IdentityProvider implements SocialIdentityProvider {
     public static final String AUTH_URL = "https://kauth.kakao.com/oauth/authorize";
     public static final String TOKEN_URL = "https://kauth.kakao.com/oauth/token";
@@ -53,10 +55,11 @@ public class KakaoIdentityProvider extends AbstractOAuth2IdentityProvider implem
     protected BrokeredIdentityContext doGetFederatedIdentity(String accessToken) {
         try {
             JsonNode profile = SimpleHttp.doGet(PROFILE_URL, session).param("access_token", accessToken).asJson();
-            System.out.println("httpGet Success!!");
+            log.info("httpGet Success!!");
             BrokeredIdentityContext user = extractIdentityFromProfile(null, profile);
             return user;
         } catch (Exception e) {
+            log.error("Error Occurs!!", e);
             throw new IdentityBrokerException("Could not obtain user profile from kakao.", e);
         }
     }

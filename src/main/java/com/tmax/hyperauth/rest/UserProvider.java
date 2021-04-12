@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response.Status;
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
 import com.tmax.hyperauth.caller.Constants;
 import com.tmax.hyperauth.jpa.Agreement;
+import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.TokenVerifier;
@@ -51,6 +52,7 @@ import org.keycloak.services.resources.admin.UserResource;
  * @author taegeon_woo@tmax.co.kr
  */
 
+@Slf4j
 public class UserProvider implements RealmResourceProvider {
     @Context
     private KeycloakSession session;
@@ -78,7 +80,7 @@ public class UserProvider implements RealmResourceProvider {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response POST(List< UserRepresentation > reps) {
-        System.out.println("***** POST /User");
+        log.info("***** POST /User");
 
         RealmModel realm = session.realms().getRealmByName("tmax");
 
@@ -114,6 +116,7 @@ public class UserProvider implements RealmResourceProvider {
                             return Util.setCors(status, out);
                         }
                     } catch (ModelDuplicateException e) {
+                        log.error("Error Occurs!!", e);
                         out = "User exists with same email";
                         status = Status.BAD_REQUEST;
                         return Util.setCors(status, out);
@@ -134,18 +137,19 @@ public class UserProvider implements RealmResourceProvider {
                     if (realm.isRegistrationEmailAsUsername()) {
                         username = rep.getEmail();
                     }
-                    System.out.println("User [ " + username + " ] Register Start");
+                    log.info("User [ " + username + " ] Register Start");
                     UserModel user = session.users().addUser(realm, username);
                     Set<String> emptySet = Collections.emptySet();
                     UserResource.updateUserFromRep(user, rep, emptySet, realm, session, false);
                     RepresentationToModel.createFederatedIdentities(rep, session, realm, user);
                     RepresentationToModel.createGroups(rep, realm, user);
                     RepresentationToModel.createCredentials(rep, session, realm, user, true);
-                    System.out.println("User [ " + username + " ] Register Success");
+                    log.info("User [ " + username + " ] Register Success");
 
                     event.event(EventType.REGISTER).user(user).realm("tmax").detail("username", username).success(); // FIXME
 
                 } catch (ModelDuplicateException e) {
+                    log.error("Error Occurs!!", e);
                     if (session.getTransactionManager().isActive()) {
                         session.getTransactionManager().setRollbackOnly();
                     }
@@ -153,6 +157,7 @@ public class UserProvider implements RealmResourceProvider {
                     status = Status.BAD_REQUEST;
                     return Util.setCors(status, out);
                 } catch (PasswordPolicyNotMetException e) {
+                    log.error("Error Occurs!!", e);
                     if (session.getTransactionManager().isActive()) {
                         session.getTransactionManager().setRollbackOnly();
                     }
@@ -160,10 +165,11 @@ public class UserProvider implements RealmResourceProvider {
                     status = Status.BAD_REQUEST;
                     return Util.setCors(status, out);
                 } catch (ModelException me){
+                    log.error("Error Occurs!!", me);
                     if (session.getTransactionManager().isActive()) {
                         session.getTransactionManager().setRollbackOnly();
                     }
-                    System.out.println("Could not create user");
+                    log.error("Could not create user");
                     out = "Could not create user";
                     status = Status.BAD_REQUEST;
                     return Util.setCors(status, out);
@@ -194,20 +200,20 @@ public class UserProvider implements RealmResourceProvider {
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@QueryParam("startsWith") String startsWith, @QueryParam("except") List<String> except, @QueryParam("token") String tokenString) {
-        System.out.println("***** LIST /User");
+        log.info("***** LIST /User");
         List userListOut;
-        System.out.println("token : " + tokenString);
-        System.out.println("startsWith request : " + startsWith);
-        System.out.println("except request : " + except);
+        log.debug("token : " + tokenString);
+        log.info("startsWith request : " + startsWith);
+        log.info("except request : " + except);
 
         try{
             verifyToken(tokenString, session.getContext().getRealm());
-            System.out.println(" User Who Requested User List : " + token.getPreferredUsername());
+            log.info(" User Who Requested User List : " + token.getPreferredUsername());
 
             if (!(token.getResourceAccess("realm-management")!= null
                     && token.getResourceAccess("realm-management").getRoles() != null
                     && token.getResourceAccess("realm-management").getRoles().contains("view-users"))){
-                System.out.println("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to get User List" );
+                log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to get User List" );
                 status = Status.UNAUTHORIZED;
                 out = "User ListGet Failed";
                 return Util.setCors(status, out);
@@ -231,17 +237,16 @@ public class UserProvider implements RealmResourceProvider {
                 }
                 query.append(" )");
             }
-            System.out.println("query : " + query.toString());
+            log.debug("query : " + query.toString());
 
             userListOut = getEntityManager().createQuery(query.toString()).getResultList();
-//            userListOut.forEach(userOut -> {
-//                System.out.println(userOut.toString());
-//            });
+            userListOut.forEach(userOut -> {
+                log.debug(userOut.toString());
+            });
             status = Status.OK;
             return Util.setCors(status, userListOut);
         }catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Exception " + e.getMessage());
+            log.error("Error Occurs!!", e);
             status = Status.BAD_REQUEST;
             out = "User ListGet Failed";
             return Util.setCors(status, out);
@@ -256,10 +261,10 @@ public class UserProvider implements RealmResourceProvider {
     @Path("{userName}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response get(@PathParam("userName") final String userName) {
-        System.out.println("***** GET /User");
+        log.info("***** GET /User");
 
         UserRepresentation userOut = new UserRepresentation();
-        System.out.println("userName request : " + userName);
+        log.info("userName request : " + userName);
 
         RealmModel realm = session.getContext().getRealm();
 
@@ -276,12 +281,12 @@ public class UserProvider implements RealmResourceProvider {
                 out = "No Corresponding UserName";
                 return Util.setCors(status, out);
             }
-            System.out.println("email : " + user.getEmail());
+            log.info("email : " + user.getEmail());
 
             for( GroupModel group : user.getGroups()) {
                 if(groupName == null) groupName = new ArrayList<>();
                 groupName.add(group.getName());
-                System.out.println("groupName : " + group.getName());
+                log.info("groupName : " + group.getName());
             }
 
             userOut.setUsername(userName);
@@ -325,9 +330,7 @@ public class UserProvider implements RealmResourceProvider {
             status = Status.OK;
             return Util.setCors(status, userOut);
         }catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("No Corresponding UserName");
-            System.out.println("Exception " + e.getMessage());
+            log.error("Error Occurs!!", e);
             status = Status.BAD_REQUEST;
             out = "No Corresponding UserName";
             return Util.setCors(status, out);
@@ -340,10 +343,10 @@ public class UserProvider implements RealmResourceProvider {
     @QueryParam("token")
     @Produces(MediaType.APPLICATION_JSON)
     public Response delete(@PathParam("userName") final String userName, @QueryParam("token") String tokenString ) {
-        System.out.println("***** DELETE /User");
+        log.info("***** DELETE /User");
 
-        System.out.println("userName : " + userName);
-        System.out.println("token : " + tokenString);
+        log.info("userName : " + userName);
+        log.info("token : " + tokenString);
         RealmModel realm = session.getContext().getRealm();
         clientConnection = session.getContext().getConnection();
         EventBuilder event = new EventBuilder(realm, session, clientConnection).detail("username", userName); // FIXME
@@ -356,7 +359,7 @@ public class UserProvider implements RealmResourceProvider {
                 return Util.setCors(status, out);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error Occurs!!", e);
             status = Status.BAD_REQUEST;
             return Util.setCors(status, out);
         }
@@ -380,6 +383,7 @@ public class UserProvider implements RealmResourceProvider {
                     return Util.setCors(status, out);
                 }
             } catch (Exception e) {
+                log.error("Error Occurs!!", e);
                 status = Status.BAD_REQUEST;
                 out = "User not found";
                 return Util.setCors(status, out);
@@ -388,12 +392,13 @@ public class UserProvider implements RealmResourceProvider {
             try {
                 session.users().removeUser(realm, userModel);
                 event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).detail("userDelete","t").success(); //FIXME
-                System.out.println("Delete user role in k8s");
+                log.info("Delete user role in k8s");
                 HypercloudOperatorCaller.deleteNewUserRole(userName);
 
                 status = Status.OK;
                 out = " User [" + userName + "] Delete Success ";
             } catch (Exception e) {
+                log.error("Error Occurs!!", e);
                 status = Status.BAD_REQUEST;
                 out = "User [" + userName + "] Delete Falied  ";
             }
@@ -407,11 +412,11 @@ public class UserProvider implements RealmResourceProvider {
     @QueryParam("token")
     @Produces(MediaType.APPLICATION_JSON)
     public Response put(@PathParam("userName") final String userName, @QueryParam("token") String tokenString,  @QueryParam("withdrawal") String withdrawal , UserRepresentation rep) {
-        System.out.println("***** PUT /User");
+        log.info("***** PUT /User");
 
-        System.out.println("userName : " + userName);
-        System.out.println("token : " + tokenString);
-        System.out.println("withdrawal : " + withdrawal);
+        log.info("userName : " + userName);
+        log.debug("token : " + tokenString);
+        log.info("withdrawal : " + withdrawal);
         RealmModel realm = session.getContext().getRealm();
         clientConnection = session.getContext().getConnection();
         EventBuilder event = new EventBuilder(realm, session, clientConnection); // FIXME
@@ -424,7 +429,7 @@ public class UserProvider implements RealmResourceProvider {
                 return Util.setCors(status, out);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error Occurs!!", e);
             status = Status.BAD_REQUEST;
             return Util.setCors(status, out);
         }
@@ -448,6 +453,7 @@ public class UserProvider implements RealmResourceProvider {
                     return Util.setCors(status, out);
                 }
             } catch (Exception e) {
+                log.error("Error Occurs!!", e);
                 status = Status.BAD_REQUEST;
                 out = "User not found";
                 return Util.setCors(status, out);
@@ -496,7 +502,7 @@ public class UserProvider implements RealmResourceProvider {
                 }else {
                     // 유저 Attribute Update API
                     for ( String key : rep.getAttributes().keySet()) {
-                        System.out.println("[key] : " + key + " || [value] : " + userModel.getAttribute(key) + " ==> " + rep.getAttributes().get(key));
+                        log.info("[key] : " + key + " || [value] : " + userModel.getAttribute(key) + " ==> " + rep.getAttributes().get(key));
                         userModel.removeAttribute(key);
                         userModel.setAttribute(key, rep.getAttributes().get(key));
                     }
@@ -505,9 +511,11 @@ public class UserProvider implements RealmResourceProvider {
                     event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).success();
                 }
             } catch (Exception e) {
+                log.error("Error Occurs!!", e);
                 status = Status.BAD_REQUEST;
                 out = "User [" + userName + "] Update Falied  ";
             } catch (Throwable throwable) {
+                log.error("Error Occurs!!", throwable);
                 status = Status.BAD_REQUEST;
                 out = "User [" + userName + "] Withdrawal Request Falied  ";
             }
@@ -518,7 +526,7 @@ public class UserProvider implements RealmResourceProvider {
     @OPTIONS
     @Path("{path : .*}")
     public Response other() {
-        System.out.println("***** OPTIONS /User");
+        log.info("***** OPTIONS /User");
         return Util.setCors( Status.OK, null);
     }
 
@@ -560,10 +568,10 @@ public class UserProvider implements RealmResourceProvider {
 //    @Path("list")
 //    @Produces(MediaType.APPLICATION_JSON)
 //    public Response list(@QueryParam("startsWith") String startsWith, @QueryParam("except") List<String> except) {
-//        System.out.println("***** LIST /User");
+//        log.info("***** LIST /User");
 //        List<String> userListOut;
-//        System.out.println("startsWith request : " + startsWith);
-//        System.out.println("except request : " + except);
+//        log.info("startsWith request : " + startsWith);
+//        log.info("except request : " + except);
 //
 //        if (startsWith == null){
 //            startsWith = "";
@@ -583,8 +591,7 @@ public class UserProvider implements RealmResourceProvider {
 //            status = Status.OK;
 //            return Util.setCors(status, userListOut);
 //        }catch (Exception e) {
-//            e.printStackTrace();
-//            System.out.println("Exception " + e.getMessage());
+//            log.error("Error Occurs!!", e);
 //            status = Status.BAD_REQUEST;
 //            out = "User ListGet Failed";
 //            return Util.setCors(status, out);

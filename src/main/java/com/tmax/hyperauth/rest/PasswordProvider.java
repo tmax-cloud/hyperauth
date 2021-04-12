@@ -3,6 +3,7 @@ package com.tmax.hyperauth.rest;
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
 import com.tmax.hyperauth.caller.StringUtil;
 import com.tmax.hyperauth.jpa.EmailVerification;
+import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.spi.HttpRequest;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.OAuthErrorException;
@@ -44,6 +45,7 @@ import java.util.regex.Pattern;
  * @author taegeon_woo@tmax.co.kr
  */
 
+@Slf4j
 public class PasswordProvider implements RealmResourceProvider {
     @Context
     private KeycloakSession session;
@@ -76,14 +78,14 @@ public class PasswordProvider implements RealmResourceProvider {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response put(@QueryParam("email") final String email, @QueryParam("code") String code ,@QueryParam("token") String tokenString,
                         @FormParam("password") String password, @FormParam("confirmPassword") String confirmPassword) {
-        System.out.println("***** PUT /password");
+        log.info("***** PUT /password");
         try {
             if (StringUtil.isEmpty(email)){
                 status = Status.BAD_REQUEST;
                 out = "Email Empty";
                 return Util.setCors(status, out);
             }
-            System.out.println("email : " + email);
+            log.info("email : " + email);
 
             RealmModel realm = session.realms().getRealmByName("tmax");
             clientConnection = session.getContext().getConnection();
@@ -111,7 +113,7 @@ public class PasswordProvider implements RealmResourceProvider {
             }
 
             // Validation
-            System.out.println("isVerified : " + isVerified);
+            log.info("isVerified : " + isVerified);
             if (!isVerified) {
                 status = Status.UNAUTHORIZED;
                 out = "Unauthorized User";
@@ -134,11 +136,11 @@ public class PasswordProvider implements RealmResourceProvider {
             }
 
             // Change Password
-//            System.out.println("Change Password to " + password);
+            log.debug("Change Password to " + password);
             session.userCredentialManager().updateCredential(session.realms().getRealmByName("tmax"),
                     session.users().getUserByEmail(email, session.realms().getRealmByName("tmax")),
                     UserCredentialModel.password(password, false));
-            System.out.println("Change Password Success");
+            log.info("Change Password Success");
 
             // If Locked, Disable Temporary lock
             UserModel userModel = session.users().getUserByEmail(email, session.realms().getRealmByName("tmax"));
@@ -153,7 +155,7 @@ public class PasswordProvider implements RealmResourceProvider {
                 for ( EmailVerification emailCode : emailCodeList ){
                     getEntityManager().remove(emailCode);
                 }
-                System.out.println("delete DB data Success");
+                log.info("delete DB data Success");
             }
 
             // Event Publish
@@ -164,9 +166,8 @@ public class PasswordProvider implements RealmResourceProvider {
             return Util.setCors(status, out);
 
         }catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Exception " + e.getMessage());
-        	status = Status.BAD_REQUEST;
+            log.error("Error Occurs!!", e);
+            status = Status.BAD_REQUEST;
         	out = "Reset Password Failed";
             return Util.setCors(status, out);
         }
@@ -176,7 +177,7 @@ public class PasswordProvider implements RealmResourceProvider {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response patch( @QueryParam("userId") String userId, @FormParam("password") String password) {
-        System.out.println("***** Verify ( patch ) /password");
+        log.info("***** Verify ( patch ) /password");
         if ( StringUtil.isEmpty(userId)){
             status = Status.BAD_REQUEST;
             out = "User Id is Empty";
@@ -204,7 +205,7 @@ public class PasswordProvider implements RealmResourceProvider {
     @OPTIONS
     @Path("{path : .*}")
     public Response other() {
-        System.out.println("***** OPTIONS /password");
+        log.info("***** OPTIONS /password");
         return Util.setCors( Status.OK, null);
     }
 
@@ -226,6 +227,7 @@ public class PasswordProvider implements RealmResourceProvider {
         try {
             token = verifier.verify().getToken();
         } catch (Exception e) {
+            log.error("Error Occurs!!", e);
             out = "token invalid";
             throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "token invalid", Status.UNAUTHORIZED);
         }

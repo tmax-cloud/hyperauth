@@ -1,5 +1,6 @@
 package com.tmax.hyperauth.rest;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.common.ClientConnection;
 import org.keycloak.models.*;
@@ -15,6 +16,7 @@ import java.sql.*;
  * @author taegeon_woo@tmax.co.kr
  */
 
+@Slf4j
 public class SMSCodeProvider implements RealmResourceProvider {
     @Context
     private KeycloakSession session;
@@ -44,21 +46,19 @@ public class SMSCodeProvider implements RealmResourceProvider {
     @QueryParam("sender")
     @Produces(MediaType.APPLICATION_JSON)
     public Response post(@PathParam("phone") final String phone, @QueryParam("sender") String sender) {
-        System.out.println("***** POST /sms");
-        System.out.println("phone : " + phone);
-        System.out.println("sender : " + sender);
+        log.info("***** POST /sms");
+        log.info("phone : " + phone);
+        log.info("sender : " + sender);
         String code = Util.numberGen(4, 1);
-        System.out.println("code : " + code);
+        log.debug("code : " + code);
         String msg = "[Web발신]\n[인증번호:" + code + "] - HyperAuth\n(타인노출금지)";
         try {
             conn = getConnection();
             conn.setAutoCommit(false);
         } catch (SQLException e) {
-            System.out.println("SQL Exception : " + e.getMessage());
-            e.printStackTrace();
+            log.error("Error Occurs!!", e);
         } catch (ClassNotFoundException e) {
-            System.out.println("Class Not Found Exection");
-            e.printStackTrace();
+            log.error("Error Occurs!!", e);
         }
 
         try {
@@ -74,21 +74,19 @@ public class SMSCodeProvider implements RealmResourceProvider {
             pstmt.close();
             conn.commit();
             conn.close();
-            System.out.println("Insert into MTS_SMS_MSG Success!!");
+            log.info("Insert into MTS_SMS_MSG Success!!");
             status = Status.OK;
             out = "SMS Send Success";
             return Util.setCors(status, out);
 
         } catch (SQLException e) {
-            System.out.println("SQL Exception : " + e.getMessage());
-            e.printStackTrace();
+            log.error("Error Occurs!!", e);
             status = Status.BAD_REQUEST;
             out = "SMS Send Failed";
             return Util.setCors(status, out);
 
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Exception " + e.getMessage());
+            log.error("Error Occurs!!", e);
             status = Status.BAD_REQUEST;
             out = "SMS Send Failed";
             return Util.setCors(status, out);
@@ -100,20 +98,18 @@ public class SMSCodeProvider implements RealmResourceProvider {
     @QueryParam("code")
     @Produces(MediaType.APPLICATION_JSON)
     public Response get(@PathParam("phone") final String phone, @QueryParam("code") String code) {
-        System.out.println("***** GET /sms");
-        System.out.println("phone : " + phone);
-    	System.out.println("code : " + code);
+        log.info("***** GET /sms");
+        log.info("phone : " + phone);
+        log.info("code : " + code);
         String codeDB = "";
         Timestamp insertTime = null;
         try {
             conn = getConnection();
             conn.setAutoCommit(false);
         } catch (SQLException e) {
-            System.out.println("SQL Exception : " + e.getMessage());
-            e.printStackTrace();
+            log.error("Error Occurs!!", e);
         } catch (ClassNotFoundException e) {
-            System.out.println("Class Not Found Exection");
-            e.printStackTrace();
+            log.error("Error Occurs!!", e);
         }
 
         try {
@@ -127,8 +123,8 @@ public class SMSCodeProvider implements RealmResourceProvider {
                 String msg = rs.getString("TRAN_MSG");
                 insertTime = rs.getTimestamp("TRAN_DATE");
                 codeDB = msg.substring(14,18);
-                System.out.println("codeDB : " + codeDB);
-                System.out.println("insertTime : " + insertTime);
+                log.info("codeDB : " + codeDB);
+                log.info("insertTime : " + insertTime);
             }
             pstmt.close();
             conn.commit();
@@ -149,15 +145,12 @@ public class SMSCodeProvider implements RealmResourceProvider {
             return Util.setCors(status, out);
 
         } catch (SQLException e) {
-            System.out.println("SQL Exception : " + e.getMessage());
-            e.printStackTrace();
             status = Status.BAD_REQUEST;
             out = "Phone Validation Failed";
             return Util.setCors(status, out);
         }catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Exception " + e.getMessage());
-        	status = Status.BAD_REQUEST;
+            log.error("Error Occurs!!", e);
+            status = Status.BAD_REQUEST;
         	out = "Phone Validation Failed";
             return Util.setCors(status, out);
         }
@@ -172,7 +165,7 @@ public class SMSCodeProvider implements RealmResourceProvider {
     @OPTIONS
     @Path("{path : .*}")
     public Response other() {
-        System.out.println("***** OPTIONS /sms");
+        log.info("***** OPTIONS /sms");
         return Util.setCors( Status.OK, null);
     }
 

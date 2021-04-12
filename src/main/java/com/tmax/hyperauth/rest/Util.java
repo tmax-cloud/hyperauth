@@ -1,17 +1,14 @@
 package com.tmax.hyperauth.rest;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.tmax.hyperauth.caller.HyperAuthCaller;
+
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.models.KeycloakSession;
-import org.keycloak.representations.idm.RealmRepresentation;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import java.io.IOException;
@@ -23,6 +20,7 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.stream.Stream;
 
+@Slf4j
 public class Util {
 
 	public static class MailImage {
@@ -89,14 +87,14 @@ public class Util {
 	}
 
 	public static void sendMail(KeycloakSession keycloakSession, String recipient, String subject, String body, List<MailImage> imgParts) throws Throwable {
-		System.out.println( " Send Mail to User [ " + recipient + " ] Start");
+		log.info( " Send Mail to User [ " + recipient + " ] Start");
 		String host = "mail.tmax.co.kr";
 		int port = 25;
 		String sender = "tmaxcloud_ck@tmax.co.kr";
 		if(System.getenv("DEFAULT_EMAIL_SENDER")!= null){
 			sender = System.getenv("DEFAULT_EMAIL_SENDER");
 		}
-		System.out.println( " Default Sender : "  + sender );
+		log.info( " Default Sender : "  + sender );
 
 		String un = "tmaxcloud_ck@tmax.co.kr";
 		String pw = "Miracle!";
@@ -111,15 +109,15 @@ public class Util {
 				pw = keycloakSession.realms().getRealmByName("tmax").getSmtpConfig().get("password");
 			}
 		}catch( Exception e){
-			System.out.println( " Failed to get SmtpConfig from Session " );
-			e.printStackTrace();
+			log.error( " Failed to get SmtpConfig from Session " );
+			log.error("Error Occurs!!", e);
 		}
 
-		System.out.println( " sender : "  + sender );
-		System.out.println( " host : "  + host );
-		System.out.println( " port : "  + port );
-		System.out.println( " un : "  + un );
-//		System.out.println( " pw : "  + pw );
+		log.info( " sender : "  + sender );
+		log.info( " host : "  + host );
+		log.info( " port : "  + port );
+		log.info( " un : "  + un );
+		log.debug( " pw : "  + pw );
 
 		String charSetUtf = "UTF-8" ;
 		Properties props = System.getProperties();
@@ -155,7 +153,7 @@ public class Util {
 		// Make Body ( text/html + img )
 		MimeMultipart multiPart = new MimeMultipart();
 
-		System.out.println( " Mail Body : "  + body );
+		log.debug( " Mail Body : "  + body );
 		BodyPart messageBodyPart = new MimeBodyPart();
 		messageBodyPart.setContent(body, "text/html; charset="+charSetUtf);
 		multiPart.addBodyPart(messageBodyPart);
@@ -169,22 +167,21 @@ public class Util {
 					messageImgPart.setDataHandler(new DataHandler(ds));
 //					messageImgPart.setHeader("Content-Type", "image/svg");
 					messageImgPart.setHeader("Content-ID", "<"+img.getCid()+">");
-					System.out.println( " img.getPath() : "  + img.getPath() );
-					System.out.println( " img.getCid() : "  + img.getCid() );
+					log.debug( " img.getPath() : "  + img.getPath() );
+					log.debug( " img.getCid() : "  + img.getCid() );
 					multiPart.addBodyPart(messageImgPart);
 				}
 			}
 		}
 
 		mimeMessage.setContent(multiPart);
-		System.out.println( " Ready to Send Mail to " + recipient);
+		log.info( " Ready to Send Mail to " + recipient);
 		try {
 			//Send Mail
 			Transport.send( mimeMessage );
-			System.out.println( " Sent E-Mail to " + recipient);
+			log.info( " Sent E-Mail to " + recipient);
 		}catch (MessagingException e) {
-			e.printStackTrace();
-			System.out.println( e.getMessage() + e.getStackTrace());
+			log.error("Error Occurs!!", e);
 			throw e;
 		}
 	}
@@ -197,7 +194,7 @@ public class Util {
 			stream.forEach(s -> contentBuilder.append(s).append("\n"));
 		}
 		catch (IOException e){
-			e.printStackTrace();
+			log.error("Error Occurs!!", e);
 		}
 		return contentBuilder.toString();
 	}

@@ -3,6 +3,7 @@ package com.tmax.hyperauth.rest;
 import com.tmax.hyperauth.caller.Constants;
 import com.tmax.hyperauth.jpa.Agreement;
 import com.tmax.hyperauth.jpa.EmailVerification;
+import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.common.ClientConnection;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
@@ -27,6 +28,7 @@ import java.util.List;
  * @author taegeon_woo@tmax.co.kr
  */
 
+@Slf4j
 public class EmailProvider implements RealmResourceProvider {
     @Context
     private KeycloakSession session;
@@ -55,15 +57,15 @@ public class EmailProvider implements RealmResourceProvider {
     @Path("{email}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response post(@PathParam("email") final String email, @QueryParam("resetPassword") String resetPassword) throws Throwable {
-        System.out.println("***** POST /email");
-        System.out.println("email : " + email);
+        log.info("***** POST /email");
+        log.info("email : " + email);
 
         // Validate If User Exists with Email
         String userName = null;
         if (resetPassword != null && resetPassword.equalsIgnoreCase("t")){
             if (session.users().getUserByEmail(email, session.realms().getRealmByName("tmax")) != null){
                 userName = session.users().getUserByEmail(email, session.realms().getRealmByName("tmax")).getUsername();
-                System.out.println("userName : " + userName);
+                log.info("userName : " + userName);
             }else{
                 status = Status.BAD_REQUEST;
                 out = "No Corresponding User";
@@ -78,7 +80,7 @@ public class EmailProvider implements RealmResourceProvider {
         }
 
         String code = Util.numberGen(6, 1);
-//        System.out.println("code : " + code);
+        log.debug("code : " + code);
 
         //Create New Entity
         EmailVerification entity = new EmailVerification();
@@ -89,10 +91,9 @@ public class EmailProvider implements RealmResourceProvider {
 
         try {
             getEntityManager().persist(entity);
-            System.out.println("DB insert Success");
+            log.info("DB insert Success");
         } catch(Exception e) {
-            e.printStackTrace();
-            System.out.println("Exception " + e.getMessage());
+            log.error("Error Occurs!!", e);
             status = Status.BAD_REQUEST;
             out = "DB Insert Failed";
             return Util.setCors(status, out);
@@ -108,8 +109,7 @@ public class EmailProvider implements RealmResourceProvider {
             return Util.setCors(status, out);
 
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Exception " + e.getMessage());
+            log.error("Error Occurs!!", e);
             status = Status.BAD_REQUEST;
             out = "Email Send Failed";
             return Util.setCors(status, out);
@@ -120,9 +120,9 @@ public class EmailProvider implements RealmResourceProvider {
     @Path("{email}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response get(@PathParam("email") final String email, @QueryParam("code") String code, @QueryParam("resetPassword") String resetPassword) {
-        System.out.println("***** GET /email");
-        System.out.println("email : " + email);
-    	System.out.println("code : " + code);
+        log.info("***** GET /email");
+        log.info("email : " + email);
+        log.info("code : " + code);
         String codeDB = "";
         Timestamp insertTime = null;
 
@@ -132,9 +132,9 @@ public class EmailProvider implements RealmResourceProvider {
             if (emailCodeList != null && emailCodeList.size() != 0) {
                 codeDB = emailCodeList.get(0).getCode();
                 insertTime = new Timestamp(emailCodeList.get(0).getVerificationDate().getTime());
-                System.out.println("codeDB : " + codeDB);
-                System.out.println("insertTime : " + insertTime);
-                System.out.println("currentTime : " + new Timestamp(time));
+                log.info("codeDB : " + codeDB);
+                log.info("insertTime : " + insertTime);
+                log.info("currentTime : " + new Timestamp(time));
             } else {
                 status = Status.BAD_REQUEST;
                 out = "No Corresponding Request";
@@ -148,12 +148,12 @@ public class EmailProvider implements RealmResourceProvider {
                     if (resetPassword != null && resetPassword.equalsIgnoreCase("t")){
                         getEntityManager().createNamedQuery("updateIsVerified").setParameter("isVerified", true)
                                 .setParameter("email", email).setParameter("code", codeDB).executeUpdate();
-                        System.out.println("Update DB IsVerified True Success");
+                        log.info("Update DB IsVerified True Success");
                     }else{
                         for ( EmailVerification emailCode : emailCodeList ){
                             getEntityManager().remove(emailCode);
                         }
-                        System.out.println("delete DB data Success");
+                        log.info("delete DB data Success");
                     }
                     status = Status.OK;
                     out = "email Validation Passed";
@@ -169,9 +169,8 @@ public class EmailProvider implements RealmResourceProvider {
             return Util.setCors(status, out);
 
         }catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Exception " + e.getMessage());
-        	status = Status.BAD_REQUEST;
+            log.error("Error Occurs!!", e);
+            status = Status.BAD_REQUEST;
         	out = "email Validation Failed";
             return Util.setCors(status, out);
         }
@@ -180,7 +179,7 @@ public class EmailProvider implements RealmResourceProvider {
     @OPTIONS
     @Path("{path : .*}")
     public Response other() {
-        System.out.println("***** OPTIONS /email");
+        log.info("***** OPTIONS /email");
         return Util.setCors( Status.OK, null);
     }
 

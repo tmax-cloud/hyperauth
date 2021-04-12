@@ -1,10 +1,12 @@
 package com.tmax.hyperauth.authenticator;
 
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.models.AuthenticatorConfigModel;
 import org.keycloak.models.UserModel;
 
 import java.util.List;
 
+@Slf4j
 public class AuthenticatorUtil {
     public static String getAttributeValue(UserModel user, String attributeName) {
         String result = null;
@@ -41,7 +43,9 @@ public class AuthenticatorUtil {
             try {
                 value = Long.valueOf((String) obj); // s --> ms
             } catch (NumberFormatException nfe) {
-                System.out.println("NumberFormatException : Can not convert " + obj + " to a number.");
+                log.error("NumberFormatException : Can not convert " + obj + " to a number.");
+                log.error("Error Occurs!!", nfe);
+
             }
         }
         return value;
@@ -55,7 +59,8 @@ public class AuthenticatorUtil {
             try {
                 value = Integer.valueOf((String) obj); // s --> ms
             } catch (NumberFormatException nfe) {
-                System.out.println("NumberFormatException : Can not convert " + obj + " to a number int.");
+                log.error("NumberFormatException : Can not convert " + obj + " to a number int.");
+                log.error("Error Occurs!!", nfe);
             }
         }
         return value;

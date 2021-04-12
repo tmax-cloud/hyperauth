@@ -7,6 +7,7 @@ import com.tmax.hyperauth.rest.Util;
 
 import java.util.*;
 
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.authentication.Authenticator;
@@ -19,6 +20,8 @@ import javax.ws.rs.core.Response;
 /**
  * @author taegeon_woo@tmax.co.kr
  */
+
+@Slf4j
 public class EmailOTPAuthenticator implements Authenticator {
 
     private enum CODE_STATUS {
@@ -30,7 +33,7 @@ public class EmailOTPAuthenticator implements Authenticator {
     protected boolean isOTPEnabled(AuthenticationFlowContext context) {
         boolean flag = false;
         String otpEnabled = AuthenticatorUtil.getAttributeValue(context.getUser(), "otpEnable");
-        System.out.println("otpEnabled From Attribute : " + otpEnabled + ", user [ "+ context.getUser().getUsername() + " ]");
+        log.info("otpEnabled From Attribute : " + otpEnabled + ", user [ "+ context.getUser().getUsername() + " ]");
         if (otpEnabled != null && otpEnabled.equalsIgnoreCase("true")){
             flag = true;
         }
@@ -41,7 +44,7 @@ public class EmailOTPAuthenticator implements Authenticator {
     public void authenticate(AuthenticationFlowContext context) {
         // FIXME :  delete
         if(context.getAuthenticationSession().getAuthNote("selection")!= null) {
-            System.out.println(" context.getAuthenticationSession().getAuthNote(\"selection\") : " + context.getAuthenticationSession().getAuthNote("selection"));
+            log.debug(" context.getAuthenticationSession().getAuthNote(\"selection\") : " + context.getAuthenticationSession().getAuthNote("selection"));
             if (!context.getAuthenticationSession().getAuthNote("selection").equals("mailOtp")){
                 context.success();
                 return;
@@ -50,25 +53,25 @@ public class EmailOTPAuthenticator implements Authenticator {
         // FIXME :  delete
 
         if (!isOTPEnabled(context) ) {
-            System.out.println("Bypassing OTP Authenticator since user [ " + context.getUser().getUsername() + " ] has not set OTP Authenticator");
+            log.info("Bypassing OTP Authenticator since user [ " + context.getUser().getUsername() + " ] has not set OTP Authenticator");
             context.success();
             return;
         }
 
         AuthenticatorConfigModel config = context.getAuthenticatorConfig();
         long nrOfDigits = AuthenticatorUtil.getConfigLong(config, AuthenticatorConstants.CONF_PRP_OTP_CODE_LENGTH, 6L);
-        System.out.println("Using nrOfDigits " + nrOfDigits + ", user [ "+ context.getUser().getUsername() + " ]");
+        log.info("Using nrOfDigits " + nrOfDigits + ", user [ "+ context.getUser().getUsername() + " ]");
 
         long ttl = AuthenticatorUtil.getConfigLong(config, AuthenticatorConstants.CONF_PRP_OTP_CODE_TTL, 5 * 60L); // 5 minutes in s
-        System.out.println("Using ttl " + ttl + " (s) , user [ "+ context.getUser().getUsername() + " ]");
+        log.info("Using ttl " + ttl + " (s) , user [ "+ context.getUser().getUsername() + " ]");
 
         String code = getOTPCode(nrOfDigits);
-        System.out.println("code : " + code + ", user [ "+ context.getUser().getUsername() + " ]");
+        log.info("code : " + code + ", user [ "+ context.getUser().getUsername() + " ]");
 
         Long expiringAt = new Date().getTime() + (ttl * 1000);
 
         storeOTPInfo(context, code, expiringAt); // s --> ms
-        System.out.println("OTP code Store Success , user [ "+ context.getUser().getUsername() + " ]");
+        log.info("OTP code Store Success , user [ "+ context.getUser().getUsername() + " ]");
 
         String subject = "[Tmax 통합계정] 로그인을 위해 인증번호를 입력해주세요.";
 //        String body = Constants.LOGIN_VERIFY_OTP_BODY.replaceAll("%%VERIFY_CODE%%", code);
@@ -83,7 +86,7 @@ public class EmailOTPAuthenticator implements Authenticator {
             context.challenge(challenge);
 
         } catch (Throwable e) {
-            e.printStackTrace();
+            log.error("Error Occurs!!", e);
             Response challenge = context.form()
                     .setError("Email OTP could not be sent.")
                     .createForm("email-otp-validation-error.ftl");
@@ -110,7 +113,6 @@ public class EmailOTPAuthenticator implements Authenticator {
             case INVALID:
                 if(context.getExecution().getRequirement() == AuthenticationExecutionModel.Requirement.CONDITIONAL || //FIXME
                         context.getExecution().getRequirement() == AuthenticationExecutionModel.Requirement.ALTERNATIVE) {
-                    System.out.println("Calling context.attempted()");
                     context.attempted();
                 } else if(context.getExecution().getRequirement() == AuthenticationExecutionModel.Requirement.REQUIRED) {
                     challenge =  context.form()
@@ -121,7 +123,7 @@ public class EmailOTPAuthenticator implements Authenticator {
                     context.failureChallenge(AuthenticationFlowError.INVALID_CREDENTIALS, challenge);
                 } else {
                     // Something strange happened
-                    System.out.println("Undefined execution ...");
+                    log.info("Undefined execution ...");
                 }
                 break;
 
@@ -140,21 +142,21 @@ public class EmailOTPAuthenticator implements Authenticator {
         String expectedCode = context.getSession().userCredentialManager().getStoredCredentialsByType(context.getRealm(), context.getUser(),
                 AuthenticatorConstants.USR_CRED_MDL_OTP_CODE).get(0).getCredentialData();
 
-        System.out.println("Expected code = " + expectedCode + "    entered code = " + enteredCode + ", user [ "+ context.getUser().getUsername() + " ]");
+        log.info("Expected code = " + expectedCode + "    entered code = " + enteredCode + ", user [ "+ context.getUser().getUsername() + " ]");
 
         if (expectedCode != null) {
             result = enteredCode.equals(expectedCode) ? CODE_STATUS.VALID : CODE_STATUS.INVALID;
             long now = new Date().getTime();
 
-            System.out.println("Valid code expires in " + (Long.parseLong(expTimeString) - now) + " ms" + ", user [ "+ context.getUser().getUsername() + " ]");
+            log.info("Valid code expires in " + (Long.parseLong(expTimeString) - now) + " ms" + ", user [ "+ context.getUser().getUsername() + " ]");
             if (result == CODE_STATUS.VALID) {
                 if (Long.parseLong(expTimeString) < now) {
-                    System.out.println("Code is expired !!");
+                    log.info("Code is expired !!");
                     result = CODE_STATUS.EXPIRED;
                 }
             }
         }
-        System.out.println("validateCode result : " + result);
+        log.info("validateCode result : " + result);
         return result;
     }
 

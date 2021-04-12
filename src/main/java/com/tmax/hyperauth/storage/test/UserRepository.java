@@ -1,9 +1,12 @@
 package com.tmax.hyperauth.storage.test;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class UserRepository {
 
     private List<User> users;
@@ -18,12 +21,12 @@ public class UserRepository {
     }
 
     public List<User> getAllUsers() {
-        System.out.println("getAllUsers()");
+        log.debug("getAllUsers()");
         return users;
     }
 
     public List<User> getAllUsers(int start, int max) {
-        System.out.println("getAllUsers(int start, int max)");
+        log.debug("getAllUsers(int start, int max)");
         if ( users.size() >= start + max) {
             return users.subList(start, start + max);
         } else{
@@ -32,32 +35,31 @@ public class UserRepository {
     }
 
     public int getUsersCount() {
-        System.out.println("getUsersCount() : " + users.size());
+        log.debug("getUsersCount() : " + users.size());
         return users.size();
     }
 
     public User findUserById(String id) {
-        System.out.println("findUserById(String id) :" + id);
+        log.debug("findUserById(String id) :" + id);
         return users.stream().filter(user -> user.getId().equals(id)).findFirst().get();
     }
 
     public User findUserByUsernameOrEmail(String username) {
-        System.out.println("findUserByUsernameOrEmail(String username) : " + username);
+        log.debug("findUserByUsernameOrEmail(String username) : " + username);
         return users.stream()
                 .filter(user -> user.getUsername().equalsIgnoreCase(username) || user.getEmail().equalsIgnoreCase(username))
                 .findFirst().get();
     }
 
     public User findUserByEmail(String email) {
-        System.out.println("findUserByEmail Email : " + email);
-
+        log.debug("findUserByEmail Email : " + email);
         return users.stream()
                 .filter(user -> user.getEmail().equalsIgnoreCase(email))
                 .findFirst().get();
     }
 
     public List<User> findUsers(String query) {
-        System.out.println("findUsers(String query) : " + query);
+        log.debug("findUsers(String query) : " + query);
 
         return users.stream()
                 .filter(user -> user.getUsername().contains(query) || user.getEmail().contains(query))
@@ -65,14 +67,14 @@ public class UserRepository {
     }
 
     public boolean validateCredentials(String email, String password) {
-        System.out.println("validateCredentials Email : " + email);
-        System.out.println("validateCredentials password : " + password);
-        System.out.println("findUserByEmail(email).getPassword() : " + findUserByEmail(email).getPassword());
+        log.debug("validateCredentials Email : " + email);
+        log.debug("validateCredentials password : " + password);
+        log.debug("findUserByEmail(email).getPassword() : " + findUserByEmail(email).getPassword());
         return findUserByEmail(email).getPassword().equals(password);
     }
 
     public boolean updateCredentials(String email, String password) {
-        System.out.println("updateCredentials(String email, String password) email :  " + email + "   password : " + password);
+        log.debug("updateCredentials(String email, String password) email :  " + email + "   password : " + password);
         findUserByEmail(email).setPassword(password);
         return true;
     }

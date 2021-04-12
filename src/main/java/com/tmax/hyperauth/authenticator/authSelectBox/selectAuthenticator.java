@@ -3,6 +3,7 @@ package com.tmax.hyperauth.authenticator.authSelectBox;
         import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
         import com.tmax.hyperauth.authenticator.AuthenticatorUtil;
         import com.tmax.hyperauth.rest.Util;
+        import lombok.extern.slf4j.Slf4j;
         import org.keycloak.authentication.AuthenticationFlowContext;
         import org.keycloak.authentication.Authenticator;
         import org.keycloak.models.*;
@@ -13,11 +14,13 @@ package com.tmax.hyperauth.authenticator.authSelectBox;
 /**
  * @author taegeon_woo@tmax.co.krt
  */
+
+@Slf4j
 public class selectAuthenticator implements Authenticator {
 
     @Override
     public void authenticate(AuthenticationFlowContext context) {
-            System.out.println("Select Box!!");
+            log.info("Select Box!!");
             Response challenge = context.form().createForm("selectBox.ftl");
             context.challenge(challenge);
     }
@@ -29,19 +32,19 @@ public class selectAuthenticator implements Authenticator {
             String selection = formData.getFirst("selection");
             switch (selection){
                 case "o":
-                    System.out.println("Select OTP!!");
+                    log.info("Select OTP!!");
 //                    context.getSession().setAttribute("selection", "mailOtp");
                     context.getAuthenticationSession().setAuthNote("selection", "mailOtp");
 
                     break;
                 case "p":
-                    System.out.println("Password Form!!");
+                    log.info("Password Form!!");
 //                    context.getSession().setAttribute("selection", "password");
                     context.getAuthenticationSession().setAuthNote("selection", "password");
 
                     break;
                 default:
-                    System.out.println("Unknown Auth!!");
+                    log.info("Unknown Auth!!");
                     break;
             }
             context.success();

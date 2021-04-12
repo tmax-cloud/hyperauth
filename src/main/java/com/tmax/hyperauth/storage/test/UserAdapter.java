@@ -1,11 +1,13 @@
 package com.tmax.hyperauth.storage.test;
 
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.storage.StorageId;
 import org.keycloak.storage.adapter.AbstractUserAdapterFederatedStorage;
 
+@Slf4j
 public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 
     private final User user;
@@ -19,33 +21,31 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 
     @Override
     public String getId() {
-        System.out.println("UserAdapter -  getId keycloakId : " + keycloakId);
+        log.debug("UserAdapter -  getId keycloakId : " + keycloakId);
         return keycloakId;
     }
 
     @Override
     public String getUsername() {
-        System.out.println("UserAdapter -  getUsername  : " + user.getEmail());
-
+        log.debug("UserAdapter -  getUsername  : " + user.getEmail());
         return user.getEmail();
     }
 
     @Override
     public void setUsername(String email) {
-        System.out.println("UserAdapter -  setUsername  : " + email);
+        log.debug("UserAdapter -  setUsername  : " + email);
         user.setUsername(email);
     }
 
     @Override
     public String getEmail() {
-        System.out.println("UserAdapter -  getEmail  : " + user.getEmail());
-
+        log.debug("UserAdapter -  getEmail  : " + user.getEmail());
         return user.getEmail();
     }
 
     @Override
     public void setEmail(String email) {
-        System.out.println("UserAdapter -  setEmail  : " + email);
+        log.debug("UserAdapter -  setEmail  : " + email);
         user.setEmail(email);
     }
 }

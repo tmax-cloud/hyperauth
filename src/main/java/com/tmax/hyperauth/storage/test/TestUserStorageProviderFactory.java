@@ -1,5 +1,6 @@
 package com.tmax.hyperauth.storage.test;
 
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -8,12 +9,13 @@ import org.keycloak.storage.UserStorageProviderFactory;
 
 import java.util.List;
 
+@Slf4j
 public class TestUserStorageProviderFactory  implements UserStorageProviderFactory<TestUserStorageProvider> {
 
     @Override
     public TestUserStorageProvider create(KeycloakSession session, ComponentModel model) {
 // here you can setup the user storage provider, initiate some connections, etc.
-        System.out.println("CreateProvider ");
+        log.debug("CreateProvider ");
 
         UserRepository repository = new UserRepository();
 
@@ -21,13 +23,13 @@ public class TestUserStorageProviderFactory  implements UserStorageProviderFacto
 
     @Override
     public String getId() {
-        System.out.println("getId ");
+        log.debug("getId ");
         return "woo-user-storage";
     }
 
     @Override
     public List<ProviderConfigProperty> getConfigProperties() {
-        System.out.println("getConfigProperties ");
+        log.debug("getConfigProperties ");
         // this configuration is configurable in the admin-console
         return ProviderConfigurationBuilder.create()
                 .property()
