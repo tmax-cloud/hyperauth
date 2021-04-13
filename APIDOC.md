@@ -121,6 +121,36 @@
   - **ResponseBody**
 
        X
+       
+  #### List
+   - **Description** 
+     
+      <u>Hyperauth 'view-users' 권한을 가진 client 관리자가 사용자 이메일 및 이름 list를 조회하는 API
+      
+  - **RequestURL**
+
+       GET https://{HYPERAUTH_IP}/auth/realms/tmax/user/list
+
+  - **RequestHeader**
+
+       X
+       
+  - **QueryParam**
+     
+        token: {access_token}
+     
+  - **PathParam**
+
+       x
+
+  - **RequestBody**
+
+       X
+
+  - **ResponseBody**
+
+       X
+       
 
  #### AttributeUpdate
   - **Description** 
@@ -175,7 +205,7 @@
 #### List
    - **Description** 
      
-      <u>권한체크 없이</u> 그룹 리스트를 조회하는 API
+      <u>Hyperauth 'view-users' 권한을 가진 client 관리자가 그룹 리스트를 조회하는 API
       
   - **RequestURL**
 
