@@ -17,7 +17,8 @@
       - cd /opt/jboss/keycloak/standalone/log/hyperauth
       - {hyperauth_pod_name}.log 로 실시간 로그가 적재된다.
       - {hyperauth_pod_name}.log.2021-04-21 등으로 하루에 하나씩 로그가 저장된다.
-      
+      - hyperauth pod 내부에서 /opt/jboss/keycloak/bin/jboss-cli.sh 를 사용하여서 실시간 로그 설정 변경도 가능하다.
+        - 참조 : https://github.com/tmax-cloud/hyperauth/blob/main/rotational_file_log_command
   - **Topic Consumer가이드**
     - [TopicConsumerExample.java](src/main/java/com/tmax/hyperauth/eventlistener/consumer/EventConsumer.java)
       - TODO 부분 수행 
