@@ -8,6 +8,20 @@
 
 
 
+/opt/jboss/keycloak/bin/jboss-cli.sh --connect --command='/subsystem=logging/periodic-rotating-file-handler=FILE:add(file={"path"=>"/hyperauth/${env.HOSTNAME:hyperauth}.log", "relative-to"=>"jboss.server.log.dir"}, suffix=".yyyy-MM-dd", append="true")'
+/opt/jboss/keycloak/bin/jboss-cli.sh --connect --command='/subsystem=logging/periodic-rotating-file-handler=FILE:write-attribute(name="formatter", value="%d{HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n")'
+/opt/jboss/keycloak/bin/jboss-cli.sh --connect --command='/subsystem=logging/periodic-rotating-file-handler=FILE:write-attribute(name="autoflush", value="true")'
+
+/opt/jboss/keycloak/bin/jboss-cli.sh --connect --command='/subsystem=logging/logger=org.keycloak:add-handler(name="FILE")'
+/opt/jboss/keycloak/bin/jboss-cli.sh --connect --command='/subsystem=logging/logger=com.tmax.hyperauth:add(category=com.tmax.hyperauth,level=INFO)'
+/opt/jboss/keycloak/bin/jboss-cli.sh --connect --command='/subsystem=logging/logger=com.tmax.hyperauth:add-handler(name="FILE")'
+
+/opt/jboss/keycloak/bin/jboss-cli.sh --connect --command='/subsystem=logging/logger=org.apache.kafka:add(category=org.apache.kafka,level=WARN)'
+/opt/jboss/keycloak/bin/jboss-cli.sh --connect --command='/subsystem=logging/logger=org.apache.kafka:add-handler(name="FILE")'
+
+/opt/jboss/keycloak/bin/jboss-cli.sh --connect --command='/subsystem=logging/logger=javax.mail:add(category=javax.mail,level=INFO)'
+/opt/jboss/keycloak/bin/jboss-cli.sh --connect --command='/subsystem=logging/logger=javax.mail:add-handler(name="FILE")'
+
 
 ------------------------------------------------------------
 /opt/jboss/keycloak/bin/jboss-cli.sh --connect --command='/subsystem=logging/logger=org.keycloak.events/:add(category=org.keycloak.events,level=DEBUG)'
