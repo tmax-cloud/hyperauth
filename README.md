@@ -11,11 +11,14 @@
       - replica : 2
       - 이중화 관련 Env 추가
     - **LOG 수집 가이드**
-      - kubectl exec -it -n hyperauth $(kubectl get pod -n hyperauth | grep hyperauth | cut -d ' ' -f1) bash
-      - cd logs/
-      - hyperauth_1.log , hyperauth_2.log : 5초에 한번 실시간 이중화된 2개의 파드의 로그를 확인할 수 있음
-      - logs/1/, logs/2 폴더에 날짜별 로그가 저장된다.
-      
+      - 주의 :  hyperauth 이미지 tmaxcloudck/hyperauth:b1.1.0.15부터 적용
+        - 설치 yaml 중 2.hyperauth_deployment.yaml에서 args: ["-c standalone.xml", "-Dkeycloak.profile.feature.docker=enabled -b 0.0.0.0"] 부분 추가해야 사용가능
+      - kubectl exec -it -n hyperauth $(kubectl get pod -n hyperauth | grep hyperauth | cut -d ' ' -f1 | awk 'NR == 1 { print $0; exit }') bash
+      - cd /opt/jboss/keycloak/standalone/log/hyperauth
+      - {hyperauth_pod_name}.log 로 실시간 로그가 적재된다.
+      - {hyperauth_pod_name}.log.2021-04-21 등으로 하루에 하나씩 로그가 저장된다.
+      - hyperauth pod 내부에서 /opt/jboss/keycloak/bin/jboss-cli.sh 를 사용하여서 실시간 로그 설정 변경도 가능하다.
+        - 참조 : https://github.com/tmax-cloud/hyperauth/blob/main/rotational_file_log_command
   - **Topic Consumer가이드**
     - [TopicConsumerExample.java](src/main/java/com/tmax/hyperauth/eventlistener/consumer/EventConsumer.java)
       - TODO 부분 수행 
