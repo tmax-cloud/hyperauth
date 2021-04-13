@@ -6,7 +6,6 @@ import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.config.SslConfigs;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.jboss.logging.Logger;
 
 import java.util.Properties;
 
