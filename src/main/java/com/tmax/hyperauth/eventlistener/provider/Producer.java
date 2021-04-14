@@ -28,7 +28,7 @@ public class Producer {
         new Thread(
                 () -> {
                     try {
-                        log.info("kafka produce start")
+                        log.info("kafka produce start");
                         producer.send(eventRecord, (metadata, exception) -> {
                             if (exception != null) {
                                 log.error("Error Occurs!!", exception);
