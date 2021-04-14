@@ -85,7 +85,7 @@ public class EventConsumer {
                     log.info("[[ MESSAGE FROM TMAX TOPIC ]]");
                     log.info(record.value());
                     try {
-                            Gson gson = new Gson();
+                        Gson gson = new Gson();
                         TopicEvent topicEvent = gson.fromJson(record.value(), TopicEvent.class);
                         switch (topicEvent.getType()){
                             case "LOGIN":
