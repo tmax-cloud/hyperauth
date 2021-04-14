@@ -28,12 +28,14 @@ public class Producer {
         new Thread(
                 () -> {
                     try {
+                        log.info("kafka produce start")
                         producer.send(eventRecord, (metadata, exception) -> {
                             if (exception != null) {
                                 log.error("Error Occurs!!", exception);
                                 log.error("Failed to Send to Topic Server");
                             }
                         });
+                        log.info("kafka produce success");
                     } catch (Exception e) {
                         log.error("Error Occurs!!", e);
                     } finally {
