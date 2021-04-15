@@ -128,7 +128,7 @@ public class TopicEvent {
         }
         topicEvent.setType(topicEventType);
 
-        if ( userName != null) {
+        if ( userName == null) {
             if ( keycloakEvent.getDetails() != null && keycloakEvent.getDetails().get("username") != null){
                 userName = keycloakEvent.getDetails().get("username");
             } else {
