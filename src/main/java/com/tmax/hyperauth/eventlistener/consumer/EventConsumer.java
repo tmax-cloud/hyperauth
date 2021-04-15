@@ -23,7 +23,11 @@ public class EventConsumer {
 
     public static void main(String[] args) {
         Properties properties = new Properties();
+        // Consumer가 kafka와 같은 Kubernetes Cluster 내부에 있는 경우
         properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka-1.hyperauth:9092,kafka-2.hyperauth:9092,kafka-3.hyperauth:9092");
+        // Consumer가 kafka와 같은 Kubernetes Cluster 외부에 있는 경우 ( 아래 예시는 kafka broker 3개가 nodePort 로 노출되어 있는 경우 )
+        // kafka broker 3개가 노출되어 있는 주소는 hyperauth, kafka 관리자에게 문의해서 추가한다.
+        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "172.22.6.2:31000,172.22.6.2:31001,172.22.6.2:31002");
         properties.put(ConsumerConfig.ALLOW_AUTO_CREATE_TOPICS_CONFIG, false);
         properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
@@ -38,12 +42,11 @@ public class EventConsumer {
          * hypercloud4-system Namespace도 바꿔서 사용
          *
          * keytool -keystore hypercloud.truststore.jks -alias ca-cert -import -file /etc/kubernetes/pki/hypercloud-root-ca.crt -storepass tmax@23 -noprompt
-         * keytool -keystore hypercloud.keystore.jks -alias hypercloud -validity 3650 -genkey -keyalg RSA -ext SAN=dns:hypercloud4-operator-service.hypercloud4-system -dname "CN=hypercloud4-operator-service.hypercloud4-system" -storepass tmax@23 -keypass tmax@23
+         * keytool -keystore hypercloud.keystore.jks -alias hypercloud -validity 3650 -genkey -keyalg RSA -dname "CN=consumer" -storepass tmax@23 -keypass tmax@23
          * keytool -keystore hypercloud.keystore.jks -alias hypercloud -certreq -file ca-request-hypercloud -storepass tmax@23
-         * openssl x509 -req -CA /etc/kubernetes/pki/hypercloud-root-ca.crt -CAkey /etc/kubernetes/pki/hypercloud-root-ca.key -in ca-request-hypercloud -out ca-signed-hypercloud -days 3650 -CAcreateserial
+         * sudo openssl x509 -req -CA /etc/kubernetes/pki/hypercloud-root-ca.crt -CAkey /etc/kubernetes/pki/hypercloud-root-ca.key -in ca-request-hypercloud -out ca-signed-hypercloud -days 3650 -CAcreateserial
          * keytool -keystore hypercloud.keystore.jks -alias ca-cert -import -file /etc/kubernetes/pki/hypercloud-root-ca.crt -storepass tmax@23 -noprompt
          * keytool -keystore hypercloud.keystore.jks -alias hypercloud -import -file ca-signed-hypercloud -storepass tmax@23 -noprompt
-         *
          * kubectl create secret generic hypercloud-kafka-jks --from-file=./hypercloud.keystore.jks --from-file=./hypercloud.truststore.jks -n hypercloud4-system
          *
          * TODO : Password를 변수처리 하기 위해서는 Secret을 생성하고 Deployment Env의 ValueFrom secret을 이용한다.
@@ -65,6 +68,7 @@ public class EventConsumer {
          *            name: passwords
          *            key: CERTS_PASSWORD
          */
+
         // for SSL
         properties.setProperty(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SSL");
         properties.setProperty(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, "/etc/x509/kafka/hyperauth.truststore.jks");
