@@ -25,9 +25,11 @@ public class EventConsumer {
         Properties properties = new Properties();
         // Consumer가 kafka와 같은 Kubernetes Cluster 내부에 있는 경우
         properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka-1.hyperauth:9092,kafka-2.hyperauth:9092,kafka-3.hyperauth:9092");
-        // Consumer가 kafka와 같은 Kubernetes Cluster 외부에 있는 경우 ( 아래 예시는 kafka broker 3개가 nodePort 로 노출되어 있는 경우 )
+
+        // Consumer가 kafka와 같은 Kubernetes Cluster 외부에 있는 경우 위를 지워주고 밑의 주석처리를 제거한다. ( 아래 예시는 kafka broker 3개가 nodePort 로 노출되어 있는 경우 )
         // kafka broker 3개가 노출되어 있는 주소는 hyperauth, kafka 관리자에게 문의해서 추가한다.
-        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "172.22.6.2:31000,172.22.6.2:31001,172.22.6.2:31002");
+//        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "172.22.6.2:31000,172.22.6.2:31001,172.22.6.2:31002");
+
         properties.put(ConsumerConfig.ALLOW_AUTO_CREATE_TOPICS_CONFIG, false);
         properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
