@@ -76,7 +76,8 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                     }
                     break;
                 case "LOGOUT":
-                    topicEvent = TopicEvent.makeTopicEvent(event, session.users().getUserById(event.getUserId(), session.realms().getRealmByName("tmax")).getUsername());
+                    log.info("logout!! : username : " + session.users().getUserById(event.getUserId(), session.realms().getRealm(event.getRealmId())).getUsername());
+                    topicEvent = TopicEvent.makeTopicEvent(event, session.users().getUserById(event.getUserId(), session.realms().getRealm(event.getRealmId())).getUsername());
                     break;
                 case "SEND_VERIFY_EMAIL":
                 case "SEND_VERIFY_EMAIL_ERROR":
