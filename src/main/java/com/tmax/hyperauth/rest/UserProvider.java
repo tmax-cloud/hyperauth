@@ -254,11 +254,18 @@ public class UserProvider implements RealmResourceProvider {
         log.info("***** EXISTS /User");
         log.info("userName request : " + userName);
         status = Status.OK;
+        UserModel user = null;
         try {
-            UserModel user = session.users().getUserByUsername(userName, session.realms().getRealmByName(session.getContext().getRealm().getDisplayName()));
+            user = session.users().getUserByUsername(userName, session.realms().getRealmByName(session.getContext().getRealm().getDisplayName()));
+        } catch(Exception e){
+            status = Status.BAD_REQUEST;
+            out = "User Exists Check Failed";
+            return Util.setCors(status, out);
+        }
+        status = Status.OK;
+        out = "false";
+        if ( user != null && user.getEmail() != null) {
             out = "true";
-        }catch(Exception e){
-            out = "false";
         }
         return Util.setCors(status, out);
     }
