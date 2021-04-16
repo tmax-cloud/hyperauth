@@ -1,24 +1,15 @@
 package com.tmax.hyperauth.rest;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import javax.persistence.EntityManager;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
-import com.tmax.hyperauth.caller.Constants;
-import com.tmax.hyperauth.jpa.Agreement;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.OAuthErrorException;
@@ -39,16 +30,12 @@ import org.keycloak.protocol.oidc.TokenManager.NotBeforeCheck;
 import org.keycloak.representations.AccessToken;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
-import org.keycloak.services.ErrorResponse;
 import org.keycloak.services.ErrorResponseException;
 import org.keycloak.services.Urls;
 import org.keycloak.services.resource.RealmResourceProvider;
-
 import com.tmax.hyperauth.caller.HypercloudOperatorCaller;
 import org.keycloak.services.resources.admin.UserResource;
-import org.keycloak.services.resources.admin.permissions.AdminPermissionEvaluator;
-import org.keycloak.services.resources.admin.permissions.AdminPermissions;
-import org.keycloak.services.resources.admin.permissions.UserPermissionEvaluator;
+
 
 
 /**
@@ -65,9 +52,6 @@ public class UserProvider implements RealmResourceProvider {
    
     @Context
     private ClientConnection clientConnection;
-
-    private AdminPermissionEvaluator auth;
-
 
     public UserProvider(KeycloakSession session) {
         this.session = session;
@@ -264,6 +248,23 @@ public class UserProvider implements RealmResourceProvider {
     }
 
     @GET
+    @Path("{userName}/exists")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response isExists(@PathParam("userName") final String userName) {
+        log.info("***** EXISTS /User");
+        log.info("userName request : " + userName);
+        status = Status.OK;
+        try {
+            UserModel user = session.users().getUserByUsername(userName, session.realms().getRealmByName(session.getContext().getRealm().getDisplayName()));
+            out = "true";
+        }catch(Exception e){
+            out = "false";
+        }
+        return Util.setCors(status, out);
+    }
+
+
+    @GET
     @Path("{userName}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response get(@PathParam("userName") final String userName, @QueryParam("token") String tokenString) {
@@ -279,35 +280,31 @@ public class UserProvider implements RealmResourceProvider {
             realmName = realm.getName();
         }
 
-//        log.debug("token : " + tokenString);
+        log.debug("token : " + tokenString);
 
-//        try{
-//            verifyToken(tokenString, session.getContext().getRealm());
-//            log.info(" User Who Requested Get User Detail : " + token.getPreferredUsername());
-//            if (!(token.getResourceAccess("realm-management")!= null
-//                    && token.getResourceAccess("realm-management").getRoles() != null
-//                    && token.getResourceAccess("realm-management").getRoles().contains("view-users"))
-//                    && !token.getPreferredUsername().equalsIgnoreCase(userName)){
-//                log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to get User Detail" );
-//                status = Status.UNAUTHORIZED;
-//                out = "Unauthorized";
-//                return Util.setCors(status, out);
-//            }
-//
-//        }catch(Exception e){
-//            log.error("Error Occurs!!", e);
-//            status = Status.UNAUTHORIZED;
-//            out = "Unauthorized";
-//            return Util.setCors(status, out);
-//        }
+        try{
+            verifyToken(tokenString, session.getContext().getRealm());
+            log.info(" User Who Requested Get User Detail : " + token.getPreferredUsername());
+            if (!(token.getResourceAccess("realm-management")!= null
+                    && token.getResourceAccess("realm-management").getRoles() != null
+                    && token.getResourceAccess("realm-management").getRoles().contains("view-users"))
+                    && !token.getPreferredUsername().equalsIgnoreCase(userName)){
+                log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to get User Detail" );
+                status = Status.UNAUTHORIZED;
+                out = "Unauthorized";
+                return Util.setCors(status, out);
+            }
+
+        }catch(Exception e){
+            log.error("Error Occurs!!", e);
+            status = Status.UNAUTHORIZED;
+            out = "Unauthorized";
+            return Util.setCors(status, out);
+        }
 
         List <String> groupName = null;
         try {
             UserModel user = session.users().getUserByUsername(userName, session.realms().getRealmByName(realmName));
-            UserPermissionEvaluator upe = auth.users();
-            log.info("canView User : " + upe.canView(user));
-            log.info("canManage User : " + upe.canManage(user));
-            log.info("isAdmin User : " + AdminPermissions.realms(session, auth.adminAuth()).isAdmin(realm));
             if (user == null) {
                 status = Status.BAD_REQUEST;
                 out = "No Corresponding UserName";
@@ -369,7 +366,6 @@ public class UserProvider implements RealmResourceProvider {
         }
     }
     
-    @SuppressWarnings("unchecked")
 	@DELETE
     @Path("{userName}")
     @QueryParam("token")
