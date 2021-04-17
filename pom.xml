@@ -116,7 +116,7 @@
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
-            <version>3.4.1</version>
+            <version>3.15.0</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -133,8 +133,6 @@
             <artifactId>jackson-annotations</artifactId>
             <version>2.9.9</version>
         </dependency>
-
-
     </dependencies>
     <build>
         <finalName>keycloak-spi</finalName>
