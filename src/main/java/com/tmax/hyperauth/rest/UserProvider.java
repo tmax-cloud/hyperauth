@@ -3,6 +3,7 @@ package com.tmax.hyperauth.rest;
 
 import java.io.ByteArrayInputStream;
 import java.security.PublicKey;
+import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPublicKey;
@@ -29,6 +30,7 @@ import org.keycloak.common.VerificationException;
 import org.keycloak.common.util.ObjectUtil;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
 import org.keycloak.crypto.KeyUse;
+import org.keycloak.crypto.KeyWrapper;
 import org.keycloak.crypto.SignatureProvider;
 import org.keycloak.crypto.SignatureVerifierContext;
 import org.keycloak.events.EventBuilder;
@@ -307,14 +309,19 @@ public class UserProvider implements RealmResourceProvider {
         }
 
         log.debug("token : " + tokenString);
-        String cert = null;
-        session.keys().getKeys(session.realms().getRealmByName("master")).stream().forEach(k -> System.out.println(k.getAlgorithm()));
-        cert = session.keys().getKeys(session.realms().getRealmByName("master")).stream().filter(k ->
-            k.getAlgorithm().equalsIgnoreCase("RS256")
-        ).findFirst().get().getCertificate().toString();
-        log.info("cert : " + cert);
+
         try{
-            DecodedJWT adminToken = verifyAdminToken( tokenString, cert);
+            String cert = null;
+            session.keys().getKeys(session.realms().getRealmByName("master")).stream().forEach(k -> System.out.println(k.getAlgorithm()));
+            KeyWrapper kw = session.keys().getKeys(session.realms().getRealmByName("master")).stream().filter(k ->
+                    k.getAlgorithm().equalsIgnoreCase("RS256")
+            ).findFirst().get();
+            log.info("kw.getPublicKey().getEncoded().toString() : " + kw.getPublicKey().getEncoded().toString());
+            log.info("kw.getCertificate().getEncoded().toString() : " + kw.getCertificate().getEncoded().toString());
+            log.info("kw.getCertificate().getPublicKey().getEncoded().toString() : " + kw.getCertificate().getPublicKey().getEncoded().toString());
+            log.info("kw.getCertificate().getTBSCertificate().toString() : " + kw.getCertificate().getTBSCertificate().toString());
+
+            DecodedJWT adminToken = verifyAdminToken( tokenString, kw.getCertificate().getEncoded().toString());
             log.info("TEST User Who Requested Get User Detail : " + token.getPreferredUsername());
 
             if(!Util.isHyperauthAdmin(session,adminToken.getClaim("preferred_username").asString())){
