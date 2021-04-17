@@ -279,8 +279,9 @@ public class UserProvider implements RealmResourceProvider {
         }
         return Util.setCors(status, out);
     }
-    public static DecodedJWT verifyAdminToken(String token, String publicKeyString) throws Exception {
-        byte[] certificateData = Base64.getDecoder().decode(publicKeyString);
+
+    public static DecodedJWT verifyAdminToken(String token, String certString) throws Exception {
+        byte[] certificateData = Base64.getDecoder().decode(certString);
         CertificateFactory cf = CertificateFactory.getInstance("X509");
         X509Certificate certificate = (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(certificateData));
         PublicKey publicKey = certificate.getPublicKey();
@@ -306,13 +307,14 @@ public class UserProvider implements RealmResourceProvider {
         }
 
         log.debug("token : " + tokenString);
-        String publicKey = null;
-        publicKey = session.keys().getKeys(session.realms().getRealmByName("master")).stream().filter(k ->
+        String cert = null;
+        session.keys().getKeys(session.realms().getRealmByName("master")).stream().forEach(k -> System.out.println(k.getAlgorithm()));
+        cert = session.keys().getKeys(session.realms().getRealmByName("master")).stream().filter(k ->
             k.getAlgorithm().equalsIgnoreCase("RS256")
-        ).findFirst().get().getPublicKey().toString();
-
+        ).findFirst().get().getCertificate().toString();
+        log.info("cert : " + cert);
         try{
-            DecodedJWT adminToken = verifyAdminToken( tokenString, publicKey);
+            DecodedJWT adminToken = verifyAdminToken( tokenString, cert);
             log.info("TEST User Who Requested Get User Detail : " + token.getPreferredUsername());
 
             if(!Util.isHyperauthAdmin(session,adminToken.getClaim("preferred_username").asString())){
