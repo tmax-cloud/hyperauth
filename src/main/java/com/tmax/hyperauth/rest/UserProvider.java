@@ -1,6 +1,11 @@
 package com.tmax.hyperauth.rest;
 
 
+import java.io.ByteArrayInputStream;
+import java.security.PublicKey;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import java.security.interfaces.RSAPublicKey;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.persistence.EntityManager;
@@ -9,6 +14,11 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.auth0.jwt.interfaces.JWTVerifier;
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.spi.HttpResponse;
@@ -18,6 +28,7 @@ import org.keycloak.common.ClientConnection;
 import org.keycloak.common.VerificationException;
 import org.keycloak.common.util.ObjectUtil;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
+import org.keycloak.crypto.KeyUse;
 import org.keycloak.crypto.SignatureProvider;
 import org.keycloak.crypto.SignatureVerifierContext;
 import org.keycloak.events.EventBuilder;
@@ -35,7 +46,6 @@ import org.keycloak.services.Urls;
 import org.keycloak.services.resource.RealmResourceProvider;
 import com.tmax.hyperauth.caller.HypercloudOperatorCaller;
 import org.keycloak.services.resources.admin.UserResource;
-
 
 
 /**
@@ -71,7 +81,6 @@ public class UserProvider implements RealmResourceProvider {
     @Produces(MediaType.APPLICATION_JSON)
     public Response POST(List< UserRepresentation > reps) {
         log.info("***** POST /User");
-
         RealmModel realm = session.realms().getRealmByName("tmax");
 
         clientConnection = session.getContext().getConnection();
@@ -270,6 +279,15 @@ public class UserProvider implements RealmResourceProvider {
         }
         return Util.setCors(status, out);
     }
+    public static DecodedJWT verifyAdminToken(String token, String publicKeyString) throws Exception {
+        byte[] certificateData = Base64.getDecoder().decode(publicKeyString);
+        CertificateFactory cf = CertificateFactory.getInstance("X509");
+        X509Certificate certificate = (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(certificateData));
+        PublicKey publicKey = certificate.getPublicKey();
+        JWTVerifier verifier = JWT.require(Algorithm.RSA256((RSAPublicKey) publicKey, null)).build();
+        DecodedJWT jwt = verifier.verify(token);
+        return jwt;
+    }
 
 
     @GET
@@ -288,14 +306,19 @@ public class UserProvider implements RealmResourceProvider {
         }
 
         log.debug("token : " + tokenString);
+        String publicKey = null;
+        publicKey = session.keys().getKeys(session.realms().getRealmByName("master")).stream().filter(k ->
+            k.getAlgorithm().equalsIgnoreCase("RS256")
+        ).findFirst().get().getPublicKey().toString();
 
         try{
-            verifyToken(tokenString, session.realms().getRealmByName("master"));
+            DecodedJWT adminToken = verifyAdminToken( tokenString, publicKey);
             log.info("TEST User Who Requested Get User Detail : " + token.getPreferredUsername());
-            if(!Util.isHyperauthAdmin(session,token.getPreferredUsername())){
+
+            if(!Util.isHyperauthAdmin(session,adminToken.getClaim("preferred_username").asString())){
                 log.info("Not Admin!!!!!!!");
             }
-            
+
             verifyToken(tokenString, session.getContext().getRealm());
             log.info(" User Who Requested Get User Detail : " + token.getPreferredUsername());
             if (!(token.getResourceAccess("realm-management")!= null
@@ -573,6 +596,7 @@ public class UserProvider implements RealmResourceProvider {
         return Util.setCors( Status.OK, null);
     }
 
+
     private void verifyToken(String tokenString, RealmModel realm) throws VerificationException {
         if (tokenString == null) {
             out = "Token not provided";
@@ -580,7 +604,6 @@ public class UserProvider implements RealmResourceProvider {
         }
         TokenVerifier<AccessToken> verifier = TokenVerifier.create(tokenString, AccessToken.class).withDefaultChecks()
                 .realmUrl(Urls.realmIssuer(session.getContext().getUri().getBaseUri(), realm.getName()));
-
         SignatureVerifierContext verifierContext = session.getProvider(SignatureProvider.class,
                 verifier.getHeader().getAlgorithm().name()).verifier(verifier.getHeader().getKeyId());
         verifier.verifierContext(verifierContext);
