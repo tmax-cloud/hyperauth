@@ -11,9 +11,20 @@ import javax.ws.rs.core.Response.Status;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.annotations.cache.NoCache;
+import org.keycloak.OAuthErrorException;
+import org.keycloak.TokenVerifier;
+import org.keycloak.common.VerificationException;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
+import org.keycloak.crypto.SignatureProvider;
+import org.keycloak.crypto.SignatureVerifierContext;
+import org.keycloak.models.ClientModel;
 import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
+import org.keycloak.protocol.oidc.TokenManager;
+import org.keycloak.representations.AccessToken;
+import org.keycloak.services.ErrorResponseException;
+import org.keycloak.services.Urls;
 import org.keycloak.services.resource.RealmResourceProvider;
 
 import com.tmax.hyperauth.jpa.Agreement;
@@ -26,11 +37,14 @@ import com.tmax.hyperauth.jpa.Agreement;
 public class AgreementProvider implements RealmResourceProvider { 
     @Context
     private KeycloakSession session;
-    
+
     public AgreementProvider(KeycloakSession session) {	
         this.session = session;
     }
-    
+
+    private AccessToken token;
+    private ClientModel clientModel;
+
     @Override
     public Object getResource() {
         return this;
@@ -70,6 +84,20 @@ public class AgreementProvider implements RealmResourceProvider {
         log.info("version : " + agreement.getVersion());
         log.info("Agreement Create Service");
 
+        try {
+            verifyToken(tokenString, session.getContext().getRealm());
+            log.info(" User Who Requested Agreement Create / Update : " + token.getPreferredUsername());
+            if (!Util.isHyperauthAdmin(session, token.getPreferredUsername())) {
+                log.error("User [ " + token.getPreferredUsername() + " ] is not Admin of Hyperauth");
+                throw new Exception();
+            }
+        } catch (Exception e) {
+            log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to Create / Update Agreement");
+            status = Status.UNAUTHORIZED;
+            out = "Agreement Create / Update Failed";
+            return Util.setCors(status, out);
+        }
+
         String id = agreement.getId()==null ?  KeycloakModelUtils.generateId() : agreement.getId();
 
         //Delete If Already Exists
@@ -108,6 +136,21 @@ public class AgreementProvider implements RealmResourceProvider {
     @Produces("text/plain; charset=utf-8")
     public Response delete(@PathParam("clientName") final String clientName, @QueryParam("realmName") String realmName , @QueryParam("version") String version, @QueryParam("token") String tokenString ) {
     	log.info("clientName : " + clientName + ", version : " + version + "Agreement Delete Service");
+
+        try {
+            verifyToken(tokenString, session.getContext().getRealm());
+            log.info(" User Who Requested Agreement Delete : " + token.getPreferredUsername());
+            if (!Util.isHyperauthAdmin(session, token.getPreferredUsername())) {
+                log.error("User [ " + token.getPreferredUsername() + " ] is not Admin of Hyperauth");
+                throw new Exception();
+            }
+        } catch (Exception e) {
+            log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to Delete Agreement");
+            status = Status.UNAUTHORIZED;
+            out = "Agreement Delete Failed";
+            return Util.setCors(status, out);
+        }
+
     	List< Agreement > agreementList = getEntityManager().createNamedQuery("findByRealmAndClient", Agreement.class)
                 .setParameter("realmName", realmName).setParameter("clientName", clientName).setParameter("version", version).getResultList();
     	if (agreementList != null && agreementList.size() != 0) {
@@ -134,5 +177,33 @@ public class AgreementProvider implements RealmResourceProvider {
     
     private EntityManager getEntityManager() {
         return session.getProvider(JpaConnectionProvider.class).getEntityManager();
+    }
+
+    private void verifyToken(String tokenString, RealmModel realm) throws VerificationException {
+        if (tokenString == null) {
+            out = "Token not provided";
+            throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "Token not provided", Status.BAD_REQUEST);
+        }
+        TokenVerifier<AccessToken> verifier = TokenVerifier.create(tokenString, AccessToken.class).withDefaultChecks()
+                .realmUrl(Urls.realmIssuer(session.getContext().getUri().getBaseUri(), realm.getName()));
+
+        SignatureVerifierContext verifierContext = session.getProvider(SignatureProvider.class,
+                verifier.getHeader().getAlgorithm().name()).verifier(verifier.getHeader().getKeyId());
+        verifier.verifierContext(verifierContext);
+        try {
+            token = verifier.verify().getToken();
+        } catch (Exception e) {
+            out = "token invalid";
+            throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "token invalid", Status.UNAUTHORIZED);
+        }
+        clientModel = realm.getClientByClientId(token.getIssuedFor());
+        if (clientModel == null) {
+            out = "Client not found";
+            throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "Client not found", Status.NOT_FOUND);
+        }
+
+        TokenVerifier.createWithoutSignature(token)
+                .withChecks(TokenManager.NotBeforeCheck.forModel(clientModel))
+                .verify();
     }
 }

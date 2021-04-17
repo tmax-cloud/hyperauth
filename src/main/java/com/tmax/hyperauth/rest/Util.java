@@ -198,4 +198,19 @@ public class Util {
 		}
 		return contentBuilder.toString();
 	}
+
+	public static boolean isHyperauthAdmin( KeycloakSession session, String userName ){
+		try{
+			if(session.users().getUserByUsername(userName, session.realms().getRealmByName("master")).hasRole(session.realms().getRealmByName("master").getRole("admin"))) {
+				log.info("Admin User : " + userName);
+				return true;
+			}else {
+				log.info("master realm user but not admin");
+				return false;
+			}
+		} catch ( Exception e) {
+			log.info("Not in Master Realm");
+			return false;
+		}
+	}
 }

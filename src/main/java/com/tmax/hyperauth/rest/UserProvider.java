@@ -202,7 +202,8 @@ public class UserProvider implements RealmResourceProvider {
 
             if (!(token.getResourceAccess("realm-management")!= null
                     && token.getResourceAccess("realm-management").getRoles() != null
-                    && token.getResourceAccess("realm-management").getRoles().contains("view-users"))){
+                    && token.getResourceAccess("realm-management").getRoles().contains("view-users"))
+                    && !Util.isHyperauthAdmin(session,token.getPreferredUsername())){
                 log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to get User List" );
                 status = Status.UNAUTHORIZED;
                 out = "User ListGet Failed";
@@ -280,46 +281,33 @@ public class UserProvider implements RealmResourceProvider {
         UserRepresentation userOut = new UserRepresentation();
         log.info("userName request : " + userName);
 
-        try{
-            if(session.users().getUserByEmail(userName, session.realms().getRealmByName("master")).hasRole(session.realms().getRealmByName("master").getRole("admin"))) {
-                log.info("Admin User : " + userName);
-            }else {
-                log.info("master realm user but not admin");
-            }
-        } catch ( Exception e) {
-            log.info("Not in Master Realm");
-        }
-
-
         RealmModel realm = session.getContext().getRealm();
-
         String realmName = realm.getDisplayName();
         if (realmName == null) {
             realmName = realm.getName();
         }
 
+        log.debug("token : " + tokenString);
+        try{
+            verifyToken(tokenString, session.getContext().getRealm());
+            log.info(" User Who Requested Get User Detail : " + token.getPreferredUsername());
+            if (!(token.getResourceAccess("realm-management")!= null
+                    && token.getResourceAccess("realm-management").getRoles() != null
+                    && token.getResourceAccess("realm-management").getRoles().contains("view-users"))
+                    && !token.getPreferredUsername().equalsIgnoreCase(userName)
+                    && !Util.isHyperauthAdmin(session,token.getPreferredUsername())){
+                log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to get User Detail" );
+                status = Status.UNAUTHORIZED;
+                out = "Unauthorized";
+                return Util.setCors(status, out);
+            }
 
-
-//        log.debug("token : " + tokenString);
-//        try{
-//            verifyToken(tokenString, session.getContext().getRealm());
-//            log.info(" User Who Requested Get User Detail : " + token.getPreferredUsername());
-//            if (!(token.getResourceAccess("realm-management")!= null
-//                    && token.getResourceAccess("realm-management").getRoles() != null
-//                    && token.getResourceAccess("realm-management").getRoles().contains("view-users"))
-//                    && !token.getPreferredUsername().equalsIgnoreCase(userName)){
-//                log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to get User Detail" );
-//                status = Status.UNAUTHORIZED;
-//                out = "Unauthorized";
-//                return Util.setCors(status, out);
-//            }
-//
-//        }catch(Exception e){
-//            log.error("Error Occurs!!", e);
-//            status = Status.UNAUTHORIZED;
-//            out = "Unauthorized";
-//            return Util.setCors(status, out);
-//        }
+        }catch(Exception e){
+            log.error("Error Occurs!!", e);
+            status = Status.UNAUTHORIZED;
+            out = "Unauthorized";
+            return Util.setCors(status, out);
+        }
 
         List <String> groupName = null;
         try {
