@@ -287,31 +287,37 @@ public class UserProvider implements RealmResourceProvider {
             realmName = realm.getName();
         }
 
-        log.debug("token : " + tokenString);
 
-        try{
-            verifyToken(tokenString, session.getContext().getRealm());
-            log.info(" User Who Requested Get User Detail : " + token.getPreferredUsername());
-            if (!(token.getResourceAccess("realm-management")!= null
-                    && token.getResourceAccess("realm-management").getRoles() != null
-                    && token.getResourceAccess("realm-management").getRoles().contains("view-users"))
-                    && !token.getPreferredUsername().equalsIgnoreCase(userName)){
-                log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to get User Detail" );
-                status = Status.UNAUTHORIZED;
-                out = "Unauthorized";
-                return Util.setCors(status, out);
-            }
 
-        }catch(Exception e){
-            log.error("Error Occurs!!", e);
-            status = Status.UNAUTHORIZED;
-            out = "Unauthorized";
-            return Util.setCors(status, out);
-        }
+//        log.debug("token : " + tokenString);
+//        try{
+//            verifyToken(tokenString, session.getContext().getRealm());
+//            log.info(" User Who Requested Get User Detail : " + token.getPreferredUsername());
+//            if (!(token.getResourceAccess("realm-management")!= null
+//                    && token.getResourceAccess("realm-management").getRoles() != null
+//                    && token.getResourceAccess("realm-management").getRoles().contains("view-users"))
+//                    && !token.getPreferredUsername().equalsIgnoreCase(userName)){
+//                log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to get User Detail" );
+//                status = Status.UNAUTHORIZED;
+//                out = "Unauthorized";
+//                return Util.setCors(status, out);
+//            }
+//
+//        }catch(Exception e){
+//            log.error("Error Occurs!!", e);
+//            status = Status.UNAUTHORIZED;
+//            out = "Unauthorized";
+//            return Util.setCors(status, out);
+//        }
 
         List <String> groupName = null;
         try {
             UserModel user = session.users().getUserByUsername(userName, session.realms().getRealmByName(realmName));
+
+            if(user.hasRole(session.realms().getRealmByName("master").getRole("admin"))) {
+                log.info("Admin User : " + userName);
+            }
+
             if (user == null) {
                 status = Status.BAD_REQUEST;
                 out = "No Corresponding UserName";

@@ -63,7 +63,7 @@ public class AgreementProvider implements RealmResourceProvider {
     @Path("")
     @NoCache
     @Produces("text/plain; charset=utf-8")
-    public Response post(Agreement agreement) {
+    public Response post(Agreement agreement, @QueryParam("token") String tokenString) {
         log.info("clientName : " + agreement.getClientName());
         log.info("realmName : " + agreement.getRealmName());
         log.info("agreement : " + agreement.getAgreement());
@@ -106,7 +106,7 @@ public class AgreementProvider implements RealmResourceProvider {
     @Path("{clientName}")
     @NoCache
     @Produces("text/plain; charset=utf-8")
-    public Response delete(@PathParam("clientName") final String clientName, @QueryParam("realmName") String realmName , @QueryParam("version") String version ) {
+    public Response delete(@PathParam("clientName") final String clientName, @QueryParam("realmName") String realmName , @QueryParam("version") String version, @QueryParam("token") String tokenString ) {
     	log.info("clientName : " + clientName + ", version : " + version + "Agreement Delete Service");
     	List< Agreement > agreementList = getEntityManager().createNamedQuery("findByRealmAndClient", Agreement.class)
                 .setParameter("realmName", realmName).setParameter("clientName", clientName).setParameter("version", version).getResultList();
