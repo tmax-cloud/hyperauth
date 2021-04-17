@@ -288,7 +288,14 @@ public class UserProvider implements RealmResourceProvider {
         }
 
         log.debug("token : " + tokenString);
+
         try{
+            verifyToken(tokenString, session.realms().getRealmByName("master"));
+            log.info("TEST User Who Requested Get User Detail : " + token.getPreferredUsername());
+            if(!Util.isHyperauthAdmin(session,token.getPreferredUsername())){
+                log.info("Not Admin!!!!!!!");
+            }
+            
             verifyToken(tokenString, session.getContext().getRealm());
             log.info(" User Who Requested Get User Detail : " + token.getPreferredUsername());
             if (!(token.getResourceAccess("realm-management")!= null
