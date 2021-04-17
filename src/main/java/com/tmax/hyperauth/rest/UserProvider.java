@@ -280,6 +280,17 @@ public class UserProvider implements RealmResourceProvider {
         UserRepresentation userOut = new UserRepresentation();
         log.info("userName request : " + userName);
 
+        try{
+            if(session.users().getUserByEmail(userName, session.realms().getRealmByName("master")).hasRole(session.realms().getRealmByName("master").getRole("admin"))) {
+                log.info("Admin User : " + userName);
+            }else {
+                log.info("master realm user but not admin");
+            }
+        } catch ( Exception e) {
+            log.info("Not in Master Realm");
+        }
+
+
         RealmModel realm = session.getContext().getRealm();
 
         String realmName = realm.getDisplayName();
@@ -313,10 +324,6 @@ public class UserProvider implements RealmResourceProvider {
         List <String> groupName = null;
         try {
             UserModel user = session.users().getUserByUsername(userName, session.realms().getRealmByName(realmName));
-
-            if(user.hasRole(session.realms().getRealmByName("master").getRole("admin"))) {
-                log.info("Admin User : " + userName);
-            }
 
             if (user == null) {
                 status = Status.BAD_REQUEST;
