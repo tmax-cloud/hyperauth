@@ -316,12 +316,13 @@ public class UserProvider implements RealmResourceProvider {
             KeyWrapper kw = session.keys().getKeys(session.realms().getRealmByName("master")).stream().filter(k ->
                     k.getAlgorithm().equalsIgnoreCase("RS256")
             ).findFirst().get();
-            log.info("kw.getPublicKey().getEncoded().toString() : " + kw.getPublicKey().getEncoded().toString());
-            log.info("kw.getCertificate().getEncoded().toString() : " + kw.getCertificate().getEncoded().toString());
-            log.info("kw.getCertificate().getPublicKey().getEncoded().toString() : " + kw.getCertificate().getPublicKey().getEncoded().toString());
-            log.info("kw.getCertificate().getTBSCertificate().toString() : " + kw.getCertificate().getTBSCertificate().toString());
+            log.info("kw.getAlgorithm() : " + kw.getAlgorithm());
+            log.info("new String(kw.getPublicKey().getEncoded()) : " + new String(kw.getPublicKey().getEncoded()));
+            log.info("new String(kw.getCertificate().getEncoded()) : " +  new String(kw.getCertificate().getEncoded());
+            log.info("new String(kw.getCertificate().getPublicKey().getEncoded()) : " +  new String(kw.getCertificate().getPublicKey().getEncoded()));
+            log.info(" new String(kw.getCertificate().getTBSCertificate()) : " +  new String(kw.getCertificate().getTBSCertificate()));
 
-            DecodedJWT adminToken = verifyAdminToken( tokenString, kw.getCertificate().getEncoded().toString());
+            DecodedJWT adminToken = verifyAdminToken( tokenString, new String(kw.getCertificate().getEncoded());
             log.info("TEST User Who Requested Get User Detail : " + token.getPreferredUsername());
 
             if(!Util.isHyperauthAdmin(session,adminToken.getClaim("preferred_username").asString())){
