@@ -318,11 +318,11 @@ public class UserProvider implements RealmResourceProvider {
             ).findFirst().get();
             log.info("kw.getAlgorithm() : " + kw.getAlgorithm());
             log.info("new String(kw.getPublicKey().getEncoded()) : " + new String(kw.getPublicKey().getEncoded()));
-            log.info("new String(kw.getCertificate().getEncoded()) : " +  new String(kw.getCertificate().getEncoded());
+            log.info("new String(kw.getCertificate().getEncoded()) : " +  new String(kw.getCertificate().getEncoded()));
             log.info("new String(kw.getCertificate().getPublicKey().getEncoded()) : " +  new String(kw.getCertificate().getPublicKey().getEncoded()));
             log.info(" new String(kw.getCertificate().getTBSCertificate()) : " +  new String(kw.getCertificate().getTBSCertificate()));
 
-            DecodedJWT adminToken = verifyAdminToken( tokenString, new String(kw.getCertificate().getEncoded());
+            DecodedJWT adminToken = verifyAdminToken( tokenString, new String(kw.getCertificate().getEncoded()));
             log.info("TEST User Who Requested Get User Detail : " + token.getPreferredUsername());
 
             if(!Util.isHyperauthAdmin(session,adminToken.getClaim("preferred_username").asString())){
