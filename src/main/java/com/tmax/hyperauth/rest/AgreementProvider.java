@@ -86,12 +86,8 @@ public class AgreementProvider implements RealmResourceProvider {
 
         try {
             if (!Util.isHyperauthAdmin(session,tokenString)){
-                verifyToken(tokenString, session.getContext().getRealm());
-                log.info(" User Who Requested Agreement Create / Update : " + token.getPreferredUsername());
-                if (!Util.isHyperauthAdmin(session, token.getPreferredUsername())) {
-                    log.error("User [ " + token.getPreferredUsername() + " ] is not Admin of Hyperauth");
-                    throw new Exception();
-                }
+                log.error("User [ " + token.getPreferredUsername() + " ] is not Admin of Hyperauth");
+                throw new Exception();
             }
         } catch (Exception e) {
             log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to Create / Update Agreement");
@@ -140,12 +136,8 @@ public class AgreementProvider implements RealmResourceProvider {
     	log.info("clientName : " + clientName + ", version : " + version + "Agreement Delete Service");
         try {
             if (!Util.isHyperauthAdmin(session,tokenString)){
-                verifyToken(tokenString, session.getContext().getRealm());
-                log.info(" User Who Requested Agreement Delete : " + token.getPreferredUsername());
-                if (!Util.isHyperauthAdmin(session, token.getPreferredUsername())) {
-                    log.error("User [ " + token.getPreferredUsername() + " ] is not Admin of Hyperauth");
-                    throw new Exception();
-                }
+                log.error("User [ " + token.getPreferredUsername() + " ] is not Admin of Hyperauth");
+                throw new Exception();
             }
         } catch (Exception e) {
             log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to Delete Agreement");
@@ -180,33 +172,5 @@ public class AgreementProvider implements RealmResourceProvider {
     
     private EntityManager getEntityManager() {
         return session.getProvider(JpaConnectionProvider.class).getEntityManager();
-    }
-
-    private void verifyToken(String tokenString, RealmModel realm) throws VerificationException {
-        if (tokenString == null) {
-            out = "Token not provided";
-            throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "Token not provided", Status.BAD_REQUEST);
-        }
-        TokenVerifier<AccessToken> verifier = TokenVerifier.create(tokenString, AccessToken.class).withDefaultChecks()
-                .realmUrl(Urls.realmIssuer(session.getContext().getUri().getBaseUri(), realm.getName()));
-
-        SignatureVerifierContext verifierContext = session.getProvider(SignatureProvider.class,
-                verifier.getHeader().getAlgorithm().name()).verifier(verifier.getHeader().getKeyId());
-        verifier.verifierContext(verifierContext);
-        try {
-            token = verifier.verify().getToken();
-        } catch (Exception e) {
-            out = "token invalid";
-            throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "token invalid", Status.UNAUTHORIZED);
-        }
-        clientModel = realm.getClientByClientId(token.getIssuedFor());
-        if (clientModel == null) {
-            out = "Client not found";
-            throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "Client not found", Status.NOT_FOUND);
-        }
-
-        TokenVerifier.createWithoutSignature(token)
-                .withChecks(TokenManager.NotBeforeCheck.forModel(clientModel))
-                .verify();
     }
 }
