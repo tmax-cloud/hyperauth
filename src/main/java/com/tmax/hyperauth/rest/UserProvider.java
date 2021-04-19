@@ -314,9 +314,8 @@ public class UserProvider implements RealmResourceProvider {
                     k.getAlgorithm().equalsIgnoreCase("RS256")
             ).findFirst().get();
 
-
             DecodedJWT adminToken = verifyAdminToken( tokenString, kw.getCertificate());
-            log.info("TEST User Who Requested Get User Detail : " + token.getPreferredUsername());
+            log.info("TEST User Who Requested Get User Detail : " + adminToken.getClaim("preferred_username").asString());
 
             if(!Util.isHyperauthAdmin(session,adminToken.getClaim("preferred_username").asString())){
                 log.info("Not Admin!!!!!!!");
