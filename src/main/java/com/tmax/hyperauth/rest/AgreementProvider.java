@@ -151,7 +151,7 @@ public class AgreementProvider implements RealmResourceProvider {
     	if (agreementList != null && agreementList.size() != 0) {
         	getEntityManager().remove(agreementList.get(0));
     		status = Status.OK;
-        	out = agreementList.get(0).getAgreement() + "Delete Success";
+        	out = agreementList.get(0).getAgreement() + " Delete Success";
     	} else {
     		status = Status.BAD_REQUEST;
         	out = "No Corresponding Agreement";
