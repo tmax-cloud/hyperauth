@@ -282,10 +282,7 @@ public class UserProvider implements RealmResourceProvider {
         return Util.setCors(status, out);
     }
 
-    public static DecodedJWT verifyAdminToken(String token, String certString) throws Exception {
-        byte[] certificateData = certString.getBytes();
-        CertificateFactory cf = CertificateFactory.getInstance("X509");
-        X509Certificate certificate = (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(certificateData));
+    public static DecodedJWT verifyAdminToken(String token, X509Certificate certificate) throws Exception {
         PublicKey publicKey = certificate.getPublicKey();
         JWTVerifier verifier = JWT.require(Algorithm.RSA256((RSAPublicKey) publicKey, null)).build();
         DecodedJWT jwt = verifier.verify(token);
@@ -317,7 +314,8 @@ public class UserProvider implements RealmResourceProvider {
                     k.getAlgorithm().equalsIgnoreCase("RS256")
             ).findFirst().get();
 
-            DecodedJWT adminToken = verifyAdminToken( tokenString, kw.getCertificate().toString());
+
+            DecodedJWT adminToken = verifyAdminToken( tokenString, kw.getCertificate());
             log.info("TEST User Who Requested Get User Detail : " + token.getPreferredUsername());
 
             if(!Util.isHyperauthAdmin(session,adminToken.getClaim("preferred_username").asString())){
