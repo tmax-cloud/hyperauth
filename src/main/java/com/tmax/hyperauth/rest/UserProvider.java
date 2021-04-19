@@ -283,7 +283,7 @@ public class UserProvider implements RealmResourceProvider {
     }
 
     public static DecodedJWT verifyAdminToken(String token, String certString) throws Exception {
-        byte[] certificateData = Base64.getDecoder().decode(certString);
+        byte[] certificateData = certString.getBytes();
         CertificateFactory cf = CertificateFactory.getInstance("X509");
         X509Certificate certificate = (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(certificateData));
         PublicKey publicKey = certificate.getPublicKey();
@@ -316,28 +316,8 @@ public class UserProvider implements RealmResourceProvider {
             KeyWrapper kw = session.keys().getKeys(session.realms().getRealmByName("master")).stream().filter(k ->
                     k.getAlgorithm().equalsIgnoreCase("RS256")
             ).findFirst().get();
-            log.info("kw.getAlgorithm() : " + kw.getAlgorithm());
-            log.info("kw.getCertificate().toString() : " +  kw.getCertificate().toString());
-            log.info("kw.getCertificate() : " +  kw.getCertificate());
-            log.info("kw.getCertificate().getType() : " +  kw.getCertificate().getType());
-            log.info("kw.getCertificate().getSigAlgName() : " +  kw.getCertificate().getSigAlgName());
-            log.info("kw.getCertificate().getSubjectX500Principal().toString() : " +  kw.getCertificate().getSubjectX500Principal().toString());
-            log.info("new String (kw.getCertificate().getSubjectX500Principal().getEncoded()) : " +  new String (kw.getCertificate().getSubjectX500Principal().getEncoded()));
-            log.info("kw.getCertificate().getSubjectX500Principal().getName() : " +  kw.getCertificate().getSubjectX500Principal().getName());
-            log.info("kw.getCertificate().getPublicKey() : " +  kw.getCertificate().getPublicKey());
-            log.info("kw.getCertificate().getPublicKey().toString() : " +  kw.getCertificate().getPublicKey().toString());
-            log.info("new String(kw.getCertificate().getPublicKey().getEncoded()) : " +  new String(kw.getCertificate().getPublicKey().getEncoded()));
-            log.info("new String(kw.getCertificate().getSignature()) : " +  new String(kw.getCertificate().getSignature()));
-            log.info("new String(kw.getCertificate().getSigAlgParams()) : " +  new String(kw.getCertificate().getSigAlgParams()));
 
-            log.info("kw.getSecretKey().toString() : " +  kw.getSecretKey().toString());
-            log.info("kw.getSecretKey() : " +  kw.getSecretKey());
-            log.info("kw.getPublicKey().toString() : " +  kw.getPublicKey().toString());
-            log.info("kw.getPublicKey() : " +  kw.getPublicKey());
-            //TODO : certificate을 찾아라!!!
-
-
-            DecodedJWT adminToken = verifyAdminToken( tokenString, new String(kw.getCertificate().getEncoded()));
+            DecodedJWT adminToken = verifyAdminToken( tokenString, kw.getCertificate().toString());
             log.info("TEST User Who Requested Get User Detail : " + token.getPreferredUsername());
 
             if(!Util.isHyperauthAdmin(session,adminToken.getClaim("preferred_username").asString())){
