@@ -317,10 +317,25 @@ public class UserProvider implements RealmResourceProvider {
                     k.getAlgorithm().equalsIgnoreCase("RS256")
             ).findFirst().get();
             log.info("kw.getAlgorithm() : " + kw.getAlgorithm());
-            log.info("new String(kw.getPublicKey().getEncoded()) : " + new String(kw.getPublicKey().getEncoded()));
-            log.info("new String(kw.getCertificate().getEncoded()) : " +  new String(kw.getCertificate().getEncoded()));
+            log.info("kw.getCertificate().toString() : " +  kw.getCertificate().toString());
+            log.info("kw.getCertificate() : " +  kw.getCertificate());
+            log.info("kw.getCertificate().getType() : " +  kw.getCertificate().getType());
+            log.info("kw.getCertificate().getSigAlgName() : " +  kw.getCertificate().getSigAlgName());
+            log.info("kw.getCertificate().getSubjectX500Principal().toString() : " +  kw.getCertificate().getSubjectX500Principal().toString());
+            log.info("new String (kw.getCertificate().getSubjectX500Principal().getEncoded()) : " +  new String (kw.getCertificate().getSubjectX500Principal().getEncoded()));
+            log.info("kw.getCertificate().getSubjectX500Principal().getName() : " +  kw.getCertificate().getSubjectX500Principal().getName());
+            log.info("kw.getCertificate().getPublicKey() : " +  kw.getCertificate().getPublicKey());
+            log.info("kw.getCertificate().getPublicKey().toString() : " +  kw.getCertificate().getPublicKey().toString());
             log.info("new String(kw.getCertificate().getPublicKey().getEncoded()) : " +  new String(kw.getCertificate().getPublicKey().getEncoded()));
-            log.info(" new String(kw.getCertificate().getTBSCertificate()) : " +  new String(kw.getCertificate().getTBSCertificate()));
+            log.info("new String(kw.getCertificate().getSignature()) : " +  new String(kw.getCertificate().getSignature()));
+            log.info("new String(kw.getCertificate().getSigAlgParams()) : " +  new String(kw.getCertificate().getSigAlgParams()));
+
+            log.info("kw.getSecretKey().toString() : " +  kw.getSecretKey().toString());
+            log.info("kw.getSecretKey() : " +  kw.getSecretKey());
+            log.info("kw.getPublicKey().toString() : " +  kw.getPublicKey().toString());
+            log.info("kw.getPublicKey() : " +  kw.getPublicKey());
+            //TODO : certificate을 찾아라!!!
+
 
             DecodedJWT adminToken = verifyAdminToken( tokenString, new String(kw.getCertificate().getEncoded()));
             log.info("TEST User Who Requested Get User Detail : " + token.getPreferredUsername());
