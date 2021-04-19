@@ -86,11 +86,11 @@ public class AgreementProvider implements RealmResourceProvider {
 
         try {
             if (!Util.isHyperauthAdmin(session,tokenString)){
-                log.error("User [ " + token.getPreferredUsername() + " ] is not Admin of Hyperauth");
+                log.error("User Who requested is not Admin of Hyperauth");
                 throw new Exception();
             }
         } catch (Exception e) {
-            log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to Create / Update Agreement");
+            log.error("Exception : UnAuthorized User to Create / Update Agreement");
             status = Status.UNAUTHORIZED;
             out = "Agreement Create / Update Failed";
             return Util.setCors(status, out);
@@ -136,11 +136,11 @@ public class AgreementProvider implements RealmResourceProvider {
     	log.info("clientName : " + clientName + ", version : " + version + "Agreement Delete Service");
         try {
             if (!Util.isHyperauthAdmin(session,tokenString)){
-                log.error("User [ " + token.getPreferredUsername() + " ] is not Admin of Hyperauth");
+                log.error("User who requested is not Admin of Hyperauth");
                 throw new Exception();
             }
         } catch (Exception e) {
-            log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to Delete Agreement");
+            log.error("Exception : UnAuthorized User to Delete Agreement");
             status = Status.UNAUTHORIZED;
             out = "Agreement Delete Failed";
             return Util.setCors(status, out);
