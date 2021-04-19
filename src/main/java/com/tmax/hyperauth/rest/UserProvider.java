@@ -208,17 +208,19 @@ public class UserProvider implements RealmResourceProvider {
         log.info("except request : " + except);
 
         try{
-            verifyToken(tokenString, session.getContext().getRealm());
-            log.info(" User Who Requested User List : " + token.getPreferredUsername());
+            if (!Util.isHyperauthAdmin(session,tokenString)){
+                verifyToken(tokenString, session.getContext().getRealm());
+                log.info(" User Who Requested User List : " + token.getPreferredUsername());
 
-            if (!(token.getResourceAccess("realm-management")!= null
-                    && token.getResourceAccess("realm-management").getRoles() != null
-                    && token.getResourceAccess("realm-management").getRoles().contains("view-users"))
-                    && !Util.isHyperauthAdmin(session,token.getPreferredUsername())){
-                log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to get User List" );
-                status = Status.UNAUTHORIZED;
-                out = "User ListGet Failed";
-                return Util.setCors(status, out);
+                if (!(token.getResourceAccess("realm-management")!= null
+                        && token.getResourceAccess("realm-management").getRoles() != null
+                        && token.getResourceAccess("realm-management").getRoles().contains("view-users"))
+                        && !Util.isHyperauthAdmin(session,token.getPreferredUsername())){
+                    log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to get User List" );
+                    status = Status.UNAUTHORIZED;
+                    out = "User ListGet Failed";
+                    return Util.setCors(status, out);
+                }
             }
 
             StringBuilder query = new StringBuilder();
@@ -359,25 +361,6 @@ public class UserProvider implements RealmResourceProvider {
             // User Attribute Data
             userOut.setAttributes(user.getAttributes());
 
-            // FIXME : 로그인 실패시 실패 정보를 보여주려고 의도한 건데, 자꾸 user Attribute에 저장되는 현상 발생, 아직 미해결
-//        	// Login Failure Data
-//            UserLoginFailureModel loginFailureModel = session.sessions().getUserLoginFailure(realm, user.getId());
-//            if ( loginFailureModel != null ){
-//                boolean disabled;
-//                if (user == null) {
-//                    disabled = Time.currentTime() < loginFailureModel.getFailedLoginNotBefore();
-//                } else {
-//                    disabled = session.getProvider(BruteForceProtector.class).isTemporarilyDisabled(session, realm, user);
-//                }
-//                // User Attribute Data
-//                userOut.getAttributes().put("temporarilyDisabled", new ArrayList<>(Arrays.asList(String.valueOf(disabled))));
-//                userOut.getAttributes().put("numFailures", new ArrayList<>(Arrays.asList(Integer.toString(loginFailureModel.getNumFailures()))));
-//                userOut.getAttributes().put("lastIPFailure", new ArrayList<>(Arrays.asList(loginFailureModel.getLastIPFailure())));
-//                userOut.getAttributes().put("lastFailure", new ArrayList<>(Arrays.asList(Long.toString(loginFailureModel.getLastFailure()))));
-//                userOut.getAttributes().put("failedLoginNotBefore", new ArrayList<>(Arrays.asList(Integer.toString(loginFailureModel.getFailedLoginNotBefore()))));
-//                userOut.getAttributes().put("remainSecond", new ArrayList<>(Arrays.asList( Long.toString( loginFailureModel.getFailedLoginNotBefore() - loginFailureModel.getLastFailure()/1000 ))));
-//            }
-
             status = Status.OK;
             return Util.setCors(status, userOut);
         }catch (Exception e) {
@@ -402,11 +385,13 @@ public class UserProvider implements RealmResourceProvider {
         EventBuilder event = new EventBuilder(realm, session, clientConnection).detail("username", userName); // FIXME
 
         try {
-            verifyToken(tokenString, realm);
-            if (!token.getPreferredUsername().equalsIgnoreCase(userName)) {
-                out = "Cannot delete other user";
-                status = Status.BAD_REQUEST;
-                return Util.setCors(status, out);
+            if (!Util.isHyperauthAdmin(session,tokenString)){
+                verifyToken(tokenString, realm);
+                if (!token.getPreferredUsername().equalsIgnoreCase(userName)) {
+                    out = "Cannot delete other user";
+                    status = Status.BAD_REQUEST;
+                    return Util.setCors(status, out);
+                }
             }
         } catch (Exception e) {
             log.error("Error Occurs!!", e);
@@ -415,7 +400,6 @@ public class UserProvider implements RealmResourceProvider {
         }
 
         session.getContext().setClient(clientModel);
-
         if (!clientModel.isEnabled()) {
             status = Status.BAD_REQUEST;
             out = "Disabled Client ";
@@ -472,11 +456,13 @@ public class UserProvider implements RealmResourceProvider {
         EventBuilder event = new EventBuilder(realm, session, clientConnection); // FIXME
 
         try {
-            verifyToken(tokenString, realm);
-            if (!token.getPreferredUsername().equalsIgnoreCase(userName)) {
-                out = "Cannot update other user";
-                status = Status.BAD_REQUEST;
-                return Util.setCors(status, out);
+            if (!Util.isHyperauthAdmin(session,tokenString)){
+                verifyToken(tokenString, realm);
+                if (!token.getPreferredUsername().equalsIgnoreCase(userName)) {
+                    out = "Cannot update other user";
+                    status = Status.BAD_REQUEST;
+                    return Util.setCors(status, out);
+                }
             }
         } catch (Exception e) {
             log.error("Error Occurs!!", e);

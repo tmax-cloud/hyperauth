@@ -85,11 +85,13 @@ public class AgreementProvider implements RealmResourceProvider {
         log.info("Agreement Create Service");
 
         try {
-            verifyToken(tokenString, session.getContext().getRealm());
-            log.info(" User Who Requested Agreement Create / Update : " + token.getPreferredUsername());
-            if (!Util.isHyperauthAdmin(session, token.getPreferredUsername())) {
-                log.error("User [ " + token.getPreferredUsername() + " ] is not Admin of Hyperauth");
-                throw new Exception();
+            if (!Util.isHyperauthAdmin(session,tokenString)){
+                verifyToken(tokenString, session.getContext().getRealm());
+                log.info(" User Who Requested Agreement Create / Update : " + token.getPreferredUsername());
+                if (!Util.isHyperauthAdmin(session, token.getPreferredUsername())) {
+                    log.error("User [ " + token.getPreferredUsername() + " ] is not Admin of Hyperauth");
+                    throw new Exception();
+                }
             }
         } catch (Exception e) {
             log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to Create / Update Agreement");
@@ -136,13 +138,14 @@ public class AgreementProvider implements RealmResourceProvider {
     @Produces("text/plain; charset=utf-8")
     public Response delete(@PathParam("clientName") final String clientName, @QueryParam("realmName") String realmName , @QueryParam("version") String version, @QueryParam("token") String tokenString ) {
     	log.info("clientName : " + clientName + ", version : " + version + "Agreement Delete Service");
-
         try {
-            verifyToken(tokenString, session.getContext().getRealm());
-            log.info(" User Who Requested Agreement Delete : " + token.getPreferredUsername());
-            if (!Util.isHyperauthAdmin(session, token.getPreferredUsername())) {
-                log.error("User [ " + token.getPreferredUsername() + " ] is not Admin of Hyperauth");
-                throw new Exception();
+            if (!Util.isHyperauthAdmin(session,tokenString)){
+                verifyToken(tokenString, session.getContext().getRealm());
+                log.info(" User Who Requested Agreement Delete : " + token.getPreferredUsername());
+                if (!Util.isHyperauthAdmin(session, token.getPreferredUsername())) {
+                    log.error("User [ " + token.getPreferredUsername() + " ] is not Admin of Hyperauth");
+                    throw new Exception();
+                }
             }
         } catch (Exception e) {
             log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to Delete Agreement");

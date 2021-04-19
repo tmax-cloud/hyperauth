@@ -79,16 +79,18 @@ public class GroupProvider implements RealmResourceProvider {
         log.info("except request : " + except);
 
         try{
-            verifyToken(tokenString, session.getContext().getRealm());
-            log.info(" User Who Requested Group List : " + token.getPreferredUsername());
+            if (!Util.isHyperauthAdmin(session,tokenString)){
+                verifyToken(tokenString, session.getContext().getRealm());
+                log.info(" User Who Requested Group List : " + token.getPreferredUsername());
 
-            if (!(token.getResourceAccess("realm-management")!= null
-                    && token.getResourceAccess("realm-management").getRoles() != null
-                    && token.getResourceAccess("realm-management").getRoles().contains("view-users"))){
-                log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to get User List" );
-                status = Status.UNAUTHORIZED;
-                out = "User ListGet Failed";
-                return Util.setCors(status, out);
+                if (!(token.getResourceAccess("realm-management")!= null
+                        && token.getResourceAccess("realm-management").getRoles() != null
+                        && token.getResourceAccess("realm-management").getRoles().contains("view-users"))){
+                    log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to get User List" );
+                    status = Status.UNAUTHORIZED;
+                    out = "User ListGet Failed";
+                    return Util.setCors(status, out);
+                }
             }
 
             StringBuilder query = new StringBuilder();
