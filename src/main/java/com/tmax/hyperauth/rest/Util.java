@@ -1,7 +1,12 @@
 package com.tmax.hyperauth.rest;
 
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.auth0.jwt.interfaces.JWTVerifier;
 import lombok.extern.slf4j.Slf4j;
+import org.keycloak.crypto.KeyWrapper;
 import org.keycloak.models.KeycloakSession;
 
 import javax.activation.DataHandler;
@@ -15,6 +20,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.PublicKey;
+import java.security.cert.X509Certificate;
+import java.security.interfaces.RSAPublicKey;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
@@ -199,17 +207,35 @@ public class Util {
 		return contentBuilder.toString();
 	}
 
-	public static boolean isHyperauthAdmin( KeycloakSession session, String userName ){
+	public static DecodedJWT verifyAdminToken(String token, X509Certificate certificate) throws Exception {
 		try{
+			PublicKey publicKey = certificate.getPublicKey();
+			JWTVerifier verifier = JWT.require(Algorithm.RSA256((RSAPublicKey) publicKey, null)).build();
+			DecodedJWT jwt = verifier.verify(token);
+			return jwt;
+		}catch (Exception e){
+			throw e;
+		}
+	}
+
+	public static boolean isHyperauthAdmin( KeycloakSession session, String tokenString ){
+		try{
+			String userName = null;
+			KeyWrapper kw = session.keys().getKeys(session.realms().getRealmByName("master")).stream().filter(k ->
+					k.getAlgorithm().equalsIgnoreCase("RS256")
+			).findFirst().get();
+			DecodedJWT adminToken = verifyAdminToken( tokenString, kw.getCertificate());
+			userName = adminToken.getClaim("preferred_username").asString();
+			log.info("User Who Requested : " + userName);
 			if(session.users().getUserByUsername(userName, session.realms().getRealmByName("master")).hasRole(session.realms().getRealmByName("master").getRole("admin"))) {
 				log.info("Admin User : " + userName);
 				return true;
 			}else {
-				log.info("master realm user but not admin");
+				log.info("Master Realm user but not Admin");
 				return false;
 			}
-		} catch ( Exception e) {
-			log.info("Not in Master Realm");
+		} catch(Exception e){
+			log.info("Error Occurred When Decoding Token, Not Admin User");
 			return false;
 		}
 	}

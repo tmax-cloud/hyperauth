@@ -282,12 +282,7 @@ public class UserProvider implements RealmResourceProvider {
         return Util.setCors(status, out);
     }
 
-    public static DecodedJWT verifyAdminToken(String token, X509Certificate certificate) throws Exception {
-        PublicKey publicKey = certificate.getPublicKey();
-        JWTVerifier verifier = JWT.require(Algorithm.RSA256((RSAPublicKey) publicKey, null)).build();
-        DecodedJWT jwt = verifier.verify(token);
-        return jwt;
-    }
+
 
 
     @GET
@@ -304,36 +299,23 @@ public class UserProvider implements RealmResourceProvider {
         if (realmName == null) {
             realmName = realm.getName();
         }
-
         log.debug("token : " + tokenString);
 
         try{
-            String cert = null;
-            session.keys().getKeys(session.realms().getRealmByName("master")).stream().forEach(k -> System.out.println(k.getAlgorithm()));
-            KeyWrapper kw = session.keys().getKeys(session.realms().getRealmByName("master")).stream().filter(k ->
-                    k.getAlgorithm().equalsIgnoreCase("RS256")
-            ).findFirst().get();
-
-            DecodedJWT adminToken = verifyAdminToken( tokenString, kw.getCertificate());
-            log.info("TEST User Who Requested Get User Detail : " + adminToken.getClaim("preferred_username").asString());
-
-            if(!Util.isHyperauthAdmin(session,adminToken.getClaim("preferred_username").asString())){
-                log.info("Not Admin!!!!!!!");
+            if (!Util.isHyperauthAdmin(session,tokenString)){
+                verifyToken(tokenString, session.getContext().getRealm());
+                log.info(" User Who Requested Get User Detail : " + token.getPreferredUsername());
+                if (!(token.getResourceAccess("realm-management")!= null
+                        && token.getResourceAccess("realm-management").getRoles() != null
+                        && token.getResourceAccess("realm-management").getRoles().contains("view-users"))
+                        && !token.getPreferredUsername().equalsIgnoreCase(userName)
+                        && !Util.isHyperauthAdmin(session,token.getPreferredUsername())){
+                    log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to get User Detail" );
+                    status = Status.UNAUTHORIZED;
+                    out = "Unauthorized";
+                    return Util.setCors(status, out);
+                }
             }
-
-            verifyToken(tokenString, session.getContext().getRealm());
-            log.info(" User Who Requested Get User Detail : " + token.getPreferredUsername());
-            if (!(token.getResourceAccess("realm-management")!= null
-                    && token.getResourceAccess("realm-management").getRoles() != null
-                    && token.getResourceAccess("realm-management").getRoles().contains("view-users"))
-                    && !token.getPreferredUsername().equalsIgnoreCase(userName)
-                    && !Util.isHyperauthAdmin(session,token.getPreferredUsername())){
-                log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to get User Detail" );
-                status = Status.UNAUTHORIZED;
-                out = "Unauthorized";
-                return Util.setCors(status, out);
-            }
-
         }catch(Exception e){
             log.error("Error Occurs!!", e);
             status = Status.UNAUTHORIZED;
