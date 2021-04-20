@@ -96,7 +96,7 @@
  #### Get
    - **Description** 
      
-      <u>권한체크 없이</u> 사용자 정보를 조회하는 API
+      <u>Hyperauth Admin 권한 or 'view-users'권한을 가진 유저 토큰으로</u> 사용자 정보를 조회하는 API
       
   - **RequestURL**
 
@@ -125,7 +125,7 @@
   #### List
    - **Description** 
      
-      <u>Hyperauth 'view-users' 권한을 가진 client 관리자가 사용자 이메일 및 이름 list를 조회하는 API
+      <u>Hyperauth Admin 권한 or 'view-users'권한을 가진 유저 토큰으로</u> 사용자 이메일 및 이름 list를 조회하는 API
       
   - **RequestURL**
 
@@ -155,9 +155,9 @@
  #### AttributeUpdate
   - **Description** 
     
-    <u>사용자 자신의 권한으로</u> 사용자 정보를 수정하는 API
+    <u>Hyperauth Admin 권한 or 유저 본인 토큰</u> 사용자 정보를 수정하는 API
     
-    <u>사용자 자신의 권한으로</u> 탈퇴를 신청 (겸)
+    <u>Hyperauth Admin 권한 or 유저 본인 토큰</u> 탈퇴를 신청 (겸)
        - withdrawal_unqualified_{client_name} : t  
       attribute을 가진 유저는 탈퇴 신청을 할 수 없음 ex) withdrawal_unqualified_hypercloud : t 
     
@@ -199,13 +199,46 @@
   - **ResponseBody**
 
       X  
+      
+#### UserExists
+  - **Description** 
+    
+    <u>Hyperauth Admin 권한 or 유저 본인 토큰</u> 사용자 정보를 수정하는 API
+    
+    <u>Hyperauth Admin 권한 or 유저 본인 토큰</u> 탈퇴를 신청 (겸)
+       - withdrawal_unqualified_{client_name} : t  
+      attribute을 가진 유저는 탈퇴 신청을 할 수 없음 ex) withdrawal_unqualified_hypercloud : t 
+    
+  - **RequestURL**
+
+      GET https://{HYPERAUTH_IP}/auth/realms/tmax/user/{userName}/exists
+
+  - **RequestHeader**
+
+      X
+
+  - **QueryParam**
+
+      X
+       
+  - **PathParam**
+
+      userName : {userName}
+
+  - **RequestBody**
+
+      X
+
+  - **ResponseBody**
+
+      String : true / false  
 
 ## Group
 
 #### List
    - **Description** 
      
-      <u>Hyperauth 'view-users' 권한을 가진 client 관리자가 그룹 리스트를 조회하는 API
+      <u>Hyperauth Admin 권한 or 'view-users'권한을 가진 유저 토큰으로</u> client 관리자가 그룹 리스트를 조회하는 API
       
   - **RequestURL**
 
@@ -410,7 +443,7 @@
 
       - **Description** 
 
-        <u>권한체크없이</u> Client의 Agreement를 추가/수정하는 API
+        <u>Hyperauth Admin 권한으로</u> Client의 Agreement를 추가/수정하는 API
 
         같은 client/version의 Ageement를 삭제 후, 생성
 
@@ -448,7 +481,7 @@
 
   - **Description** 
     
-    <u>권한체크없이</u> 특정 client의 약관을 삭제하는 API
+    <u>Hyperauth Admin 권한으로</u> 특정 client의 약관을 삭제하는 API
     
   - **RequestURL**
 
