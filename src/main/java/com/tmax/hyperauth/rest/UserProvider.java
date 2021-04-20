@@ -285,8 +285,6 @@ public class UserProvider implements RealmResourceProvider {
     }
 
 
-
-
     @GET
     @Path("{userName}")
     @Produces(MediaType.APPLICATION_JSON)
