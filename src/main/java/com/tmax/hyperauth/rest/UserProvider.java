@@ -284,7 +284,6 @@ public class UserProvider implements RealmResourceProvider {
         return Util.setCors(status, out);
     }
 
-
     @GET
     @Path("{userName}")
     @Produces(MediaType.APPLICATION_JSON)
