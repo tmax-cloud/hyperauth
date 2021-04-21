@@ -8,6 +8,7 @@ import org.jboss.resteasy.spi.HttpRequest;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.TokenVerifier;
+import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.authenticators.directgrant.AbstractDirectGrantAuthenticator;
 import org.keycloak.common.ClientConnection;
 import org.keycloak.common.VerificationException;
@@ -131,22 +132,26 @@ public class PasswordProvider implements RealmResourceProvider {
                 return Util.setCors(status, out);
             } else if (!password.equalsIgnoreCase(confirmPassword)){
                 status = Status.BAD_REQUEST;
-                out = "Password and confirmation does not match. ";
+                out = "Password and confirmation does not match";
+                return Util.setCors(status, out);
+            } else if (sameWithOldPW(email, password)){
+                status = Status.BAD_REQUEST;
+                out = "sameWithOldPassword";
                 return Util.setCors(status, out);
             }
 
             // Change Password
             log.debug("Change Password to " + password);
-            session.userCredentialManager().updateCredential(session.realms().getRealmByName("tmax"),
-                    session.users().getUserByEmail(email, session.realms().getRealmByName("tmax")),
+            session.userCredentialManager().updateCredential(realm,
+                    session.users().getUserByEmail(email, realm),
                     UserCredentialModel.password(password, false));
             log.info("Change Password Success");
 
             // If Locked, Disable Temporary lock
-            UserModel userModel = session.users().getUserByEmail(email, session.realms().getRealmByName("tmax"));
+            UserModel userModel = session.users().getUserByEmail(email, realm);
             if (session.getProvider(BruteForceProtector.class).isTemporarilyDisabled(session, realm, userModel)){
                 UserLoginFailureModel loginFailureModel = session.sessions()
-                        .getUserLoginFailure(realm, session.users().getUserByEmail(email, session.realms().getRealmByName("tmax")).getId());
+                        .getUserLoginFailure(realm, session.users().getUserByEmail(email, realm).getId());
                 loginFailureModel.clearFailures();
             }
 
@@ -159,7 +164,7 @@ public class PasswordProvider implements RealmResourceProvider {
             }
 
             // Event Publish
-            event.event(EventType.UPDATE_PASSWORD).user(userModel).realm("tmax").detail("username", userModel.getUsername()).success(); // FIXME
+            event.event(EventType.UPDATE_PASSWORD).user(userModel).realm(realm).detail("username", userModel.getUsername()).success(); // FIXME
 
             status = Status.OK;
             out = "Reset Password Success";
@@ -189,7 +194,7 @@ public class PasswordProvider implements RealmResourceProvider {
             out = "Password is Empty";
             return Util.setCors(status, out);
         }
-        RealmModel realm = session.realms().getRealmByName("tmax");
+        RealmModel realm = session.getContext().getRealm();
         UserModel user = session.users().getUserByEmail(userId, realm);
         UserCredentialModel cred = UserCredentialModel.password(password);
         if (session.userCredentialManager().isValid(realm, user, cred)) {
@@ -240,5 +245,14 @@ public class PasswordProvider implements RealmResourceProvider {
         TokenVerifier.createWithoutSignature(token)
                 .withChecks(TokenManager.NotBeforeCheck.forModel(clientModel))
                 .verify();
+    }
+
+    private boolean sameWithOldPW(String email, String password) {
+        UserCredentialModel cred = UserCredentialModel.password(password);
+        if (session.userCredentialManager().isValid(session.getContext().getRealm(), session.users().getUserByEmail(email, session.getContext().getRealm()), cred)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
