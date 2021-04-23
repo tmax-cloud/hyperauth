@@ -214,8 +214,7 @@ public class UserProvider implements RealmResourceProvider {
 
                 if (!(token.getResourceAccess("realm-management")!= null
                         && token.getResourceAccess("realm-management").getRoles() != null
-                        && token.getResourceAccess("realm-management").getRoles().contains("view-users"))
-                        && !Util.isHyperauthAdmin(session,token.getPreferredUsername())){
+                        && token.getResourceAccess("realm-management").getRoles().contains("view-users"))){
                     log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to get User List" );
                     status = Status.UNAUTHORIZED;
                     out = "User ListGet Failed";
@@ -307,8 +306,7 @@ public class UserProvider implements RealmResourceProvider {
                 if (!(token.getResourceAccess("realm-management")!= null
                         && token.getResourceAccess("realm-management").getRoles() != null
                         && token.getResourceAccess("realm-management").getRoles().contains("view-users"))
-                        && !token.getPreferredUsername().equalsIgnoreCase(userName)
-                        && !Util.isHyperauthAdmin(session,token.getPreferredUsername())){
+                        && !token.getPreferredUsername().equalsIgnoreCase(userName)){
                     log.error("Exception : UnAuthorized User [ " + token.getPreferredUsername() + " ] to get User Detail" );
                     status = Status.UNAUTHORIZED;
                     out = "Unauthorized";
