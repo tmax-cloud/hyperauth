@@ -457,7 +457,7 @@
 
       - **QueryParam**
 
-        X
+        token : {AccessToken}
 
       - **PathParam**
 
@@ -492,6 +492,7 @@
     X
 
   - **QueryParam**
+    token : {AccessToken}
 
     version : {version}
 
