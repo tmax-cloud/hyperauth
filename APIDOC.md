@@ -108,7 +108,7 @@
 
   - **QueryParam**
      
-       X
+    token : {AccessToken}
      
   - **PathParam**
 
