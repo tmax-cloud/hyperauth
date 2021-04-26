@@ -67,7 +67,7 @@
 
   - **Description** 
 
-    <u>사용자 자신의 권한으로</u> 사용자를 삭제하는 API
+    <u>사용자 자신의 권한 or Admin토큰으로</u> 사용자를 삭제하는 API
 
   - **RequestURL**
 
