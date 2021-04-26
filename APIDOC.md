@@ -96,7 +96,7 @@
  #### Get
    - **Description** 
      
-      <u>Hyperauth Admin 권한 or 'view-users'권한을 가진 유저 토큰으로</u> 사용자 정보를 조회하는 API
+      <u>Hyperauth Admin 권한 or 'view-users'권한을 가진 유저 or 본인토큰으로</u> 사용자 정보를 조회하는 API
       
   - **RequestURL**
 
@@ -203,11 +203,7 @@
 #### UserExists
   - **Description** 
     
-    <u>Hyperauth Admin 권한 or 유저 본인 토큰</u> 사용자 정보를 수정하는 API
-    
-    <u>Hyperauth Admin 권한 or 유저 본인 토큰</u> 탈퇴를 신청 (겸)
-       - withdrawal_unqualified_{client_name} : t  
-      attribute을 가진 유저는 탈퇴 신청을 할 수 없음 ex) withdrawal_unqualified_hypercloud : t 
+    권한없이 유저가 존재하는지 확인하는 api
     
   - **RequestURL**
 
