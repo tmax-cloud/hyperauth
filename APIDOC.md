@@ -688,7 +688,7 @@
 
   - **RequestURL**
 
-    GET https://{HYPERAUTH_IP}/auth/realms/tmax/password
+    PATCH https://{HYPERAUTH_IP}/auth/realms/tmax/password
 
   - **RequestHeader**
 
@@ -702,7 +702,7 @@
 
     **Form parameter**
   
-    password : {changedPassword}
+    password : {Password}
 
   - **ResponseBody**
 
