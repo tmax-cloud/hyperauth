@@ -74,7 +74,7 @@ public class EmailOTPAuthenticator implements Authenticator {
         log.info("OTP code Store Success , user [ "+ context.getUser().getUsername() + " ]");
 
         String subject = "[Tmax 통합계정] 로그인을 위해 인증번호를 입력해주세요.";
-//        String body = Constants.LOGIN_VERIFY_OTP_BODY.replaceAll("%%VERIFY_CODE%%", code);
+        if(context.getSession().realms().getRealmByName(context.getRealm().getName()).getEmailTheme().equalsIgnoreCase("hyperauth")) subject = "[HyperAuth] 로그인을 위해 인증번호를 입력해주세요.";
         String body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/tmax/email/html/etc/otp-verification-code.html").replaceAll("%%VERIFY_CODE%%", code);
 
         try {

@@ -72,7 +72,7 @@ public class UserDeleteJob implements Job {
                             // Mail Send
                             String email = userRepresentation.getEmail();
                             String subject = "[Tmax 통합계정] 고객님의 계정 탈퇴가 완료되었습니다.";
-//                            String msg = Constants.ACCOUNT_WITHDRAWAL_APPROVAL_BODY;
+                            if(session.realms().getRealmByName(session.getContext().getRealm().getName()).getEmailTheme().equalsIgnoreCase("hyperauth")) subject = "[HyperAuth] 고객님의 계정 탈퇴가 완료되었습니다.";
                             String body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/tmax/email/html/etc/account-withdrawal-completed.html");
                             Util.sendMail(session, email, subject, body, null);
 

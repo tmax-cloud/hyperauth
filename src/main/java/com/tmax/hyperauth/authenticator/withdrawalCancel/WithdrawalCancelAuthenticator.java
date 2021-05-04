@@ -38,6 +38,8 @@ public class WithdrawalCancelAuthenticator implements Authenticator {
 
         // Send Mail
         String subject = "[Tmax 통합계정] 탈퇴 신청이 취소되었습니다.";
+        if(context.getSession().realms().getRealmByName(context.getRealm().getName()).getEmailTheme().equalsIgnoreCase("hyperauth")) subject = "[HyperAuth] 탈퇴 신청이 취소되었습니다.";
+
         String body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/tmax/email/html/etc/account-withdrawal-cancel.html");
         try {
             Util.sendMail(context.getSession(), context.getUser().getEmail(), subject, body, null );
