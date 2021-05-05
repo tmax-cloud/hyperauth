@@ -159,8 +159,12 @@ public class ConsoleProvider implements RealmResourceProvider {
                 String email = userModel.getEmail();
 
                 String subject = "[Tmax 통합계정] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
-                if(session.realms().getRealmByName(session.getContext().getRealm().getName()).getEmailTheme().equalsIgnoreCase("hyperauth")) subject = "[HyperAuth] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
                 String body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/tmax/email/html/etc/account-withdrawal-request.html");
+
+                if(session.realms().getRealmByName(session.getContext().getRealm().getName()).getEmailTheme().equalsIgnoreCase("hyperauth")) {
+                    subject = "[HyperAuth] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
+                    body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/hyperauth/email/html/etc/account-withdrawal-request.html");
+                }
 
                 Util.sendMail(session, email, subject, body, null );
                 event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userModel.getUsername()).detail("userWithdrawal","t").success(); //FIXME
