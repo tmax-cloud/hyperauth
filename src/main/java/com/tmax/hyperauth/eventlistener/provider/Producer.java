@@ -11,8 +11,7 @@ import java.util.Properties;
 
 @Slf4j
 public class Producer {
-    private final static String BOOTSTRAP_SERVER = "kafka-solo."+System.getenv("NAMESPACE")+":9092";
-    //    private final static String BOOTSTRAP_SERVER = "kafka-1."+System.getenv("NAMESPACE")+":9092,kafka-2."+System.getenv("NAMESPACE")+":9092,kafka-3."+System.getenv("NAMESPACE")+":9092";
+    private final static String BOOTSTRAP_SERVER = "kafka-1."+System.getenv("NAMESPACE")+":9092,kafka-2."+System.getenv("NAMESPACE")+":9092,kafka-3."+System.getenv("NAMESPACE")+":9092";
     public static void publishEvent(String topic, Object value){
         //reset thread context
         resetThreadContext();
