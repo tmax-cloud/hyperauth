@@ -726,6 +726,25 @@
   - **ResponseBody**
 
     String : on/off   
+    
+## VERSION
+
+ #### Get
+  - **Description** 
+
+      <u>Hyperauth Version Get API
+
+  - **RequestURL**
+    
+    GET https://{HYPERAUTH_IP}/auth/realms/tmax/version
+
+  - **PathParam**
+
+      X
+      
+  - **ResponseBody**
+
+    String : {versionString}       
 
 
 
