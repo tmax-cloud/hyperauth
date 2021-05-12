@@ -18,7 +18,7 @@ public class VersionProviderFactory implements RealmResourceProviderFactory {
 
     @Override
     public RealmResourceProvider create(KeycloakSession session) {
-        return new SessionProvider(session);
+        return new VersionProvider(session);
     }
 
     @Override
