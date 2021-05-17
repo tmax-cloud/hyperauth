@@ -7,7 +7,6 @@ import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.config.SslConfigs;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.jboss.logging.Logger;
 
 import java.time.Duration;
 import java.util.Collections;
@@ -20,15 +19,18 @@ import java.util.Properties;
 @Slf4j
 public class EventConsumer {
     private static final String TOPIC_NAME = "tmax";
+    private static final String BOOTSTRAP_SERVERS_INTERNAL = "kafka-1.hyperauth:9092,kafka-2.hyperauth:9092,kafka-3.hyperauth:9092"; // Hyperauth가 떠 있는 Kubernetes Cluster 내부에서 Subscribe 하는 경우 사용
+    private static final String BOOTSTRAP_SERVERS_EXTERNAL = "kafka-1.hyperauth.org:9093,kafka-2.hyperauth.org:9093,kafka-3.hyperauth.org:9093"; // Hyperauth가 떠 있는 Kubernetes Cluster 외부에서 Subscribe하는 경우 kafka-1.hyperauth.org 등을 상황에 맞게 바꾸어서 사용한다.
+    // kafka broker 3개가 노출되어 있는 주소는 hyperauth, kafka 관리자에게 문의해서 추가한다.
+    // 아래 예시는 kafka broker 3개가 nodePort 로 노출되어 있는 경우
+    // "172.22.6.2:31000,172.22.6.2:31001,172.22.6.2:31002";
 
     public static void main(String[] args) {
         Properties properties = new Properties();
         // Consumer가 kafka와 같은 Kubernetes Cluster 내부에 있는 경우
-        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka-1.hyperauth:9092,kafka-2.hyperauth:9092,kafka-3.hyperauth:9092");
+        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS_INTERNAL);
 
-        // Consumer가 kafka와 같은 Kubernetes Cluster 외부에 있는 경우 위를 지워주고 밑의 주석처리를 제거한다. ( 아래 예시는 kafka broker 3개가 nodePort 로 노출되어 있는 경우 )
-        // kafka broker 3개가 노출되어 있는 주소는 hyperauth, kafka 관리자에게 문의해서 추가한다.
-//        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "172.22.6.2:31000,172.22.6.2:31001,172.22.6.2:31002");
+
 
         properties.put(ConsumerConfig.ALLOW_AUTO_CREATE_TOPICS_CONFIG, false);
         properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());

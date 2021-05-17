@@ -33,9 +33,10 @@ public class Producer {
                             if (exception != null) {
                                 log.error("Error Occurs!!", exception);
                                 log.error("Failed to Send to Topic Server");
+                            } else {
+                                log.info("kafka produce success");
                             }
                         });
-                        log.info("kafka produce success");
                     } catch (Exception e) {
                         log.error("Error Occurs!!", e);
                     } finally {
