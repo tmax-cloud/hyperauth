@@ -2,7 +2,6 @@ package com.tmax.hyperauth.authenticator.secretQuestion;
 
 import com.tmax.hyperauth.authenticator.secretQuestion.credential.SecretQuestionCredentialModel;
 import lombok.extern.slf4j.Slf4j;
-import org.jboss.logging.Logger;
 import org.keycloak.common.util.Time;
 import org.keycloak.credential.CredentialInput;
 import org.keycloak.credential.CredentialInputValidator;

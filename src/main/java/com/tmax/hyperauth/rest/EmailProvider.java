@@ -1,23 +1,15 @@
 package com.tmax.hyperauth.rest;
 
-import com.tmax.hyperauth.caller.Constants;
-import com.tmax.hyperauth.jpa.Agreement;
 import com.tmax.hyperauth.jpa.EmailVerification;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.common.ClientConnection;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
-import org.keycloak.email.DefaultEmailSenderProvider;
-import org.keycloak.email.EmailException;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
-import org.keycloak.models.UserCredentialModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
-import org.keycloak.models.utils.ModelToRepresentation;
-import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.services.resource.RealmResourceProvider;
-
 import javax.persistence.EntityManager;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -25,7 +17,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,8 +58,8 @@ public class EmailProvider implements RealmResourceProvider {
         // Validate If User Exists with Email
         String userName = null;
         if (resetPassword != null && resetPassword.equalsIgnoreCase("t")){
-            if (session.users().getUserByEmail(email, session.realms().getRealmByName("tmax")) != null){
-                UserModel user = session.users().getUserByEmail(email, session.realms().getRealmByName("tmax"));
+            if (session.users().getUserByEmail(email, session.getContext().getRealm()) != null){
+                UserModel user = session.users().getUserByEmail(email, session.getContext().getRealm());
                 RealmModel realm = session.getContext().getRealm();
                 userName = user.getUsername();
                 log.info("userName : " + userName);
@@ -87,7 +78,7 @@ public class EmailProvider implements RealmResourceProvider {
                 return Util.setCors(status, out);
             }
         } else {
-            if (session.users().getUserByEmail(email, session.realms().getRealmByName("tmax")) != null) {
+            if (session.users().getUserByEmail(email, session.getContext().getRealm()) != null) {
                 status = Status.BAD_REQUEST;
                 out = "User Already Exists with the Email";
                 return Util.setCors(status, out);

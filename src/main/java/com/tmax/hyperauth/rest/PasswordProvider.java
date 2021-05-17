@@ -8,37 +8,26 @@ import org.jboss.resteasy.spi.HttpRequest;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.TokenVerifier;
-import org.keycloak.authentication.AuthenticationFlowContext;
-import org.keycloak.authentication.authenticators.directgrant.AbstractDirectGrantAuthenticator;
 import org.keycloak.common.ClientConnection;
 import org.keycloak.common.VerificationException;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
-import org.keycloak.credential.CredentialInput;
-import org.keycloak.credential.CredentialInputValidator;
 import org.keycloak.crypto.SignatureProvider;
 import org.keycloak.crypto.SignatureVerifierContext;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
 import org.keycloak.models.*;
-import org.keycloak.models.utils.CredentialValidation;
-import org.keycloak.models.utils.FormMessage;
-import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.protocol.oidc.TokenManager;
 import org.keycloak.representations.AccessToken;
 import org.keycloak.services.ErrorResponseException;
 import org.keycloak.services.Urls;
 import org.keycloak.services.managers.BruteForceProtector;
 import org.keycloak.services.resource.RealmResourceProvider;
-
 import javax.persistence.EntityManager;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import java.sql.Connection;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -88,7 +77,7 @@ public class PasswordProvider implements RealmResourceProvider {
             }
             log.info("email : " + email);
 
-            RealmModel realm = session.realms().getRealmByName("tmax");
+            RealmModel realm = session.getContext().getRealm();
             clientConnection = session.getContext().getConnection();
             EventBuilder event = new EventBuilder(realm, session, clientConnection); // FIXME
 

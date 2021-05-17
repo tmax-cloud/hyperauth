@@ -18,7 +18,6 @@ import org.keycloak.representations.AccessToken;
 import org.keycloak.services.ErrorResponseException;
 import org.keycloak.services.Urls;
 import org.keycloak.services.resource.RealmResourceProvider;
-import org.keycloak.authentication.AuthenticationFlowContext;
 
 import javax.persistence.EntityManager;
 import javax.ws.rs.*;
@@ -26,7 +25,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 

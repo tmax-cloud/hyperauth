@@ -8,7 +8,6 @@ import com.auth0.jwt.interfaces.JWTVerifier;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.crypto.KeyWrapper;
 import org.keycloak.models.KeycloakSession;
-
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -108,13 +107,13 @@ public class Util {
 		String pw = "Miracle!";
 		try{
 			if (keycloakSession != null) {
-				host = keycloakSession.realms().getRealmByName("tmax").getSmtpConfig().get("host");
-				if ((keycloakSession.realms().getRealmByName("tmax").getSmtpConfig().get("port") !=  null)) {
-					port = Integer.parseInt(keycloakSession.realms().getRealmByName("tmax").getSmtpConfig().get("port"));
+				host = keycloakSession.getContext().getRealm().getSmtpConfig().get("host");
+				if ((keycloakSession.getContext().getRealm().getSmtpConfig().get("port") !=  null)) {
+					port = Integer.parseInt(keycloakSession.getContext().getRealm().getSmtpConfig().get("port"));
 				}
-				sender = keycloakSession.realms().getRealmByName("tmax").getSmtpConfig().get("from");
-				un = keycloakSession.realms().getRealmByName("tmax").getSmtpConfig().get("user");
-				pw = keycloakSession.realms().getRealmByName("tmax").getSmtpConfig().get("password");
+				sender = keycloakSession.getContext().getRealm().getSmtpConfig().get("from");
+				un = keycloakSession.getContext().getRealm().getSmtpConfig().get("user");
+				pw = keycloakSession.getContext().getRealm().getSmtpConfig().get("password");
 			}
 		}catch( Exception e){
 			log.error( " Failed to get SmtpConfig from Session " );

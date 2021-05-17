@@ -17,7 +17,6 @@ import org.keycloak.policy.PasswordPolicyNotMetException;
 import org.keycloak.protocol.oidc.TokenManager.NotBeforeCheck;
 import org.keycloak.representations.AccessToken;
 import org.keycloak.representations.idm.UserRepresentation;
-import org.keycloak.services.ErrorResponse;
 import org.keycloak.services.ErrorResponseException;
 import org.keycloak.services.Urls;
 import org.keycloak.services.resource.RealmResourceProvider;
@@ -65,7 +64,7 @@ public class GroupMemberProvider implements RealmResourceProvider {
     public Response POST(List< UserRepresentation > reps, @QueryParam("token") String tokenString) {
         log.info("***** POST /GroupMember");
 
-        RealmModel realm = session.realms().getRealmByName("tmax");
+        RealmModel realm = session.getContext().getRealm();
 
         clientConnection = session.getContext().getConnection();
         EventBuilder event = new EventBuilder(realm, session, clientConnection);
@@ -167,7 +166,7 @@ public class GroupMemberProvider implements RealmResourceProvider {
                     RepresentationToModel.createGroups(rep, realm, user);
                     RepresentationToModel.createCredentials(rep, session, realm, user, true);
                     log.info("User [ " + username + " ] Register Success");
-                    event.event(EventType.REGISTER).user(user).realm("tmax").detail("username", username).success(); // FIXME
+                    event.event(EventType.REGISTER).user(user).realm(session.getContext().getRealm()).detail("username", username).success(); // FIXME
                 } catch (ModelDuplicateException e) {
                     log.error("Error Occurs!!", e);
                     if (session.getTransactionManager().isActive()) {
@@ -361,7 +360,7 @@ public class GroupMemberProvider implements RealmResourceProvider {
                     userModel.removeAttribute(key);
                     userModel.setAttribute(key, rep.getAttributes().get(key));
                 }
-                event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).success();
+                event.event(EventType.UPDATE_PROFILE).user(userModel).realm(session.getContext().getRealm()).detail("username", userName).success();
                 status = Status.OK;
                out = " GroupMember [" + userName + "] Update Success ";
             } catch (Exception e) {

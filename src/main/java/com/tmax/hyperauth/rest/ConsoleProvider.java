@@ -1,13 +1,11 @@
 package com.tmax.hyperauth.rest;
 
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
-import com.tmax.hyperauth.authenticator.AuthenticatorUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.annotations.cache.NoCache;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.common.ClientConnection;
-import org.keycloak.connections.jpa.JpaConnectionProvider;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
 import org.keycloak.forms.account.AccountPages;
@@ -21,18 +19,14 @@ import org.keycloak.services.managers.AppAuthManager;
 import org.keycloak.services.managers.AuthenticationManager;
 import org.keycloak.services.messages.Messages;
 import org.keycloak.services.resource.RealmResourceProvider;
-import org.keycloak.services.resources.RealmsResource;
 import org.keycloak.services.util.ResolveRelative;
 import org.keycloak.services.validation.Validation;
 
-import javax.persistence.EntityManager;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
-import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -68,7 +62,7 @@ public class ConsoleProvider implements RealmResourceProvider {
         RealmModel realm = session.getContext().getRealm();
         if (realm == null){
             log.info("realm is null!!");
-            realm = session.realms().getRealmByName("tmax");
+            realm = session.getContext().getRealm();
         }
         AuthenticationManager.AuthResult authResult = appAuthManager.authenticateIdentityCookie(session, realm);
         if (authResult != null) {
@@ -167,7 +161,8 @@ public class ConsoleProvider implements RealmResourceProvider {
                 }
 
                 Util.sendMail(session, email, subject, body, null );
-                event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userModel.getUsername()).detail("userWithdrawal","t").success(); //FIXME
+                event.event(EventType.UPDATE_PROFILE).user(userModel).realm(session.getContext().getRealm())
+                        .detail("username", userModel.getUsername()).detail("userWithdrawal","t").success(); //FIXME
             } else{
                 out = unQualifiedReason;
                 Status status = Status.FORBIDDEN;
@@ -224,7 +219,7 @@ public class ConsoleProvider implements RealmResourceProvider {
                     userModel.setAttribute(key, Collections.singletonList(input.getFormDataPart(key, String.class, null)));
                 }
             }
-            event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userModel.getUsername()).success(); //FIXME
+            event.event(EventType.UPDATE_PROFILE).user(userModel).realm(session.getContext().getRealm()).detail("username", userModel.getUsername()).success(); //FIXME
         } catch (Exception e) {
             log.error("Error Occurs!!", e);
             log.error("Failed to Update Agreement Attribute, User [ " + userModel.getUsername() + " ]");

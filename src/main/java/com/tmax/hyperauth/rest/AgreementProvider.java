@@ -8,23 +8,14 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.annotations.cache.NoCache;
-import org.keycloak.OAuthErrorException;
-import org.keycloak.TokenVerifier;
-import org.keycloak.common.VerificationException;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
-import org.keycloak.crypto.SignatureProvider;
-import org.keycloak.crypto.SignatureVerifierContext;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.KeycloakSession;
-import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
-import org.keycloak.protocol.oidc.TokenManager;
 import org.keycloak.representations.AccessToken;
-import org.keycloak.services.ErrorResponseException;
-import org.keycloak.services.Urls;
+
 import org.keycloak.services.resource.RealmResourceProvider;
 
 import com.tmax.hyperauth.jpa.Agreement;

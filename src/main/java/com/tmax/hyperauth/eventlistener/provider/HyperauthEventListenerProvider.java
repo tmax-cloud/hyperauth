@@ -4,12 +4,9 @@ import java.util.*;
 import javax.ws.rs.core.Context;
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
 import lombok.extern.slf4j.Slf4j;
-import org.jboss.logging.Logger;
 import org.keycloak.common.util.Time;
 import org.keycloak.events.Event;
-import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventListenerProvider;
-import org.keycloak.events.EventType;
 import org.keycloak.events.admin.AdminEvent;
 import org.keycloak.models.KeycloakSession;
 import com.google.gson.JsonObject;
@@ -37,7 +34,6 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
         log.info("Event Occurred:" + toString(event));
 
         if (event.getRealmId().equalsIgnoreCase("tmax")) {
-
             TopicEvent topicEvent = TopicEvent.makeTopicEvent(event, null);
 
             switch (event.getType().toString()) {
@@ -134,7 +130,7 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                     // when user registered by admin, operator call for new role   //FIXME : Delete Later !!!!
                     log.info("New User Registered in tmax Realm by Admin, Give New role for User in Kubernetes");
                     try {
-                        String userName = session.users().getUserById(adminEvent.getResourcePath().toString().substring(6), session.realms().getRealmByName("tmax")).getUsername();
+                        String userName = session.users().getUserById(adminEvent.getResourcePath().toString().substring(6), session.getContext().getRealm()).getUsername();
                         log.info("userName : " + userName);
 
                         HypercloudOperatorCaller.createNewUserRole(userName);

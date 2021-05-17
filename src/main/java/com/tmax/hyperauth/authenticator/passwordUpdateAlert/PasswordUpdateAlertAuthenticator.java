@@ -10,12 +10,8 @@ import org.keycloak.authentication.Authenticator;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
 import org.keycloak.models.*;
-import org.keycloak.models.utils.ModelToRepresentation;
-import org.keycloak.representations.idm.CredentialRepresentation;
-
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -134,7 +130,8 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
 
                     // Event Publish
                     EventBuilder event = new EventBuilder(context.getRealm(), context.getSession(), context.getConnection());
-                    event.event(EventType.UPDATE_PASSWORD).user(context.getUser()).realm("tmax").detail("username", context.getUser().getUsername()).success();
+                    event.event(EventType.UPDATE_PASSWORD).user(context.getUser()).realm(context.getSession().getContext().getRealm())
+                            .detail("username", context.getUser().getUsername()).success();
                     context.success();
                 }
             }

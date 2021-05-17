@@ -6,15 +6,12 @@ import org.keycloak.common.ClientConnection;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.services.resource.RealmResourceProvider;
-
 import javax.persistence.EntityManager;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author taegeon_woo@tmax.co.kr
@@ -51,7 +48,7 @@ public class SessionProvider implements RealmResourceProvider {
         log.info("sessionId : " + sessionId);
         try {
             out = "off";
-            boolean isRememberMe = session.sessions().getUserSession(session.realms().getRealmByName("tmax"), sessionId).isRememberMe();
+            boolean isRememberMe = session.sessions().getUserSession(session.getContext().getRealm(), sessionId).isRememberMe();
             if (isRememberMe) out = "on";
             status = Status.OK;
             return Util.setCors(status, out);

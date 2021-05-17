@@ -1,8 +1,5 @@
 package com.tmax.hyperauth.authenticator.authSelectBox;
 
-        import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
-        import com.tmax.hyperauth.authenticator.AuthenticatorUtil;
-        import com.tmax.hyperauth.rest.Util;
         import lombok.extern.slf4j.Slf4j;
         import org.keycloak.authentication.AuthenticationFlowContext;
         import org.keycloak.authentication.Authenticator;

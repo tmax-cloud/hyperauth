@@ -1,12 +1,5 @@
 package com.tmax.hyperauth.rest;
 
-
-import java.io.ByteArrayInputStream;
-import java.security.PublicKey;
-import java.security.cert.CertificateEncodingException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
-import java.security.interfaces.RSAPublicKey;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.persistence.EntityManager;
@@ -15,11 +8,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.auth0.jwt.interfaces.JWTVerifier;
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.spi.HttpResponse;
@@ -29,8 +17,6 @@ import org.keycloak.common.ClientConnection;
 import org.keycloak.common.VerificationException;
 import org.keycloak.common.util.ObjectUtil;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
-import org.keycloak.crypto.KeyUse;
-import org.keycloak.crypto.KeyWrapper;
 import org.keycloak.crypto.SignatureProvider;
 import org.keycloak.crypto.SignatureVerifierContext;
 import org.keycloak.events.EventBuilder;
@@ -83,7 +69,7 @@ public class UserProvider implements RealmResourceProvider {
     @Produces(MediaType.APPLICATION_JSON)
     public Response POST(List< UserRepresentation > reps) {
         log.info("***** POST /User");
-        RealmModel realm = session.realms().getRealmByName("tmax");
+        RealmModel realm = session.getContext().getRealm();
 
         clientConnection = session.getContext().getConnection();
         EventBuilder event = new EventBuilder(realm, session, clientConnection); // FIXME
@@ -147,7 +133,7 @@ public class UserProvider implements RealmResourceProvider {
                     RepresentationToModel.createCredentials(rep, session, realm, user, true);
                     log.info("User [ " + username + " ] Register Success");
 
-                    event.event(EventType.REGISTER).user(user).realm("tmax").detail("username", username).success(); // FIXME
+                    event.event(EventType.REGISTER).user(user).realm(session.getContext().getRealm()).detail("username", username).success(); // FIXME
 
                 } catch (ModelDuplicateException e) {
                     log.error("Error Occurs!!", e);
@@ -420,7 +406,7 @@ public class UserProvider implements RealmResourceProvider {
 
             try {
                 session.users().removeUser(realm, userModel);
-                event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).detail("userDelete","t").success(); //FIXME
+                event.event(EventType.UPDATE_PROFILE).user(userModel).realm(session.getContext().getRealm()).detail("username", userName).detail("userDelete","t").success(); //FIXME
                 log.info("Delete user role in k8s");
                 HypercloudOperatorCaller.deleteNewUserRole(userName);
 
@@ -531,7 +517,8 @@ public class UserProvider implements RealmResourceProvider {
                         Util.sendMail(session, email, subject, body, null );
                         status = Status.OK;
                         out = " User [" + userName + "] WithDrawal Request Success ";
-                        event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).detail("userWithdrawal","t").success(); //FIXME
+                        event.event(EventType.UPDATE_PROFILE).user(userModel).realm(session.getContext().getRealm())
+                                .detail("username", userName).detail("userWithdrawal","t").success(); //FIXME
                     } else{
                         status = Status.FORBIDDEN;
                         out = "User [" + userName + "] is Unqualified to Withdraw from Account due to [" + unQualifiedReason + "] Policy, Check Withdrawal Policy or Contact Administrator";
@@ -545,7 +532,7 @@ public class UserProvider implements RealmResourceProvider {
                     }
                     status = Status.OK;
                     out = " User [" + userName + "] Update Success ";
-                    event.event(EventType.UPDATE_PROFILE).user(userModel).realm("tmax").detail("username", userName).success();
+                    event.event(EventType.UPDATE_PROFILE).user(userModel).realm(session.getContext().getRealm()).detail("username", userName).success();
                 }
             } catch (Exception e) {
                 log.error("Error Occurs!!", e);
