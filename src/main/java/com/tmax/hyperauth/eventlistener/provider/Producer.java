@@ -68,12 +68,31 @@ public class Producer {
 //        properties.setProperty(SslConfigs.SSL_KEY_PASSWORD_CONFIG, System.getenv("CERTS_PASSWORD"));
 
         // for SASL_OAUTH_BEARER
-//        properties.setProperty(ProducerConfig.CLIENT_ID_CONFIG, "kafka-producer");
-//        properties.setProperty(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");
-//        properties.setProperty(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required;");
-//        properties.setProperty(SaslConfigs.SASL_MECHANISM, "OAUTHBEARER");
-//        properties.setProperty(SaslConfigs.SASL_LOGIN_CALLBACK_HANDLER_CLASS, "com.bfm.kafka.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler");
+        properties.setProperty(ProducerConfig.CLIENT_ID_CONFIG, "kafka-producer");
+        properties.setProperty(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");
+        properties.setProperty(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required;");
+        properties.setProperty(SaslConfigs.SASL_MECHANISM, "OAUTHBEARER");
+        properties.setProperty(SaslConfigs.SASL_LOGIN_CALLBACK_HANDLER_CLASS, "com.bfm.kafka.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler");
+        properties.setProperty("KAFKA_OAUTH_SERVER_PROP_FILE", "oauth-configuration.properties");
 
+        // for props file
+        properties.setProperty("oauth.server.base.uri", "http://localhost:8080/auth/realms/tmax/protocol/openid-connect");
+        properties.setProperty("oauth.server.token.endpoint.path", "/token");
+        properties.setProperty("oauth.server.introspection.endpoint.path", "/token/introspect");
+        properties.setProperty("oauth.server.client.id", "kafka-producer");
+        properties.setProperty("oauth.server.client.secret", "4115340e-cdcd-45c6-910e-41413b0d8ad8");
+        properties.setProperty("oauth.server.grant.type", "client_credentials");
+        properties.setProperty("oauth.server.scopes", "urn:kafka:topic:tmax:write");
+        properties.setProperty("oauth.server.accept.unsecure.server", "true");
+
+//        oauth.server.base.uri=http://localhost:8080/auth/realms/tmax/protocol/openid-connect
+//        oauth.server.token.endpoint.path=/token
+//        oauth.server.introspection.endpoint.path=/token/introspect
+//        oauth.server.client.id=kafka-producer
+//        oauth.server.client.secret=4115340e-cdcd-45c6-910e-41413b0d8ad8
+//        oauth.server.grant.type=client_credentials
+//        oauth.server.scopes=urn:kafka:topic:tmax:write
+//        oauth.server.accept.unsecure.server=true
         return properties;
     }
 

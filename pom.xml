@@ -133,6 +133,11 @@
             <artifactId>jackson-annotations</artifactId>
             <version>2.9.9</version>
         </dependency>
+        <dependency>
+            <groupId>brs</groupId>
+            <artifactId>libkafka.oauthbearer</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>keycloak-spi</finalName>
