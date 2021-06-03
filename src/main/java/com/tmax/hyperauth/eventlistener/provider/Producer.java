@@ -72,8 +72,8 @@ public class Producer {
         properties.setProperty(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");
         properties.setProperty(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required;");
         properties.setProperty(SaslConfigs.SASL_MECHANISM, "OAUTHBEARER");
-        properties.setProperty(SaslConfigs.SASL_LOGIN_CALLBACK_HANDLER_CLASS, "com.bfm.kafka.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler1");
-//        properties.setProperty("KAFKA_OAUTH_SERVER_PROP_FILE", "oauth-configuration.properties");
+        properties.setProperty(SaslConfigs.SASL_LOGIN_CALLBACK_HANDLER_CLASS, "com.bfm.kafka.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler");
+        properties.setProperty("KAFKA_OAUTH_SERVER_PROP_FILE", "/opt/jboss/keycloak/standalone/configuration/oauth-configuration.properties");
 
         // for props file
         properties.setProperty("oauth.server.base.uri", "http://172.22.6.8:8080/auth/realms/tmax/protocol/openid-connect");
