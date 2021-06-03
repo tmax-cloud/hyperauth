@@ -73,10 +73,10 @@ public class Producer {
         properties.setProperty(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required;");
         properties.setProperty(SaslConfigs.SASL_MECHANISM, "OAUTHBEARER");
         properties.setProperty(SaslConfigs.SASL_LOGIN_CALLBACK_HANDLER_CLASS, "com.bfm.kafka.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler");
-        properties.setProperty("KAFKA_OAUTH_SERVER_PROP_FILE", "oauth-configuration.properties");
+//        properties.setProperty("KAFKA_OAUTH_SERVER_PROP_FILE", "oauth-configuration.properties");
 
         // for props file
-        properties.setProperty("oauth.server.base.uri", "http://localhost:8080/auth/realms/tmax/protocol/openid-connect");
+        properties.setProperty("oauth.server.base.uri", "http://172.22.6.8:8080/auth/realms/tmax/protocol/openid-connect");
         properties.setProperty("oauth.server.token.endpoint.path", "/token");
         properties.setProperty("oauth.server.introspection.endpoint.path", "/token/introspect");
         properties.setProperty("oauth.server.client.id", "kafka-producer");
