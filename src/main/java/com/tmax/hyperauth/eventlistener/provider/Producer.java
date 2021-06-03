@@ -84,6 +84,7 @@ public class Producer {
         properties.setProperty("oauth.server.grant.type", "client_credentials");
         properties.setProperty("oauth.server.scopes", "urn:kafka:topic:tmax:write");
         properties.setProperty("oauth.server.accept.unsecure.server", "true");
+        properties.setProperty("unsecuredLoginStringClaim_sub", "admin");
 
 //        oauth.server.base.uri=http://localhost:8080/auth/realms/tmax/protocol/openid-connect
 //        oauth.server.token.endpoint.path=/token
