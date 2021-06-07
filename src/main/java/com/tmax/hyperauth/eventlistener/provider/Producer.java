@@ -72,8 +72,8 @@ public class Producer {
         properties.setProperty(ProducerConfig.CLIENT_ID_CONFIG, "kafka-producer");
         properties.setProperty(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");
         properties.setProperty(SaslConfigs.SASL_MECHANISM, "OAUTHBEARER");
-        properties.setProperty(SaslConfigs.SASL_LOGIN_CALLBACK_HANDLER_CLASS,  "com.bfm.kafka.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler");
-        properties.setProperty(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule optional;");
+        properties.setProperty(SaslConfigs.SASL_LOGIN_CALLBACK_HANDLER_CLASS, "com.bfm.kafka.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler");
+        properties.setProperty(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required;");
 //        properties.setProperty(SaslConfigs.SASL_CLIENT_CALLBACK_HANDLER_CLASS,  "com.bfm.kafka.security.oauthbearer.OAuthAuthenticateCallbackHandler");
 //        properties.setProperty("KAFKA_OAUTH_SERVER_PROP_FILE", "/opt/jboss/keycloak/standalone/configuration/oauth-configuration.properties");
 
