@@ -23,16 +23,10 @@ public class EventConsumer {
     private final static String BOOTSTRAP_SERVER_EXTERNAL = "dev-kafka1.tmaxoneaccount.com:9093,dev-kafka2.tmaxoneaccount.com:9093,dev-kafka3.tmaxoneaccount.com:9093"; // Hyperauth가 떠 있는 Kubernetes Cluster 외부에서 Subscribe하는 경우 dev-kafka1.tmaxoneaccount.com:9093 등을 상황에 맞게 바꾸어서 사용한다.
 
     // kafka broker 3개가 노출되어 있는 주소는 hyperauth, kafka 관리자에게 문의해서 추가한다.
-    // 아래 예시는 kafka broker 3개가 nodePort 로 노출되어 있는 경우
-    // "172.22.6.2:31000,172.22.6.2:31001,172.22.6.2:31002";
 
     public static void main(String[] args) {
         Properties properties = new Properties();
-        // Consumer가 kafka와 같은 Kubernetes Cluster 내부에 있는 경우
         properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER_EXTERNAL);
-
-
-
         properties.put(ConsumerConfig.ALLOW_AUTO_CREATE_TOPICS_CONFIG, false);
         properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
