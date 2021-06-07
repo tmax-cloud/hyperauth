@@ -69,25 +69,13 @@ public class Producer {
 //        properties.setProperty(SslConfigs.SSL_KEY_PASSWORD_CONFIG, System.getenv("CERTS_PASSWORD"));
 
         // for SASL_OAUTH_BEARER
-        // OAuth Settings
-        //	- sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required;
-        properties.put(ProducerConfig.CLIENT_ID_CONFIG, "kafka-producer");
-        properties.put("sasl.jaas.config", "org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required;");
-
-        //	- security.protocol=SASL_PLAINTEXT
-        properties.put("security.protocol", "SASL_PLAINTEXT");
-
-        //	- sasl.mechanism=OAUTHBEARER
-        properties.put("sasl.mechanism", "OAUTHBEARER");
-
-        //	- sasl.login.callback.handler.class=com.bfm.kafka.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler
-        properties.put("sasl.login.callback.handler.class", "com.bfm.kafka.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler");
-//        properties.setProperty(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");
-//        properties.setProperty(SaslConfigs.SASL_MECHANISM, "OAUTHBEARER");
-//        properties.setProperty(SaslConfigs.SASL_LOGIN_CALLBACK_HANDLER_CLASS,  "com.bfm.kafka.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler");
-//        properties.setProperty(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required;");
-////        properties.setProperty(SaslConfigs.SASL_CLIENT_CALLBACK_HANDLER_CLASS,  "com.bfm.kafka.security.oauthbearer.OAuthAuthenticateCallbackHandler");
-//        properties.setProperty("KAFKA_OAUTH_SERVER_PROP_FILE", "/opt/jboss/keycloak/standalone/configuration/oauth-configuration.properties");
+        properties.setProperty(ProducerConfig.CLIENT_ID_CONFIG, "kafka-producer");
+        properties.setProperty(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");
+        properties.setProperty(SaslConfigs.SASL_MECHANISM, "OAUTHBEARER");
+        properties.setProperty(SaslConfigs.SASL_CLIENT_CALLBACK_HANDLER_CLASS,  "com.bfm.kafka.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler");
+        properties.setProperty(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required;");
+//        properties.setProperty(SaslConfigs.SASL_CLIENT_CALLBACK_HANDLER_CLASS,  "com.bfm.kafka.security.oauthbearer.OAuthAuthenticateCallbackHandler");
+        properties.setProperty("KAFKA_OAUTH_SERVER_PROP_FILE", "/opt/jboss/keycloak/standalone/configuration/oauth-configuration.properties");
 
         // for props file
 //        properties.setProperty("oauth.server.base.uri", "http://172.22.6.8:8080/auth/realms/tmax/protocol/openid-connect");
