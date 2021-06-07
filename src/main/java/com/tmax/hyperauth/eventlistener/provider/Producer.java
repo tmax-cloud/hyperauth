@@ -13,6 +13,7 @@ import java.util.Properties;
 @Slf4j
 public class Producer {
     private final static String BOOTSTRAP_SERVER = "kafka-1."+System.getenv("NAMESPACE")+":9092,kafka-2."+System.getenv("NAMESPACE")+":9092,kafka-3."+System.getenv("NAMESPACE")+":9092";
+    private final static String BOOTSTRAP_SERVER_EXTERNAL = "172.22.6.9:9092,172.22.6.10:9092,172.22.6.11:9092";
     public static void publishEvent(String topic, Object value){
         //reset thread context
         resetThreadContext();
@@ -54,7 +55,7 @@ public class Producer {
 
     public static Properties getProperties() {
         Properties properties = new Properties();
-        properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER);
+        properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER_EXTERNAL);
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 //        properties.setProperty(ProducerConfig.MAX_BLOCK_MS_CONFIG, "30000"); // Wait 30 Seconds until producer.send() timeout
@@ -73,7 +74,7 @@ public class Producer {
         properties.setProperty(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required;");
         properties.setProperty(SaslConfigs.SASL_MECHANISM, "OAUTHBEARER");
         properties.setProperty(SaslConfigs.SASL_LOGIN_CALLBACK_HANDLER_CLASS,  "com.bfm.kafka.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler");
-        properties.setProperty(SaslConfigs.SASL_CLIENT_CALLBACK_HANDLER_CLASS,  "com.bfm.kafka.security.oauthbearer.OAuthAuthenticateCallbackHandler");
+//        properties.setProperty(SaslConfigs.SASL_CLIENT_CALLBACK_HANDLER_CLASS,  "com.bfm.kafka.security.oauthbearer.OAuthAuthenticateCallbackHandler");
         properties.setProperty("KAFKA_OAUTH_SERVER_PROP_FILE", "/opt/jboss/keycloak/standalone/configuration/oauth-configuration.properties");
 
         // for props file
