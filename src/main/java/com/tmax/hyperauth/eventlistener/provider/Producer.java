@@ -13,7 +13,7 @@ import java.util.Properties;
 @Slf4j
 public class Producer {
     private final static String BOOTSTRAP_SERVER = "kafka-1."+System.getenv("NAMESPACE")+":9092,kafka-2."+System.getenv("NAMESPACE")+":9092,kafka-3."+System.getenv("NAMESPACE")+":9092";
-    private final static String BOOTSTRAP_SERVER_EXTERNAL = "172.22.6.9:9092,172.22.6.10:9092,172.22.6.11:9092";
+//    private final static String BOOTSTRAP_SERVER_EXTERNAL = "172.22.6.9:9092,172.22.6.10:9092,172.22.6.11:9092";
     public static void publishEvent(String topic, Object value){
         //reset thread context
         resetThreadContext();
@@ -55,47 +55,25 @@ public class Producer {
 
     public static Properties getProperties() {
         Properties properties = new Properties();
-        properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER_EXTERNAL);
+        properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER);
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 //        properties.setProperty(ProducerConfig.MAX_BLOCK_MS_CONFIG, "30000"); // Wait 30 Seconds until producer.send() timeout
 
-////      for SSL
-//        properties.setProperty(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SSL");
-//        properties.setProperty(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, "/etc/x509/kafka/hyperauth.truststore.jks");
-//        properties.setProperty(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, System.getenv("CERTS_PASSWORD"));
-//        properties.setProperty(SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG, "/etc/x509/kafka/hyperauth.keystore.jks");
-//        properties.setProperty(SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG, System.getenv("CERTS_PASSWORD"));
-//        properties.setProperty(SslConfigs.SSL_KEY_PASSWORD_CONFIG, System.getenv("CERTS_PASSWORD"));
+//      for SSL
+        properties.setProperty(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SSL");
+        properties.setProperty(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, "/etc/x509/kafka/hyperauth.truststore.jks");
+        properties.setProperty(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, System.getenv("CERTS_PASSWORD"));
+        properties.setProperty(SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG, "/etc/x509/kafka/hyperauth.keystore.jks");
+        properties.setProperty(SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG, System.getenv("CERTS_PASSWORD"));
+        properties.setProperty(SslConfigs.SSL_KEY_PASSWORD_CONFIG, System.getenv("CERTS_PASSWORD"));
 
-        // for SASL_OAUTH_BEARER
-        properties.setProperty(ProducerConfig.CLIENT_ID_CONFIG, "kafka-producer");
-        properties.setProperty(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");
-        properties.setProperty(SaslConfigs.SASL_MECHANISM, "OAUTHBEARER");
-        properties.setProperty(SaslConfigs.SASL_LOGIN_CALLBACK_HANDLER_CLASS, "com.bfm.kafka.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler");
-        properties.setProperty(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required;");
-//        properties.setProperty(SaslConfigs.SASL_CLIENT_CALLBACK_HANDLER_CLASS,  "com.bfm.kafka.security.oauthbearer.OAuthAuthenticateCallbackHandler");
-//        properties.setProperty("KAFKA_OAUTH_SERVER_PROP_FILE", "/opt/jboss/keycloak/standalone/configuration/oauth-configuration.properties");
-
-        // for props file
-//        properties.setProperty("oauth.server.base.uri", "http://172.22.6.8:8080/auth/realms/tmax/protocol/openid-connect");
-//        properties.setProperty("oauth.server.token.endpoint.path", "/token");
-//        properties.setProperty("oauth.server.introspection.endpoint.path", "/token/introspect");
-//        properties.setProperty("oauth.server.client.id", "kafka-producer");
-//        properties.setProperty("oauth.server.client.secret", "4115340e-cdcd-45c6-910e-41413b0d8ad8");
-//        properties.setProperty("oauth.server.grant.type", "client_credentials");
-//        properties.setProperty("oauth.server.scopes", "urn:kafka:topic:tmax:write");
-//        properties.setProperty("oauth.server.accept.unsecure.server", "true");
-//        properties.setProperty("unsecuredLoginStringClaim_sub", "admin");
-
-//        oauth.server.base.uri=http://localhost:8080/auth/realms/tmax/protocol/openid-connect
-//        oauth.server.token.endpoint.path=/token
-//        oauth.server.introspection.endpoint.path=/token/introspect
-//        oauth.server.client.id=kafka-producer
-//        oauth.server.client.secret=4115340e-cdcd-45c6-910e-41413b0d8ad8
-//        oauth.server.grant.type=client_credentials
-//        oauth.server.scopes=urn:kafka:topic:tmax:write
-//        oauth.server.accept.unsecure.server=true
+//        // for SASL_OAUTH_BEARER
+//        properties.setProperty(ProducerConfig.CLIENT_ID_CONFIG, "kafka-producer");
+//        properties.setProperty(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");
+//        properties.setProperty(SaslConfigs.SASL_MECHANISM, "OAUTHBEARER");
+//        properties.setProperty(SaslConfigs.SASL_LOGIN_CALLBACK_HANDLER_CLASS, "com.bfm.kafka.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler");
+//        properties.setProperty(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required;");
         return properties;
     }
 
