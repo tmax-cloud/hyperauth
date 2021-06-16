@@ -435,44 +435,44 @@
 - 이용약관 중, 선택동의 약관의 경우 user의 attribute에 아래 key를 추가 (공통)
   - agreeMailOpt : true
   
-  #### Create/Update
+#### Create/Update
 
-      - **Description** 
+    - **Description** 
 
-        <u>Hyperauth Admin 권한으로</u> Client의 Agreement를 추가/수정하는 API
+      <u>Hyperauth Admin 권한으로</u> Client의 Agreement를 추가/수정하는 API
 
-        같은 client/version의 Ageement를 삭제 후, 생성
+      같은 client/version의 Ageement를 삭제 후, 생성
 
-      - **RequestURL**
+    - **RequestURL**
 
-        POST https://{HYPERAUTH_IP}/auth/realms/tmax/agreement
+      POST https://{HYPERAUTH_IP}/auth/realms/tmax/agreement
 
-      - **RequestHeader**
+    - **RequestHeader**
 
-        Content-Type : application/json
+      Content-Type : application/json
 
-      - **QueryParam**
+    - **QueryParam**
 
-        token : {AccessToken}
+      token : {AccessToken}
 
-      - **PathParam**
+    - **PathParam**
 
-        x
+      x
 
-      - **RequestBody**
+    - **RequestBody**
 
-          ```json
-          {
-           "clientName" : "hypercloud4",
-           "realmName" : "tmax",
-           "agreement" : "hypercloud4 agreemente version1 for test",
-           "version" : "1"
-          }
-          ```
+        ```json
+        {
+         "clientName" : "hypercloud4",
+         "realmName" : "tmax",
+         "agreement" : "hypercloud4 agreemente version1 for test",
+         "version" : "1"
+        }
+        ```
 
-      - **ResponseBody**
+    - **ResponseBody**
 
-        X
+      X
 #### Delete
 
   - **Description** 
