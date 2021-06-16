@@ -184,7 +184,6 @@ public class PasswordProvider implements RealmResourceProvider {
             return Util.setCors(status, out);
         }
         RealmModel realm = session.getContext().getRealm();
-//        UserModel user = session.users().getUserByEmail(userId, realm);
         UserModel user = session.users().getUserByUsername(userId, realm);
         UserCredentialModel cred = UserCredentialModel.password(password);
         if (session.userCredentialManager().isValid(realm, user, cred)) {
