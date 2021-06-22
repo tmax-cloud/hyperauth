@@ -8,3 +8,4 @@ com.tmax.hyperauth.rest.SessionProviderFactory
 com.tmax.hyperauth.rest.GroupProviderFactory
 com.tmax.hyperauth.rest.ConsoleProviderFactory
 com.tmax.hyperauth.rest.VersionProviderFactory
+com.tmax.hyperauth.eventlistener.prometheus.MetricsEndpointFactory
