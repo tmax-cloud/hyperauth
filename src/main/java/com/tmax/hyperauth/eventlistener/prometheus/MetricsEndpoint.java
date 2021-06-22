@@ -40,7 +40,7 @@ public class MetricsEndpoint implements RealmResourceProvider {
         byte[] authBytes = decoder.decode(session.getContext().getRequestHeaders().getRequestHeader("Authorization").get(0).substring(6).getBytes());
         String[] authInfo = (new String(authBytes)).split(":");
         String username = authInfo[0];
-        log.info("User requested metrics : " + username);
+        log.debug("User requested metrics : " + username);
         String password = authInfo[1];
 
         try{
@@ -49,7 +49,7 @@ public class MetricsEndpoint implements RealmResourceProvider {
             UserCredentialModel cred = UserCredentialModel.password(password);
             if (session.userCredentialManager().isValid(realm, user, cred)
                     && user.hasRole(realm.getRole("admin"))) {
-                log.info("Admin User : " + username);
+                log.debug("Admin User : " + username);
             } else {
                 log.error("password is wrong");
                 return Response.status(401).build();
