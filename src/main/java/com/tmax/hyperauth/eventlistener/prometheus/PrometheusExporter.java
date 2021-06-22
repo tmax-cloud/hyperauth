@@ -30,9 +30,9 @@ import java.util.regex.Pattern;
 
 public final class PrometheusExporter {
 
-    private final static String USER_EVENT_PREFIX = "keycloak_user_event_";
-    private final static String ADMIN_EVENT_PREFIX = "keycloak_admin_event_";
-    private final static String PROVIDER_KEYCLOAK_OPENID = "keycloak";
+    private final static String USER_EVENT_PREFIX = "hyperauth_user_event_";
+    private final static String ADMIN_EVENT_PREFIX = "hyperauth_admin_event_";
+    private final static String PROVIDER_HYPERAUTH_OPENID = "hyperauth";
 
     private final static String PROMETHEUS_PUSHGATEWAY_GROUPINGKEY_INSTANCE = "PROMETHEUS_GROUPING_KEY_INSTANCE";
     private final static Pattern PROMETHEUS_PUSHGATEWAY_GROUPINGKEY_INSTANCE_ENVVALUE_PATTERN = Pattern.compile("ENVVALUE:(.+?)");
@@ -74,95 +74,95 @@ public final class PrometheusExporter {
 
         // package private on purpose
         totalLoginAttempts = Counter.build()
-            .name("keycloak_login_attempts")
+            .name("hyperauth_login_attempts")
             .help("Total number of login attempts")
             .labelNames("realm", "provider", "client_id")
             .register();
 
         // package private on purpose
         totalLogins = Counter.build()
-            .name("keycloak_logins")
+            .name("hyperauth_logins")
             .help("Total successful logins")
             .labelNames("realm", "provider", "client_id")
             .register();
 
         // package private on purpose
         totalFailedLoginAttempts = Counter.build()
-            .name("keycloak_failed_login_attempts")
+            .name("hyperauth_failed_login_attempts")
             .help("Total failed login attempts")
             .labelNames("realm", "provider", "error", "client_id")
             .register();
 
         // package private on purpose
         totalRegistrations = Counter.build()
-            .name("keycloak_registrations")
+            .name("hyperauth_registrations")
             .help("Total registered users")
             .labelNames("realm", "provider", "client_id")
             .register();
 
         // package private on purpose
         totalRegistrationsErrors = Counter.build()
-            .name("keycloak_registrations_errors")
+            .name("hyperauth_registrations_errors")
             .help("Total errors on registrations")
             .labelNames("realm", "provider", "error", "client_id")
             .register();
 
         // package private on purpose
         totalRefreshTokens = Counter.build()
-            .name("keycloak_refresh_tokens")
+            .name("hyperauth_refresh_tokens")
             .help("Total number of successful token refreshes")
             .labelNames("realm", "provider", "client_id")
             .register();
 
         // package private on purpose
         totalRefreshTokensErrors = Counter.build()
-            .name("keycloak_refresh_tokens_errors")
+            .name("hyperauth_refresh_tokens_errors")
             .help("Total number of failed token refreshes")
             .labelNames("realm", "provider", "error", "client_id")
             .register();
 
         // package private on purpose
         totalClientLogins = Counter.build()
-            .name("keycloak_client_logins")
+            .name("hyperauth_client_logins")
             .help("Total successful client logins")
             .labelNames("realm", "provider", "client_id")
             .register();
 
         // package private on purpose
         totalFailedClientLoginAttempts = Counter.build()
-            .name("keycloak_failed_client_login_attempts")
+            .name("hyperauth_failed_client_login_attempts")
             .help("Total failed client login attempts")
             .labelNames("realm", "provider", "error", "client_id")
             .register();
 
         // package private on purpose
         totalCodeToTokens = Counter.build()
-            .name("keycloak_code_to_tokens")
+            .name("hyperauth_code_to_tokens")
             .help("Total number of successful code to token")
             .labelNames("realm", "provider", "client_id")
             .register();
 
         // package private on purpose
         totalCodeToTokensErrors = Counter.build()
-            .name("keycloak_code_to_tokens_errors")
+            .name("hyperauth_code_to_tokens_errors")
             .help("Total number of failed code to token")
             .labelNames("realm", "provider", "error", "client_id")
             .register();
 
         responseTotal = Counter.build()
-            .name("keycloak_response_total")
+            .name("hyperauth_response_total")
             .help("Total number of responses")
             .labelNames("code", "method", "resource")
             .register();
 
         responseErrors = Counter.build()
-            .name("keycloak_response_errors")
+            .name("hyperauth_response_errors")
             .help("Total number of error responses")
             .labelNames("code", "method", "resource")
             .register();
 
         requestDuration = Histogram.build()
-            .name("keycloak_request_duration")
+            .name("hyperauth_request_duration")
             .help("Request duration")
             .buckets(50, 100, 250, 500, 1000, 2000, 10000, 30000)
             .labelNames("method", "resource")
@@ -209,9 +209,9 @@ public final class PrometheusExporter {
         final Counter.Builder counter = Counter.build().name(name);
 
         if (isAdmin) {
-            counter.labelNames("realm", "resource").help("Generic KeyCloak Admin event");
+            counter.labelNames("realm", "resource").help("Generic Hyperauth Admin event");
         } else {
-            counter.labelNames("realm").help("Generic KeyCloak User event");
+            counter.labelNames("realm").help("Generic Hyperauth User event");
         }
 
         return counter.register();
@@ -409,7 +409,7 @@ public final class PrometheusExporter {
 
     /**
      * Retrieve the identity prodiver name from event details or
-     * default to {@value #PROVIDER_KEYCLOAK_OPENID}.
+     * default to {@value #PROVIDER_HYPERAUTH_OPENID}.
      *
      * @param event User event
      * @return Identity provider name
@@ -420,7 +420,7 @@ public final class PrometheusExporter {
             identityProvider = event.getDetails().get("identity_provider");
         }
         if (identityProvider == null) {
-            identityProvider = PROVIDER_KEYCLOAK_OPENID;
+            identityProvider = PROVIDER_HYPERAUTH_OPENID;
         }
         return identityProvider;
     }
@@ -482,7 +482,7 @@ public final class PrometheusExporter {
     private void push() {
         if(PUSH_GATEWAY != null) {
             try {
-                String job = Optional.ofNullable(System.getenv(PROMETHEUS_PUSHGATEWAY_JOB)).orElse("keycloak");
+                String job = Optional.ofNullable(System.getenv(PROMETHEUS_PUSHGATEWAY_JOB)).orElse("hyperauth");
                 Map<String, String> groupingKey = Collections.singletonMap("instance", groupingKey());
                 PUSH_GATEWAY.pushAdd(CollectorRegistry.defaultRegistry, job, groupingKey);
             } catch (IOException e) {
