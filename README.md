@@ -1,5 +1,5 @@
 # HyperAuth
-- **설치 가이드**
+- **설치 및 운영 가이드**
 
   - https://github.com/tmax-cloud/install-hyperauth
     - kafka cluster topic server 추가 설치의 경우, Step 4. Kafka Topic Server 설치 만 추가 수행하면 됨 
