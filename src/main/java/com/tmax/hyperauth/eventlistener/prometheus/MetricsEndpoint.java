@@ -1,6 +1,10 @@
 package com.tmax.hyperauth.eventlistener.prometheus;
 
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.RealmModel;
+import org.keycloak.models.UserCredentialModel;
+import org.keycloak.models.UserModel;
 import org.keycloak.services.resource.RealmResourceProvider;
 
 import javax.ws.rs.GET;
@@ -9,7 +13,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
+import java.util.Base64;
 
+@Slf4j
 public class MetricsEndpoint implements RealmResourceProvider {
 
     public final static String ID = "metrics";
@@ -28,11 +34,31 @@ public class MetricsEndpoint implements RealmResourceProvider {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public Response get() {
-        session.getContext().getRequestHeaders().getRequestHeaders().keySet().forEach( k -> {
-            System.out.println("[ Header ] key : " + k + ",  value : " + session.getContext().getRequestHeaders().getRequestHeader(k));
-        });
 
-        System.out.println("uri : " + session.getContext().getUri().getPath());
+        // Authentication for Hyperauth Admin
+        Base64.Decoder decoder = Base64.getDecoder();
+        byte[] authBytes = decoder.decode(session.getContext().getRequestHeaders().getRequestHeader("Authorization").get(0).substring(6).getBytes());
+        String[] authInfo = (new String(authBytes)).split(":");
+        String username = authInfo[0];
+        log.info("User requested metrics : " + username);
+        String password = authInfo[1];
+
+        try{
+            RealmModel realm = session.realms().getRealmByName("master");
+            UserModel user = session.users().getUserByUsername(username, realm);
+            UserCredentialModel cred = UserCredentialModel.password(password);
+            if (session.userCredentialManager().isValid(realm, user, cred)
+                    && user.hasRole(realm.getRole("admin"))) {
+                log.info("Admin User : " + username);
+            } else {
+                log.error("password is wrong");
+                return Response.status(401).build();
+            }
+        }catch(Exception e){
+            log.error(e.getMessage());
+            return Response.status(401).build();
+        }
+
         // for User Count
         PrometheusExporter.instance().recordUserCount(session);
 
