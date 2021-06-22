@@ -18,7 +18,7 @@
       - {hyperauth_pod_name}.log 로 실시간 로그가 적재된다.
       - {hyperauth_pod_name}.log.2021-04-21 등으로 하루에 하나씩 로그가 저장된다.
       - hyperauth pod 내부에서 /opt/jboss/keycloak/bin/jboss-cli.sh 를 사용하여서 실시간 로그 설정 변경도 가능하다.
-        - 참조 : https://github.com/tmax-cloud/hyperauth/blob/main/rotational_file_log_command
+        - 참조 : https://github.com/tmax-cloud/hyperauth/blob/main/guide/rotational_file_log_command
   - **Topic Consumer가이드**
     - [TopicConsumerExample.java](src/main/java/com/tmax/hyperauth/eventlistener/kafka/consumer/EventConsumer.java)
       - TODO 부분 수행 
@@ -43,7 +43,7 @@
     - 현재 Topic Event Data 보관 기간 : 7일
   
   - **Fido 기반 생체 인증 기능 사용 가이드**
-    - [hyperauth_fido_guide.pptx](https://github.com/tmax-cloud/hyperauth/blob/main/hyperauth_fido_guide.pptx)   
+    - [hyperauth_fido_guide.pptx](https://github.com/tmax-cloud/hyperauth/blob/main/guide/hyperauth_fido_guide.pptx)   
     
   - **비밀번호 변경 3개월 경과시 비밀번호 변경 유도 기능 사용 가이드**
     - Authentication - Bindings - Brower Flow : **Browser With PasswordUpdateAlert** 선택
@@ -149,7 +149,7 @@
 - **Client 별 약관 CRUD 기능**
 
 - `네이버로 로그인, 카카오로 로그인` (Alpha)
-  - 카카오로 로그인 가이드 : [kakako_login_guide](https://github.com/tmax-cloud/hyperauth/blob/main/kakako_login_guide.pptx)
+  - 카카오로 로그인 가이드 : [kakako_login_guide](https://github.com/tmax-cloud/hyperauth/blob/main/guide/kakako_login_guide.pptx)
 - `회원가입 시, 핸드폰 번호 인증 기능` (Alpha)
 - **회원 탈퇴 신청 기능**
   - 탈퇴 신청 후, 사용자 데이터 30일 유지
