@@ -1,9 +1,20 @@
 # HyperAuth
 - **설치 가이드**
-
   - https://github.com/tmax-cloud/install-hyperauth
-    - kafka cluster topic server 추가 설치의 경우, Step 4. Kafka Topic Server 설치 만 추가 수행하면 됨 
-  
+    - kafka cluster topic server 추가 설치의 경우, Step 4. Kafka Topic Server 설치 만 추가 수행하면 됨
+   
+- **운영 및 기능 가이드**  
+  - Events Config 관리 
+    - 원하는 기능만 사용할 수 있게끔 Plug-In 형식으로 사용 가능
+  ![image](https://user-images.githubusercontent.com/61040426/122870463-a9936200-d368-11eb-87c1-e331848078d2.png)
+    - hyperauth_event_listener : Realm 에서 발생하는 Event 로그 수집, Tmax 정책에 따른 여러 기능 수행
+      - hypercloud4 관련 API Call ( 삭제 예정 ) 
+      - Client의 유저당 세션을 1개로 유지 하는 기능
+      - 회원가입 후 10분안에 메일 인증을 안 할시 유저 삭제
+      - 비밀번호 변경 시간 관리
+    - kafka_producer : Realm의 Event를 Kafka로 Publish 한다.
+    - Prometheus_metric_listener(개발중) : Realm의 Event를 Prometheus Metric의 형태로 ( auth/realm/{realmId}/metrics ) 노출
+      - Prometheus 설치를 통해 수집 가능 ( ServiceMonitor 추가 필요 ) 
   - Hyperauth 서버 이중화 및 세션 클러스터링 적용
     - Protocol : KUBE_PING
     - 참고 : https://github.com/jgroups-extras/jgroups-kubernetes/blob/master/README.adoc
@@ -18,7 +29,7 @@
       - {hyperauth_pod_name}.log 로 실시간 로그가 적재된다.
       - {hyperauth_pod_name}.log.2021-04-21 등으로 하루에 하나씩 로그가 저장된다.
       - hyperauth pod 내부에서 /opt/jboss/keycloak/bin/jboss-cli.sh 를 사용하여서 실시간 로그 설정 변경도 가능하다.
-        - 참조 : https://github.com/tmax-cloud/hyperauth/blob/main/rotational_file_log_command
+        - 참조 : https://github.com/tmax-cloud/hyperauth/blob/main/guide/rotational_file_log_command
   - **Topic Consumer가이드**
     - [TopicConsumerExample.java](src/main/java/com/tmax/hyperauth/eventlistener/kafka/consumer/EventConsumer.java)
       - TODO 부분 수행 
@@ -43,7 +54,7 @@
     - 현재 Topic Event Data 보관 기간 : 7일
   
   - **Fido 기반 생체 인증 기능 사용 가이드**
-    - [hyperauth_fido_guide.pptx](https://github.com/tmax-cloud/hyperauth/blob/main/hyperauth_fido_guide.pptx)   
+    - [hyperauth_fido_guide.pptx](https://github.com/tmax-cloud/hyperauth/blob/main/guide/hyperauth_fido_guide.pptx)   
     
   - **비밀번호 변경 3개월 경과시 비밀번호 변경 유도 기능 사용 가이드**
     - Authentication - Bindings - Brower Flow : **Browser With PasswordUpdateAlert** 선택
@@ -149,7 +160,7 @@
 - **Client 별 약관 CRUD 기능**
 
 - `네이버로 로그인, 카카오로 로그인` (Alpha)
-  - 카카오로 로그인 가이드 : [kakako_login_guide](https://github.com/tmax-cloud/hyperauth/blob/main/kakako_login_guide.pptx)
+  - 카카오로 로그인 가이드 : [kakako_login_guide](https://github.com/tmax-cloud/hyperauth/blob/main/guide/kakako_login_guide.pptx)
 - `회원가입 시, 핸드폰 번호 인증 기능` (Alpha)
 - **회원 탈퇴 신청 기능**
   - 탈퇴 신청 후, 사용자 데이터 30일 유지
