@@ -1,4 +1,4 @@
-package com.tmax.hyperauth.eventlistener.provider;
+package com.tmax.hyperauth.eventlistener;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
 import com.tmax.hyperauth.caller.HyperAuthCaller;
 
+import com.tmax.hyperauth.eventlistener.kafka.producer.KafkaProducer;
 import com.tmax.hyperauth.rest.Util;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.models.KeycloakSession;
@@ -84,7 +85,7 @@ public class UserDeleteJob implements Job {
 
                             // Topic Event Publish
                             TopicEvent topicEvent = TopicEvent.makeOtherTopicEvent("USER_DELETE", userRepresentation.getUsername(), currentDate.getTime() );
-                            Producer.publishEvent("tmax", topicEvent);
+                            KafkaProducer.publishEvent("tmax", topicEvent);
 
                             log.info(" [UserDelete Job] User [ " + userRepresentation.getUsername() + " ] Delete Success ");
                         }

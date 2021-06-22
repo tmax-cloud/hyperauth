@@ -1,7 +1,7 @@
-package com.tmax.hyperauth.eventlistener.consumer;
+package com.tmax.hyperauth.eventlistener.kafka.consumer;
 
 import com.google.gson.Gson;
-import com.tmax.hyperauth.eventlistener.provider.TopicEvent;
+import com.tmax.hyperauth.eventlistener.TopicEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.consumer.*;
@@ -14,6 +14,7 @@ import java.util.Properties;
 
 /**
  * @author taegeon_woo@tmax.co.kr
+ * This Code is only for Guide
  */
 
 @Slf4j

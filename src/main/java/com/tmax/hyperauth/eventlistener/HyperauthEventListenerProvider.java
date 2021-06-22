@@ -1,4 +1,4 @@
-package com.tmax.hyperauth.eventlistener.provider;
+package com.tmax.hyperauth.eventlistener;
 
 import java.util.*;
 import javax.ws.rs.core.Context;
@@ -23,7 +23,7 @@ import org.keycloak.timer.TimerSpi;
 @Slf4j
 public class HyperauthEventListenerProvider extends TimerSpi implements EventListenerProvider {
     @Context
-    private KeycloakSession session;
+    private final KeycloakSession session;
     public HyperauthEventListenerProvider(KeycloakSession session) {
         this.session = session;
     }
@@ -34,12 +34,9 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
         log.info("Event Occurred:" + toString(event));
 
         if (event.getRealmId().equalsIgnoreCase("tmax")) {
-            TopicEvent topicEvent = TopicEvent.makeTopicEvent(event, null);
 
             switch (event.getType().toString()) {
                 case "REGISTER":
-                    topicEvent = TopicEvent.makeTopicEvent(event, event.getDetails().get("username"));
-
                     // when user registered, operator call for new role
                     log.info("New User Registered in tmax Realm, Give New role for User in Kubernetes");
                     try {
@@ -49,8 +46,6 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                     }
                     break;
                 case "LOGIN":
-                    topicEvent = TopicEvent.makeTopicEvent(event, event.getDetails().get("username"));
-
                     // For Session-Restrict Policy
                     if (!event.getDetails().get("username").equalsIgnoreCase("admin@tmax.co.kr")) { //FIXME : Delete Later !!!!
                         log.info("User [ " + event.getDetails().get("username") + " ], Client [ " + event.getClientId() + " ] Session-Restrict Start");
@@ -66,18 +61,8 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                         log.info("User [ " + event.getDetails().get("username") + " ], Client [ " + event.getClientId() + " ] Session-Restrict Success");
                     }
                     break;
-                case "LOGIN_ERROR":
-                    if (event.getDetails() != null && event.getDetails().get("username")!= null){
-                        topicEvent = TopicEvent.makeTopicEvent(event, event.getDetails().get("username"));
-                    }
-                    break;
-                case "LOGOUT":
-                    topicEvent = TopicEvent.makeTopicEvent(event, session.users().getUserById(event.getUserId(), session.realms().getRealm(event.getRealmId())).getUsername());
-                    break;
-                case "SEND_VERIFY_EMAIL":
                 case "SEND_VERIFY_EMAIL_ERROR":
                     String email = event.getDetails().get("email");
-                    topicEvent = TopicEvent.makeTopicEvent(event, email);
                     long interval = 1000 * 60 * 10;
                     TimerProvider timer = session.getProvider(TimerProvider.class);
                     timer.scheduleTask((KeycloakSession keycloakSession) -> {
@@ -91,11 +76,6 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                                     log.info("User [" + event.getDetails().get("username") + " ] Deleted");
                                     log.info("Delete user role in k8s");
                                     HypercloudOperatorCaller.deleteNewUserRole(user.getUsername());
-
-                                    // Topic Event
-                                    TopicEvent topicEventDelete = TopicEvent.makeOtherTopicEvent("USER_DELETE", userName, Time.currentTimeMillis());
-                                    Producer.publishEvent("tmax", topicEventDelete);
-
                                 } else {
                                     log.info("Already Verified, Nothing to do");
                                 }
@@ -110,12 +90,6 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                 case "UPDATE_PASSWORD" :
                         UserModel user = session.users().getUserById(event.getUserId(), session.realms().getRealmByName(event.getRealmId()));
                         user.setAttribute(AuthenticatorConstants.USER_ATTR_LAST_PW_UPDATE_DATE, Arrays.asList(Long.toString(event.getTime())));
-            }
-            // TOPIC Event Publish !!
-            try {
-                Producer.publishEvent("tmax", topicEvent);
-            } catch (Exception e) {
-                log.error("Error Occurs!!", e);
             }
         }
     }
@@ -148,10 +122,6 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                         JsonObject user = HyperAuthCaller.getUser(adminEvent.getResourcePath().toString().substring(6), accessToken.replaceAll("\"", ""));
                         if ( user.get("username")!= null ){ // admin console에서 identity provider 삭제시 에러발생으로 인해 추가
                             HypercloudOperatorCaller.deleteNewUserRole(user.get("username").toString().replaceAll("\"", ""));
-
-                            // Topic Event
-                            TopicEvent topicEvent = TopicEvent.makeOtherTopicEvent("USER_DELETE", user.get("username").toString().replaceAll("\"", ""), adminEvent.getTime());
-                            Producer.publishEvent("tmax", topicEvent);
                         }
                     } catch (Exception e) {
                         log.error("Error Occurs!!", e);

@@ -1,4 +1,4 @@
-package com.tmax.hyperauth.eventlistener.provider;
+package com.tmax.hyperauth.eventlistener.kafka.producer;
 
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.Config;
@@ -6,8 +6,6 @@ import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.EventListenerProviderFactory;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakSessionFactory;
-import org.quartz.*;
-import org.quartz.impl.StdSchedulerFactory;
 
 /**
  * @author taegeon_woo@tmax.co.kr

@@ -1,4 +1,5 @@
-package com.tmax.hyperauth.eventlistener.provider;
+package com.tmax.hyperauth.eventlistener;
+
 
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.Config;
@@ -6,7 +7,6 @@ import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.EventListenerProviderFactory;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakSessionFactory;
-
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
@@ -15,7 +15,6 @@ import org.quartz.impl.StdSchedulerFactory;
  */
 @Slf4j
 public class HyperauthEventListenerProviderFactory implements EventListenerProviderFactory {
-
     @Override
     public EventListenerProvider create(KeycloakSession keycloakSession) {
         return new HyperauthEventListenerProvider(keycloakSession);
@@ -59,5 +58,4 @@ public class HyperauthEventListenerProviderFactory implements EventListenerProvi
     public String getId() {
         return "hyperauth_event_listener";
     }
-
 }

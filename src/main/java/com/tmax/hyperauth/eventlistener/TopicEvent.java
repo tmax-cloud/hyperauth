@@ -1,4 +1,4 @@
-package com.tmax.hyperauth.eventlistener.provider;
+package com.tmax.hyperauth.eventlistener;
 
 import org.keycloak.events.Event;
 import org.keycloak.events.EventType;

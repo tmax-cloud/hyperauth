@@ -1,4 +1,4 @@
-package com.tmax.hyperauth.eventlistener.provider;
+package com.tmax.hyperauth.eventlistener.kafka.producer;
 
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
@@ -10,14 +10,14 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import java.util.Properties;
 
 @Slf4j
-public class Producer {
+public class KafkaProducer {
     private final static String BOOTSTRAP_SERVER = "kafka-1."+System.getenv("NAMESPACE")+":9092,kafka-2."+System.getenv("NAMESPACE")+":9092,kafka-3."+System.getenv("NAMESPACE")+":9092";
     public static void publishEvent(String topic, Object value){
         //reset thread context
         resetThreadContext();
 
         // create the producer
-        KafkaProducer<String, String> producer = new KafkaProducer<>(getProperties());
+        org.apache.kafka.clients.producer.KafkaProducer<String, String> producer = new org.apache.kafka.clients.producer.KafkaProducer<>(getProperties());
 
         // create a producer record
         Gson gson = new Gson();

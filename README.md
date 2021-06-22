@@ -20,7 +20,7 @@
       - hyperauth pod 내부에서 /opt/jboss/keycloak/bin/jboss-cli.sh 를 사용하여서 실시간 로그 설정 변경도 가능하다.
         - 참조 : https://github.com/tmax-cloud/hyperauth/blob/main/rotational_file_log_command
   - **Topic Consumer가이드**
-    - [TopicConsumerExample.java](src/main/java/com/tmax/hyperauth/eventlistener/consumer/EventConsumer.java)
+    - [TopicConsumerExample.java](src/main/java/com/tmax/hyperauth/eventlistener/kafka/consumer/EventConsumer.java)
       - TODO 부분 수행 
         - Keystore, Truststore 발급, Secret 생성 및 volume mount
         - Password Secret을 이용해서 변수 처리

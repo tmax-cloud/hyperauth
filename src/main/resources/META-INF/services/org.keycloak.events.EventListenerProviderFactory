@@ -1,2 +1,2 @@
 com.tmax.hyperauth.eventlistener.provider.HyperauthEventListenerProviderFactory
-com.tmax.hyperauth.eventlistener.provider.KafkaEventListenerProviderFactory
+com.tmax.hyperauth.eventlistener.kafka.producer.KafkaEventListenerProviderFactory
