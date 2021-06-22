@@ -6,7 +6,7 @@
 - **운영 및 기능 가이드**  
   - Events Config 관리 
     - 원하는 기능만 사용할 수 있게끔 Plug-In 형식으로 사용 가능
-    - ![image](https://user-images.githubusercontent.com/61040426/122870463-a9936200-d368-11eb-87c1-e331848078d2.png)
+  ![image](https://user-images.githubusercontent.com/61040426/122870463-a9936200-d368-11eb-87c1-e331848078d2.png)
     - hyperauth_event_listener : Realm 에서 발생하는 Event 로그 수집, Tmax 정책에 따른 여러 기능 수행
       - hypercloud4 관련 API Call ( 삭제 예정 ) 
       - Client의 유저당 세션을 1개로 유지 하는 기능
