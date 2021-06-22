@@ -46,9 +46,10 @@ public class KafkaEventListenerProvider extends TimerSpi implements EventListene
                 topicEvent = TopicEvent.makeTopicEvent(event, session.users().getUserById(event.getUserId(), session.realms().getRealm(event.getRealmId())).getUsername());
                 break;
         }
+
         // TOPIC Event Publish !!
         try {
-            KafkaProducer.publishEvent("tmax", topicEvent);
+            KafkaProducer.publishEvent(session.getContext().getRealm().getId(), topicEvent);
         } catch (Exception e) {
             log.error("Error Occurs!!", e);
         }
