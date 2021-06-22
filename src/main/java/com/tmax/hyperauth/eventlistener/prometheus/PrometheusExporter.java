@@ -219,7 +219,6 @@ public final class PrometheusExporter {
 
     public static void recordUserCount(KeycloakSession session) {
         RealmModel realm = session.getContext().getRealm();
-        System.out.println("Realm : " + realm.getId());
         totalUsers.labels(realm.getId()).set(session.users().getUsersCount(realm, false));
     }
 
