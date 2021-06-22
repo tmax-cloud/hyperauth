@@ -28,6 +28,11 @@ public class MetricsEndpoint implements RealmResourceProvider {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public Response get() {
+        session.getContext().getRequestHeaders().getRequestHeaders().keySet().forEach( k -> {
+            System.out.println("[ Header ] key : " + k + ",  value : " + session.getContext().getRequestHeaders().getRequestHeader(k));
+        });
+
+        System.out.println("uri : " + session.getContext().getUri().getPath());
         // for User Count
         PrometheusExporter.instance().recordUserCount(session);
 
