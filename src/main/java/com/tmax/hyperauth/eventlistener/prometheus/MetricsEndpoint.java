@@ -1,5 +1,6 @@
 package com.tmax.hyperauth.eventlistener.prometheus;
 
+import com.openshift.restclient.authorization.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
@@ -34,10 +35,14 @@ public class MetricsEndpoint implements RealmResourceProvider {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public Response get() throws Exception {
+    public Response get() {
 
         // Authentication With Admin ID, Password
-        verifyHyperauthAdmin();
+        try{
+            verifyHyperauthAdmin();
+        } catch ( AuthenticationException e){
+            return Response.status(401).build();
+        }
 
         // Hyperauth User & Session Count
         PrometheusExporter.instance().recordUserCount(session);
@@ -47,16 +52,15 @@ public class MetricsEndpoint implements RealmResourceProvider {
         return Response.ok(stream).build();
     }
 
-    private void verifyHyperauthAdmin() throws Exception {
-        System.out.println("header : " + session.getContext().getRequestHeaders().getRequestHeader("Authorization").get(0));
-        Base64.Decoder decoder = Base64.getDecoder();
-        byte[] authBytes = decoder.decode(session.getContext().getRequestHeaders().getRequestHeader("Authorization").get(0).substring(6).getBytes());
-        String[] authInfo = (new String(authBytes)).split(":");
-        String username = authInfo[0];
-        System.out.println("User requested metrics : " + username);
-        String password = authInfo[1];
-
+    private void verifyHyperauthAdmin() throws AuthenticationException {
         try{
+            Base64.Decoder decoder = Base64.getDecoder();
+            byte[] authBytes = decoder.decode(session.getContext().getRequestHeaders().getRequestHeader("Authorization").get(0).substring(6).getBytes());
+            String[] authInfo = (new String(authBytes)).split(":");
+            String username = authInfo[0];
+            log.debug("User requested metrics : " + username);
+            String password = authInfo[1];
+
             RealmModel realm = session.realms().getRealmByName("master");
             UserModel user = session.users().getUserByUsername(username, realm);
             UserCredentialModel cred = UserCredentialModel.password(password);
