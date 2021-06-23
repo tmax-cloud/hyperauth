@@ -63,6 +63,7 @@ public final class PrometheusExporter {
     final PushGateway PUSH_GATEWAY;
     static Gauge totalUsers;
     static Gauge totalUserSessions;
+    static Gauge clientUserSessions;
     final Counter totalMailRequest;
     final Counter totalMailSend;
     final Counter totalFailedMailSend;
@@ -181,9 +182,15 @@ public final class PrometheusExporter {
             .register();
 
         totalUserSessions = Gauge.build()
-                .name("hyperauth_user_sessions")
+                .name("hyperauth_total_user_sessions")
                 .help("Total number of user sessions")
                 .labelNames("realm")
+                .register();
+
+        clientUserSessions = Gauge.build()
+                .name("hyperauth_user_sessions")
+                .help("Number of user sessions per client")
+                .labelNames("realm", "client_id")
                 .register();
 
         totalMailRequest = Counter.build()
@@ -257,9 +264,10 @@ public final class PrometheusExporter {
         long sessionCount = 0;
         for (ClientModel client : session.clients().getClients(realm)) {
             System.out.println("client [ " + client.getName() + " ] : " + session.sessions().getActiveUserSessions(realm,client) );
+            clientUserSessions.labels(realm.getId(), client.getName()).set(session.sessions().getActiveUserSessions(realm,client));
             sessionCount += session.sessions().getActiveUserSessions(realm,client);
         }
-        totalUsers.labels(realm.getId()).set(sessionCount);
+        totalUserSessions.labels(realm.getId()).set(sessionCount);
     }
 
     public void recordMailRequestCount(String realmName, String mailServer) {
