@@ -256,6 +256,7 @@ public final class PrometheusExporter {
         RealmModel realm = session.getContext().getRealm();
         long sessionCount = 0;
         for (ClientModel client : session.clients().getClients(realm)) {
+            System.out.println("client [ " + client.getName() + " ] : " + session.sessions().getActiveUserSessions(realm,client) );
             sessionCount += session.sessions().getActiveUserSessions(realm,client);
         }
         totalUsers.labels(realm.getId()).set(sessionCount);
