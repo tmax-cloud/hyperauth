@@ -46,7 +46,7 @@ public class WithdrawalCancelAuthenticator implements Authenticator {
         }
 
         try {
-            Util.sendMail(context.getSession(), context.getUser().getEmail(), subject, body, null );
+            Util.sendMail(context.getSession(), context.getUser().getEmail(), subject, body, null, context.getRealm().getId() );
         } catch (Exception e) {
             log.error("Error Occurs!!", e);
         } catch (Throwable throwable) {

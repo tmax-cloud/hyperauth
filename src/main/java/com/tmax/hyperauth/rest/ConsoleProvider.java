@@ -161,7 +161,7 @@ public class ConsoleProvider implements RealmResourceProvider {
                     body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/" + emailTheme + "/email/html/etc/account-withdrawal-request.html");
                 }
 
-                Util.sendMail(session, email, subject, body, null );
+                Util.sendMail(session, email, subject, body, null, realm.getId() );
                 event.event(EventType.UPDATE_PROFILE).user(userModel).realm(session.getContext().getRealm())
                         .detail("username", userModel.getUsername()).detail("userWithdrawal","t").success(); //FIXME
             } else{

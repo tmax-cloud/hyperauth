@@ -5,6 +5,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
+import com.tmax.hyperauth.eventlistener.prometheus.PrometheusExporter;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.crypto.KeyWrapper;
 import org.keycloak.models.KeycloakSession;
@@ -93,8 +94,9 @@ public class Util {
 		return numStr;
 	}
 
-	public static void sendMail(KeycloakSession keycloakSession, String recipient, String subject, String body, List<MailImage> imgParts) throws Throwable {
+	public static void sendMail(KeycloakSession keycloakSession, String recipient, String subject, String body, List<MailImage> imgParts, String realmName) throws Throwable {
 		log.info( " Send Mail to User [ " + recipient + " ] Start");
+
 		String host = "mail.tmax.co.kr";
 		int port = 25;
 		String sender = "tmaxcloud_ck@tmax.co.kr";
@@ -138,6 +140,10 @@ public class Util {
 
 		String finalUn = un;
 		String finalPw = pw;
+
+		// For recordMailRequestCount Metric Collect
+		PrometheusExporter.instance().recordMailRequestCount(realmName, host);
+		////
 
 		Session session = Session.getInstance( props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -187,7 +193,14 @@ public class Util {
 			//Send Mail
 			Transport.send( mimeMessage );
 			log.info( " Sent E-Mail to " + recipient);
+			// For recordMailSendCount Metric Collect
+			PrometheusExporter.instance().recordMailSendCount(realmName, host);
+			////
 		}catch (MessagingException e) {
+			// For recordFailedMailSendCount Metric Collect
+			PrometheusExporter.instance().recordFailedMailSendCount(realmName, host);
+			////
+
 			log.error("Error Occurs!!", e);
 			throw e;
 		}

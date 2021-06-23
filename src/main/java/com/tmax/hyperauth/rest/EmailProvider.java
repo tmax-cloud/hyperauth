@@ -114,7 +114,7 @@ public class EmailProvider implements RealmResourceProvider {
         }
 
         try {
-            Util.sendMail(session, email, subject, body, null );
+            Util.sendMail(session, email, subject, body, null, session.getContext().getRealm().getId());
             status = Status.OK;
             out = "Email Send Success";
             return Util.setCors(status, out);

@@ -7,6 +7,7 @@ import org.keycloak.models.UserCredentialModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.services.resource.RealmResourceProvider;
 
+import javax.naming.AuthenticationException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
@@ -33,9 +34,19 @@ public class MetricsEndpoint implements RealmResourceProvider {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public Response get() {
+    public Response get() throws Exception {
 
-        // Authentication for Hyperauth Admin
+        // Authentication With Admin ID, Password
+        verifyHyperauthAdmin();
+
+        // Hyperauth User Count
+        PrometheusExporter.instance().recordUserCount(session);
+
+        final StreamingOutput stream = output -> PrometheusExporter.instance().export(output);
+        return Response.ok(stream).build();
+    }
+
+    private void verifyHyperauthAdmin() throws Exception {
         Base64.Decoder decoder = Base64.getDecoder();
         byte[] authBytes = decoder.decode(session.getContext().getRequestHeaders().getRequestHeader("Authorization").get(0).substring(6).getBytes());
         String[] authInfo = (new String(authBytes)).split(":");
@@ -52,18 +63,12 @@ public class MetricsEndpoint implements RealmResourceProvider {
                 log.debug("Admin User : " + username);
             } else {
                 log.error("password is wrong");
-                return Response.status(401).build();
+                throw new AuthenticationException("Password is Wrong");
             }
         }catch(Exception e){
             log.error(e.getMessage());
-            return Response.status(401).build();
+            throw new AuthenticationException("Unauthorized User");
         }
-
-        // for User Count
-        PrometheusExporter.instance().recordUserCount(session);
-
-        final StreamingOutput stream = output -> PrometheusExporter.instance().export(output);
-        return Response.ok(stream).build();
     }
 
     @Override

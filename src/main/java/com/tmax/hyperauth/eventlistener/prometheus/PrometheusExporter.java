@@ -61,6 +61,10 @@ public final class PrometheusExporter {
     final Histogram requestDuration;
     final PushGateway PUSH_GATEWAY;
     static Gauge totalUsers;
+    final Counter totalMailRequest;
+    final Counter totalMailSend;
+    final Counter totalFailedMailSend;
+
 
     private PrometheusExporter() {
         // The metrics collector needs to be a singleton because requiring a
@@ -174,6 +178,24 @@ public final class PrometheusExporter {
             .labelNames("realm")
             .register();
 
+        totalMailRequest = Counter.build()
+                .name("hyperauth_mail_request")
+                .help("Total number of mail send request")
+                .labelNames("realm", "mailServer")
+                .register();
+
+        totalMailSend = Counter.build()
+                .name("hyperauth_mail_send")
+                .help("Total number of mail send success")
+                .labelNames("realm", "mailServer")
+                .register();
+
+        totalFailedMailSend = Counter.build()
+                .name("hyperauth_failed_mail_send")
+                .help("Total number of mail send failed")
+                .labelNames("realm", "mailServer")
+                .register();
+
 
 
         // Counters for all user events
@@ -217,9 +239,24 @@ public final class PrometheusExporter {
         return counter.register();
     }
 
-    public static void recordUserCount(KeycloakSession session) {
+    public void recordUserCount(KeycloakSession session) {
         RealmModel realm = session.getContext().getRealm();
         totalUsers.labels(realm.getId()).set(session.users().getUsersCount(realm, false));
+    }
+
+    public void recordMailRequestCount(String realmName, String mailServer) {
+        totalMailRequest.labels( realmName, mailServer ).inc();
+        pushAsync();
+    }
+
+    public void recordMailSendCount(String realmName, String mailServer) {
+        totalMailSend.labels( realmName, mailServer ).inc();
+        pushAsync();
+    }
+
+    public void recordFailedMailSendCount(String realmName, String mailServer) {
+        totalFailedMailSend.labels( realmName, mailServer ).inc();
+        pushAsync();
     }
 
     /**
@@ -502,4 +539,6 @@ public final class PrometheusExporter {
     private String nullToEmpty(String value) {
         return value == null ? "" : value;
     }
+
+
 }

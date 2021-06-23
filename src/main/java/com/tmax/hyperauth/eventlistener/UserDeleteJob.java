@@ -81,7 +81,7 @@ public class UserDeleteJob implements Job {
                                 body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/" + emailTheme + "/email/html/etc/account-withdrawal-completed.html");
                             }
 
-                            Util.sendMail(session, email, subject, body, null);
+                            Util.sendMail(session, email, subject, body, null, session.getContext().getRealm().getId() );
 
                             // Topic Event Publish
                             TopicEvent topicEvent = TopicEvent.makeOtherTopicEvent("USER_DELETE", userRepresentation.getUsername(), currentDate.getTime() );

@@ -81,7 +81,7 @@ public class EmailOTPAuthenticator implements Authenticator {
         }
 
         try {
-            Util.sendMail(context.getSession(), context.getUser().getEmail(), subject, body, null);
+            Util.sendMail(context.getSession(), context.getUser().getEmail(), subject, body, null, context.getRealm().getId());
             Response challenge = context.form()
                     .setAttribute(AuthenticatorConstants.ATTR_PRP_OTP_CODE_TTL, Long.valueOf(ttl).intValue())
                     .setAttribute(AuthenticatorConstants.ATTR_PRP_OTP_EXP_AT, (expiringAt).toString())
