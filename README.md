@@ -15,6 +15,7 @@
     - kafka_producer : Realm의 Event를 Kafka로 Publish 한다.
     - Prometheus_metric_listener(개발중) : Realm의 Event를 Prometheus Metric의 형태로 ( auth/realm/{realmId}/metrics ) 노출
       - Prometheus 설치를 통해 수집 가능 ( ServiceMonitor 추가 필요 ) 
+      - 수집 Metric 정보 : https://github.com/tmax-cloud/hyperauth/blob/main/METRICS.md 참조
   - Hyperauth 서버 이중화 및 세션 클러스터링 적용
     - Protocol : KUBE_PING
     - 참고 : https://github.com/jgroups-extras/jgroups-kubernetes/blob/master/README.adoc
