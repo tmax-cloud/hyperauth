@@ -117,7 +117,7 @@
 
 - jvm_memory_pool_bytes_committed (Gauge)
   - help : Committed bytes of a given JVM memory pool
-  - 
+  
 - jvm_memory_pool_bytes_max (Gauge)
   - help : Max bytes of a given JVM memory pool
 
@@ -129,7 +129,7 @@
 
 - jvm_buffer_pool_used_bytes (Gauge)
   - help : Used bytes of a given JVM buffer pool
-  - 
+  
 - jvm_buffer_pool_capacity_bytes (Gauge)
   - help : Bytes capacity of a given JVM buffer pool
 
