@@ -264,7 +264,7 @@ public final class PrometheusExporter {
         long sessionCount = 0;
         for (ClientModel client : session.clients().getClients(realm)) {
             System.out.println("client [ " + client.getName() + " ] : " + session.sessions().getActiveUserSessions(realm,client) );
-            clientUserSessions.labels(realm.getId(), client.getName()).set(session.sessions().getActiveUserSessions(realm,client));
+            if ( session.sessions().getActiveUserSessions(realm,client) > 0) clientUserSessions.labels(realm.getId(), client.getName()).set(session.sessions().getActiveUserSessions(realm,client));
             sessionCount += session.sessions().getActiveUserSessions(realm,client);
         }
         totalUserSessions.labels(realm.getId()).set(sessionCount);
