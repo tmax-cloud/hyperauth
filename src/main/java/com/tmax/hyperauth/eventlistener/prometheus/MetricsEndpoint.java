@@ -39,8 +39,9 @@ public class MetricsEndpoint implements RealmResourceProvider {
         // Authentication With Admin ID, Password
         verifyHyperauthAdmin();
 
-        // Hyperauth User Count
+        // Hyperauth User & Session Count
         PrometheusExporter.instance().recordUserCount(session);
+        PrometheusExporter.instance().recordUserSessionCount(session);
 
         final StreamingOutput stream = output -> PrometheusExporter.instance().export(output);
         return Response.ok(stream).build();

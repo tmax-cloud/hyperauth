@@ -12,6 +12,7 @@ import org.keycloak.events.Event;
 import org.keycloak.events.EventType;
 import org.keycloak.events.admin.AdminEvent;
 import org.keycloak.events.admin.OperationType;
+import org.keycloak.models.ClientModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 
@@ -61,6 +62,7 @@ public final class PrometheusExporter {
     final Histogram requestDuration;
     final PushGateway PUSH_GATEWAY;
     static Gauge totalUsers;
+    static Gauge totalUserSessions;
     final Counter totalMailRequest;
     final Counter totalMailSend;
     final Counter totalFailedMailSend;
@@ -178,6 +180,12 @@ public final class PrometheusExporter {
             .labelNames("realm")
             .register();
 
+        totalUserSessions = Gauge.build()
+                .name("hyperauth_user_sessions")
+                .help("Total number of user sessions")
+                .labelNames("realm")
+                .register();
+
         totalMailRequest = Counter.build()
                 .name("hyperauth_mail_request")
                 .help("Total number of mail send request")
@@ -242,6 +250,15 @@ public final class PrometheusExporter {
     public void recordUserCount(KeycloakSession session) {
         RealmModel realm = session.getContext().getRealm();
         totalUsers.labels(realm.getId()).set(session.users().getUsersCount(realm, false));
+    }
+
+    public void recordUserSessionCount(KeycloakSession session) {
+        RealmModel realm = session.getContext().getRealm();
+        long sessionCount = 0;
+        for (ClientModel client : session.clients().getClients(realm)) {
+            sessionCount += session.sessions().getActiveUserSessions(realm,client);
+        }
+        totalUsers.labels(realm.getId()).set(sessionCount);
     }
 
     public void recordMailRequestCount(String realmName, String mailServer) {
