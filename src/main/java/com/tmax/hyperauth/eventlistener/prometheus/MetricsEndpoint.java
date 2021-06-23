@@ -48,11 +48,12 @@ public class MetricsEndpoint implements RealmResourceProvider {
     }
 
     private void verifyHyperauthAdmin() throws Exception {
+        System.out.println("header : " + session.getContext().getRequestHeaders().getRequestHeader("Authorization").get(0));
         Base64.Decoder decoder = Base64.getDecoder();
         byte[] authBytes = decoder.decode(session.getContext().getRequestHeaders().getRequestHeader("Authorization").get(0).substring(6).getBytes());
         String[] authInfo = (new String(authBytes)).split(":");
         String username = authInfo[0];
-        log.debug("User requested metrics : " + username);
+        System.out.println("User requested metrics : " + username);
         String password = authInfo[1];
 
         try{
