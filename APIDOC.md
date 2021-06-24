@@ -745,6 +745,29 @@
   - **ResponseBody**
 
     String : {versionString}       
+        
+## METRICS
+
+ #### Get
+  - **Description** 
+
+      <u>Hyperauth Metrics Get API for Prometheus
+
+  - **RequestURL**
+    
+    GET https://{HYPERAUTH_IP}/auth/realms/tmax/metrics
+        
+  - **RequestHeader**
+
+      Authorization : Basic {Base64 Encoded username:password}        ex) admin:admin --> Authorization : Basic YWRtaW46YWRtaW4=
+
+  - **PathParam**
+
+      X
+      
+  - **ResponseBody**
+
+      X               
 
 
 
