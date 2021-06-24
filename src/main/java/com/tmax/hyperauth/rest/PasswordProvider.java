@@ -66,10 +66,10 @@ public class PasswordProvider implements RealmResourceProvider {
 	@PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response put(@QueryParam("email") final String email, @QueryParam("code") String code ,@QueryParam("token") String tokenString,
+    public Response put(@QueryParam("email") String email, @QueryParam("code") String code ,@QueryParam("token") String tokenString,
                         @FormParam("password") String password, @FormParam("confirmPassword") String confirmPassword) {
         log.info("***** PUT /password");
-        try {
+
             if (StringUtil.isEmpty(email)){
                 status = Status.BAD_REQUEST;
                 out = "Email Empty";
@@ -83,10 +83,11 @@ public class PasswordProvider implements RealmResourceProvider {
 
             List< EmailVerification > emailCodeList = null;
             boolean isVerified = false;
+            String username = email; // 일단 이메일을 username으로 간주한다.
 
             if ( StringUtil.isNotEmpty(code) && StringUtil.isEmpty(tokenString)){
                 emailCodeList = getEntityManager().createNamedQuery("findByEmail", EmailVerification.class)
-                        .setParameter("email", email).getResultList();
+                        .setParameter("email", username).getResultList();
                 for ( EmailVerification emailCode : emailCodeList ){
                     if (code.equalsIgnoreCase(emailCode.getCode()) && emailCode.getIsVerified()) {
                         isVerified = true;
@@ -94,12 +95,19 @@ public class PasswordProvider implements RealmResourceProvider {
                     }
                 }
             } else if (StringUtil.isNotEmpty(tokenString) && StringUtil.isEmpty(code)){
-                verifyToken(tokenString, realm);
-                if (!token.getPreferredUsername().equalsIgnoreCase(email)) {
+                try{
+                    verifyToken(tokenString, realm);
+                }catch(Exception e){
+                    status = Status.UNAUTHORIZED;
+                    out = "Unauthorized User";
+                    return Util.setCors(status, out);
+                }
+                if (!token.getEmail().equalsIgnoreCase(username)) {
                     out = "Cannot change other user's password";
-                    throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "Cannot change other user's password", Response.Status.BAD_REQUEST);
+                    return Util.setCors(status, out);
                 }
                 isVerified = true;
+                username = token.getPreferredUsername(); // token 방식으로 비밀번호를 변경할때는 유저를 username으로 찾는게 확실히 특정할 수 잇다.
             }
 
             // Validation
@@ -123,24 +131,25 @@ public class PasswordProvider implements RealmResourceProvider {
                 status = Status.BAD_REQUEST;
                 out = "Password and confirmation does not match";
                 return Util.setCors(status, out);
-            } else if (sameWithOldPW(email, password)){
+            } else if (sameWithOldPW(username, password)){
                 status = Status.BAD_REQUEST;
                 out = "sameWithOldPassword";
                 return Util.setCors(status, out);
             }
 
+        try {
             // Change Password
             log.debug("Change Password to " + password);
             session.userCredentialManager().updateCredential(realm,
-                    session.users().getUserByEmail(email, realm),
+                    session.users().getUserByUsername(username, realm),
                     UserCredentialModel.password(password, false));
             log.info("Change Password Success");
 
             // If Locked, Disable Temporary lock
-            UserModel userModel = session.users().getUserByEmail(email, realm);
+            UserModel userModel = session.users().getUserByUsername(username, realm);
             if (session.getProvider(BruteForceProtector.class).isTemporarilyDisabled(session, realm, userModel)){
                 UserLoginFailureModel loginFailureModel = session.sessions()
-                        .getUserLoginFailure(realm, session.users().getUserByEmail(email, realm).getId());
+                        .getUserLoginFailure(realm, session.users().getUserByUsername(username, realm).getId());
                 loginFailureModel.clearFailures();
             }
 
@@ -236,9 +245,9 @@ public class PasswordProvider implements RealmResourceProvider {
                 .verify();
     }
 
-    private boolean sameWithOldPW(String email, String password) {
+    private boolean sameWithOldPW(String username, String password) {
         UserCredentialModel cred = UserCredentialModel.password(password);
-        if (session.userCredentialManager().isValid(session.getContext().getRealm(), session.users().getUserByEmail(email, session.getContext().getRealm()), cred)) {
+        if (session.userCredentialManager().isValid(session.getContext().getRealm(), session.users().getUserByUsername(username, session.getContext().getRealm()), cred)) {
             return true;
         } else {
             return false;
