@@ -51,18 +51,17 @@ public class EmailProvider implements RealmResourceProvider {
     @POST
     @Path("{email}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response post(@PathParam("email") final String email, @QueryParam("resetPassword") String resetPassword) throws Throwable {
+    public Response post(@PathParam("email") final String username, @QueryParam("resetPassword") String resetPassword) throws Throwable {
         log.info("***** POST /email");
-        log.info("email : " + email);
+        log.info("username : " + username);
 
-        // Validate If User Exists with Email
-        String userName = null;
+        String email = null;
+        // Validate If User Exists with username
         if (resetPassword != null && resetPassword.equalsIgnoreCase("t")){
-            if (session.users().getUserByEmail(email, session.getContext().getRealm()) != null){
-                UserModel user = session.users().getUserByEmail(email, session.getContext().getRealm());
+            if (session.users().getUserByUsername(username, session.getContext().getRealm()) != null){
+                UserModel user = session.users().getUserByUsername(username, session.getContext().getRealm());
                 RealmModel realm = session.getContext().getRealm();
-                userName = user.getUsername();
-                log.info("userName : " + userName);
+                email = user.getEmail();
 
                 // 비밀번호가 없는 SNS 회원가입 유저의 경우, 에러발생
                 if( !(session.userCredentialManager().getStoredCredentialsByType(realm, user, "password")!= null
@@ -78,7 +77,7 @@ public class EmailProvider implements RealmResourceProvider {
                 return Util.setCors(status, out);
             }
         } else {
-            if (session.users().getUserByEmail(email, session.getContext().getRealm()) != null) {
+            if (session.users().getUserByUsername(username, session.getContext().getRealm()) != null) {
                 status = Status.BAD_REQUEST;
                 out = "User Already Exists with the Email";
                 return Util.setCors(status, out);
@@ -91,7 +90,7 @@ public class EmailProvider implements RealmResourceProvider {
         //Create New Entity
         EmailVerification entity = new EmailVerification();
         entity.setId(KeycloakModelUtils.generateId());
-        entity.setEmail(email);
+        entity.setEmail(username); //DB에는 username을 저장하는 것으로 한다. 이메일이 중복될수있는 가능성이 생김.(ex 충남대) 210614 by taegeon_woo
         entity.setCode(code);
         entity.setVerificationDate( new Timestamp(time));
 
@@ -130,16 +129,16 @@ public class EmailProvider implements RealmResourceProvider {
 	@GET
     @Path("{email}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response get(@PathParam("email") final String email, @QueryParam("code") String code, @QueryParam("resetPassword") String resetPassword) {
+    public Response get(@PathParam("email") final String username, @QueryParam("code") String code, @QueryParam("resetPassword") String resetPassword) {
         log.info("***** GET /email");
-        log.info("email : " + email);
+        log.info("username : " + username);
         log.info("code : " + code);
         String codeDB = "";
         Timestamp insertTime = null;
 
         try {
             List< EmailVerification > emailCodeList = getEntityManager().createNamedQuery("findByEmail", EmailVerification.class)
-                    .setParameter("email", email).getResultList();
+                    .setParameter("email", username).getResultList();  //DB에는 username을 저장했다. 이메일이 중복될수있는 가능성이 생김.(ex 충남대) 210614 by taegeon_woo
             if (emailCodeList != null && emailCodeList.size() != 0) {
                 codeDB = emailCodeList.get(0).getCode();
                 insertTime = new Timestamp(emailCodeList.get(0).getVerificationDate().getTime());
@@ -158,7 +157,7 @@ public class EmailProvider implements RealmResourceProvider {
                 if (code.equalsIgnoreCase(codeDB)){
                     if (resetPassword != null && resetPassword.equalsIgnoreCase("t")){
                         getEntityManager().createNamedQuery("updateIsVerified").setParameter("isVerified", true)
-                                .setParameter("email", email).setParameter("code", codeDB).executeUpdate();
+                                .setParameter("email", username).setParameter("code", codeDB).executeUpdate();
                         log.info("Update DB IsVerified True Success");
                     }else{
                         for ( EmailVerification emailCode : emailCodeList ){
