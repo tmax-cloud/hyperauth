@@ -72,7 +72,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Hyperauth Users",
+      "title": "Hyperauth Users per Realm",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -360,7 +360,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Email Send Request per $realm - mail server",
+      "title": "Email Send Request per Realm - Mail server",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -456,7 +456,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Email Send per Realm",
+      "title": "Email Send per Realm - Mail server",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -552,7 +552,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Email Send Failed per Realm",
+      "title": "Email Send Failed per Realm - Mail server",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1265,7 +1265,7 @@
         "current": false,
         "max": false,
         "min": false,
-        "rightSide": true,
+        "rightSide": false,
         "show": true,
         "sideWidth": 100,
         "total": false,
@@ -1301,7 +1301,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Registrations per CLIENT on realm $realm",
+      "title": "Registrations per Realm - Client_id",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1398,7 +1398,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Registration Errors per $realm - client_id",
+      "title": "Registration Errors per Realm - Client_id",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1554,5 +1554,5 @@
   "timezone": "",
   "title": "hyperauth Metrics",
   "uid": "keycloak",
-  "version": 64
+  "version": 67
 }
