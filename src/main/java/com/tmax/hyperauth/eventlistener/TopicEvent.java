@@ -2,6 +2,8 @@ package com.tmax.hyperauth.eventlistener;
 
 import org.keycloak.events.Event;
 import org.keycloak.events.EventType;
+import org.keycloak.models.KeycloakSession;
+
 import java.util.Map;
 
 public class TopicEvent {
@@ -108,7 +110,7 @@ public class TopicEvent {
 
     public static TopicEvent makeTopicEvent(Event keycloakEvent, String userName) {
         TopicEvent topicEvent = new TopicEvent();
-
+        topicEvent.setUserName(userName);
         topicEvent.setTime(keycloakEvent.getTime());
 
         // for type, type conversion needs!
@@ -127,15 +129,6 @@ public class TopicEvent {
             topicEventType = keycloakEvent.getType().toString();
         }
         topicEvent.setType(topicEventType);
-
-        if ( userName == null) {
-            if ( keycloakEvent.getDetails() != null && keycloakEvent.getDetails().get("username") != null){
-                userName = keycloakEvent.getDetails().get("username");
-            } else {
-                userName = "unknown";
-            }
-        }
-        topicEvent.setUserName(userName);
 
         if (keycloakEvent.getUserId() != null) topicEvent.setUserId(keycloakEvent.getUserId());
         if (keycloakEvent.getRealmId() != null) topicEvent.setRealmId(keycloakEvent.getRealmId());

@@ -25,27 +25,16 @@ public class KafkaEventListenerProvider extends TimerSpi implements EventListene
 
     @Override
     public void onEvent(Event event) {
-        String userName = "";
-            TopicEvent topicEvent = TopicEvent.makeTopicEvent(event, null);
-
-        switch (event.getType().toString()) {
-            case "REGISTER":
-            case "LOGIN":
-                topicEvent = TopicEvent.makeTopicEvent(event, event.getDetails().get("username"));
-                break;
-            case "SEND_VERIFY_EMAIL_ERROR":
-                String email = event.getDetails().get("email");
-                topicEvent = TopicEvent.makeTopicEvent(event, email);
-                break;
-            case "LOGIN_ERROR":
-                if (event.getDetails() != null && event.getDetails().get("username")!= null){
-                    topicEvent = TopicEvent.makeTopicEvent(event, event.getDetails().get("username"));
-                }
-                break;
-            case "LOGOUT":
-                topicEvent = TopicEvent.makeTopicEvent(event, session.users().getUserById(event.getUserId(), session.realms().getRealm(event.getRealmId())).getUsername());
-                break;
+        String userName = "unKnown";
+        if (event.getDetails() != null && event.getDetails().get("username")!= null){
+            userName = event.getDetails().get("username");
+        } else if (event.getDetails() != null && event.getDetails().get("email")!= null){
+            userName = event.getDetails().get("email");
+        } else if (event.getUserId() != null){
+            userName = session.users().getUserById(event.getUserId(), session.realms().getRealm(event.getRealmId())).getUsername();
         }
+
+        TopicEvent topicEvent = TopicEvent.makeTopicEvent(event, userName);
 
         // TOPIC Event Publish !!
         try {
