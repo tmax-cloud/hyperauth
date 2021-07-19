@@ -11,7 +11,7 @@ import java.util.Properties;
 
 @Slf4j
 public class KafkaProducer {
-    private final static String BOOTSTRAP_SERVER = "kafka-1."+System.getenv("NAMESPACE")+":9092,kafka-2."+System.getenv("NAMESPACE")+":9092,kafka-3."+System.getenv("NAMESPACE")+":9092";
+    private static String BOOTSTRAP_SERVER = "kafka-1."+System.getenv("NAMESPACE")+":9092,kafka-2."+System.getenv("NAMESPACE")+":9092,kafka-3."+System.getenv("NAMESPACE")+":9092";
     public static void publishEvent(String topic, Object value){
         //reset thread context
         resetThreadContext();
@@ -53,6 +53,9 @@ public class KafkaProducer {
 
     public static Properties getProperties() {
         Properties properties = new Properties();
+        if(System.getenv("KAFKA_BROKERS_ADDR")!= null){
+            BOOTSTRAP_SERVER = System.getenv("KAFKA_BROKERS_ADDR");
+        }
         properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER);
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
