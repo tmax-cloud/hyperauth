@@ -1,8 +1,13 @@
 # HyperAuth
 - **설치 가이드**
-  - https://github.com/tmax-cloud/install-hyperauth
-    - kafka cluster topic server 추가 설치의 경우, Step 4. Kafka Topic Server 설치 만 추가 수행하면 됨
-   
+  - On Kubernetes 
+    - https://github.com/tmax-cloud/install-hyperauth
+      - kafka cluster topic server 추가 설치의 경우, Step 4. Kafka Topic Server 설치 만 추가 수행하면 됨
+  - On Legacy
+    - https://github.com/tmax-cloud/install-hyperauth-legacy
+  - On Docker-compose
+    - https://github.com/tmax-cloud/install-hyperauth/blob/main/manifest/docker-compose.yaml
+
 - **운영 및 기능 가이드**  
   - Events Config 관리 
     - 원하는 기능만 사용할 수 있게끔 Plug-In 형식으로 사용 가능
