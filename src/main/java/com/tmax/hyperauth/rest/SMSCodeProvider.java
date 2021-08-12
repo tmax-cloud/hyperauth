@@ -30,7 +30,7 @@ public class SMSCodeProvider implements RealmResourceProvider {
     public SMSCodeProvider(KeycloakSession session) {
         this.session = session;
     }
-    
+
     @Override
     public Object getResource() {
         return this;
