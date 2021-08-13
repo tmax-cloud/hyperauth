@@ -63,6 +63,12 @@ public class EmailProvider implements RealmResourceProvider {
                 RealmModel realm = session.getContext().getRealm();
                 email = user.getEmail();
 
+                if (email == null){
+                    status = Status.BAD_REQUEST;
+                    out = "Email Not Found";
+                    return Util.setCors(status, out);
+                }
+
                 // 비밀번호가 없는 SNS 회원가입 유저의 경우, 에러발생
                 if( !(session.userCredentialManager().getStoredCredentialsByType(realm, user, "password")!= null
                         && session.userCredentialManager().getStoredCredentialsByType(realm, user, "password").size() >0
