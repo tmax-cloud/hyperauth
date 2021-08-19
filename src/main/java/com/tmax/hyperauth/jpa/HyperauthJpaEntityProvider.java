@@ -14,7 +14,7 @@ import java.util.List;
 public class HyperauthJpaEntityProvider implements JpaEntityProvider {
 	@Override
     public List<Class<?>> getEntities() {
-        return Arrays.asList(Agreement.class, EmailVerification.class);
+        return Arrays.asList(Agreement.class, EmailVerification.class, ProfilePicture.class);
     }
 
     @Override
