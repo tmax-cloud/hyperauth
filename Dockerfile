@@ -27,7 +27,7 @@ ADD build/config/docker-entrypoint.sh /opt/jboss/tools/docker-entrypoint.sh
 COPY themes/tmax /opt/jboss/keycloak/themes/tmax
 COPY themes/hypercloud/login /opt/jboss/keycloak/themes/hypercloud/login
 COPY themes/hyperspace/login /opt/jboss/keycloak/themes/hyperspace/login
-COPY themes/superauth /opt/jboss/keycloak/themes/superauth
+COPY themes/hyperauth /opt/jboss/keycloak/themes/hyperauth
 COPY themes/cnu /opt/jboss/keycloak/themes/CNU
 
 # 4. keycloak service jar & sql jar & server-spi-private jar change for tibero, this contains sql error fixme!!
@@ -39,7 +39,7 @@ RUN rm /opt/jboss/keycloak/modules/system/layers/keycloak/org/keycloak/keycloak-
 ADD build/jar/keycloak-server-spi-private-11.0.2.jar /opt/jboss/keycloak/modules/system/layers/keycloak/org/keycloak/keycloak-server-spi-private/main/keycloak-server-spi-private-11.0.2.jar
 
 # 5. hyperauth-spi.jar (SPI)
-ADD target/keycloak-spi-jar-with-dependencies.jar /opt/jboss/keycloak/standalone/deployments/superauth-spi.jar
+ADD target/keycloak-spi-jar-with-dependencies.jar /opt/jboss/keycloak/standalone/deployments/hyperauth-spi.jar
 
 # 6. Naver & Kakao html
 ADD build/config/realm-identity-provider-naver.html /opt/jboss/keycloak/themes/base/admin/resources/partials/realm-identity-provider-naver.html
