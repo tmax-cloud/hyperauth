@@ -1,9 +1,8 @@
-## Tmax Keycloak Theme
+## Hyperauth Keycloak Theme
 
 ### 주의사항
 
 - tmax theme 및 타 client theme 변경 금지
-- theme명 branch에서 작업 후, dev에 merge(ex. hypercloud)
 
 #### 개발 환경 구축 (Keycloak on OpenJDK)
 
@@ -31,5 +30,4 @@
   - 기본은 template.ftl(페이지 Layout)에 각 페이지 별로 추가 부분 nested로 구현되어 있으나 각 theme 별로 자유롭게 변경 가능
 
 - 테마 작성 완료 후
-1. dev branch에 merge
-2. 해당 theme 폴더가 배포 시 추가되도록 포함 요청(CK1-3팀: 추가한 theme 폴더 이름 전달)
+1. 해당 theme 폴더가 배포 시 추가되도록 포함 요청(CK1-3팀: 추가한 theme 폴더 이름 전달)
