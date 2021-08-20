@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="67px" height="60px" viewBox="0 0 67 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Illust_signout</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="05_01_account_setting-copy-3" transform="translate(-147.000000, -173.000000)">
+            <g id="Illust_signout" transform="translate(147.000000, 173.000000)">
+                <g id="Group-4" stroke="#1A3755">
+                    <rect id="Rectangle" stroke-width="2" fill="#EFF1F0" x="1" y="1" width="61" height="40.2463768" rx="5"></rect>
+                    <path d="M31.8987342,7.17391304 C36.3030303,7.17391304 39.8734177,10.7426578 39.8734177,15.1449275 C39.8734177,18.2364917 38.1125831,20.9169801 35.5386706,22.239072 C39.0186745,23.6708015 41.4683544,27.0950038 41.4683544,31.0913594 L41.4683544,33.4782609 L22.3291139,33.4777391 L22.3291139,31.0913594 C22.3291139,27.0946193 24.7792652,23.6701426 28.2594715,22.2380258 C25.6849854,20.9171325 23.9240506,18.2365796 23.9240506,15.1449275 C23.9240506,10.7426578 27.4944381,7.17391304 31.8987342,7.17391304 Z" id="Combined-Shape" stroke-width="2" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4,4"></path>
+                    <rect id="Rectangle" fill="#D8D8D8" x="31.6012658" y="42.7463768" width="1" height="10.1594203"></rect>
+                    <rect id="Rectangle-Copy-6" fill="#D8D8D8" x="13.2594937" y="53.9057971" width="37.278481" height="1"></rect>
+                </g>
+                <g id="Group-6" transform="translate(46.000000, 39.000000)">
+                    <path d="M10.5,0 C16.2989899,0 21,4.70101013 21,10.5 C21,16.2989899 16.2989899,21 10.5,21 C4.70101013,21 0,16.2989899 0,10.5 C0,4.70101013 4.70101013,0 10.5,0 Z" id="Path" fill="#0066CC"></path>
+                    <polygon id="Path" fill="#FFFFFF" points="15.0153693 6.234375 8.92828125 12.3073125 5.98586648 9.3646875 4.59375 10.756804 8.92933238 15.0923864 10.3214489 13.7002699 16.4074858 7.62649148"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

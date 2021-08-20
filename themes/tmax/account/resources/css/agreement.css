@@ -1,0 +1,126 @@
+.template-body .login-pf-page .card-pf {
+}
+
+.form-group label.control-label {
+  margin-top: 16px;
+}
+
+@media (max-width: 769px) {
+  .template-body.register-body .login-pf-page .card-pf {
+    margin-bottom: 2px;
+    /* padding-top: 13%; */
+    border-bottom: 1px solid #cccccc;
+    min-height: 70%;
+    max-width: 554px;
+    width: 90%;
+  }
+}
+
+@media (max-width: 499px) {
+  .template-body.register-body .login-pf-page .card-pf {
+    /* padding-top: 19%; */
+  }
+}
+
+.tmax-logo{
+  width: 150px;
+  height: 100px;
+  background: url(../img/logo_tmax.svg) no-repeat left top;
+  background-size: 130px;
+}
+
+.wapl-logo{
+  width: 150px;
+  height: 100px;
+  background: url(../img/logo_wapl.svg) no-repeat left top;
+  background-size: 130px;
+}
+
+.portal-logo{
+  width: 150px;
+  height: 100px;
+  background: url(../img/logo_portal.svg) no-repeat left top;
+  background-size: 130px;
+}
+
+.hypermeeting-logo{
+  width: 150px;
+  height: 100px;
+  background: url(../img/logo_hypermeeting.svg) no-repeat left top;
+  background-size: 130px;
+}
+
+.waplclass-logo{
+  width: 150px;
+  height: 100px;
+  background: url(../img/logo_waplclass.svg) no-repeat left top;
+  background-size: 130px;
+}
+
+.waplmath-logo{
+  width: 150px;
+  height: 100px;
+  background: url(../img/logo_waplmath.svg) no-repeat left top;
+  background-size: 130px;
+}
+
+.rowBox{
+  display: flex;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.rowBox .col1{
+  width: 180px;
+  margin-right: 50px;
+}
+
+div.term p {
+    font-size: 12px !important;
+    font-weight: 100 !important;
+}
+
+.hide{
+  display: none;
+}
+
+.col2{
+  /*margin: 0 auto;*/
+  margin: 0 0;
+  width: 500px;
+}
+
+input[type="checkbox"] {
+  position: absolute;
+  top: 10px;
+  left: 6.5px;
+  width: 1px;
+  height: 1px;
+  visibility: hidden;
+}
+input[type="checkbox"] + label {
+  display: inline-block;
+  position: relative;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-weight: 500;
+  font-family: "Noto Sans KR";
+}
+input[type="checkbox"] + label:hover {
+  text-decoration: underline;
+}
+input[type="checkbox"] + label::before {
+  display: inline-block;
+  content: "";
+  background: url("../img/control_check_off.svg") no-repeat;
+  background-size: 13px 13px;
+  margin: 0 8px -1px 0;
+  width: 13px;
+  height: 13px;
+}
+input[type="checkbox"]:checked + label::before {
+  background: url("../img/control_check_on.svg") no-repeat;
+}

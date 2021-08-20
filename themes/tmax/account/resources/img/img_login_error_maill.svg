@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="90px" height="50px" viewBox="0 0 90 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>img_login_error_maill</title>
+    <g id="Ch2_2step_Register/Password/Error" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Ch2_2step_Register/Password/Error12" transform="translate(-135.000000, -205.000000)">
+            <g id="Group-5" transform="translate(20.000000, 199.000000)">
+                <g id="key" transform="translate(115.000000, 0.000000)">
+                    <path d="M83.313804,46.6663432 L84.0596798,45 L85.0604076,46.5262583 C85.8623241,47.7496665 86.9978166,48.7169193 88.3334546,49.3146149 L90,50.0590661 L88.4722222,51.0596725 C87.2486657,51.862826 86.2826298,52.9981807 85.6848617,54.3336568 L84.9389859,56 L83.9382581,54.4724075 C83.1363416,53.2503335 82.0008491,52.2817465 80.6665454,51.6853851 L79,50.9395998 L80.5251092,49.9389933 C81.7486657,49.137174 82.7173702,48.0004851 83.313804,46.6663432" id="Fill-1" fill="#0992AC"></path>
+                    <path d="M9.233,7.249 L9.792,6 L10.542,7.144 C11.143,8.061 11.994,8.786 12.995,9.234 L14.244,9.792 L13.099,10.542 C12.182,11.144 11.458,11.995 11.01,12.996 L10.451,14.245 L9.701,13.1 C9.1,12.184 8.249,11.458 7.249,11.011 L6,10.452 L7.143,9.702 C8.06,9.101 8.786,8.249 9.233,7.249" id="Fill-1" fill="#1A3755"></path>
+                    <path d="M2.35298399,21.9089145 L2.75982533,21 L3.30567686,21.8325045 C3.74308588,22.4998181 4.36244541,23.0274106 5.09097525,23.3534263 L6,23.7594906 L5.16666667,24.3052759 C4.4992722,24.7433596 3.97234352,25.362644 3.64628821,26.0910855 L3.23944687,27 L2.69359534,26.1667677 C2.25618632,25.5001819 1.63682678,24.9718617 0.909024745,24.6465737 L0,24.2397817 L0.831877729,23.6939964 C1.4992722,23.2566404 2.02765648,22.6366283 2.35298399,21.9089145" id="Fill-1" fill="#ED425C"></path>
+                    <g id="Group-2" transform="translate(18.000000, 16.000000)">
+                        <rect id="Rectangle" fill="#B9DCFF" x="5" y="5" width="49" height="33" rx="2"></rect>
+                        <rect id="Rectangle" stroke="#1A3755" stroke-width="1.5" fill-opacity="0" fill="#FFFFFF" x="0.75" y="0.75" width="47.5" height="31.5" rx="3"></rect>
+                        <path d="M46.036701,1 L24.0656896,17.7344802 L2.87935716,1 L46.036701,1 Z" id="Path-2" stroke="#1A3755" stroke-width="2" fill-opacity="0" fill="#FFFFFF"></path>
+                        <g id="Group-4" transform="translate(34.000000, 18.000000)">
+                            <circle id="Oval" fill="#1A3755" cx="9" cy="9" r="9"></circle>
+                            <line x1="6" y1="6" x2="12" y2="12" id="Line-Copy" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></line>
+                            <line x1="6" y1="12" x2="12" y2="6" id="Line-Copy-2" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></line>
+                        </g>
+                    </g>
+                    <rect id="img_login_error_maill" opacity="0" x="0" y="0" width="90" height="60"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

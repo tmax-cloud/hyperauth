@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="84px" height="75px" viewBox="0 0 84 75" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Illust_signout_fail</title>
+    <g id="ch01_Login" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Ch6_Account_Setting_08" transform="translate(-1086.000000, -228.000000)">
+            <g id="Illust_signout_fail" transform="translate(1086.000000, 228.000000)">
+                <g id="Group-4" stroke="#1A3755">
+                    <rect id="Rectangle" stroke-width="2" fill="#EFF1F0" x="1" y="1" width="77" height="51" rx="5"></rect>
+                    <path d="M40,9 C45.5228475,9 50,13.4771525 50,19 C50,22.8787143 47.7917341,26.2416604 44.5638492,27.9001916 C48.9276808,29.6941593 52,33.9882904 52,39 L52,42 L28,42 L28,39 C28,33.9882904 31.0723192,29.6941593 35.4362826,27.898282 C32.2082659,26.2416604 30,22.8787143 30,19 C30,13.4771525 34.4771525,9 40,9 Z" id="Combined-Shape" stroke-width="2" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4,4"></path>
+                    <rect id="Rectangle" fill="#D8D8D8" x="39.5" y="53.5" width="1" height="13"></rect>
+                    <rect id="Rectangle-Copy-6" fill="#D8D8D8" x="16.5" y="67.5" width="47" height="1"></rect>
+                </g>
+                <path d="M71,49 C78.1797017,49 84,54.8202983 84,62 C84,69.1797017 78.1797017,75 71,75 C63.8202983,75 58,69.1797017 58,62 C58,54.8202983 63.8202983,49 71,49 Z M66.4107078,55.7344642 L64.878415,57.2854359 L69.399375,61.8610625 L64.7414214,66.5759004 L66.2737262,68.1268844 L70.9309375,63.4113125 L75.726278,68.2655439 L77.2585707,66.7145722 L72.4633125,61.8610625 L76.8476142,57.4241167 L75.3153089,55.8731322 L70.9309375,60.31 L66.4107078,55.7344642 Z" id="Combined-Shape" fill="#D42800"></path>
+            </g>
+        </g>
+    </g>
+</svg>

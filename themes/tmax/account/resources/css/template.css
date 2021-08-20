@@ -1,0 +1,1581 @@
+/* @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css); */
+/* Other page(register, forgot password, error etc. design */
+
+/* Button */
+
+.login-pf .template-body {
+  background: #f4f6f8;
+  font-family: "Noto Sans KR";
+}
+
+/* Header */
+
+.welcome-img {
+  background: url("../img/Illust_welcome.svg") no-repeat top;
+  margin: auto;
+  width: 71px;
+  height: 90px;
+}
+
+.welcome-img-kakao {
+  background: url("../img/Illust_join_kakao.svg") no-repeat top;
+  margin: auto;
+  width: 96px;
+  height: 80px;
+}
+
+.email-confirm-img {
+  background: url("../img/Illust_email.svg") no-repeat top;
+  margin: auto;
+  width: 88px;
+  height: 81px;
+  margin-top: 5px;
+}
+
+.timeout-img {
+  background: url("../img/Illust_timeout.svg") no-repeat top;
+  margin: auto;
+  width: 71px;
+  height: 90px;
+}
+
+.change-password-img {
+  background: url("../img/Illust_password_change.svg") no-repeat top;
+  margin: auto;
+  width: 85px;
+  height: 86px;
+  margin-top: 5px;
+}
+
+.arrow-left {
+  background: url("../img/arrow_back_Normal.svg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 24px;
+  width: 24px;
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+.arrow-left:hover {
+  background: url("../img/arrow_back_Active.svg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 24px;
+  width: 24px;
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+.call-icon {
+  background: url("../img/arrow-left.svg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 12px;
+  height: 16px;
+  width: 16px;
+  display: inline-block;
+}
+
+.email-icon {
+  background: url("../img/arrow-left.svg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 12px;
+  height: 16px;
+  width: 16px;
+  display: inline-block;
+}
+
+.link-with-kakao-icon {
+  background: url("../img/link_with_kakao.svg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 56px;
+  width: 198px;
+  margin: auto auto;
+  margin-top: 70px;
+}
+
+.template-body #kc-content-wrapper .header-icon {
+  margin-bottom: 60px;
+  font-weight: 500;
+}
+
+.header-icon.login_reset_password {
+  margin: 40px auto 0px auto;
+}
+
+.header-icon.register {
+  margin: 40px auto 0px auto;
+}
+
+.template-body .login-pf-header {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  margin: 0;
+}
+
+.template-body .login-pf-page #kc-content-wrapper .header-icon {
+  width: 100%;
+  line-height: unset;
+  margin: 40px 0 45px 0;
+  height: 47px;
+  line-height: 47px;
+  font-size: 32px;
+  font-weight: 700;
+  font-family: "Noto Sans KR";
+  color: #042a54;
+  text-align: center;
+}
+
+.template-body .login-pf-page #kc-content-wrapper .header-icon.email-sent {
+  margin: 90px auto 35px auto;
+}
+
+.template-body
+  .login-pf-page
+  #kc-content-wrapper
+  .header-icon.withdrawal-cancel {
+  margin: 70px auto 35px auto;
+}
+
+.footer-terms-link-wrapper {
+  flex-direction: row;
+}
+
+.form-group .remember-me {
+  display: none;
+}
+
+.form-group .remember-email {
+  display: inline-block;
+}
+
+/*
+Register - User Agreement
+*/
+
+.card-pf::-webkit-scrollbar {
+  width: 6px;
+  background: none;
+}
+.card-pf::-webkit-scrollbar-thumb {
+  background: #d8dadb;
+  border-radius: 7.5px;
+  opacity: 1;
+}
+.card-pf::-webkit-scrollbar-track {
+  background: none;
+}
+
+textarea::-webkit-scrollbar {
+  width: 6px;
+  background: none;
+}
+textarea::-webkit-scrollbar-thumb {
+  background: #d8dadb;
+  border-radius: 7.5px;
+  opacity: 1;
+}
+textarea::-webkit-scrollbar-track {
+  background: none;
+}
+
+div::-webkit-scrollbar {
+  width: 6px;
+  background: none;
+}
+div::-webkit-scrollbar-thumb {
+  background: #d8dadb;
+  border-radius: 7.5px;
+  opacity: 1;
+}
+div::-webkit-scrollbar-track {
+  background: none;
+}
+
+.template-body.register-body #kc-content {
+  min-height: 680px;
+  flex-direction: column;
+}
+
+.register-body #register_button {
+  margin-top: 60px;
+  margin-bottom: 38px;
+}
+
+#agreement .agree {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+hr {
+  border-top: 1px solid #d3d3d3;
+}
+
+#agreement label {
+  font-size: 14px;
+  color: #3e3e3e;
+  line-height: 2rem;
+  display: block;
+  padding-left: 21px;
+  text-indent: -21px;
+  font-weight: 900;
+}
+
+#agreement label span {
+  color: #ff4646;
+  margin-left: 6px;
+}
+
+#agreement .arrow {
+  background-image: url("../img/arrow_down_normal.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 14px;
+  height: 22px;
+  width: 14px;
+  cursor: pointer;
+}
+
+#agreement .arrow:hover {
+  background-image: url("../img/arrow_down_hover.png");
+}
+
+#agreement .arrow.up {
+  background-image: url("../img/arrow_up_normal.png");
+}
+
+#agreement .arrow.up:hover {
+  background-image: url("../img/arrow_up_hover.png");
+}
+
+#agreement .term {
+  margin-top: 10px;
+  /*max-width: 380px;*/
+  height: 200px;
+  width: 100%;
+  border: 1px solid #d3d3d3;
+  background: #f4f5f5;
+  padding: 7px 0px 7px 7px;
+  resize: none;
+  overflow-y: scroll;
+}
+
+#agreement #agree_button {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+#agreement .term_content {
+  text-align: left;
+  font-family: "Noto Sans KR";
+  font-weight: 300;
+  color: #333333;
+  letter-spacing: 0;
+  font-size: 12px;
+}
+
+#agreement .term_content p {
+  color: #333333;
+}
+
+#agreement .term_content .title {
+  font-family: "Noto Sans KR";
+  font-weight: 500;
+  color: #333333;
+  font-size: 13px;
+}
+
+#agreement .term_content .subtitle {
+  text-align: left;
+  color: #333333;
+  margin-top: 15px;
+  font-size: 12px;
+}
+
+#agreement .tbl_agree {
+  width: 100%;
+  margin-top: 15px;
+  table-layout: auto;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-bottom: 1px solid #ccc;
+}
+
+#agreement .tbl_agree th {
+  height: 50px;
+  padding: 11px 17px;
+  font-size: 12px;
+  text-align: center;
+  border: solid #ccc;
+  border-width: 1px 0 0 1px;
+  background-color: #fafafa;
+}
+
+#agreement .tbl_agree td {
+  padding: 15px 10px;
+  border: solid #ccc;
+  border-width: 1px 0 0 1px;
+  font-size: 10px;
+  vertical-align: top;
+  text-align: left;
+  word-spacing: -1px;
+  line-height: 111%;
+}
+
+#agreement .tbl_agree th:first-child {
+  border-left: 0 none;
+}
+
+#agreement .tbl_agree td:first-child {
+  border-left: 0 none;
+}
+
+/*
+Register - User Information
+*/
+
+
+
+#hidden_verification div {
+  padding: 0;
+}
+
+#hidden_verification .description {
+  margin: 5px 0 16px 0;
+  font-size: 12px;
+  font-weight: normal;
+  color: #666666;
+}
+
+
+
+/* Info Msg */
+
+.template-body #kc-content {
+  display: flex;
+  min-height: 594px;
+  flex-direction: column;
+}
+
+.template-body .login-pf-page #kc-info-wrapper,
+.template-body #kc-content-wrapper {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 380px;
+  line-height: 16px;
+}
+
+@media (max-width: 499px) {
+  .template-body .login-pf-page #kc-content-wrapper .header-icon.email-sent {
+    margin: 50px auto 35px auto;
+  }
+
+  .template-body
+    .login-pf-page
+    #kc-content-wrapper
+    .header-icon.withdrawal-cancel {
+    margin: 50px auto 35px auto;
+  }
+
+  .template-body .login-pf-page #kc-content-wrapper .header-icon {
+    margin-top: 25px;
+    margin-bottom: 30px;
+    font-size: 25px;
+    height: 60px;
+  }
+
+  .template-body #kc-content {
+    min-height: auto;
+  }
+}
+/* 
+@media (max-width: 767px) {
+  .template-body .login-pf-page #kc-info-wrapper {
+    padding: 0;
+  }
+
+  .template-body .login-pf-page #kc-content-wrapper .header-icon {
+    margin: 20px 0 31px 0;
+    font-size: 24px;
+  }
+} */
+
+.template-body .login-pf-page .login-pf-signup {
+  margin: 0;
+  font-size: 14px;
+  color: #696969;
+}
+
+/* card-pf */
+
+.template-body .login-pf-page .card-pf {
+  position: relative;
+  align-items: center;
+  margin: 20px auto 140px auto;
+  padding: 20px;
+  max-width: 554px;
+  height: 594px;
+  border: 1px solid #b9b9b9;
+  border-radius: 6px;
+}
+
+.template-body.register-body .login-pf-page .card-pf {
+  height: unset;
+}
+
+.template-body.register-body .login-pf-page .card-pf {
+  margin-bottom: 50px;
+  min-height: 750px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  max-width: 620px;
+  border-bottom: 8px solid #042a54;
+}
+
+#navigation-bar {
+  margin: 3px auto;
+  height: 30px;
+  width: 100%;
+  max-width: 554px;
+  display: none;
+}
+
+@media (max-width: 769px) {
+  #kc-header {
+    /* display: none; */
+  }
+
+  .register-body #navigation-bar {
+    display: block;
+  }
+
+  .arrow-left {
+    display: block;
+  }
+
+  .template-body .login-pf-page .card-pf {
+    flex-grow: 1;
+    /* margin: 0;
+    padding: 100px 20px; */
+    max-width: 90%;
+    min-height: auto;
+  }
+}
+
+/* login_reset_password (forgot_password + verify_passwrod +  update_password + reset_password_complete ) */
+.login_reset_password .form-group div {
+  /* forgot-password */
+  padding: 0;
+}
+
+#forgot-password .form-group div {
+  padding: 0;
+}
+
+.login_reset_password #kc-info {
+  margin-bottom: 79px;
+}
+
+.login_reset_password #kc-info #kc-info-wrapper {
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  padding-top: 0px;
+  color: #666666;
+}
+
+.login_reset_password .form-group .control-label {
+  margin-bottom: 10px;
+}
+
+.login_reset_password .marginBottom {
+  margin-bottom: 79px;
+}
+
+.login_reset_password .btn-primary {
+  margin-bottom: 38px;
+}
+
+/* login_reset_password - verify_passwrod */
+#verify_password #kc-info {
+  margin-bottom: 91px;
+}
+
+#verify_password .marginBottom {
+  margin-bottom: 92px;
+}
+
+#verify_password .btn-primary {
+  margin-bottom: 10px;
+}
+
+#verify_password .description {
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: normal;
+  color: #666666;
+}
+
+#verify_password .description span {
+  margin-left: 6px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+#verify_password .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#verify_password .modal .md_overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+#verify_password .modal .md_content {
+  position: relative;
+  width: 390px;
+  height: 194px;
+  padding: 13px 20px 20px 20px;
+  background: #ffffff;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+  border-radius: 2px;
+}
+
+#verify_password .modal .md_content .md_content__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+#verify_password
+  .modal
+  .md_content
+  .md_content__header
+  .md_content__header__title {
+  font-weight: normal;
+  font-size: 16px;
+  color: #444444;
+  letter-spacing: 0;
+  line-height: 16px;
+}
+
+#verify_password
+  .modal
+  .md_content
+  .md_content__header
+  .md_content__header__close {
+  width: 17px;
+  height: 17px;
+  background-image: url("../img/close.svg");
+  cursor: pointer;
+}
+
+#verify_password .modal .md_content hr {
+  margin: 13px 0 20px 0;
+  border-top: 1px solid #dadada;
+}
+
+#verify_password .modal .md_content .md_content__text {
+  font-weight: normal;
+  font-size: 14px;
+  color: #333333;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
+#verify_password .modal .md_content .button {
+  margin-top: 20px;
+  width: 68px;
+  height: 32px;
+  background-color: #042a54;
+  font-weight: normal;
+  font-size: 14px;
+  color: #ffffff;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 32px;
+  border: none;
+  float: right;
+  cursor: pointer;
+}
+
+#verify_password .description .isDisabled {
+  color: currentColor;
+  cursor: not-allowed;
+  opacity: 0.5;
+  text-decoration: none;
+}
+
+#verify_password .description .isDisabled > span {
+  color: currentColor;
+  display: inline-block;
+  pointer-events: none;
+  text-decoration: none;
+}
+
+/* login_reset_password - forgot_password */
+
+#forgot_password #register {
+  font-size: 16px;
+  font-weight: 500;
+  color: #185692;
+  text-align: center;
+}
+
+#forgot_password #register a {
+  font-family: "Noto Sans KR";
+  font-weight: 500;
+  font-size: 16px;
+  color: #185692;
+  letter-spacing: 0;
+}
+
+/* login_reset_password - update_password */
+
+#update_password #kc-info {
+  margin-bottom: 49px;
+}
+
+#update_password .marginBottom {
+  margin-bottom: 39px;
+}
+
+/* login_reset_password - reset_password_complete */
+#reset_password_complete #kc-info {
+  margin-bottom: 225px;
+}
+
+/* Form */
+
+.form-horizontal {
+  margin-top: 25px;
+}
+
+.form-horizontal .form-group {
+  margin: 0;
+  margin-bottom: 16px;
+}
+
+.form-horizontal .form-group .margin-form {
+  margin-bottom: 8px;
+}
+
+.form-horizontal .form-group-wrapper {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 769px) {
+  .form-horizontal .form-group-wrapper {
+    max-height: initial;
+  }
+}
+
+.form-horizontal .form-group > div {
+  padding: 0;
+}
+
+.form-group label.control-label {
+  margin-top: 3px;
+  margin-bottom: 10px;
+  padding: 0;
+  font-size: 14px;
+  font-weight: normal;
+  color: #042a54;
+}
+
+@media (min-width: 499px) {
+  .form-group label {
+    margin-bottom: 6px;
+    padding: 0;
+  }
+}
+
+div.form-group .form-control {
+  background: #ffffff;
+  padding: 0 15px;
+  height: 40px;
+  border: 1px solid #aeaeae;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #000000;
+  line-height: 16px;
+  font-weight: normal;
+}
+
+div.form-group .form-control-short-bottom {
+  margin-bottom: 0;
+}
+
+div.form-group .has-button {
+  display: flex;
+  justify-content: space-between;
+}
+
+div.form-group .has-button #kc-form-buttons {
+  margin: 0 0 0 8px;
+}
+
+div.form-group .has-button #kc-form-buttons .btn-primary {
+  width: 111px;
+  height: 40px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: "Noto Sans KR";
+}
+
+div.form-group .form-control.small {
+  max-width: 261px;
+}
+
+div.form-group .form-control:focus {
+  border-color: #042a54;
+  box-shadow: none;
+}
+
+div.form-group.has-error .form-control {
+  border-color: #ff4646;
+  color: #ff4646;
+}
+
+div.form-group .form-control.has-error {
+  border-color: #ff4646;
+  color: #ff4646;
+}
+
+div.form-group .form-control::placeholder {
+  font-style: normal;
+  color: #505050;
+}
+
+div.form-group.has-error .form-control::placeholder {
+  color: #ff4646;
+}
+
+div.form-group .form-control.has-error::placeholder {
+  color: #ff4646;
+}
+
+/* Button */
+
+.template-body .btn-primary {
+  height: 50px;
+  background: #042a54;
+  border-radius: 4px;
+  border: 0;
+  font-size: 16px;
+  color: #ffffff;
+  font-family: "Noto Sans KR";
+  font-weight: 700;
+}
+
+.template-body .btn-primary:hover {
+  background: #0d3767;
+}
+
+.template-body .btn-primary:focus {
+  background: #012042;
+  outline: none;
+}
+
+.template-body .btn-primary[disabled] {
+  color: #ffffff !important;
+  background: #cccccc !important;
+}
+
+.template-body input[readonly] {
+  background: #e4e4e4;
+  color: #999999;
+}
+
+.template-body .form-right-send-button {
+  margin: 10px 0 0 0;
+}
+
+.template-body .register-instruction {
+  font-family: "Noto Sans KR";
+  font-size: 13px;
+  letter-spacing: 0px;
+  line-height: 19px;
+  font-weight: 400;
+  color: #3e3e3e;
+  margin-top: 10px;
+}
+
+/* back-to-login */
+
+/* form options : backToLogin */
+
+.login-pf-page .login-pf-page-header {
+  margin: 0;
+}
+
+@media (min-width: 499px) {
+  .login-pf-page .login-pf-page-header {
+    margin: 0;
+  }
+}
+
+#kc-form-buttons {
+  padding: 0;
+}
+
+#kc-form-buttons.padding-horizontal {
+  padding: 10px;
+}
+
+#kc-form-options.back-to-login {
+  padding: 0;
+}
+
+#kc-form-options.back-to-login span {
+  display: inline;
+}
+
+#kc-form-options.back-to-login a {
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  color: #00a4c3;
+  text-decoration: none !important;
+}
+
+#kc-form-options.back-to-login .icon {
+  display: inline-block;
+  background: url(../img/arrow_green_normal.svg) no-repeat;
+  margin-right: 10px;
+  width: 13px;
+  height: 13px;
+}
+
+#kc-form-options.back-to-login:hover a {
+  color: #1ac1e0;
+}
+
+#kc-form-options.back-to-login:hover .icon {
+  background: url(../img/arrow_green_hover.svg) no-repeat;
+}
+
+#kc-form-options.back-to-login:active a {
+  color: #017f97;
+}
+
+#kc-form-options.back-to-login:active .icon {
+  background: url(../img/arrow_green_press.svg) no-repeat;
+}
+
+#email-sent #welcome-instruction {
+  font-family: "Noto Sans KR";
+  margin-top: 35px;
+  font-size: 16px;
+  color: #666666;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+#email-sent #email-sent-instruction {
+  font-size: 16px;
+  color: #666666;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+  white-space: pre-line;
+}
+
+#email-sent #email-sent-instruction-small {
+  font-size: 14px;
+  color: #666666;
+  letter-spacing: 0;
+  margin-top: 10px;
+}
+
+#email-sent #idp-email-sent-instruction-small {
+  font-size: 14px;
+  color: #666666;
+  letter-spacing: 0;
+  margin-top: 75px;
+}
+
+#email-sent #user-email {
+  font-size: 24px;
+  color: #0066cc;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+  margin-top: 30px;
+  margin-bottom: 88px;
+}
+
+#email-sent #resend-link {
+  color: #185692;
+}
+
+#email-sent .isDisabled {
+  color: currentColor;
+  cursor: not-allowed;
+  opacity: 0.5;
+  text-decoration: none;
+}
+
+#email-sent .isDisabled > a {
+  color: currentColor;
+  display: inline-block;
+  pointer-events: none;
+  text-decoration: none;
+}
+
+#email-sent .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#email-sent .modal .md_overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+#email-sent .modal .md_content {
+  position: relative;
+  width: 390px;
+  height: 194px;
+  padding: 13px 20px 20px 20px;
+  background: #ffffff;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+  border-radius: 2px;
+}
+
+#email-sent .modal .md_content .md_content__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+#email-sent .modal .md_content .md_content__header .md_content__header__title {
+  font-weight: normal;
+  font-size: 16px;
+  color: #444444;
+  letter-spacing: 0;
+  line-height: 16px;
+}
+
+#email-sent .modal .md_content .md_content__header .md_content__header__close {
+  width: 17px;
+  height: 17px;
+  background-image: url("../img/close.svg");
+  cursor: pointer;
+}
+
+#email-sent .modal .md_content hr {
+  margin: 13px 0 20px 0;
+  border-top: 1px solid #dadada;
+}
+
+#email-sent .modal .md_content .md_content__text {
+  font-weight: normal;
+  font-size: 14px;
+  color: #333333;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
+#email-sent .modal .md_content .button {
+  margin-top: 20px;
+  width: 68px;
+  height: 32px;
+  background-color: #042a54;
+  font-weight: normal;
+  font-size: 14px;
+  color: #ffffff;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 32px;
+  border: none;
+  float: right;
+  cursor: pointer;
+}
+
+#opt-code .marginTop {
+  margin-top: 30px;
+}
+
+#opt-code .marginBottom {
+  margin-bottom: 50px;
+}
+
+#opt-code .infoText {
+  margin-top: 10px;
+  padding-left: 10px;
+}
+
+#opt-code #instruction {
+  font-family: "Noto Sans KR";
+  margin-top: 50px;
+  font-size: 16px;
+  color: #666666;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+#opt-code #resend-link {
+  color: #185692;
+}
+
+#secret-question .marginTop {
+  margin-top: 60px;
+}
+
+#secret-question .marginBottom {
+  margin-bottom: 90px;
+}
+
+#secret-question .infoText {
+  margin-top: 10px;
+  padding-left: 10px;
+}
+
+.template-body .login-pf-page #kc-content-wrapper .header-icon.ip-blocked {
+  margin: 70px auto 35px auto;
+}
+
+#ip-blocked #instruction {
+  font-family: "Noto Sans KR";
+  margin-top: 50px;
+  font-size: 16px;
+  color: #666666;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+#ip-blocked #info {
+  font-family: "Noto Sans KR";
+  margin-top: 60px;
+  font-size: 16px;
+  color: #666666;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+#ip-blocked .info-message {
+  display: inline-block;
+  margin-bottom: 4px;
+  font-size: 16px;
+}
+
+.template-body .login-pf-page #kc-content-wrapper .header-icon.otp-send-failed {
+  margin: 70px auto 35px auto;
+}
+
+#otp-send-failed #instruction {
+  font-family: "Noto Sans KR";
+  margin-top: 62px;
+  font-size: 16px;
+  color: #666666;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+#otp-send-failed #info {
+  font-family: "Noto Sans KR";
+  margin-top: 60px;
+  font-size: 16px;
+  color: #666666;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+#otp-send-failed .info-message {
+  display: inline-block;
+  margin-bottom: 4px;
+  font-size: 16px;
+}
+
+#withdrawal-cancel #deletionDate {
+  font-size: 16px;
+  color: #0066cc;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+  font-weight: 700;
+}
+
+#withdrawal-cancel #instruction {
+  font-family: "Noto Sans KR";
+  margin-top: 30px;
+  margin-bottom: 60px;
+  font-size: 16px;
+  color: #666666;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+#withdrawal-cancel .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#withdrawal-cancel .modal .md_overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+#withdrawal-cancel .modal .md_content {
+  position: relative;
+  width: 390px;
+  height: 194px;
+  padding: 13px 20px 20px 20px;
+  background: #ffffff;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+  border-radius: 2px;
+}
+
+#withdrawal-cancel .modal .md_content .md_content__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+#withdrawal-cancel
+  .modal
+  .md_content
+  .md_content__header
+  .md_content__header__title {
+  font-weight: normal;
+  font-size: 16px;
+  color: #444444;
+  letter-spacing: 0;
+  line-height: 16px;
+}
+
+#withdrawal-cancel
+  .modal
+  .md_content
+  .md_content__header
+  .md_content__header__close {
+  width: 17px;
+  height: 17px;
+  background-image: url("../img/close.svg");
+  cursor: pointer;
+}
+
+#withdrawal-cancel .modal .md_content hr {
+  margin: 13px 0 20px 0;
+  border-top: 1px solid #dadada;
+}
+
+#withdrawal-cancel .modal .md_content .md_content__text {
+  font-weight: normal;
+  font-size: 14px;
+  color: #333333;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
+#withdrawal-cancel .modal .md_content .md_content__button {
+  text-align: end;
+}
+
+#withdrawal-cancel .modal .md_content .button {
+  margin-top: 20px;
+  width: 68px;
+  height: 32px;
+  background-color: #042a54;
+  font-weight: normal;
+  font-size: 14px;
+  color: #ffffff;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 31px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+#withdrawal-cancel .modal .md_content .button:hover {
+  background-color: #0d3767;
+}
+
+#withdrawal-cancel .modal .md_content .modal_button_right {
+  border: solid 1px #042a54;
+}
+
+#withdrawal-cancel .modal .md_content .modal_button_disabled {
+  pointer-events: none;
+  border: solid 1px #cccccc;
+  background-color: #cccccc;
+}
+
+#withdrawal-cancel .modal .md_content .modal_button_left {
+  background-color: white;
+  color: #042a54;
+  border: solid 1px #cccccc;
+}
+
+#withdrawal-cancel .modal .md_content .modal_button_left:hover {
+  background-color: #eeeeee;
+}
+
+#login-idp-link-confirm #email-address {
+  font-size: 18px;
+  color: #0066cc;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+  font-weight: 700;
+}
+
+#login-idp-link-confirm #instruction {
+  font-family: "Noto Sans KR";
+  margin-top: 30px;
+  margin-bottom: 60px;
+  font-size: 18px;
+  color: #666666;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+#login-idp-link-confirm #instruction-container {
+  text-align: center;
+  margin: 83px 0px;
+}
+
+#change-password #instruction {
+  font-family: Noto Sans KR;
+  margin-top: 50px;
+  margin-bottom: 80px;
+  font-size: 16px;
+  color: #666666;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+#change-password-step2 #instruction {
+  font-family: Noto Sans KR;
+  margin-top: 25px;
+  margin-bottom: 49px;
+  font-size: 16px;
+  color: #666666;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+#change-password-step2 .marginBottom {
+  /* margin-bottom: 39px; */
+}
+
+#change-password-step2 .error-container {
+  min-height: 41px;
+  height: auto;
+}
+
+.template-body .btn-white-background {
+  background-color: white;
+  color: #042a54;
+  border: 1px solid #042a54;
+}
+
+.template-body .btn-white-background:hover {
+  background: #eeeeee;
+}
+
+.template-body .btn-white-background:focus {
+  background: #e4e4e4;
+  outline: none;
+}
+
+@media (max-width: 499px) {
+  .form-group .remember-me {
+    display: inline-block;
+  }
+
+  .form-group .remember-email {
+    display: none;
+  }
+
+  #verify_password #kc-info {
+    margin-bottom: 50px;
+  }
+
+  #verify_password .marginBottom {
+    margin-bottom: 47px;
+  }
+
+  .login_reset_password #kc-info {
+    margin-bottom: 38px;
+  }
+
+  .login_reset_password .marginBottom {
+    /* margin-bottom: 30px; */
+  }
+
+  .register-body #register_button {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  .template-body.register-body #kc-content {
+    min-height: 0px;
+  }
+
+  .error_message {
+    font-size: 9px;
+  }
+
+  #email-sent #email-sent-instruction {
+    font-size: 14px;
+  }
+
+  #email-sent #email-sent-instruction-small {
+    font-size: 12px;
+  }
+
+  #email-sent #idp-email-sent-instruction-small {
+    font-size: 12px;
+  }
+
+  .template-body .login-pf-page #kc-content-wrapper .header-icon.email-sent {
+    margin-top: 50px;
+  }
+
+  .template-body .login-pf-page #kc-content-wrapper .header-icon.ip-blocked {
+    margin-top: 40px;
+  }
+
+  .template-body .login-pf-page .card-pf {
+    margin-top: 8px;
+  }
+
+  #email-sent #welcome-instruction {
+    font-size: 14px;
+  }
+
+  .template-body .btn-primary {
+    font-size: 16px;
+    font-weight: 500;
+    font-family: "Noto Sans KR";
+  }
+
+  #verify_password .description {
+    font-size: 12px;
+  }
+
+  #reset_password_complete #kc-info {
+    margin-bottom: 94px;
+  }
+
+  .call-icon {
+    background-size: 10px;
+    height: 12px;
+    width: 12px;
+  }
+
+  .email-icon {
+    background-size: 10px;
+    height: 12px;
+    width: 12px;
+  }
+
+  #ip-blocked .info-message {
+    font-size: 12px;
+  }
+
+  #otp-send-failed .info-message {
+    font-size: 12px;
+  }
+
+  #email-sent .modal .md_content {
+    max-width: 296px;
+    width: 100%;
+    height: 180.1px;
+    border-radius: 8px;
+    box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.2);
+    text-align: center;
+    padding: unset;
+  }
+
+  #email-sent .modal .md_content .md_content__header {
+    display: block;
+    margin: 36px 0 8px 0;
+  }
+
+  #email-sent
+    .modal
+    .md_content
+    .md_content__header
+    .md_content__header__title {
+    margin: 36px 0 8px 0;
+    color: #000000;
+  }
+
+  #email-sent .modal .md_content .md_content__text {
+    font-size: 12px;
+    color: #919ba4;
+  }
+
+  #email-sent
+    .modal
+    .md_content
+    .md_content__header
+    .md_content__header__close {
+    display: none;
+  }
+
+  #email-sent .modal .md_content hr {
+    display: none;
+  }
+
+  #email-sent .modal .md_content .button {
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    border-radius: 0 0 8px 8px;
+    height: 52.1px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 52.1px;
+  }
+
+  #withdrawal-cancel #deletionDate {
+    font-size: 13px;
+  }
+
+  #withdrawal-cancel #instruction {
+    font-size: 13px;
+  }
+
+  #withdrawal-cancel .modal .md_content {
+    max-width: 296px;
+    width: 100%;
+    height: 180.1px;
+    border-radius: 8px;
+    box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.2);
+    text-align: center;
+    padding: unset;
+  }
+
+  #withdrawal-cancel .modal .md_content .md_content__header {
+    display: block;
+    margin: 36px 0 8px 0;
+  }
+
+  #withdrawal-cancel
+    .modal
+    .md_content
+    .md_content__header
+    .md_content__header__title {
+    margin: 36px 0 8px 0;
+    color: #000000;
+  }
+
+  #withdrawal-cancel .modal .md_content .md_content__text {
+    font-size: 12px;
+    color: #919ba4;
+  }
+
+  #withdrawal-cancel
+    .modal
+    .md_content
+    .md_content__header
+    .md_content__header__close {
+    display: none;
+  }
+
+  #withdrawal-cancel .modal .md_content hr {
+    display: none;
+  }
+
+  #withdrawal-cancel .modal .md_content .md_content__button {
+    height: auto;
+    bottom: 0;
+  }
+
+  #withdrawal-cancel .modal .md_content .button {
+    width: 50%;
+    position: absolute;
+    bottom: 0px;
+    height: 52.1px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 52.1px;
+  }
+
+  #withdrawal-cancel .modal .md_content .modal_button_left {
+    border-bottom-left-radius: 8px;
+    left: 0;
+    border: 0px;
+    border-top: solid 1px #cccccc;
+  }
+
+  #withdrawal-cancel .modal .md_content .modal_button_right {
+    border-bottom-right-radius: 8px;
+    right: 0;
+  }
+
+  #change-password-step2 #instruction {
+    font-size: 13px;
+  }
+
+  #login-idp-link-confirm #email-address {
+    font-size: 14px;
+  }
+
+  #login-idp-link-confirm #instruction {
+    font-size: 14px;
+  }
+
+  #login-idp-link-confirm #instruction-container {
+    margin: 33px 0px 100px 0;
+  }
+}

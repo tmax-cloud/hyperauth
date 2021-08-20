@@ -1,0 +1,24 @@
+embed-server --server-config=standalone-ha.xml --std-out=echo
+
+/subsystem=logging/periodic-rotating-file-handler=FILE:add(file={"path"=>"/superauth/${env.HOSTNAME:superauth}.log", "relative-to"=>"jboss.server.log.dir"}, suffix=".yyyy-MM-dd", append="true")
+/subsystem=logging/periodic-rotating-file-handler=FILE:write-attribute(name="formatter", value="%d{HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n")
+/subsystem=logging/periodic-rotating-file-handler=FILE:write-attribute(name="autoflush", value="true")
+
+/subsystem=logging/logger=org.keycloak:add-handler(name="FILE")
+/subsystem=logging/logger=com.tmax.superauth:add(category=com.tmax.superauth,level=INFO)
+/subsystem=logging/logger=com.tmax.superauth:add-handler(name="FILE")
+
+/subsystem=logging/logger=org.apache.kafka:add(category=org.apache.kafka,level=WARN)
+/subsystem=logging/logger=org.apache.kafka:add-handler(name="FILE")
+
+/subsystem=logging/logger=javax.mail:add(category=javax.mail,level=INFO)
+/subsystem=logging/logger=javax.mail:add-handler(name="FILE")
+
+
+/subsystem=keycloak-server/theme=defaults/:write-attribute(name=cacheThemes,value=false)
+/subsystem=keycloak-server/theme=defaults/:write-attribute(name=cacheTemplates,value=false)
+/subsystem=keycloak-server/theme=defaults/:write-attribute(name=staticMaxAge,value=-1)
+
+stop-embedded-server
+
+

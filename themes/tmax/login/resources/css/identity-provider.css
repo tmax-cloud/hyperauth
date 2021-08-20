@@ -1,0 +1,220 @@
+.template-body .login-pf-page .card-pf {
+  height: auto;
+}
+
+#identity-email .marginTop {
+  margin-top: 30px;
+}
+
+#identity-email .marginBottom {
+  margin-bottom: 50px;
+}
+
+#identity-email .infoText {
+  margin-top: 10px;
+  padding-left: 10px;
+}
+
+#identity-email #instruction-title {
+  font-family: "Noto Sans KR";
+  margin-top: 90px;
+  font-size: 16px;
+  color: #666666;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.error_message {
+  padding: 0;
+}
+
+#identity-step1-newAccount #email-address {
+  font-size: 16px;
+  color: #0066cc;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+  font-weight: 700;
+}
+
+#identity-step1-newAccount #instruction {
+  font-family: "Noto Sans KR";
+  margin-top: 30px;
+  margin-bottom: 60px;
+  font-size: 16px;
+  color: #666666;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+#identity-step1-newAccount #instruction2 {
+  font-family: "Noto Sans KR";
+  margin-top: 30px;
+  margin-bottom: 60px;
+  font-size: 16px;
+  color: #999999;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+#identity-step1-newAccount #instruction-container {
+  text-align: center;
+  margin: 83px 0px;
+}
+
+#identity-step2 .agree {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
+hr {
+  border-top: 1px solid #d3d3d3;
+}
+
+#identity-step2 label {
+  font-size: 14px;
+  color: #3e3e3e;
+  line-height: 2rem;
+  display: block;
+  padding-left: 21px;
+  text-indent: -21px;
+  font-weight: 500;
+}
+
+#identity-step2 label span {
+  color: #ff4646;
+  margin-left: 6px;
+}
+
+#identity-step2 .arrow {
+  background-image: url("../img/arrow_down_normal.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 14px;
+  height: 22px;
+  width: 14px;
+  cursor: pointer;
+}
+
+#identity-step2 .arrow:hover {
+  background-image: url("../img/arrow_down_hover.png");
+}
+
+#identity-step2 .arrow.up {
+  background-image: url("../img/arrow_up_normal.png");
+}
+
+#identity-step2 .arrow.up:hover {
+  background-image: url("../img/arrow_up_hover.png");
+}
+
+#identity-step2 .term {
+  margin-top: 10px;
+  max-width: 380px;
+  height: 200px;
+  width: 100%;
+  border: 1px solid #d3d3d3;
+  background: #f4f5f5;
+  padding: 7px 0px 7px 7px;
+  resize: none;
+  overflow-y: scroll;
+}
+
+#identity-step2 #agree_button {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+#identity-step2 .term_content {
+  text-align: left;
+  font-family: "Noto Sans KR";
+  color: #333333;
+  letter-spacing: 0;
+  font-size: 12px;
+  font-weight: 300;
+}
+
+#identity-step2 .term_content p {
+  color: #333333;
+}
+
+#identity-step2 .term_content .title {
+  font-family: "Noto Sans KR";
+  color: #333333;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+#identity-step2 .term_content .subtitle {
+  text-align: left;
+  color: #333333;
+  margin-top: 15px;
+  font-size: 12px;
+}
+
+#identity-step2 .tbl_agree {
+  width: 100%;
+  margin-top: 15px;
+  table-layout: auto;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-bottom: 1px solid #ccc;
+}
+
+#identity-step2 .tbl_agree th {
+  height: 50px;
+  padding: 11px 17px;
+  font-size: 12px;
+  text-align: center;
+  border: solid #ccc;
+  border-width: 1px 0 0 1px;
+  background-color: #fafafa;
+}
+
+#identity-step2 .tbl_agree td {
+  padding: 15px 10px;
+  border: solid #ccc;
+  border-width: 1px 0 0 1px;
+  font-size: 10px;
+  vertical-align: top;
+  text-align: left;
+  word-spacing: -1px;
+  line-height: 111%;
+}
+
+#identity-step2 .tbl_agree th:first-child {
+  border-left: 0 none;
+}
+
+#identity-step2 .tbl_agree td:first-child {
+  border-left: 0 none;
+}
+
+@media (max-width: 499px) {
+  #identity-email #instruction-title {
+    font-size: 15px;
+  }
+
+  #identity-step1-newAccount #email-address {
+    font-size: 14px;
+  }
+
+  #identity-step1-newAccount #instruction {
+    font-size: 14px;
+  }
+
+  #identity-step1-newAccount #instruction2 {
+    font-size: 14px;
+  }
+
+  #identity-step1-newAccount #instruction-container {
+    margin: 33px 0px 100px 0;
+  }
+}

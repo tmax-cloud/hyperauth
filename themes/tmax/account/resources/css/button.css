@@ -1,0 +1,60 @@
+.btn {
+  height: 50px;
+  min-width: 240px;
+  padding: 0 15px;
+  font-size: 16px;
+  border-radius: 4px;
+  box-shadow: none;
+  font-weight: bold;
+}
+
+.btn:focus,
+.btn:active,
+.btn:active:focus {
+  outline: none;
+}
+
+/* btn_line_gray */
+.btn-default {
+  background: #ffffff;
+  border: 1px solid #042A54;
+  color: #042A54;
+}
+
+.btn-default:hover {
+  background: #0D3767;
+  border: 1px solid #042A54;
+  color: #FFFFFF;
+}
+
+.btn-default:focus,
+.btn-default:active,
+.btn-default:active:focus {
+  background: #012042;
+  border: none;
+  color: #ffffff;
+}
+
+/* btn_solid_mint */
+.btn-primary {
+  background: #042A54;
+  border: none;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: #0D3767;
+  color: #ffffff;
+}
+
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:active:focus {
+  background: #012042;
+  color: #ffffff;
+}
+
+.btn:disabled {
+  background: #CCCCCC !important;
+  color: #FFFFFF !important;
+}

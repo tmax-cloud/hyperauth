@@ -1,0 +1,341 @@
+/* Login page design */
+.login-pf .login-body-hyperspace {
+    background: url('../img/login_back_all.gif') no-repeat center;
+    background-size: contain;
+    background-color : #F7F4EF;
+}
+
+@media (max-width: 769px) {
+
+    .login-pf .login-body-hyperspace {
+        background: url('../img/login_back_all.gif') no-repeat center;
+        background-size: auto;
+        background-color : #F7F4EF;
+    }
+
+    .login-body-hyperspace div#kc-content-wrapper div.kc-info-text-wrapper{
+        display: none !important;
+    }
+    .login-body-hyperspace .login-logo-wrapper .login-logo-wapl{
+        /* margin-top : -25vh; */
+    }
+    .login-body-hyperspace .login-pf-page .card-pf{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 329px !important;
+        max-width: 345px !important;
+        min-width: 0px !important;
+        padding: 15px 21px 0px 22px !important;
+        height: auto !important;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        border-radius: 25px;
+        animation: 3s ease 0s normal forwards 1 fadein;
+    }
+    
+    .login-body-hyperspace form#kc-form-login .hyperspace-password.show-password{
+        background: url('../img/show.svg') no-repeat center;
+        width : 16px;
+        height: 16px;
+        position: relative;
+        top: -30px;
+        left: 210px !important;
+        cursor: pointer;
+    }
+
+    .login-body-hyperspace form#kc-form-login .hyperspace-password.hide-password{
+        background: url('../img/hide.svg') no-repeat center;
+        width : 16px;
+        height: 16px;
+        position: relative;
+        top: -30px;
+        left: 210px !important;
+        cursor: pointer;
+    }
+    .login-body-hyperspace .login-pf-page .login-pf-settings{
+        display: none;
+    }
+    #kc-social-providers li {
+        margin-right: 0px;
+    }
+
+    #kc-header{
+        padding: 30px 30px 0 0;
+    }
+
+    .login-body-hyperspace .wapl-option-wrapper{
+        margin-top: 16px !important;
+        margin-bottom: 42px !important;
+    }
+
+    #kc-info-wrapper{
+        display: none;
+    }
+
+    #kc-form-login div.form-group > .form-control{
+        border-bottom: 1px solid #DDD9D4 !important;
+        border-top: none !important;
+        border-left: none !important;
+        border-right: none !important;
+        box-shadow: none !important;
+        border-radius: 0.4px !important;
+        padding: 0 !important; 
+    }
+
+    #kc-form-login div.form-group > .form-control:focus {
+        border-bottom: 1px solid #232D3B !important;
+    }
+}
+/* wapl login logo & text */
+.login-body-hyperspace #kc-content-wrapper #kc-page-title{
+    margin-bottom: 35px;
+}
+.login-body-hyperspace .login-logo-wrapper{
+    display: flex;
+    flex-direction: column;
+} 
+
+.login-body-hyperspace .login-logo-wrapper .login-logo-wapl{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-body-hyperspace .login-logo-wrapper .login-logo-wapl .login-logo-image{
+    width: 148.4px;
+    height: 42px;
+    margin-top: 35px;
+}
+
+.login-body-hyperspace form#kc-form-login div#idWrapper{
+    margin-bottom : 8px;
+}
+
+.login-body-hyperspace form#kc-form-login div#passwordWrapper{
+    margin-bottom : 4px;
+}
+
+/* .login-body-hyperspace form#kc-form-login .hyperspace-password.show-password{
+    background: url('../img/show.svg') no-repeat center;
+    width : 16px;
+    height: 16px;
+    position: relative;
+    top: -30px;
+    left: 260px;
+    cursor: pointer;
+}
+
+.login-body-hyperspace form#kc-form-login .hyperspace-password.hide-password{
+    background: url('../img/hide.svg') no-repeat center;
+    width : 16px;
+    height: 16px;
+    position: relative;
+    top: -30px;
+    left: 260px;
+    cursor: pointer;
+} */
+
+.login-body-hyperspace .login-pf-page .card-pf {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    /* max-width: 383px; */
+    min-width: 400px;
+    padding: 50px 50px 37px 50px;
+    margin: 0px;
+    /* height: 480px; */
+    height: auto;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    box-shadow: 0 0 30px 0 rgba(128,123,115,0.20);
+    animation: 3s ease 0s normal forwards 1 fadein;
+}
+@keyframes fadein{
+    0% { opacity:0; }
+    66% { opacity:0; }
+    100% { opacity:1; }
+  }
+.login-body-hyperspace .login-pf #kc-content{
+    width: 273px;
+}
+
+.login-body-hyperspace #kc-content-wrapper{
+    width: 100%;
+    margin: 0px;
+}
+
+.login-body-hyperspace .login-pf-page .login-pf-settings{
+    margin-bottom: 15px;
+    height: 19px;
+}
+.login-body-hyperspace .login-pf-signup{
+    margin-top: 0px;
+}
+.login-body-hyperspace #kc-registration{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+}
+
+
+.login-body-hyperspace #kc-registration > span > a {
+    font-size: 12px;
+    color: #232D3B;
+    letter-spacing: 0;
+    font-weight: 500;
+}
+.login-body-hyperspace #kc-forgot-pw > span > a {
+    font-size: 12px;
+    color: #232D3B ;
+    font-weight: 400;
+    letter-spacing: 0;
+}
+
+.card-pf div#kc-content #kc-form-wrapper{
+    width: 100%;
+}
+
+/* Input */
+#kc-form-login div.form-group > .form-control {
+    background: #fff;
+    width: 100%;
+    height: 36px;
+    padding: 0 15px;
+    font-size: 12px;
+    border: 1px solid #D0CCC7;
+    border-radius: 4px;
+    color: black;
+    line-height: 18px;    
+}
+#kc-form-login div.form-group > .form-control:focus {
+    background: #fff;
+    border: 1px solid #232D3B;
+    border-radius: 4px;
+    box-shadow: none;
+}
+
+#kc-form-login div.form-group > .form-control.error {
+    background: #fff;
+    border-color: #ff4646;
+}
+
+#kc-form-login div.form-group > .form-control::placeholder {
+    background: #fff;
+    font-style: normal;
+    color: #9d9d9d;
+}
+
+#kc-form-login input:-webkit-autofill,
+#kc-form-login input:focus:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 100px #fff inset;
+ }
+/* Button */
+.login-body-hyperspace .btn-primary {
+    height: 46px;
+    background: #232D3B;
+    border-radius: 4px;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    color: #F2EDE6;
+}
+
+.login-body-hyperspace .btn-primary:hover {
+    background: #6A7076;
+    color: #F2EDE6;
+}
+
+.login-body-hyperspace .btn-primary:focus,
+.login-body-hyperspace .btn-primary.focus,
+.login-body-hyperspace .btn-primary:active,
+.login-body-hyperspace .btn-primary.active,
+.login-body-hyperspace .btn-primary:active:hover,
+.login-body-hyperspace .btn-primary.active:hover,
+.login-body-hyperspace .btn-primary.active:focus,
+.login-body-hyperspace .btn-primary:active:focus,
+.login-body-hyperspace .btn-primary.active.focus,
+.login-body-hyperspace .btn-primary:active.focus {
+    opacity: 0.9;
+    background: #17202B;
+    color: #F2EDE6;
+    outline: none;
+}
+.login-body-hyperspace .btn-primary:disabled {
+    background: #CCCCCC !important;
+    color: #F2EDE6 !important;
+}
+
+
+/* checkbox */
+.login-body-hyperspace input[type="checkbox"] + label::before {
+    background: url("../img/checkbox_off.svg") no-repeat;
+    border-radius: 7.5px;
+    background-size: 13px 13px;
+    width: 13px;
+    height: 13px;
+}
+.login-body-hyperspace input[type="checkbox"]:checked + label::before {
+    background: url('../img/checkbox_on.svg') no-repeat;
+}
+
+.login-body-hyperspace div#kc-form-options label{
+    opacity: 0.8;
+    font-weight: 500;
+    font-size: 13px;
+    color: #232D3B;
+    letter-spacing: 0px;
+}
+/* login header */
+.login-body-hyperspace div.login-pf-page .login-pf-header{
+    margin : 0;
+}
+/* login options */
+.login-body-hyperspace .wapl-option-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 8px;
+}
+.login-body-hyperspace div#kc-forgot-pw{
+    display: flex;
+    align-items: center;
+}
+.login-body-hyperspace div.kc-border{
+    display: flex;
+    align-items: center;
+    color: #9398AB;
+    margin: 1px 12px 1px 9px;
+}
+
+.login-body-hyperspace div#kc-content-wrapper div.kc-info-text-wrapper{
+    display: flex;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 0;
+    color: #999999;
+}
+
+/* login footer */
+.login-body-hyperspace footer{
+    margin-bottom: 20px;
+}
+
+.login-body-hyperspace footer .footer-logo {
+    background: url("../img/logo_footer_copyright.png");
+    background-size: cover;
+    margin-right: 8px;
+    width: 83px;
+    height: 14px;
+}
+.login-body-hyperspace footer .footer-copyright{
+    font-size: 11px;
+    color: #6C635B;
+    letter-spacing: 0; 
+    line-height: 17px;
+}

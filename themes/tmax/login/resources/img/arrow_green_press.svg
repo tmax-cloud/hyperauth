@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="13px" height="13px" viewBox="0 0 13 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>arrow_green_press</title>
+    <defs>
+        <filter id="filter-1">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0.003922 0 0 0 0 0.498039 0 0 0 0 0.592157 0 0 0 1.000000 0"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Ch3_Control" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Ch3_Control02" transform="translate(-997.000000, -354.000000)">
+            <g id="TextBtn" transform="translate(993.000000, 144.000000)">
+                <g id="Group-3-Copy-2" transform="translate(4.000000, 209.000000)">
+                    <g id="Icons/work_next.svg" transform="translate(0.000000, 1.000000)" filter="url(#filter-1)">
+                        <g transform="translate(6.500000, 6.500000) scale(-1, 1) translate(-6.500000, -6.500000) ">
+                            <rect id="arrow_green" fill-rule="nonzero" x="0" y="0" width="13" height="13"></rect>
+                            <polygon id="Path" fill="#00A4C3" fill-rule="nonzero" transform="translate(6.906250, 6.741592) rotate(-270.000000) translate(-6.906250, -6.741592) " points="2.5553125 10.2331836 6.90625 5.91699184 11.2571875 10.2331836 12.59375 8.90439967 6.90625 3.25 1.21875 8.90439967"></polygon>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

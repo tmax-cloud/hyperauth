@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="13px" height="13px" viewBox="0 0 13 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Control_Radiobtn_On</title>
+    <g id="ch50_Control" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Ch50_Control2" transform="translate(-911.000000, -987.000000)">
+            <rect fill="#FFFFFF" x="0" y="0" width="1920" height="1080"></rect>
+            <g id="CheckBtn" transform="translate(911.000000, 706.000000)">
+                <g id="Group-4" transform="translate(0.000000, 68.000000)">
+                    <g id="Control/RadioBtn/On" transform="translate(0.000000, 213.000000)">
+                        <g id="Control/CheckBtn/On">
+                            <rect id="Rectangle" fill="#185692" fill-rule="nonzero" x="0" y="0" width="13" height="13" rx="6.5"></rect>
+                            <circle id="Oval" fill="#FFFFFF" cx="6.5" cy="6.5" r="2.5"></circle>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

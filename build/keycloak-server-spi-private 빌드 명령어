@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=target/keycloak-server-spi-private-11.0.2.jar -DgroupId=com.tmax.superauth -DartifactId=server-spi-private -Dversion=11.0.2 -Dpackaging=jar -DgeneratePom=true

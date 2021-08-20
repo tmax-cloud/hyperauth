@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="22px" viewBox="0 0 18 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icn_personal_info</title>
+    <defs>
+        <path d="M12,0.999999954 L2.99999996,4.99999995 L2.99999996,11 C2.99999996,16.55 6.83999998,21.74 12,23 C17.16,21.74 21,16.55 21,11 L21,4.99999995 L12,0.999999954 L12,0.999999954 Z M9.99999997,17 L5.99999997,13 L7.40999998,11.59 L9.99999997,14.17 L16.59,7.57999998 L18,8.99999999 L9.99999997,17 L9.99999997,17 Z" id="path-1"></path>
+    </defs>
+    <g id="ch01_Login" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="LNB/LNB-Group" transform="translate(-3.000000, -218.000000)">
+            <g id="Group" transform="translate(0.000000, 11.000000)">
+                <g id="LNB/1depth/icon+text-Copy-4" transform="translate(0.000000, 192.000000)">
+                    <g id="ICON" transform="translate(0.000000, 14.000000)">
+                        <polygon id="Base" points="-5.00000112e-08 -5.00003807e-08 24 -5.00003807e-08 24 24 -5.00000112e-08 24"></polygon>
+                        <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                        </mask>
+                        <g id="Icon" fill-rule="nonzero"></g>
+                        <rect id="↳-🎨-Color" fill="#757575" mask="url(#mask-2)" x="0" y="0" width="24" height="24"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

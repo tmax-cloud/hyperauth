@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="22px" viewBox="0 0 14 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icn_sns_link</title>
+    <defs>
+        <path d="M17,1.00999995 L6.99999998,0.999999954 C5.89999997,0.999999954 5.00999997,1.89999996 5.00999997,2.99999995 L5.00999997,21 C5.00999997,22.1 5.89999997,23 6.99999998,23 L17,23 C18.1,23 19,22.1 19,21 L19,2.99999995 C19,1.89999996 18.1,1.00999995 17,1.00999995 L17,1.00999995 Z M17,19 L6.99999998,19 L6.99999998,4.99999997 L17,4.99999997 L17,19 L17,19 Z" id="path-1"></path>
+    </defs>
+    <g id="ch01_Login" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="LNB/LNB-Group" transform="translate(-5.000000, -170.000000)">
+            <g id="Group" transform="translate(0.000000, 11.000000)">
+                <g id="LNB/1depth/icon+text-Copy-3" transform="translate(0.000000, 144.000000)">
+                    <g id="ICON" transform="translate(0.000000, 14.000000)">
+                        <polygon id="Base" points="-4.9999997e-08 -4.9999926e-08 24.0000001 -4.9999926e-08 24.0000001 24.0000001 -4.9999997e-08 24.0000001"></polygon>
+                        <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                        </mask>
+                        <g id="Icon" fill-rule="nonzero"></g>
+                        <rect id="↳-🎨-Color" fill="#757575" mask="url(#mask-2)" x="0" y="0" width="24" height="24"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="69px" height="81px" viewBox="0 0 69 81" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Illust_timeout</title>
+    <defs>
+        <filter id="filter-1">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0.101961 0 0 0 0 0.215686 0 0 0 0 0.333333 0 0 0 1.000000 0"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="ch01_Login" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Ch3_Forgot_password_01-Copy" transform="translate(-924.000000, -420.000000)">
+            <g id="Illust_timeout" transform="translate(924.000000, 420.000000)">
+                <g id="Group-4">
+                    <polygon id="Rectangle" fill="#DFE2E0" points="7.41246958 53.3504406 8.63161045 51 45.5981664 51 46.8825316 52.8444393 48 70 7 70"></polygon>
+                    <path d="M48,1 L48,16.5 C48,21.553763 46.1713762,26.1804802 43.1394227,29.754308 C39.8868583,33.5881745 35.2500023,36.2111748 30.0004303,36.849137 L30.0004303,36.849137 L30.0004303,39.150863 C35.2500023,39.7888252 39.8868583,42.4118255 43.1394227,46.245692 C46.1713762,49.8195198 48,54.446237 48,59.5 L48,59.5 L48,75 L7,75 L7,59.5 C7,54.2718208 8.95706307,49.5006976 12.1787604,45.8794647 C15.4365775,42.2176328 19.987208,39.7309719 25.1149757,39.1371616 L25.1149757,39.1371616 L25.1414913,37.1538689 C20.0502868,36.4258804 15.5265513,33.9056419 12.2690736,30.2565192 C9.06777865,26.6703341 7.09002063,21.9927256 7.00299887,16.8544075 L7.00299887,16.8544075 L7.00017794,1 L48,1 Z" id="Combined-Shape" stroke="#1A3755" stroke-width="2"></path>
+                    <rect id="Rectangle" stroke="#1A3755" stroke-width="2" fill="#EFF1F0" x="1" y="1" width="53" height="5" rx="2.5"></rect>
+                    <g id="Group-2" transform="translate(12.000000, 50.000000)" fill="#1A3755">
+                        <rect id="Rectangle" x="0" y="0" width="17" height="2" rx="1"></rect>
+                        <rect id="Rectangle-Copy-4" x="19" y="0" width="7" height="2" rx="1"></rect>
+                        <rect id="Rectangle-Copy-5" x="28" y="0" width="3" height="2" rx="1"></rect>
+                    </g>
+                    <rect id="Rectangle-Copy" stroke="#1A3755" stroke-width="2" fill="#EFF1F0" x="1" y="70" width="53" height="5" rx="2.5"></rect>
+                    <rect id="Rectangle" fill="#FFFFFF" x="50" y="62" width="6" height="15"></rect>
+                    <path d="M12.146007,10.9977976 C11.6026871,18.5488953 13.1020353,23.8822286 16.6440515,26.9977976" id="Path" stroke="#EFF1F0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <circle id="Oval" fill="#EFF1F0" cx="20.5" cy="30.5" r="1.5"></circle>
+                </g>
+                <g id="Icon/filled/filled_warning" transform="translate(42.000000, 54.000000)" filter="url(#filter-1)">
+                    <g>
+                        <rect id="bg" fill-rule="nonzero" x="0" y="0" width="27" height="27"></rect>
+                        <path d="M13.5008798,1.6875 C14.4105977,1.6875 15.2605247,2.20407671 15.8627066,3.11118091 L15.9726665,3.28580867 L26.4524484,20.8780034 C27.0747825,21.9268935 27.17198,23.03788 26.7170417,23.9220795 C26.2873777,24.7558818 25.4374702,25.254945 24.3663363,25.307823 L24.1750567,25.3125 L2.82535285,25.3125 C1.66438255,25.3125 0.738306238,24.804929 0.283367876,23.9220795 C-0.144809406,23.0873507 -0.0850932869,22.0565141 0.444508634,21.0659119 L0.549311073,20.8807032 L11.030443,3.28580867 C11.6352275,2.26931675 12.5343045,1.6875 13.5008798,1.6875 Z M14.765625,19.40625 L12.234375,19.40625 L12.234375,21.9375 L14.765625,21.9375 L14.765625,19.40625 Z M14.765625,8.4375 L12.234375,8.4375 L12.234375,16.875 L14.765625,16.875 L14.765625,8.4375 Z" id="Shape" fill="#000000"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

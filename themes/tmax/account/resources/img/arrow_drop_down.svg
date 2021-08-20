@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="5px" viewBox="0 0 10 5" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon / Arrow Drop Down</title>
+    <defs>
+        <polygon id="path-1" points="9.5 17.5 14.5 12.5 9.5 7.5"></polygon>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="GNB/gnb" transform="translate(-1787.000000, -30.000000)">
+            <g id="@Username" transform="translate(1684.000000, 0.000000)">
+                <g id="Icon-/-Arrow-Drop-Down" transform="translate(96.000000, 20.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="Mask" fill-rule="nonzero" transform="translate(12.000000, 12.500000) rotate(90.000000) translate(-12.000000, -12.500000) "></g>
+                    <rect id="↳-🎨-Color" fill="#FFFFFF" mask="url(#mask-2)" x="0" y="0" width="24" height="24"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="23px" height="23px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ic_kakao</title>
+    <g id="Ch3_Control" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Ch3_Control02" transform="translate(-1248.000000, -832.000000)" fill="#381E1F">
+            <g id="Btn_SNS" transform="translate(908.000000, 600.000000)">
+                <g id="Group-3-Copy-7" transform="translate(0.000000, 217.000000)">
+                    <g id="카톡" transform="translate(325.000000, 0.000000)">
+                        <g id="Group-5" transform="translate(15.000000, 15.000000)">
+                            <path d="M11.5,0 C5.14820537,0 0,4.43047266 0,9.89581666 C0,13.4533274 2.18158301,16.5714339 5.45602343,18.3160084 C5.2151403,19.2928622 4.58504293,21.8568785 4.4581971,22.405122 C4.30284195,23.0860412 4.68751123,23.0770463 4.93996335,22.8935489 C5.13746272,22.7500791 8.09127654,20.5643013 9.36551935,19.6211786 C10.0567671,19.733166 10.7703266,19.7916333 11.5,19.7916333 C17.8513815,19.7916333 23,15.3611607 23,9.89581666 C23,4.43047266 17.8513815,0 11.5,0" id="ic_kakao"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

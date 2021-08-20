@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="13px" height="13px" viewBox="0 0 13 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>control_check_on</title>
+    <g id="Ch3_Control" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Ch3_Control02" transform="translate(-1205.000000, -192.000000)">
+            <g id="CheckBtn" transform="translate(1190.000000, 144.000000)">
+                <g id="Group-4" transform="translate(15.000000, 47.000000)">
+                    <g id="Group" transform="translate(0.000000, 1.000000)">
+                        <rect id="Rectangle" fill="#185692" fill-rule="nonzero" x="0" y="0" width="13" height="13"></rect>
+                        <path d="M8.91317415,9.6046751 L4.17697148,9.6046751 L4.17697148,8.12200096 L7.42997148,8.12147053 L7.43050001,1.48547053 L8.91317415,1.48547053 L8.91317415,9.6046751 Z" id="Combined-Shape" fill="#FFFFFF" transform="translate(6.545073, 5.545073) rotate(-315.000000) translate(-6.545073, -5.545073) "></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

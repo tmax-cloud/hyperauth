@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="14px" viewBox="0 0 18 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ic_check</title>
+    <defs>
+        <filter id="filter-1">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0.000000 0 0 0 0 0.879812 0 0 0 0 0.275470 0 0 0 1.000000 0"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Ch1_1step_Login" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Ch1_1step_Login07" transform="translate(-736.000000, -729.000000)">
+            <g id="Group-9" transform="translate(610.000000, 325.000000)">
+                <g id="Email-Copy-2" transform="translate(5.000000, 390.000000)">
+                    <g id="Icons/work_check.svg" transform="translate(121.000000, 11.000000)" filter="url(#filter-1)">
+                        <g>
+                            <path d="M15.4039367,3.17027192 L17.7904221,5.55675731 L8.71002189,14.6352719 L7.22859166,16.2248114 L0.235021886,9.70320205 L2.53676635,7.2348833 L7.09102189,11.4822719 L15.4039367,3.17027192 Z" id="ic_check" fill="#00E046" fill-rule="nonzero"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

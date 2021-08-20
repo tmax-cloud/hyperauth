@@ -1,0 +1,300 @@
+body {
+  font-family: "Noto Sans KR";
+  letter-spacing: 0;
+}
+
+a {
+  /* text-decoration: none !important; */
+}
+
+a:focus {
+  outline: none;
+}
+
+.login-pf,
+.login-pf body {
+  background: none;
+}
+
+.login-pf-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  height: 100%;
+}
+
+.login-pf-page > div,
+footer {
+  width: 100%;
+}
+
+/* logo */
+#kc-logo,
+#kc-logo-wrapper,
+div.kc-logo-text {
+  display: none;
+}
+
+/* locale */
+#kc-header {
+  padding: 30px 30px 0 0;
+  text-align: right;
+}
+
+#kc-locale {
+  position: relative;
+  display: inline-block;
+}
+
+a#kc-current-locale-link::after {
+  display: inline-block;
+  position: absolute;
+  top: 10px;
+  right: 13px;
+  content: "";
+  background: url("../img/lang_arrow_down.png") no-repeat;
+  background-size: 12px 12px;
+  margin: 0;
+  width: 12px;
+  height: 12px;
+}
+
+#kc-locale:hover a#kc-current-locale-link::after {
+  transform: rotate(180deg);
+}
+
+#kc-locale #kc-locale-dropdown {
+  margin-left: auto;
+  width: 101px;
+  height: 32px;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  background: #f2f5f7;
+  text-align: left;
+}
+
+#kc-locale-dropdown a {
+  padding: 0 15px;
+  font-size: 13px;
+  color: #3c3c3c;
+  line-height: 32px;
+}
+
+#kc-locale ul {
+  background: #ffffff;
+  padding: 0;
+  min-width: 101px;
+  border: 1px solid #dddfe7;
+  border-radius: 4px;
+}
+
+#kc-locale ul li a {
+  padding: 0 11px;
+  font-size: 13px;
+  color: #333333;
+  line-height: 30px;
+}
+
+#kc-locale ul li a:hover {
+  background: #f2f5f7;
+}
+
+#kc-locale ul li a:focus,
+#kc-locale ul li a:active {
+  background: #dadfe6;
+}
+
+@media (min-width: 1024px) {
+  #kc-locale {
+    position: relative;
+    text-align: right;
+    z-index: 9997;
+  }
+}
+
+@media (max-width: 1023px) {
+  #kc-header {
+    /* margin: 0;
+        padding: 0; */
+  }
+
+  #kc-header #kc-locale {
+    /* display: none; */
+  }
+}
+
+/* Header */
+
+/* Content */
+#kc-info {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+
+#kc-form-buttons {
+  margin-top: 5px;
+}
+
+@media (min-width: 1024px) {
+  #kc-container-wrapper {
+    position: absolute;
+    width: 100%;
+  }
+
+  .login-pf .container {
+    padding-right: 80px;
+  }
+}
+
+/* Footer */
+footer {
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+footer .footer-logo {
+  background: url(../img/logo_tmax.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 41px;
+  height: 14px;
+}
+
+footer .footer-copyright {
+  font-size: 13px;
+  color: #828282;
+  line-height: 18px;
+}
+
+footer .locale-wrapper {
+  text-align: right;
+}
+
+@media (min-width: 1024px) {
+  footer .locale-wrapper {
+    display: none;
+  }
+
+  #kc-content .content-locale {
+    display: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  footer {
+    margin: 0;
+    padding: 16px 2px;
+    /* background: #f1f1f1;
+        border-top: 1px solid #d3d3d3; */
+  }
+
+  footer .locale-wrapper {
+    margin-bottom: 16px;
+  }
+
+  footer .footer-logo {
+  }
+}
+
+/* control */
+.checkbox,
+.radio {
+  margin: 0;
+}
+
+.checkbox label,
+.radio label {
+  font-size: 14px;
+}
+
+#kc-form-options .checkbox {
+  color: #185692;
+}
+
+/* required 속성 부여 시, error message 표시를 위해 display: none 설정 불가 */
+input[type="checkbox"] {
+  position: absolute;
+  top: 10px;
+  left: 6.5px;
+  width: 1px;
+  height: 1px;
+  visibility: hidden;
+}
+
+input[type="checkbox"] + label {
+  display: inline-block;
+  position: relative;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-weight: 500;
+  font-family: "Noto Sans KR";
+}
+
+input[type="checkbox"] + label:hover {
+  text-decoration: underline;
+}
+
+input[type="checkbox"] + label::before {
+  display: inline-block;
+  content: "";
+  background: url("../img/control_check_off.svg") no-repeat;
+  background-size: 13px 13px;
+  margin: 0 8px -1px 0;
+  width: 13px;
+  height: 13px;
+}
+
+input[type="checkbox"]:checked + label::before {
+  background: url("../img/control_check_on.svg") no-repeat;
+}
+
+input[type="radio"] {
+  position: absolute;
+  top: 10px;
+  left: 6.5px;
+  width: 1px;
+  height: 1px;
+}
+
+input[type="radio"] + label {
+  display: inline-block;
+  position: relative;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+input[type="radio"] + label::before {
+  display: inline-block;
+  content: "";
+  background: url("../img/Control_Radiobtn_Off.svg") no-repeat;
+  background-size: 13px 13px;
+  margin: 0 8px 0 0;
+  width: 13px;
+  height: 13px;
+}
+
+input[type="radio"]:checked + label::before {
+  background: url("../img/Control_Radiobtn_On.svg") no-repeat;
+}
+
+/* error message */
+.error_message {
+  display: none;
+  margin-top: 5px;
+  color: #ff4646;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  font-family: Noto Sans KR;
+}

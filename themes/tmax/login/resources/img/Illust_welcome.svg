@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="71px" height="89px" viewBox="0 0 71 89" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Illust_welcome</title>
+    <g id="ch01_Login" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Ch2_Create-Account_08" transform="translate(-930.000000, -415.000000)">
+            <g id="@Box-Copy" transform="translate(683.000000, 243.000000)">
+                <g id="Group" transform="translate(168.000000, 172.000000)">
+                    <g id="Illust_welcome" transform="translate(79.000000, 0.000000)">
+                        <g id="Group-7">
+                            <rect id="Rectangle" stroke="#1A3755" stroke-width="2" fill="#EFF1F0" x="1" y="6.5" width="59" height="74" rx="1"></rect>
+                            <polygon id="Rectangle-Copy-5" fill="#1A3755" fill-rule="nonzero" points="48 67 48 69 13 69 13 67"></polygon>
+                            <polygon id="Rectangle-Copy-6" fill="#1A3755" fill-rule="nonzero" points="48 61.5 48 63.5 13 63.5 13 61.5"></polygon>
+                            <g id="Group-4" transform="translate(17.000000, 20.500000)">
+                                <path d="M14,18 C21.1797017,18 27,23.8202983 27,31 L27,33.999 L0,33.999 L0,31 C-8.79259876e-16,23.8202983 5.82029825,18 13,18 L14,18 Z" id="Combined-Shape" stroke="#1A3755" stroke-width="2" fill="#FFFFFF" stroke-linejoin="round"></path>
+                                <path d="M13.25,0 C17.5728477,-7.9409424e-16 21.0772082,3.50436046 21.0772082,7.82720816 C21.0772082,7.96440892 21.0736007,8.10158597 21.0663896,8.23859709 L20.8810515,11.7600207 C20.6674384,15.8186705 17.3142673,19 13.25,19 C9.18573274,19 5.8325616,15.8186705 5.61894846,11.7600207 L5.43361037,8.23859709 C5.20640654,3.9217243 8.52173828,0.238022369 12.8386111,0.0108185375 C12.9756222,0.0036074257 13.1127992,2.52033707e-17 13.25,0 Z" id="Rectangle" stroke="#1A3755" stroke-width="2" fill="#FFFFFF"></path>
+                                <path d="M12.5,19.5 L11,27.35432 L13.243097,31.073985 C13.3286581,31.2158686 13.5130385,31.261527 13.6549221,31.1759659 C13.6967026,31.1507706 13.7317078,31.1157655 13.756903,31.073985 L16,27.35432 L16,27.35432 L14.4998862,19.5 L12.5,19.5 Z" id="Path-4" fill="#0066CC"></path>
+                            </g>
+                            <rect id="Rectangle" stroke="#1A3755" stroke-width="2" fill="#FFFFFF" x="18" y="1" width="25" height="11" rx="1"></rect>
+                            <rect id="Rectangle" fill="#1A3755" x="22" y="5" width="17" height="3" rx="1.5"></rect>
+                        </g>
+                        <path d="M58,63 C65.1797017,63 71,68.8202983 71,76 C71,83.1797017 65.1797017,89 58,89 C50.8202983,89 45,83.1797017 45,76 C45,68.8202983 50.8202983,63 58,63 Z" id="Path" fill="#0066CC"></path>
+                        <polygon id="Path" fill="#FFFFFF" points="63.5904572 70.71875 56.0540625 78.237625 52.4110728 74.594375 50.6875 76.3179478 56.0553639 81.6858117 57.7789367 79.9622389 65.31403 72.4423228"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,14 @@
+.hypercloud-logo-img {
+  background: url("../img/login_logo_hypercloud.png") no-repeat top;
+  background-size: contain;
+  margin: auto;
+  width: 256px;
+  height: 40px;
+}
+
+@media (max-width: 499px) {
+  .hypercloud-logo-img {
+    width: 250px;
+    height: 30px;
+  }
+}

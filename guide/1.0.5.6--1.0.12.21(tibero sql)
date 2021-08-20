@@ -1,0 +1,21 @@
+truncate table keycloak.databasechangelog_hyperauth_;
+
+insert into keycloak.databasechangelog_hyperauth_ values ( 'example-1.0','taegeon_woo@tmax.co.kr','META-INF/extend_table.xml','2020-10-14 05:41:26.303783',1,'EXECUTED','7:967dcfecedcc54905b9b9f20db5bf751','createTable tableName=CLIENT_AGREEMENT; createTable tableName=EMAIL_VERIFICATION; addPrimaryKey constraintName=PK_CLIENT_AGREEMENT, tableName=CLIENT_AGREEMENT; addPrimaryKey constraintName=PK_EMAIL_VERIFICATION, tableName=EMAIL_VERIFICATION',null, null,'3.5.4', null, null,'7948393317' );
+
+create table keycloak.email_verification (
+	id varchar(36) not null, 
+	email varchar(36) not null,
+	code varchar(255) not null,
+	is_verified number(1),
+	verification_date timestamp not null	
+);
+
+alter table keycloak.email_verification add constraint PK_EMAIL_VERIFICATION primary key (id);
+
+ALTER TABLE keycloak.REALM drop CONSTRAINT FK_TRAF444KK6QRKMS7N56AIWQ5Y;
+
+ALTER TABLE keycloak.KEYCLOAK_ROLE drop CONSTRAINT FK_KJHO5LE2C0RAL09FL8CM9WFW9;
+
+insert into keycloak.databasechangelog values ( 'map-remove-ri', 'keycloak', 'META-INF/jpa-changelog-11.0.0.xml', '2020/11/03 02:20:33.022111000' , 86, 'EXECUTED', '7:3dace6b144c11f53f1ad2c0361279b86', 'dropForeignKeyConstraint baseTableName=REALM, constraintName=FK_TRAF444KK6QRKMS7N56AIWQ5Y; dropForeignKeyConstraint baseTableName=KEYCLOAK_ROLE, constraintName=FK_KJHO5LE2C0RAL09FL8CM9WFW9', null, null, '3.5.4', null, null, 3938055987 );
+
+commit;

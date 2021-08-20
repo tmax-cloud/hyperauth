@@ -1,0 +1,46 @@
+.table .btn {
+    min-width: initial;
+}
+
+.table > thead {
+    background: #ffffff;
+}
+
+.table > thead > tr > th {
+    padding: 10px 15px;
+    border-bottom: 1px solid #38434d;
+    font-size: 13px;
+    color: #38434d;
+    line-height: 20px;
+    vertical-align: middle;
+}
+
+.table > tbody > tr:nth-of-type(even) {
+    background-color: #fafafa;
+}
+
+.table > tbody > tr > td {
+    padding: 10px 15px;
+    border-top: 0;
+    border-bottom: 1px solid #dddee7;
+    font-size: 14px;
+    color: #38434d;
+    line-height: 20px;
+    vertical-align: middle;
+}
+
+td.empty {
+    background: #fafafa;
+    text-align: center;
+}
+
+.table > tbody > tr > td > a {
+    color: #007085;
+}
+
+.table > tbody > tr > td > a:hover,
+.table > tbody > tr > td > a:focus {
+    color: #007085;
+    text-decoration: underline;
+    outline: none;
+}

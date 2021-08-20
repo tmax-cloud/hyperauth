@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Control/checkbox/checkbox_off</title>
+    <g id="Control/checkbox/checkbox_off" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="control/checkbox_normal" fill="#FFFFFF" stroke="#D0CCC7">
+            <rect id="Rectangle" x="0.5" y="0.5" width="14" height="14" rx="7"></rect>
+        </g>
+    </g>
+</svg>

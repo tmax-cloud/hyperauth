@@ -1,0 +1,174 @@
+/* Login page design */
+.login-pf .login-body {
+    background: #f4f5f5 url('../img/login_bg.png') no-repeat center;
+}
+
+@media (min-width: 1920px) {
+    .login-pf .login-body {
+        background: #f4f5f5 url('../img/login_bg.png') no-repeat center;
+        background-size: cover;
+    }
+}
+
+.login-pf-page .login-pf-header,
+.login-pf-page .login-pf-page-header,
+#kc-page-title {
+    margin: 0;
+}
+
+#kc-page-title .login-logo {
+    background: url(../img/logo.svg);
+    background-size: cover;
+    margin: 0 auto 72px;
+    width: 282px;
+    height: 51px;
+}
+
+.login-pf-page .card-pf {
+    margin: 0 auto;
+    max-width: 620px;
+    margin: 20px auto;
+    padding: 82px 150px 66px;
+}
+
+.login-pf-page .card-pf.login-pf-accounts {
+    margin: 0 auto 24px;
+    max-width: 940px;
+    min-height: 600px;
+    padding: 82px 120px 66px;
+}
+
+.login-pf-page .login-pf-settings {
+    margin-top: 38px;
+    margin-bottom: 20px;
+}
+
+.login-pf-page .login-pf-signup {
+    margin-top: 64px;
+}
+
+@media (min-width: 1024px) {
+    .login-pf-page .card-pf {
+        background: url(../img/login_box_small.png);
+        background-size: 100% 100%;
+    }
+
+    .card-pf.login-pf-accounts {
+        background: url(../img/login_box_big.png);
+        background-size: 100% 100%;
+    }
+
+    footer .footer-logo {
+        width: 137px;
+        height: 26px;
+    }
+
+    footer .footer-copyright {
+        color: #000000;
+    }
+}
+
+@media (max-width: 1023px) {
+    #kc-page-title .login-logo {
+        margin-bottom: 55px;
+        width: 226px;
+        height: 41px;
+    }
+
+    .login-pf-page {
+        background: #042a54;
+    }
+
+    .login-pf-page .card-pf {
+        background: none;
+        padding: 55px 20px 41px;
+        max-width: 360px;
+    }
+}
+
+#kc-form-login div.form-group > .form-control {
+    background: none;
+    height: 53px;
+    padding: 0 15px;
+    font-size: 16px;
+    border: 1px solid #9d9d9d;
+    border-radius: 4px;
+    color: #ffffff;
+    line-height: 18px;
+}
+
+#kc-form-login div.form-group > .form-control:focus {
+    border-color: #ffffff;
+    box-shadow: none;
+}
+
+#kc-form-login div.form-group > .form-control.error {
+    border-color: #ff4646;
+}
+
+#kc-form-login div.form-group > .form-control::placeholder {
+    font-style: normal;
+    color: #9d9d9d;
+}
+
+@media (max-width: 1023px) {
+    #kc-info-wrapper {
+        border-top: none;
+        margin-top: 40px;
+        padding: 0px;
+    }
+
+    #kc-info {
+        margin-top: 34px;
+    }
+}
+
+#kc-registration {
+    margin: 0;
+}
+
+#kc-registration > span {
+    color: #9b9b9b;
+}
+
+#kc-registration > span > a {
+    margin: 0;
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+#kc-forgot-pw > span > a {
+    color: #185692;
+}
+
+/* Button */
+.login-body .btn-primary {
+    height: 53px;
+    background: #ffffff;
+    border-radius: 4px;
+    border: 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #042a54;
+}
+
+.login-body .btn-primary:hover {
+    background: #e5e9ed;
+    color: #042a54;
+}
+
+.login-body .btn-primary:focus,
+.login-body .btn-primary.focus,
+.login-body .btn-primary:active,
+.login-body .btn-primary.active,
+.login-body .btn-primary:active:hover,
+.login-body .btn-primary.active:hover,
+.login-body .btn-primary.active:focus,
+.login-body .btn-primary:active:focus,
+.login-body .btn-primary.active.focus,
+.login-body .btn-primary:active.focus {
+    opacity: 0.9;
+    background: #cdd4dd;
+    color: #042a54;
+    outline: none;
+}

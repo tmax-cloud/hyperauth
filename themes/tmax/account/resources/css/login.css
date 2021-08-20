@@ -1,0 +1,188 @@
+.template-body .login-pf-page .card-pf {
+  height: 640px;
+}
+
+.login-body .login-pf-page .card-pf {
+  background: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+}
+
+.login-body .login-pf-page .login-pf-accounts {
+  /* max-width: 850px; */
+}
+
+.login-body #kc-registration {
+  margin: 30px 0 0;
+}
+
+.login-pf-page .login-pf-social {
+  margin: 20px 0 0 0;
+}
+
+@media (max-width: 769px) {
+  .template-body .login-pf-page .card-pf {
+    margin-bottom: 2px;
+    /* padding-top: 13%; */
+    /* min-height: 70%; */
+    max-width: 554px;
+    width: 92%;
+    height: auto;
+  }
+
+  .login-body #kc-registration {
+    margin: 5px 0 0;
+  }
+}
+
+@media (min-width: 769px) {
+  .login-pf-page .login-pf-social-section {
+    -ms-flex: 0 1 90%;
+    flex: 0 1 80%;
+    max-width: 380px;
+    width: 80%;
+  }
+
+  .login-pf-page .login-pf-social-section:first-of-type {
+    padding-right: 0px;
+    border-right: 0px;
+    margin-right: 0px;
+    float: none;
+    margin: auto auto;
+  }
+  #kc-social-providers li:first-of-type {
+    margin-top: 20px;
+  }
+
+  .login-pf-page .login-pf-social-section:last-of-type {
+    padding-left: 0px;
+    float: none;
+    margin: auto auto;
+  }
+
+  .login-pf-page .login-pf-social-section .login-pf-social-link:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .login-pf-page .login-pf-social-section:first-of-type {
+    padding-right: 0px;
+  }
+
+  .login-pf-page .login-pf-social-section:last-of-type {
+    padding-left: 0px;
+    border-left: 0px;
+  }
+
+  .login-pf-page .login-pf-social-section {
+    -ms-flex-preferred-size: 100%;
+    flex-basis: 100%;
+    padding: 0;
+    width: 90%;
+  }
+}
+
+.login-body #kc-content {
+  min-height: initial;
+  flex-direction: column;
+}
+
+.login-body .arrow-left {
+  display: none;
+}
+
+.login-body #kc-content-wrapper {
+  margin: 70px auto 18px;
+  max-width: 1000px;
+}
+
+.login-body #kc-content-wrapper #kc-page-title {
+  margin-top: 0px;
+  margin-bottom: 50px;
+  font-family: "Noto Sans KR";
+  font-weight: 700;
+  font-size: 32px;
+  color: #042a54;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+#kc-forgot-pw > span > a {
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+  font-weight: 500;
+  color: #185692;
+}
+
+.login-body #kc-registration > span > a {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #185692;
+  letter-spacing: 0;
+}
+
+.login-pf-page .login-pf-settings {
+  margin-top: 0px;
+  margin-bottom: 40px;
+}
+
+.login-body .btn-primary {
+  height: 53px;
+  font-size: 18px;
+}
+
+.login-body .alert-error {
+  margin-bottom: 12px;
+}
+
+.login-body .form-group-short-margin-bottom {
+  margin-bottom: 9px;
+}
+
+.login-body .group-wrapper {
+  height: 205px;
+  margin-bottom: 49px;
+}
+
+.login-body .group-wrapper-short-margin-bottom {
+  margin-bottom: 18px;
+}
+
+.login-body .empty-error {
+  height: 26px;
+}
+
+@media (max-width: 499px) {
+  .login-body #kc-content-wrapper {
+    margin: 45px auto 18px;
+  }
+
+  .login-body #kc-content-wrapper #kc-page-title {
+    font-size: 24px;
+  }
+
+  .login-body #kc-registration > span > a {
+    font-size: 14px;
+  }
+
+  .alert-error {
+    font-size: 10px;
+  }
+
+  .login-body .group-wrapper {
+    margin-bottom: 30px;
+  }
+
+  #kc-header {
+    padding: 8px 8px 0 0;
+  }
+
+  .login_reset_password #kc-info #kc-info-wrapper {
+    font-size: 14px;
+  }
+
+  .login-body .btn-primary {
+    height: 46px;
+    font-size: 16px;
+  }
+}

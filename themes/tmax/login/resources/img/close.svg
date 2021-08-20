@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="17px" height="17px" viewBox="0 0 17 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Combined shape 5032</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="353" height="327"></rect>
+        <filter x="-1.7%" y="-1.8%" width="103.4%" height="103.7%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="03_01_Mypage_Account(User)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="03_Mypage_Account(User)05" transform="translate(-323.000000, -458.000000)">
+            <rect fill="#FFFFFF" x="0" y="0" width="360" height="1207"></rect>
+            <rect id="Rectangle" fill="#000000" opacity="0.5" x="0" y="0" width="360" height="1207"></rect>
+            <g id="popup" transform="translate(4.000000, 440.000000)">
+                <g id="Rectangle">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                </g>
+                <g id="popup/p/title/default">
+                    <rect id="bg" fill="#FFFFFF" x="0" y="0" width="353" height="54" rx="2"></rect>
+                    <path d="M320.659703,18.2847875 L327.5,25.125 L334.340281,18.2847875 C334.719875,17.9050708 335.335552,17.9050708 335.715228,18.2847875 C336.094924,18.6644428 336.094924,19.2800378 335.715228,19.6597136 L328.875,26.5 L335.715228,33.3402099 C336.094924,33.7199265 336.094924,34.335501 335.715228,34.7151768 C335.335552,35.0948526 334.719875,35.0948526 334.340281,34.7151768 L327.5,27.875 L320.659703,34.7151768 C320.280109,35.0948526 319.664453,35.0948526 319.284757,34.7151768 C318.905081,34.335501 318.905081,33.7199265 319.284757,33.3402099 L326.125,26.5 L319.284757,19.6597136 C318.905081,19.2800378 318.905081,18.6644428 319.284757,18.2847875 C319.664453,17.9050708 320.280109,17.9050708 320.659703,18.2847875 Z" id="Combined-shape-5032" fill="#444444"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

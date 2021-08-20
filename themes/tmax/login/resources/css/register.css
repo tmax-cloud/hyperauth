@@ -1,0 +1,23 @@
+.template-body .login-pf-page .card-pf {
+}
+
+.form-group label.control-label {
+  margin-top: 16px;
+}
+
+@media (max-width: 769px) {
+  .template-body.register-body .login-pf-page .card-pf {
+    margin-bottom: 2px;
+    /* padding-top: 13%; */
+    border-bottom: 1px solid #cccccc;
+    min-height: 70%;
+    max-width: 554px;
+    width: 90%;
+  }
+}
+
+@media (max-width: 499px) {
+  .template-body.register-body .login-pf-page .card-pf {
+    /* padding-top: 19%; */
+  }
+}
