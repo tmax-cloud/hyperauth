@@ -10,21 +10,6 @@ node {
     def githubUserName = "ck-jenkins"
     def githubUserToken = "${params.githubUserToken}"
     def userEmail = "taegeon_woo@tmax.co.kr"
-
-    stage('git pull from keycloak-distribution') {
-    	git branch: "${params.buildBranch}",
-        credentialsId: '${userName}',
-        url: "http://${gitLabBuildAddress}"
-    	
-    	sh "git checkout ${params.buildBranch}"
-		sh "git config --global user.name ${userName}"
-		sh "git config --global user.email ${userEmail}"
-		sh "git config --global credential.helper store"
-    
-    	sh "git fetch --all"
-		sh "git reset --hard origin/${params.buildBranch}"
-		sh "git pull origin ${params.buildBranch}"
-    }
     
     stage('git pull from hyperauth') {
     	git branch: "${params.buildBranch}",
