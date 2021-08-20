@@ -35,19 +35,17 @@ node {
 
     stage('image build & push'){
         if(type == 'distribution') {
-            dir(imageBuildHome){
-                sh "sudo docker build --tag tmaxcloudck/hyperauth:${imageTag} --build-arg HYPERAUTH_VERSION=${imageTag} ."
-                sh "sudo docker tag tmaxcloudck/hyperauth:${imageTag} tmaxcloudck/hyperauth:latest"
-                sh "sudo docker push tmaxcloudck/hyperauth:${imageTag}"
-                sh "sudo docker push tmaxcloudck/hyperauth:latest"
-                sh "sudo docker rmi tmaxcloudck/hyperauth:${imageTag}"
-            }
+            sh "sudo docker build --tag tmaxcloudck/hyperauth:${imageTag} --build-arg HYPERAUTH_VERSION=${imageTag} ."
+            sh "sudo docker tag tmaxcloudck/hyperauth:${imageTag} tmaxcloudck/hyperauth:latest"
+            sh "sudo docker push tmaxcloudck/hyperauth:${imageTag}"
+            sh "sudo docker push tmaxcloudck/hyperauth:latest"
+            sh "sudo docker rmi tmaxcloudck/hyperauth:${imageTag}"
+
         } else if(type == 'test'){
-            dir(imageBuildHome){
-                sh "sudo docker build --tag 192.168.9.12:5000/hyperauth-server:b${testVersion} --build-arg HYPERAUTH_VERSION=b${testVersion} ."
-                sh "sudo docker push 192.168.9.12:5000/hyperauth-server:b${testVersion}"
-                sh "sudo docker rmi 192.168.9.12:5000/hyperauth-server:b${testVersion}"
-            }
+            sh "sudo docker build --tag 192.168.9.12:5000/hyperauth-server:b${testVersion} --build-arg HYPERAUTH_VERSION=b${testVersion} ."
+            sh "sudo docker push 192.168.9.12:5000/hyperauth-server:b${testVersion}"
+            sh "sudo docker rmi 192.168.9.12:5000/hyperauth-server:b${testVersion}"
+
         }
     }
 
