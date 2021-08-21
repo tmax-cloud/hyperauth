@@ -5,6 +5,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
+import com.tmax.hyperauth.caller.StringUtil;
 import com.tmax.hyperauth.eventlistener.prometheus.PrometheusExporter;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.crypto.KeyWrapper;
@@ -99,10 +100,7 @@ public class Util {
 
 		String host = "mail.tmax.co.kr";
 		int port = 25;
-		String sender = "tmaxcloud_ck@tmax.co.kr";
-		if(System.getenv("DEFAULT_EMAIL_SENDER")!= null){
-			sender = System.getenv("DEFAULT_EMAIL_SENDER");
-		}
+		String sender = StringUtil.isNotEmpty(System.getenv("DEFAULT_EMAIL_SENDER"))?System.getenv("DEFAULT_EMAIL_SENDER") : "tmaxcloud_ck@tmax.co.kr";
 		log.info( " Default Sender : "  + sender );
 
 		String un = "tmaxcloud_ck@tmax.co.kr";

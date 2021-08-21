@@ -1,6 +1,7 @@
 package com.tmax.hyperauth.eventlistener.kafka.producer;
 
 import com.google.gson.Gson;
+import com.tmax.hyperauth.caller.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.producer.*;
@@ -11,7 +12,8 @@ import java.util.Properties;
 
 @Slf4j
 public class KafkaProducer {
-    private static String BOOTSTRAP_SERVER = "kafka-1."+System.getenv("NAMESPACE")+":9092,kafka-2."+System.getenv("NAMESPACE")+":9092,kafka-3."+System.getenv("NAMESPACE")+":9092";
+    private static String nameSpace = StringUtil.isNotEmpty(System.getenv("NAMESPACE"))? System.getenv("NAMESPACE") : "hyperauth";
+    private static String BOOTSTRAP_SERVER = "kafka-1."+ nameSpace +":9092,kafka-2."+ nameSpace +":9092,kafka-3."+ nameSpace +":9092";
     public static void publishEvent(String topic, Object value){
         //reset thread context
         resetThreadContext();
@@ -53,7 +55,7 @@ public class KafkaProducer {
 
     public static Properties getProperties() {
         Properties properties = new Properties();
-        if(System.getenv("KAFKA_BROKERS_ADDR")!= null){
+        if( StringUtil.isNotEmpty(System.getenv("KAFKA_BROKERS_ADDR")) ){
             BOOTSTRAP_SERVER = System.getenv("KAFKA_BROKERS_ADDR");
         }
         properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER);

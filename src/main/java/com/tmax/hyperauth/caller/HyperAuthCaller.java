@@ -30,7 +30,9 @@ public class HyperAuthCaller {
         String url = urlBuilder.build().toString();
 
         RequestBody formBody = new FormBody.Builder().add("grant_type", "password")
-                .add("username", System.getenv("KEYCLOAK_USER")).add("password", System.getenv("KEYCLOAK_PASSWORD")).add("client_id", "admin-cli").build();
+                .add("username", StringUtil.isNotEmpty( System.getenv("KEYCLOAK_USER") )? System.getenv("KEYCLOAK_USER") : "admin" )
+                .add("password", StringUtil.isNotEmpty( System.getenv("KEYCLOAK_PASSWORD") )? System.getenv("KEYCLOAK_PASSWORD") : "admin" )
+                .add("client_id", "admin-cli").build();
         request = new Request.Builder().header("Content-Type", "application/x-www-form-urlencoded").url(url).post(formBody).build();
         log.debug(" Login As Admin request !! : " + request.toString());
 
@@ -77,7 +79,8 @@ public class HyperAuthCaller {
         Request request = null;
 
         //GET svc
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(setHyperAuthURL(Constants.SERVICE_NAME_USER_DETAIL)).newBuilder().addQueryParameter("first", Integer.toString(first));
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(setHyperAuthURL(Constants.SERVICE_NAME_USER_DETAIL)).newBuilder()
+                .addQueryParameter("first", Integer.toString(first));
         if (max != 0) urlBuilder.addQueryParameter("max", Integer.toString(max));
 
         String url = urlBuilder.build().toString();
