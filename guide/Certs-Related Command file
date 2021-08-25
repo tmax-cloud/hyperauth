@@ -1,0 +1,70 @@
+<< Keystore, Truststore Guide >>
+
+# 모든 Password는 tmax@23 으로 통일한다.
+
+1. hypercloud-root-ca.key, hypercloud-root-ca.crt 는 이미 /etc/kubernetes/pki/ 경로에 있다고 가정한다. ( 없는경우, openssl req -new -x509 -keyout ca-key -out ca-cert -days 3650)
+
+2. Create Truststore
+
+3. Create Keystore
+
+4. Create certificate signing request (CSR) from keystore
+
+5. Sign the CSR with Certs Config File
+
+6. Import the CA into Keystore
+
+7. Import the signed certificate into keystore
+
+8. Create Secret with keystore truststore to mount in Pod
+
+* 2~8을 반복해서 만드는 것
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// For Kafka-Brokers
+
+keytool -keystore kafka.broker.truststore.jks -alias ca-cert -import -file /etc/kubernetes/pki/hypercloud-root-ca.crt -storepass tmax@23 -noprompt
+keytool -keystore kafka.broker.keystore.jks -alias broker -validity 3650 -genkey -keyalg RSA -dname "CN=kafka" -storepass tmax@23 -keypass tmax@23
+keytool -keystore kafka.broker.keystore.jks -alias broker -certreq -file ca-request-broker -storepass tmax@23
+cat > "kafka.cnf" <<EOL
+[kafka]
+subjectAltName = IP:172.22.6.2,DNS:kafka-1.hyperauth,DNS:kafka-2.hyperauth,DNS:kafka-3.hyperauth
+EOL
+sudo openssl x509 -req -CA /etc/kubernetes/pki/hypercloud-root-ca.crt -CAkey /etc/kubernetes/pki/hypercloud-root-ca.key -in ca-request-broker -out ca-signed-broker -days 3650 -CAcreateserial -extfile "kafka.cnf" -extensions kafka -sha256
+keytool -keystore kafka.broker.keystore.jks -alias ca-cert -import -file /etc/kubernetes/pki/hypercloud-root-ca.crt -storepass tmax@23 -noprompt
+keytool -keystore kafka.broker.keystore.jks -alias broker -import -file ca-signed-broker -storepass tmax@23 -noprompt
+kubectl create secret generic kafka-jks --from-file=./kafka.broker.keystore.jks --from-file=./kafka.broker.truststore.jks -n hyperauth
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+< kafka-producer (hyperauth) >
+
+keytool -keystore hyperauth.truststore.jks -alias ca-cert -import -file /etc/kubernetes/pki/hypercloud-root-ca.crt -storepass tmax@23 -noprompt
+keytool -keystore hyperauth.keystore.jks -alias hyperauth -validity 3650 -genkey -keyalg RSA -dname "CN=hyperauth" -storepass tmax@23 -keypass tmax@23
+keytool -keystore hyperauth.keystore.jks -alias hyperauth -certreq -file ca-request-hyperauth -storepass tmax@23
+openssl x509 -req -CA /etc/kubernetes/pki/hypercloud-root-ca.crt -CAkey /etc/kubernetes/pki/hypercloud-root-ca.key -in ca-request-hyperauth -out ca-signed-hyperauth -days 3650 -CAcreateserial
+keytool -keystore hyperauth.keystore.jks -alias ca-cert -import -file /etc/kubernetes/pki/hypercloud-root-ca.crt -storepass tmax@23 -noprompt
+keytool -keystore hyperauth.keystore.jks -alias hyperauth -import -file ca-signed-hyperauth -storepass tmax@23 -noprompt
+kubectl create secret generic hyperauth-kafka-jks2 --from-file=./hyperauth.keystore.jks --from-file=./hyperauth.truststore.jks -n hyperauth
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+< kafka-consumer (hypercloud) >
+* Consumer에서 사용할 예제 Certs
+* hypercloud 부분을 각자 상황에 맞는 제품명으로 바꿔서 사용
+* hypercloud4-system Namespace도 바꿔서 사용
+
+keytool -keystore hypercloud.truststore.jks -alias ca-cert -import -file /etc/kubernetes/pki/hypercloud-root-ca.crt -storepass tmax@23 -noprompt
+keytool -keystore hypercloud.keystore.jks -alias hypercloud -validity 3650 -genkey -keyalg RSA -dname "CN=consumer" -storepass tmax@23 -keypass tmax@23
+keytool -keystore hypercloud.keystore.jks -alias hypercloud -certreq -file ca-request-hypercloud -storepass tmax@23
+sudo openssl x509 -req -CA /etc/kubernetes/pki/hypercloud-root-ca.crt -CAkey /etc/kubernetes/pki/hypercloud-root-ca.key -in ca-request-hypercloud -out ca-signed-hypercloud -days 3650 -CAcreateserial
+keytool -keystore hypercloud.keystore.jks -alias ca-cert -import -file /etc/kubernetes/pki/hypercloud-root-ca.crt -storepass tmax@23 -noprompt
+keytool -keystore hypercloud.keystore.jks -alias hypercloud -import -file ca-signed-hypercloud -storepass tmax@23 -noprompt
+kubectl create secret generic hypercloud-kafka-jks --from-file=./hypercloud.keystore.jks --from-file=./hypercloud.truststore.jks -n hypercloud4-system
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+./kafka-console-producer.sh --broker-list kafka-1.hyperauth:9092,kafka-2.hyperauth:9092,kafka-3.hyperauth:9092 --topic tmax
+./kafka-console-consumer.sh --bootstrap-server kafka-1.hyperauth:9092,kafka-2.hyperauth:9092,kafka-3.hyperauth:9092 --topic tmax
+
+

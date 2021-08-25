@@ -1,0 +1,81 @@
+
+1. http://192.168.1.150:10080/hypercloud/keycloak-distribution/blob/master/install_yaml/init_hyper_auth.yaml 실행
+
+2.  Postgresql의 경우 : http://192.168.1.150:10080/hypercloud/keycloak-distribution/blob/master/install_yaml/postgre_pvc.yaml 실행
+				     http://192.168.1.150:10080/hypercloud/keycloak-distribution/blob/master/install_yaml/postgre_service.yaml 실행
+	                 http://192.168.1.150:10080/hypercloud/keycloak-distribution/blob/master/install_yaml/postgre_deploy.yaml 실행
+
+    Tibero의 경우 : http://192.168.1.150:10080/hypercloud/keycloak-distribution/blob/master/install_yaml/tibero_pvc.yaml 실행
+    			 http://192.168.1.150:10080/hypercloud/keycloak-distribution/blob/master/install_yaml/tibero_standalone.yaml 실행
+2-1. postgresql 파드 기동 확인하기
+  * postgresql 기동 확인
+  	1) kubectl get pod -n hyperauth 명령어를 통해 뜨고 있는 postgresql pod 이름을 복사한다. Ex) postgresql-78d7b6c757-v2swm
+  	2) Ex) kubectl exec -it postgresql-78d7b6c757-v2swm -n hyperauth bash 명령어를 통해 postgresql pod로 접속한다.
+  	3) psql -U keycloak keycloak 명령어 입력으로 postgresql admin 접속 확인
+    	
+2-2 tibero 파드 기동 확인하기
+  * tibero 기동 확인
+    - tibero-db는 최초로 기동시 20~30분 정도가 소요될 수 있음.
+  	1) kubectl get pod -n hyperauth 명령어를 통해 뜨고 있는 tibero pod 이름을 복사한다. Ex) tibero-7bcbf5dc5b-gllhp
+  	2) Ex) kubectl exec -it tibero-7bcbf5dc5b-gllhp -n hyperauth bash 명령어를 통해 tibero pod로 접속한다.
+  	3) /tibero 경로에 있는 cmdlog를 확인한다.
+  	4) SQL> SQL>    2    3    4    5    6    7    8    9   10   11   12
+	   SQL> SQL> Disconnected.
+	   등으로 끝나는 default table을 만들어주는 로그가 있으면 완료가 된것
+	   
+3. http://192.168.1.150:10080/hypercloud/keycloak-distribution/blob/master/install_yaml/keycloak_svc.yaml 실행
+	* ClusterIP type의 경우 nodePort 부분을 지워준다. (ex. nodePort: 32570, nodePort: 32573 삭제 )
+	
+4. kubectl get svc hyperauth -n hyperauth 명령어 입력을 통해, 노출하고자 하는 clusterIP 혹은 externalIP 확인 및 복사 ( {HYPERAUTH_SERVICE_IP} )
+
+5. https를 위한 openssl 인증서 발급 
+
+	1) openssl req -newkey rsa:4096 -nodes -sha256 -keyout hyperauth.key -x509 -subj "/C=KR/ST=Seoul/O=tmax/CN={HYPERAUTH_SERVICE_IP}" -days 365 -config <(cat /etc/ssl/openssl.cnf <(printf "[v3_ca]\nsubjectAltName=IP:{HYPERAUTH_SERVICE_IP}")) -out hyperauth.crt
+	1-1) CentOS : openssl req -newkey rsa:4096 -nodes -sha256 -keyout hyperauth.key -x509 -subj "/C=KR/ST=Seoul/O=tmax/CN={HYPERAUTH_SERVICE_IP}" -days 365 -config <(cat /etc/pki/tls/openssl.cnf <(printf "[v3_ca]\nsubjectAltName=IP:{HYPERAUTH_SERVICE_IP}")) -out hyperauth.crt
+	2) 명령어를 입력한 창에 hyperauth.crt, hyperauth.key 생성 확인
+	3) kubectl create secret tls hyperauth-https-secret --cert=./hyperauth.crt --key=./hyperauth.key -n hyperauth 입력해서 인증서 관리를 위한 secret 생성
+	4) cp hyperauth.crt /etc/kubernetes/pki/hyperauth.crt 입력해서 hyperauth.crt 인증서 복사하기
+
+6. Audit Log를 남기기위한 Webhook Call 을 위한 hypercloud4-webhook-ca-crt-secret 생성
+    1) Secret을 생성하려는 Directory에 http://192.168.1.150:10080/hypercloud/keycloak-distribution/blob/master/install_yaml/webhook_ca.crt 위치
+    2) kubectl create secret generic hypercloud4-webhook-ca-crt-secret --from-file=./webhook_ca.crt -n hyperauth 입력
+	
+7. http://192.168.1.150:10080/hypercloud/keycloak-distribution/blob/master/install_yaml/keycloak_deploy.yaml 실행
+	* DB_VENDOR, DB_PORT 환경변수를 Tibero, Postgresql의 경우에 따라 설정한다.
+	* 약 5분 정도 소요 
+	
+8. administration console --> admin/admin으로 접속
+
+-------------  Keycloak & Kubernetes 연동 가이드 -----------------
+9. Add realm 클릭후, tmax realm 생성 및 tmax realm 접속
+
+10. Hypercloud-operator admin 유저 생성
+	1) Users - Add User 클릭 - Username : admin-tmax.co.kr, Email : admin-hc@tmax.co.kr 입력 후, Email Verified ON 으로 체크 후 Save 클릭
+ 	2) Credentials 클릭 - Password, Password Confirmation : admin 입력 - Temporary OFF 로 체크 후  Set Password 클릭
+ 	
+11. Clients - Create 클릭 - Client ID : hypercloud4 입력 및 생성
+
+12. vi /etc/kubernetes/manifests/kube-apiserver.yaml
+    - --oidc-issuer-url=https://{HYPERAUTH_SERVICE_IP}/auth/realms/tmax  추가
+    - --oidc-client-id=hypercloud4  추가
+    - --oidc-username-claim=preferred_username 추가
+    - --oidc-username-prefix=- 추가
+    - --oidc-ca-file=/etc/kubernetes/pki/hyperauth.crt 추가
+#   - --authentication-token-webhook-config-file=/etc/kubernetes/pki/webhook-config  주석처리 
+
+13. keycloak에서 발급 받은 ID_TOKEN을 이용해 k8s api call 가능함을 확인
+	1) k8s cluster 내에서 ID_TOKEN 발급받기
+	 - curl 'https://{HYPERAUTH_SERVICE_IP}/auth/realms/tmax/protocol/openid-connect/token' \
+		  -H 'content-type: application/x-www-form-urlencoded' \
+		  --data 'grant_type=password&username=admin-tmax.co.kr&password=admin&client_id=hypercloud4&scope=openid' \
+		  --compressed \
+		  --insecure | grep id_token
+	 - id_token 부분 복사 ( {ID_TOKEN} )
+	2) kubectl config view | grep server 입력 후, IP 부분 복사 ( {K8S_API_SERVER_IP:PORT} ) ex) 172.22.6.2:6443
+	3) curl 'https://{K8S_API_SERVER_IP:PORT}/api/v1/services?limit=250'   -H 'authority: {K8S_API_SERVER_IP:PORT}'   -H 'authorization:Bearer {ID_TOKEN}'  --compressed   --insecure
+            위 명령어 call을 통해, Service 목록을 잘 받아오는 지 확인
+    4) 연동 끝!        	
+   	
+
+  
+

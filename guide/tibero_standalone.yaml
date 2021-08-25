@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tibero 
+  namespace: hyperauth
+  labels:
+    app: tibero
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tibero
+  template:
+    metadata:
+      name: tibero
+      labels:
+        app: tibero
+    spec:
+      containers:
+      - name: tibero
+        image: 192.168.6.110:5000/cloud_tcs_tibero_standalone:190520
+        imagePullPolicy: Always
+        env:
+        - name: TCS_INSTALL
+          value: "1"
+        - name: TCS_MAX_SESSCNT
+          value: "100"
+        - name: TCS_SID
+          value: "tibero"
+        - name: TB_SID
+          value: "tibero"
+        - name: TCS_TOTAL_SHM_SIZE
+          value: "1G"
+        - name: TCS_MEMORY_TARGET
+          value: "2G"
+        - name: TCS_PORT
+          value: "8629"
+        - name: MASTER_USER
+          value: "keycloak"
+        - name: MASTER_PASSWORD
+          value: "keycloak"
+        ports:
+        - containerPort: 8629
+        resources:
+          limits:
+            memory: "3Gi"
+            cpu: "1"
+          requests:
+            cpu: "1"
+            memory: "3Gi"
+        volumeMounts:
+          - name: tibero
+            mountPath: /tibero/mnt/tibero
+      volumes:
+        - name: tibero
+          persistentVolumeClaim:
+            claimName: tibero-pvc            
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tibero
+  namespace: hyperauth
+spec:
+  ports:
+  - name: base
+    port: 8629
+    protocol: TCP
+    targetPort: 8629
+    nodePort: 32571
+  selector:
+    app: tibero
+  type: NodePort
