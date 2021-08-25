@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # destination file
-output=../CHANGELOG.md
+output=./CHANGELOG.md
 timestamp=`date`
 version=$1
 prev_version=$2
@@ -14,7 +14,7 @@ if [ -z $prev_version ]; then
 prev_version=4.0.0.0
 fi
 
-backup="../CHANGELOG_$prev_version.md"
+backup="./CHANGELOG_$prev_version.md"
 if [ -f $output ]; then
 echo "!!!changelog file exist"
 mv $output $backup
