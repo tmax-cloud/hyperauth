@@ -1,7 +1,7 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
-<!--------------------- Below Hyperauth SPI log --------------------->
+<--------------------- Below Hyperauth SPI log --------------------->
 
 ### Added
   - [feat] tibero 포함된 install guide 및 참고 자료 추가 by dnxorjs1
@@ -16,9 +16,9 @@ All notable changes to this project will be documented in this file.
 
 ### Etc
 
-<!--------------------- v1.1.1.26 end --------------------->
+<--------------------- v1.1.1.26 end --------------------->
 
-<!--------------------- Below Hyperauth SPI log --------------------->
+<--------------------- Below Hyperauth SPI log --------------------->
 
 ### Added
 
