@@ -32,9 +32,9 @@ All notable changes to this project will be documented in this file.
 
 ### Etc
 
-<!--------------------- v1.1.1.25 end --------------------->
+<--------------------- v1.1.1.25 end --------------------->
 
-<!--------------------- Below Hyperauth SPI log --------------------->
+<--------------------- Below Hyperauth SPI log --------------------->
 
 ### Added
 
@@ -46,9 +46,9 @@ All notable changes to this project will be documented in this file.
 
 ### Etc
 
-<!--------------------- v1.1.1.24 end --------------------->
+<--------------------- v1.1.1.24 end --------------------->
 
-<!--------------------- Below Hyperauth SPI log --------------------->
+<--------------------- Below Hyperauth SPI log --------------------->
 
 ### Added
 
@@ -61,5 +61,5 @@ All notable changes to this project will be documented in this file.
 
 ### Etc
 
-<!--------------------- v1.1.1.23 end --------------------->
+<--------------------- v1.1.1.23 end --------------------->
 
