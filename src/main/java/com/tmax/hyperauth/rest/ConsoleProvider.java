@@ -153,12 +153,12 @@ public class ConsoleProvider implements RealmResourceProvider {
                 String email = userModel.getEmail();
 
                 String subject = "[Tmax 통합계정] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
-                String body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/tmax/email/html/etc/account-withdrawal-request.html");
+                String body = Util.readLineByLineJava8("../themes/tmax/email/html/etc/account-withdrawal-request.html");
 
                 String emailTheme = session.realms().getRealmByName(session.getContext().getRealm().getName()).getEmailTheme();
                 if(!emailTheme.equalsIgnoreCase("tmax") && !emailTheme.equalsIgnoreCase("base") && !emailTheme.equalsIgnoreCase("keycloak")) {
                     subject = "[" + emailTheme + "] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
-                    body = Util.readLineByLineJava8("/opt/jboss/keycloak/themes/" + emailTheme + "/email/html/etc/account-withdrawal-request.html");
+                    body = Util.readLineByLineJava8("../themes/" + emailTheme + "/email/html/etc/account-withdrawal-request.html");
                 }
 
                 Util.sendMail(session, email, subject, body, null, realm.getId() );
