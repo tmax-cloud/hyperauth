@@ -28,7 +28,7 @@ echo "!!!prev version: $prev_version"
 echo "# HyperAuthServer changelog!!" > $output
 echo "All notable changes to this project will be documented in this file." >> $output
 
-echo -e "\n<-------------------- v$version start -------------------->" >> $output
+echo -e "\n<!-------------------- v$version start -------------------->" >> $output
 echo -e "\n## HyperAuthServer $version ($timestamp)" >> $output
 
 # make commit log to changelog
@@ -48,7 +48,7 @@ git log v$prev_version..HEAD --no-merges --oneline --format="  - %s by %cN" --gr
 echo -e "\n### Etc" >> $output
 git log v$prev_version..HEAD --no-merges --oneline --format="  - %s by %cN" --grep="^\[etc\].*" -i >> $output
 
-echo -e "\n<--------------------- v$version end --------------------->" >> $output
+echo -e "\n<!--------------------- v$version end --------------------->" >> $output
 
 if [ -f $backup ]; then
 echo "!!!add previous changelog"
