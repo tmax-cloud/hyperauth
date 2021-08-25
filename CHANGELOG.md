@@ -20,7 +20,7 @@ All notable changes to this project will be documented in this file.
 <!--------------------- v1.1.1.26 end --------------------->
 
 <!-------------------- v1.1.1.25 start -------------------->
-## HyperAuthServer 1.1.1.26 (2021년 08월 25일 수 오후  3:20:27)
+## HyperAuthServer 1.1.1.25 (2021년 08월 25일 수 오후  3:20:27)
 
 ### Added
 
@@ -36,7 +36,7 @@ All notable changes to this project will be documented in this file.
 <!--------------------- v1.1.1.25 end --------------------->
 
 <!-------------------- v1.1.1.24 start -------------------->
-## HyperAuthServer 1.1.1.26 (2021년 08월 25일 수 오후  3:20:03)
+## HyperAuthServer 1.1.1.24 (2021년 08월 25일 수 오후  3:20:03)
 
 ### Added
 
@@ -51,7 +51,7 @@ All notable changes to this project will be documented in this file.
 <!--------------------- v1.1.1.24 end --------------------->
 
 <!-------------------- v1.1.1.23 start -------------------->
-## HyperAuthServer 1.1.1.26 (2021년 08월 25일 수 오후  3:18:48)
+## HyperAuthServer 1.1.1.23 (2021년 08월 25일 수 오후  3:18:48)
 
 ### Added
 
@@ -67,7 +67,7 @@ All notable changes to this project will be documented in this file.
 <!--------------------- v1.1.1.23 end --------------------->
 
 <!-------------------- v1.1.1.22 start -------------------->
-## HyperAuthServer 1.1.1.26 (2021년 08월 25일 수 오후  3:18:23)
+## HyperAuthServer 1.1.1.22 (2021년 08월 25일 수 오후  3:18:23)
 
 ### Added
 
@@ -82,7 +82,7 @@ All notable changes to this project will be documented in this file.
 <!--------------------- v1.1.1.22 end --------------------->
 
 <!-------------------- v1.1.1.21 start -------------------->
-## HyperAuthServer 1.1.1.26 (2021년 08월 25일 수 오후  3:17:32)
+## HyperAuthServer 1.1.1.21 (2021년 08월 25일 수 오후  3:17:32)
 
 ### Added
 
