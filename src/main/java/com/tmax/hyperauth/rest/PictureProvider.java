@@ -57,9 +57,9 @@ public class PictureProvider implements RealmResourceProvider {
             if (dir.exists() && dir.listFiles() != null && dir.listFiles().length > 0) {
                 File files[] = dir.listFiles();
                 String imagePath = "";
-                for (int i = 0; i < files.length; i++) {
-                    System.out.println(files[i] + "exists");
-                    imagePath = "http://localhost:8080/profile-picture/" + userName + "/" +  files[i].getName();
+                for (File file : files){
+                    log.info(file + " exists");
+                    imagePath = "profile-picture/" + userName + "/" +  file.getName();
                 }
                 out = "{ \"imagePath\" : \"" + imagePath + "\"}";
                 status = Status.OK;
@@ -115,13 +115,18 @@ public class PictureProvider implements RealmResourceProvider {
                 String imageName = input.getFormDataPart("imageName", String.class, null);
                 String fileName = "../welcome-content/profile-picture/" + userName + "/" + userName + "." + FilenameUtils.getExtension(imageName);
                 File file = new File(fileName);
-                if (!file.exists()) {
+                if (file.getParentFile().exists()){
+                    // 유저 이름으로 된 폴더 및 하위 image 다 지워주기
+                    File[] deleteFolderFileList = file.getParentFile().listFiles();
+                    for (File deleteFile : deleteFolderFileList) {
+                        deleteFile.delete();
+                        log.info (deleteFile + " deleted");
+                    }
+                } else {
                     file.getParentFile().mkdirs();
                     file.createNewFile();
-                } else {
-                    file.delete();
                 }
-                log.info (file.getAbsolutePath() );
+                log.info (file.getAbsolutePath());
 
                 FileOutputStream fop = new FileOutputStream(file);
                 byte[] content = getBytesFromInputStream(inputStream);
@@ -180,9 +185,9 @@ public class PictureProvider implements RealmResourceProvider {
             File dir = new File(fileDir);
             if (dir.exists() && dir.listFiles() != null && dir.listFiles().length > 0) {
                 File files[] = dir.listFiles();
-                for (int i = 0; i < files.length; i++) {
-                    files[i].delete();
-                    System.out.println(files[i] + "deleted");
+                for(File file : files){
+                    file.delete();
+                    log.info(file + " deleted");
                 }
                 out = "{ \"reponse\" : \"Picture Delete Success\" }";
                 status = Status.OK;
