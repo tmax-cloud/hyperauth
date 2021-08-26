@@ -52,7 +52,7 @@ public class PictureProvider implements RealmResourceProvider {
         log.info("***** GET /picture");
         try {
             log.info("userName : " + userName);
-            String fileDir = "../welcome-content/profile-picture/" + userName;
+            String fileDir = System.getenv("JBOSS_HOME") + "/welcome-content/profile-picture/" + userName;
             File dir = new File(fileDir);
             if (dir.exists() && dir.listFiles() != null && dir.listFiles().length > 0) {
                 File files[] = dir.listFiles();
@@ -113,7 +113,7 @@ public class PictureProvider implements RealmResourceProvider {
                 InputPart inputPart = input.getFormDataMap().get("imageFile").get(0);
                 InputStream inputStream = inputPart.getBody(InputStream.class, null);
                 String imageName = input.getFormDataPart("imageName", String.class, null);
-                String fileName = "../welcome-content/profile-picture/" + userName + "/" + userName + "." + FilenameUtils.getExtension(imageName);
+                String fileName = System.getenv("JBOSS_HOME") + "/welcome-content/profile-picture/" + userName + "/" + userName + "." + FilenameUtils.getExtension(imageName);
                 File file = new File(fileName);
                 if (file.getParentFile().exists()){
                     // 유저 이름으로 된 폴더 및 하위 image 다 지워주기
@@ -181,7 +181,7 @@ public class PictureProvider implements RealmResourceProvider {
         log.info("***** DELETE /picture");
         try {
             log.info("userName : " + userName);
-            String fileDir = "../welcome-content/profile-picture/" + userName;
+            String fileDir = System.getenv("JBOSS_HOME") + "/welcome-content/profile-picture/" + userName;
             File dir = new File(fileDir);
             if (dir.exists() && dir.listFiles() != null && dir.listFiles().length > 0) {
                 File files[] = dir.listFiles();

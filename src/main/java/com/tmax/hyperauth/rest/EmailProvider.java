@@ -111,12 +111,12 @@ public class EmailProvider implements RealmResourceProvider {
         }
         String subject = "[Tmax 통합계정] 비밀번호를 재설정 해주세요.";
         String path = System.getProperty("user.dir");
-        log.info("look here !!!!  Working Directory = " + path);
-        String body = Util.readLineByLineJava8("../themes/tmax/email/html/etc/forgot-password-verification-code.html").replaceAll("%%VERIFY_CODE%%", code);
+        log.info("look here !!!!  Working Directory = " + System.getenv("JBOSS_HOME"));
+        String body = Util.readLineByLineJava8(System.getenv("JBOSS_HOME") + "/themes/tmax/email/html/etc/forgot-password-verification-code.html").replaceAll("%%VERIFY_CODE%%", code);
         String emailTheme = session.realms().getRealmByName(session.getContext().getRealm().getName()).getEmailTheme();
         if(!emailTheme.equalsIgnoreCase("tmax") && !emailTheme.equalsIgnoreCase("base") && !emailTheme.equalsIgnoreCase("keycloak")) {
             subject = "[" + emailTheme + "] 비밀번호를 재설정 해주세요.";
-            body = Util.readLineByLineJava8("../themes/" + emailTheme + "/email/html/etc/forgot-password-verification-code.html").replaceAll("%%VERIFY_CODE%%", code);
+            body = Util.readLineByLineJava8(System.getenv("JBOSS_HOME") + "/themes/" + emailTheme + "/email/html/etc/forgot-password-verification-code.html").replaceAll("%%VERIFY_CODE%%", code);
         }
 
         try {

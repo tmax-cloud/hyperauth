@@ -73,12 +73,12 @@ public class UserDeleteJob implements Job {
                             // Mail Send
                             String email = userRepresentation.getEmail();
                             String subject = "[Tmax 통합계정] 고객님의 계정 탈퇴가 완료되었습니다.";
-                            String body = Util.readLineByLineJava8("../themes/tmax/email/html/etc/account-withdrawal-completed.html");
+                            String body = Util.readLineByLineJava8(System.getenv("JBOSS_HOME") + "/themes/tmax/email/html/etc/account-withdrawal-completed.html");
 
                             String emailTheme = session.realms().getRealmByName(session.getContext().getRealm().getName()).getEmailTheme();
                             if(!emailTheme.equalsIgnoreCase("tmax") && !emailTheme.equalsIgnoreCase("base") && !emailTheme.equalsIgnoreCase("keycloak")) {
                                 subject = "[" + emailTheme + "] 고객님의 계정 탈퇴가 완료되었습니다.";
-                                body = Util.readLineByLineJava8("../themes/" + emailTheme + "/email/html/etc/account-withdrawal-completed.html");
+                                body = Util.readLineByLineJava8(System.getenv("JBOSS_HOME") + "/themes/" + emailTheme + "/email/html/etc/account-withdrawal-completed.html");
                             }
 
                             Util.sendMail(session, email, subject, body, null, session.getContext().getRealm().getId() );

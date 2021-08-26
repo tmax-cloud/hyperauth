@@ -71,12 +71,12 @@ public class EmailOTPAuthenticator implements Authenticator {
         log.info("OTP code Store Success , user [ "+ context.getUser().getUsername() + " ]");
 
         String subject = "[Tmax 통합계정] 로그인을 위해 인증번호를 입력해주세요.";
-        String body = Util.readLineByLineJava8("../themes/tmax/email/html/etc/otp-verification-code.html").replaceAll("%%VERIFY_CODE%%", code);
+        String body = Util.readLineByLineJava8(System.getenv("JBOSS_HOME") + "/themes/tmax/email/html/etc/otp-verification-code.html").replaceAll("%%VERIFY_CODE%%", code);
 
         String emailTheme = context.getSession().realms().getRealmByName(context.getRealm().getName()).getEmailTheme();
         if(!emailTheme.equalsIgnoreCase("tmax") && !emailTheme.equalsIgnoreCase("base") && !emailTheme.equalsIgnoreCase("keycloak")) {
             subject = "[" + emailTheme + "] 로그인을 위해 인증번호를 입력해주세요.";
-            body = Util.readLineByLineJava8("../themes/" + emailTheme + "/email/html/etc/otp-verification-code.html").replaceAll("%%VERIFY_CODE%%", code);
+            body = Util.readLineByLineJava8(System.getenv("JBOSS_HOME") + "/themes/" + emailTheme + "/email/html/etc/otp-verification-code.html").replaceAll("%%VERIFY_CODE%%", code);
 
         }
 
