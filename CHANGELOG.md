@@ -1,6 +1,25 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.1.27 start -------------------->
+
+## HyperAuthServer 1.1.1.27 (2021. 08. 26. (목) 15:38:45 KST)
+
+### Added
+
+### Changed
+  - [mod] 메일 html 상대경로 --> jboss_home을 이용한 경로로 수정 by dnxorjs1
+  - [mod] profile-picture imageUrl 서버 Url에 따라서 변수화 할수 있도록 변경 by dnxorjs1
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+  - [etc] commit_rule.md  commit 형식 가이드 추가 by dnxorjs1
+
+<!--------------------- v1.1.1.27 end --------------------->
+
 <!-------------------- v1.1.1.26 start -------------------->
 ## HyperAuthServer 1.1.1.26 (2021년 08월 25일 수 오후  3:20:31)
 
