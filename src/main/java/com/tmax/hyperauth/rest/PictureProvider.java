@@ -10,12 +10,16 @@ import org.keycloak.connections.jpa.JpaConnectionProvider;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.services.resource.RealmResourceProvider;
 
+import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
+import javax.swing.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 
 /**
@@ -36,14 +40,14 @@ public class PictureProvider implements RealmResourceProvider {
     public PictureProvider(KeycloakSession session) {
         this.session = session;
     }
-    
+
     @Override
     public Object getResource() {
         return this;
     }
 
     Status status = null;
-	String out = null;
+    String out = null;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -112,8 +116,18 @@ public class PictureProvider implements RealmResourceProvider {
             if (input.getFormDataMap()!= null && input.getFormDataMap().get("imageFile") != null){
                 InputPart inputPart = input.getFormDataMap().get("imageFile").get(0);
                 InputStream inputStream = inputPart.getBody(InputStream.class, null);
+
                 String imageName = input.getFormDataPart("imageName", String.class, null);
-                String fileName = System.getenv("JBOSS_HOME") + "/welcome-content/profile-picture/" + userName + "/" + userName + "." + FilenameUtils.getExtension(imageName);
+                String fileName;
+                BufferedImage resizedImage = null;
+                if (FilenameUtils.getExtension(imageName).equalsIgnoreCase("gif")){
+                    log.info ("gif file Upload");
+                    fileName = System.getenv("JBOSS_HOME") + "/welcome-content/profile-picture/" + userName + "/" + userName + ".gif";
+                } else {
+                    log.info (FilenameUtils.getExtension(imageName) + " file Upload");
+                    fileName = System.getenv("JBOSS_HOME") + "/welcome-content/profile-picture/" + userName + "/" + userName + ".jpg";
+                    resizedImage = resize(inputStream, 720);
+                }
                 File file = new File(fileName);
                 if (file.getParentFile().exists()){
                     // 유저 이름으로 된 폴더 및 하위 image 다 지워주기
@@ -128,11 +142,15 @@ public class PictureProvider implements RealmResourceProvider {
                 }
                 log.info (file.getAbsolutePath());
 
-                FileOutputStream fop = new FileOutputStream(file);
-                byte[] content = getBytesFromInputStream(inputStream);
-                fop.write(content);
-                fop.flush();
-                fop.close();
+                if (FilenameUtils.getExtension(imageName).equalsIgnoreCase("gif")){
+                    FileOutputStream fop = new FileOutputStream(file);
+                    byte[] content = getBytesFromInputStream(inputStream);
+                    fop.write(content);
+                    fop.flush();
+                    fop.close();
+                } else {
+                    ImageIO.write(resizedImage, "jpg", file);
+                }
             }
 
 
@@ -198,10 +216,10 @@ public class PictureProvider implements RealmResourceProvider {
                 return Util.setCors(status, out);
             }
         } catch (Exception e) {
-                log.error("Error Occurs!!", e);
-                status = Status.BAD_REQUEST;
-                out = "{ \"reponse\" : \"Delete picture Failed\" }";
-                return Util.setCors(status, out);
+            log.error("Error Occurs!!", e);
+            status = Status.BAD_REQUEST;
+            out = "{ \"reponse\" : \"Delete picture Failed\" }";
+            return Util.setCors(status, out);
         }
 
 //        try {
@@ -243,10 +261,10 @@ public class PictureProvider implements RealmResourceProvider {
     @Override
     public void close() {
     }
-
-    private EntityManager getEntityManager() {
-        return session.getProvider(JpaConnectionProvider.class).getEntityManager();
-    }
+//
+//    private EntityManager getEntityManager() {
+//        return session.getProvider(JpaConnectionProvider.class).getEntityManager();
+//    }
 
     public static byte[] getBytesFromInputStream(InputStream is) throws IOException {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -255,5 +273,22 @@ public class PictureProvider implements RealmResourceProvider {
             os.write(buffer, 0, len);
         }
         return os.toByteArray();
+    }
+
+
+
+    public static BufferedImage resize(InputStream inputStream, int width) throws IOException{
+        BufferedImage inputImage = ImageIO.read(inputStream);
+        log.debug("inputImage.getWidth() : " + inputImage.getWidth());
+        log.debug("inputImage.getHeight() : " + inputImage.getHeight());
+        double inputWidth = inputImage.getWidth();
+        double inputHeight = inputImage.getHeight();
+        int height = (int) (width * ( inputHeight / inputWidth));
+        log.debug("height : " + height);
+        BufferedImage outputImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics2D = outputImage.createGraphics();
+        graphics2D.drawImage(inputImage, 0, 0, width, height, Color.white, null);
+        graphics2D.dispose();
+        return outputImage;
     }
 }

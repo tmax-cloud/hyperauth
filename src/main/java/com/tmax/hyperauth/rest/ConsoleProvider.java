@@ -146,6 +146,7 @@ public class ConsoleProvider implements RealmResourceProvider {
                 Date deletionDate = cal.getTime();
                 SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String deletionDateString = transFormat.format(deletionDate);
+                String currentDateString = transFormat.format(currentDate);
 
                 if(userModel.getAttributes()!=null) userModel.removeAttribute(AuthenticatorConstants.USER_ATTR_DELETION_DATE);
                 userModel.setAttribute(AuthenticatorConstants.USER_ATTR_DELETION_DATE, Arrays.asList(deletionDateString));
@@ -153,12 +154,12 @@ public class ConsoleProvider implements RealmResourceProvider {
                 String email = userModel.getEmail();
 
                 String subject = "[Tmax 통합계정] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
-                String body = Util.readLineByLineJava8(System.getenv("JBOSS_HOME") + "/themes/tmax/email/html/etc/account-withdrawal-request.html");
+                String body = Util.readLineByLineJava8(System.getenv("JBOSS_HOME") + "/themes/tmax/email/html/etc/account-withdrawal-request.html").replaceAll("%%DATE%%", currentDateString);
 
                 String emailTheme = session.realms().getRealmByName(session.getContext().getRealm().getName()).getEmailTheme();
                 if(!emailTheme.equalsIgnoreCase("tmax") && !emailTheme.equalsIgnoreCase("base") && !emailTheme.equalsIgnoreCase("keycloak")) {
                     subject = "[" + emailTheme + "] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
-                    body = Util.readLineByLineJava8(System.getenv("JBOSS_HOME") + "/themes/" + emailTheme + "/email/html/etc/account-withdrawal-request.html");
+                    body = Util.readLineByLineJava8(System.getenv("JBOSS_HOME") + "/themes/" + emailTheme + "/email/html/etc/account-withdrawal-request.html").replaceAll("%%DATE%%", currentDateString);
                 }
 
                 Util.sendMail(session, email, subject, body, null, realm.getId() );
