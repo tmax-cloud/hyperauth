@@ -5,6 +5,8 @@
       - kafka cluster topic server 추가 설치의 경우, Step 4. Kafka Topic Server 설치 만 추가 수행하면 됨
   - On Legacy
     - https://github.com/tmax-cloud/install-hyperauth-legacy
+    - Hyperauth-Legacy Tar : 192.168.9.38:/root/hyperauth-legacy-tar 에서 가져오기
+      - ex) sftp root@192.168.9.38:/root/hyperauth-legacy-tar/hyperauth-legacy-b1.1.1.28.tar
   - On Docker-compose
     - https://github.com/tmax-cloud/install-hyperauth/blob/main/manifest/docker-compose.yaml
 
