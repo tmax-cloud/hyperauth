@@ -1,6 +1,26 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.1.28 start -------------------->
+
+## HyperAuthServer 1.1.1.28 (2021. 09. 02. (목) 13:15:35 KST)
+
+### Added
+  - [feat] supervds private 로그인 테마 추가 by dnxorjs1
+
+### Changed
+  - [mod] 테마 superVDS private 고려 코드 추가 by dnxorjs1
+  - [mod] hyperauth legacy tar 생성 로직 추가 by dnxorjs1
+  - [mod] 프로필 사진 gif 형식 지원가능하게 변경 by dnxorjs1
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.1.28 end --------------------->
+
 <!-------------------- v1.1.1.27 start -------------------->
 
 ## HyperAuthServer 1.1.1.27 (2021. 08. 26. (목) 15:38:45 KST)
