@@ -1,6 +1,23 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.1.29 start -------------------->
+
+## HyperAuthServer 1.1.1.29 (2021. 09. 02. (목) 15:58:53 KST)
+
+### Added
+
+### Changed
+
+### Fixed
+  - [ims][269772] 비밀번호 변경시 비밀번호 확인과 다름에도 완료 페이지 노출되는 현상 해결 by dnxorjs1
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.1.29 end --------------------->
+
 <!-------------------- v1.1.1.28 start -------------------->
 
 ## HyperAuthServer 1.1.1.28 (2021. 09. 02. (목) 13:15:35 KST)
