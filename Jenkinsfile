@@ -1,7 +1,9 @@
 node {
     def gitHubBaseAddress = "github.com"
     def gitHyperAuthAddress = "${gitHubBaseAddress}/tmax-cloud/hyperauth.git"
+    def gitInstallHyperAuthLegacyAddress = "${gitHubBaseAddress}/tmax-cloud/install-hyperauth-legacy.git"
     def buildDir = "/var/lib/jenkins/workspace/hyperauth"
+    def installLegacyDir = "${buildDir}/install-legacy"
     def scriptHome = "${buildDir}/scripts"
     def version = "${params.majorVersion}.${params.minorVersion}.${params.tinyVersion}.${params.hotfixVersion}"
     def preVersion = "${params.preVersion}"
@@ -72,6 +74,36 @@ node {
 
         }
 	}
+
+	stage('git pull from install-hyperauth-legacy && Make hyperauth-legacy.tar') {
+       	dir(installLegacyDir){
+        	git branch: "master",
+            credentialsId: '${githubUserName}',
+            url: "http://${gitInstallHyperAuthLegacyAddress}"
+
+            sh "git checkout master"
+            sh "git fetch --all"
+            sh "git reset --hard origin/master"
+            sh "git pull origin master"
+
+            sh "rm -rf themes/"
+            sh "cp -rf ../themes ./"
+            sh "rm -rf standalone/deployments/hyperauth-spi.jar"
+            sh "cp -rf ../target/keycloak-spi-jar-with-dependencies.jar standalone/deployments/hyperauth-spi.jar"
+
+            sh "tar cvfz hyperauth-legacy-${imageTag}.tar ./*"
+            sh "sudo cp hyperauth-legacy-${imageTag}.tar /root/hyperauth-legacy-tar/hyperauth-legacy-${imageTag}.tar"
+            sh "rm -rf hyperauth-legacy-${imageTag}.tar"
+
+            sh (script:'git commit -m "[Distribution] Install HyperAuth Legacy- ${version} " || true')
+            sh "git tag v${version}"
+
+            sh "git remote set-url origin https://${githubUserToken}@github.com/tmax-cloud/install-hyperauth-legacy.git"
+
+            sh "sudo git push -u origin +master"
+            sh "sudo git push origin v${version}"
+        }
+    }
 
 	stage('clear repo'){
         sh "sudo rm -rf *"
