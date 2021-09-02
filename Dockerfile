@@ -23,12 +23,13 @@ ADD build/postgresql/module.xml /opt/jboss/keycloak/modules/system/layers/keyclo
 # 2. Update stanalone.xml & domain.xml
 ADD build/config/docker-entrypoint.sh /opt/jboss/tools/docker-entrypoint.sh
 
-# 3. add tmax theme & hypercloud/login & hyperspace/login & hyperauth & cnu
+# 3. add tmax theme & hypercloud/login & hyperspace/login & hyperauth & cnu & supervds
 COPY themes/tmax /opt/jboss/keycloak/themes/tmax
 COPY themes/hypercloud/login /opt/jboss/keycloak/themes/hypercloud/login
 COPY themes/hyperspace/login /opt/jboss/keycloak/themes/hyperspace/login
 COPY themes/hyperauth /opt/jboss/keycloak/themes/hyperauth
 COPY themes/cnu /opt/jboss/keycloak/themes/CNU
+COPY themes/supervds /opt/jboss/keycloak/themes/supervds
 
 # 4. keycloak service jar & sql jar & server-spi-private jar change for tibero, this contains sql error fixme!!
 RUN rm /opt/jboss/keycloak/modules/system/layers/keycloak/org/keycloak/keycloak-services/main/keycloak-services-11.0.2.jar

@@ -1,0 +1,9 @@
+.supervds-logo-img {
+  background: url("../img/logo_color.svg") no-repeat;
+  background-size: contain;
+  margin: 0 98px 6px 99px;
+  width: 183px;
+  height: 40px;
+  display: inline-block
+}
+
