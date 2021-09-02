@@ -163,7 +163,7 @@ function passwordChange() {
   const password_confirm_input = document.getElementById("password_confirm");
   const save_button = document.getElementById("save_password");
 
-  if (password_input.value !== "" && password_confirm_input.value !== "") {
+  if (password_input.value !== "" && password_confirm_input.value !== "" && password_input.value == password_confirm_input.value) {
     save_button.disabled = false;
   } else {
     save_button.disabled = true;
