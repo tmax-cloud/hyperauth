@@ -297,7 +297,7 @@
                 <script src="${url.resourcesPath}/${script}" type="text/javascript"></script>
             </#list>
         </#if>
-        <#if !(url.selectedTheme == 'hyperauth' || url.selectedTheme == 'CNU')>
+        <#if !(url.selectedTheme == 'hyperauth' || url.selectedTheme == 'CNU' || url.selectedTheme == 'superVDS')>
             <#if realm.internationalizationEnabled  && locale.supported?size gt 1>
                 <script>getTerms("${(locale.currentLanguageTag!'ko')}");</script>
             <#else>

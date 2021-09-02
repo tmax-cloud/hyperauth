@@ -204,7 +204,7 @@
             </div>
         </#if>
         </div>  -->
-        <#if !(url.selectedTheme == 'hyperauth' || url.selectedTheme == 'CNU')>
+        <#if !(url.selectedTheme == 'hyperauth' || url.selectedTheme == 'CNU' || url.selectedTheme == 'superVDS')>
             <div class="footer-terms-link-wrapper">
                 <a href="/term/TmaxOneAccount_Service_Policy.pdf">이용약관</a>
                 <span style="width: 1px; height: 1rem; display: inline-block; background-color: grey; margin: auto 2px;"></span>
