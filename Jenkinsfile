@@ -94,11 +94,10 @@ node {
                 sh "sudo cp hyperauth-legacy-${imageTag}.tar /root/hyperauth-legacy-tar/hyperauth-legacy-${imageTag}.tar"
                 sh "rm -rf hyperauth-legacy-${imageTag}.tar"
 
+                sh "git add -A"
                 sh (script:'git commit -m "[Distribution] Install HyperAuth Legacy- ${version} " || true')
                 sh "git tag v${version}"
-
                 sh "git remote set-url origin https://${githubUserToken}@github.com/tmax-cloud/install-hyperauth-legacy.git"
-
                 sh "sudo git push -u origin +master"
                 sh "sudo git push origin v${version}"
             }
