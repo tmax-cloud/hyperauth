@@ -73,37 +73,37 @@ node {
             sh "git pull origin ${params.buildBranch}"
 
         }
-	}
 
-	stage('git pull from install-hyperauth-legacy && Make hyperauth-legacy.tar') {
-       	dir(installLegacyDir){
-        	git branch: "master",
-            credentialsId: '${githubUserName}',
-            url: "http://${gitInstallHyperAuthLegacyAddress}"
+        stage('git pull from install-hyperauth-legacy && Make hyperauth-legacy.tar') {
+            dir(installLegacyDir){
+                git branch: "master",
+                credentialsId: '${githubUserName}',
+                url: "http://${gitInstallHyperAuthLegacyAddress}"
 
-            sh "git checkout master"
-            sh "git fetch --all"
-            sh "git reset --hard origin/master"
-            sh "git pull origin master"
+                sh "git checkout master"
+                sh "git fetch --all"
+                sh "git reset --hard origin/master"
+                sh "git pull origin master"
 
-            sh "rm -rf themes/"
-            sh "cp -rf ../themes ./"
-            sh "rm -rf standalone/deployments/hyperauth-spi.jar"
-            sh "cp -rf ../target/keycloak-spi-jar-with-dependencies.jar standalone/deployments/hyperauth-spi.jar"
+                sh "rm -rf themes/"
+                sh "cp -rf ../themes ./"
+                sh "rm -rf standalone/deployments/hyperauth-spi.jar"
+                sh "cp -rf ../target/keycloak-spi-jar-with-dependencies.jar standalone/deployments/hyperauth-spi.jar"
 
-            sh "tar cvfz hyperauth-legacy-${imageTag}.tar ./*"
-            sh "sudo cp hyperauth-legacy-${imageTag}.tar /root/hyperauth-legacy-tar/hyperauth-legacy-${imageTag}.tar"
-            sh "rm -rf hyperauth-legacy-${imageTag}.tar"
+                sh "tar cvfz hyperauth-legacy-${imageTag}.tar ./*"
+                sh "sudo cp hyperauth-legacy-${imageTag}.tar /root/hyperauth-legacy-tar/hyperauth-legacy-${imageTag}.tar"
+                sh "rm -rf hyperauth-legacy-${imageTag}.tar"
 
-            sh (script:'git commit -m "[Distribution] Install HyperAuth Legacy- ${version} " || true')
-            sh "git tag v${version}"
+                sh (script:'git commit -m "[Distribution] Install HyperAuth Legacy- ${version} " || true')
+                sh "git tag v${version}"
 
-            sh "git remote set-url origin https://${githubUserToken}@github.com/tmax-cloud/install-hyperauth-legacy.git"
+                sh "git remote set-url origin https://${githubUserToken}@github.com/tmax-cloud/install-hyperauth-legacy.git"
 
-            sh "sudo git push -u origin +master"
-            sh "sudo git push origin v${version}"
+                sh "sudo git push -u origin +master"
+                sh "sudo git push origin v${version}"
+            }
         }
-    }
+	}
 
 	stage('clear repo'){
         sh "sudo rm -rf *"
