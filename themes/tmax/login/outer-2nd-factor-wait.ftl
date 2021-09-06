@@ -20,7 +20,7 @@
                     </div>
                     <div class="${properties.kcFormGroupClass!} marginTop">
                         <div class="${properties.kcLabelWrapperClass!}">
-                            <a id="outer2ndFactorLink" href="${outerUrl}?user_name=${userName}&realm_name=${realmName}&tab_id=${tabId}&additional_param=${additionalParameter}&secret_key=topsecret" target = '_blank'  onclick="enableConfirmButton();">${msg("MSG_OUTER_2ND_FACTOR_3")}</a>
+                            <a id="outer2ndFactorLink" href="${outerUrl}?user_name=${userName}&realm_name=${realmName}&tab_id=${tabId}&additional_param=${additionalParameter}" target = '_blank'  onclick="enableConfirmButton();">${msg("MSG_OUTER_2ND_FACTOR_3")}</a>
                             <div id="timer-input-container" class="timer-input-container"></div>
                         </div>
                         </br>
