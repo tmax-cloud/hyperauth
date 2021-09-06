@@ -1,6 +1,23 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.1.30 start -------------------->
+
+## HyperAuthServer 1.1.1.30 (2021. 09. 06. (월) 17:30:10 KST)
+
+### Added
+
+### Changed
+  - [mod] 신한은행 goldwing 2차인증 대응용 Outer2ndFactor Authenticator 구현 by dnxorjs1
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.1.30 end --------------------->
+
 <!-------------------- v1.1.1.29 start -------------------->
 
 ## HyperAuthServer 1.1.1.29 (2021. 09. 02. (목) 15:58:53 KST)
