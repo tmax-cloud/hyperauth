@@ -11,7 +11,6 @@ import javax.ws.rs.core.Response.Status;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.annotations.cache.NoCache;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
-import org.keycloak.models.ClientModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.representations.AccessToken;
@@ -32,9 +31,6 @@ public class AgreementProvider implements RealmResourceProvider {
     public AgreementProvider(KeycloakSession session) {	
         this.session = session;
     }
-
-    private AccessToken token;
-    private ClientModel clientModel;
 
     @Override
     public Object getResource() {

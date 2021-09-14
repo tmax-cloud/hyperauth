@@ -374,6 +374,13 @@ public class UserProvider implements RealmResourceProvider {
                     status = Status.BAD_REQUEST;
                     return Util.setCors(status, out);
                 }
+                session.getContext().setClient(clientModel);
+
+                if (!clientModel.isEnabled()) {
+                    status = Status.BAD_REQUEST;
+                    out = "Disabled Client ";
+                    return Util.setCors(status, out);
+                }
             }
         } catch (Exception e) {
             log.error("Error Occurs!!", e);
@@ -381,44 +388,38 @@ public class UserProvider implements RealmResourceProvider {
             return Util.setCors(status, out);
         }
 
-        session.getContext().setClient(clientModel);
-        if (!clientModel.isEnabled()) {
-            status = Status.BAD_REQUEST;
-            out = "Disabled Client ";
-        } else {
-            String realmName = realm.getDisplayName();
-            if (realmName == null) {
-                realmName = session.getContext().getRealm().getName();
-            }
-            UserModel userModel = session.users().getUserByUsername(userName, session.realms().getRealmByName(realmName));
+        String realmName = realm.getDisplayName();
+        if (realmName == null) {
+            realmName = session.getContext().getRealm().getName();
+        }
+        UserModel userModel = session.users().getUserByUsername(userName, session.realms().getRealmByName(realmName));
 
-            try {
-                if (userModel == null) {
-                    out = "User not found";
-                    status = Status.BAD_REQUEST;
-                    return Util.setCors(status, out);
-                }
-            } catch (Exception e) {
-                log.error("Error Occurs!!", e);
-                status = Status.BAD_REQUEST;
+        try {
+            if (userModel == null) {
                 out = "User not found";
+                status = Status.BAD_REQUEST;
                 return Util.setCors(status, out);
             }
-
-            try {
-                session.users().removeUser(realm, userModel);
-                event.event(EventType.UPDATE_PROFILE).user(userModel).realm(session.getContext().getRealm()).detail("username", userName).detail("userDelete","t").success(); //FIXME
-                log.info("Delete user role in k8s");
-                HypercloudOperatorCaller.deleteNewUserRole(userName);
-
-                status = Status.OK;
-                out = " User [" + userName + "] Delete Success ";
-            } catch (Exception e) {
-                log.error("Error Occurs!!", e);
-                status = Status.BAD_REQUEST;
-                out = "User [" + userName + "] Delete Falied  ";
-            }
+        } catch (Exception e) {
+            log.error("Error Occurs!!", e);
+            status = Status.BAD_REQUEST;
+            out = "User not found";
+            return Util.setCors(status, out);
         }
+
+        try {
+            session.users().removeUser(realm, userModel);
+            event.event(EventType.UPDATE_PROFILE).user(userModel).realm(session.getContext().getRealm()).detail("username", userName).detail("userDelete","t").success(); //FIXME
+//                HypercloudOperatorCaller.deleteNewUserRole(userName);
+
+            status = Status.OK;
+            out = " User [" + userName + "] Delete Success ";
+        } catch (Exception e) {
+            log.error("Error Occurs!!", e);
+            status = Status.BAD_REQUEST;
+            out = "User [" + userName + "] Delete Falied  ";
+        }
+
         return Util.setCors(status, out);
     }
 

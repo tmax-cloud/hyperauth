@@ -299,6 +299,12 @@ public class GroupMemberProvider implements RealmResourceProvider {
         String groupAdminName = "";
         try {
             verifyToken(tokenString, realm);
+            session.getContext().setClient(clientModel);
+            if (!clientModel.isEnabled()) {
+                status = Status.BAD_REQUEST;
+                out = "Disabled Client ";
+                return Util.setCors(status, out);
+            }
             groupAdminName = token.getPreferredUsername();
             log.info("groupAdminName : " + groupAdminName);
 
@@ -334,41 +340,36 @@ public class GroupMemberProvider implements RealmResourceProvider {
             status = Status.BAD_REQUEST;
             return Util.setCors(status, out);
         }
-        session.getContext().setClient(clientModel);
 
-        if (!clientModel.isEnabled()) {
-            status = Status.BAD_REQUEST;
-            out = "Disabled Client ";
-        } else {
-            GroupModel groupModel = realm.searchForGroupByName(group, 0, realm.getGroupsCount(false).intValue()).get(0);
-            List <UserModel> userModelList = session.users().getGroupMembers(realm, groupModel);
-            UserModel userModel = null;
-            for (UserModel user : userModelList){
-                if ( user.getUsername().equalsIgnoreCase(userName) ){
-                    userModel = user;
-                }
-            }
-            if (userModel == null) {
-                out = "User not found in Group";
-                status = Status.BAD_REQUEST;
-                return Util.setCors(status, out);
-            }
-            userModel = session.users().getUserByUsername(userName, realm); // 이유는 모르지만 다시 이걸로 가져오지 않으면, DB는 update되는데 session이 update가 느림.
-            try {
-                for ( String key : rep.getAttributes().keySet()){
-                    log.info("[key] : " + key  + " || [value] : "+userModel.getAttribute(key) + " ==> " + rep.getAttributes().get(key));
-                    userModel.removeAttribute(key);
-                    userModel.setAttribute(key, rep.getAttributes().get(key));
-                }
-                event.event(EventType.UPDATE_PROFILE).user(userModel).realm(session.getContext().getRealm()).detail("username", userName).success();
-                status = Status.OK;
-               out = " GroupMember [" + userName + "] Update Success ";
-            } catch (Exception e) {
-                log.error("Error Occurs!!", e);
-                status = Status.BAD_REQUEST;
-                out = "GroupMember [" + userName + "] Update Falied  ";
+        GroupModel groupModel = realm.searchForGroupByName(group, 0, realm.getGroupsCount(false).intValue()).get(0);
+        List <UserModel> userModelList = session.users().getGroupMembers(realm, groupModel);
+        UserModel userModel = null;
+        for (UserModel user : userModelList){
+            if ( user.getUsername().equalsIgnoreCase(userName) ){
+                userModel = user;
             }
         }
+        if (userModel == null) {
+            out = "User not found in Group";
+            status = Status.BAD_REQUEST;
+            return Util.setCors(status, out);
+        }
+        userModel = session.users().getUserByUsername(userName, realm); // 이유는 모르지만 다시 이걸로 가져오지 않으면, DB는 update되는데 session이 update가 느림.
+        try {
+            for ( String key : rep.getAttributes().keySet()){
+                log.info("[key] : " + key  + " || [value] : "+userModel.getAttribute(key) + " ==> " + rep.getAttributes().get(key));
+                userModel.removeAttribute(key);
+                userModel.setAttribute(key, rep.getAttributes().get(key));
+            }
+            event.event(EventType.UPDATE_PROFILE).user(userModel).realm(session.getContext().getRealm()).detail("username", userName).success();
+            status = Status.OK;
+           out = " GroupMember [" + userName + "] Update Success ";
+        } catch (Exception e) {
+            log.error("Error Occurs!!", e);
+            status = Status.BAD_REQUEST;
+            out = "GroupMember [" + userName + "] Update Falied  ";
+        }
+
         return Util.setCors(status, out);
     }
 
