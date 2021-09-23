@@ -105,6 +105,7 @@ public class Util {
 
 		String un = "tmaxcloud_ck@tmax.co.kr";
 		String pw = "Miracle!";
+		String senderDisplay = sender;
 		try{
 			if (keycloakSession != null) {
 				host = keycloakSession.getContext().getRealm().getSmtpConfig().get("host");
@@ -112,6 +113,12 @@ public class Util {
 					port = Integer.parseInt(keycloakSession.getContext().getRealm().getSmtpConfig().get("port"));
 				}
 				sender = keycloakSession.getContext().getRealm().getSmtpConfig().get("from");
+
+				if ((keycloakSession.getContext().getRealm().getSmtpConfig().get("fromDisplayName") !=  null)) {
+					senderDisplay = keycloakSession.getContext().getRealm().getSmtpConfig().get("fromDisplayName");
+				} else {
+					senderDisplay = sender;
+				}
 				un = keycloakSession.getContext().getRealm().getSmtpConfig().get("user");
 				pw = keycloakSession.getContext().getRealm().getSmtpConfig().get("password");
 			}
@@ -153,7 +160,7 @@ public class Util {
 		MimeMessage mimeMessage = new MimeMessage(session);
 
 		// Sender
-		mimeMessage.setFrom( new InternetAddress(sender, sender, charSetUtf));
+		mimeMessage.setFrom( new InternetAddress(sender, senderDisplay, charSetUtf));
 
 		// Receiver
 		mimeMessage.setRecipient( Message.RecipientType.TO, new InternetAddress( recipient ) );
