@@ -1,6 +1,23 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.1.32 start -------------------->
+
+## HyperAuthServer 1.1.1.32 (2021. 09. 14. (화) 15:56:12 KST)
+
+### Added
+
+### Changed
+  - [mod] userDelete API 버그 수정 및 hypercloud4 call 삭제 by dnxorjs1
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.1.32 end --------------------->
+
 <!-------------------- v1.1.1.31 start -------------------->
 
 ## HyperAuthServer 1.1.1.31 (2021. 09. 06. (월) 19:11:03 KST)
