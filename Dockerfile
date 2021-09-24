@@ -29,7 +29,7 @@ COPY themes/hypercloud/login /opt/jboss/keycloak/themes/hypercloud/login
 COPY themes/hyperspace/login /opt/jboss/keycloak/themes/hyperspace/login
 COPY themes/hyperauth /opt/jboss/keycloak/themes/hyperauth
 COPY themes/cnu /opt/jboss/keycloak/themes/CNU
-COPY themes/superVDS /opt/jboss/keycloak/themes/superVDS
+COPY themes/supervds /opt/jboss/keycloak/themes/superVDS
 
 # 4. keycloak service jar & sql jar & server-spi-private jar change for tibero, this contains sql error fixme!!
 RUN rm /opt/jboss/keycloak/modules/system/layers/keycloak/org/keycloak/keycloak-services/main/keycloak-services-11.0.2.jar
@@ -68,6 +68,10 @@ ADD build/config/jboss.cli /opt/jboss/startup-scripts/jboss.cli
 # 8. Vesion Env for version API
 ARG HYPERAUTH_VERSION
 ENV HYPERAUTH_VERSION $HYPERAUTH_VERSION
+
+# 9. For Profile Picture
+RUN mkdir -p opt/jboss/keycloak/welcome-content/profile-picture
+RUN chmod 755 opt/jboss/keycloak/welcome-content/profile-picture
 
 
 # For Security Test
