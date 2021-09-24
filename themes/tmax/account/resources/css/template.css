@@ -205,11 +205,25 @@ div::-webkit-scrollbar-track {
   margin-top: 60px;
   margin-bottom: 38px;
 }
-
+#agreement .agree-wrapper{
+  background: #F8F8F8;
+  border: 1px solid #F4F4F4;
+  margin-bottom: 10px;
+}
+#agreement .agree-wrapper:hover{
+  background: #F8F8F8;
+background: rgba(0,0,0,0.05);
+border: 1px solid #F4F4F4;
+cursor: pointer;
+}
 #agreement .agree {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   margin-top: 10px;
+ 
+width: 540px;
+height: 60px;
 }
 
 hr {
@@ -218,12 +232,14 @@ hr {
 
 #agreement label {
   font-size: 14px;
+  font-family: NotoSansCJKkr-Medium;
   color: #3e3e3e;
   line-height: 2rem;
   display: block;
   padding-left: 21px;
-  text-indent: -21px;
+
   font-weight: 900;
+  margin-left: 20px;
 }
 
 #agreement label span {
@@ -232,6 +248,7 @@ hr {
 }
 
 #agreement .arrow {
+  margin-right: 20px;
   background-image: url("../img/arrow_down_normal.png");
   background-position: center center;
   background-repeat: no-repeat;
@@ -254,13 +271,13 @@ hr {
 }
 
 #agreement .term {
-  margin-top: 10px;
+  margin: 10px 20px 20px 20px;
+  padding: 10px 10px; 
   /*max-width: 380px;*/
-  height: 200px;
-  width: 100%;
-  border: 1px solid #d3d3d3;
-  background: #f4f5f5;
-  padding: 7px 0px 7px 7px;
+  height: 180px;
+  width: 500px;
+  border:none;
+  background: #FFFFFF;
   resize: none;
   overflow-y: scroll;
 }

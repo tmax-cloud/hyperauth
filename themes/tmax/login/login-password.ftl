@@ -39,7 +39,9 @@
                   </div>
 
                   <div id="kc-form-buttons" class="${properties.kcFormGroupClass!}">
-                    <input tabindex="4" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" name="login" id="kc-login" type="submit" value="${msg("doLogIn")}"/>
+                    <div id = 'kakako-login-confirm-exist-email-bt'>
+                    <input tabindex="4" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" name="login" id="kc-login" type="submit" value="${msg("doNext")}"/>
+                    </div>
                   </div>
             </form>
         </div>

@@ -12,7 +12,7 @@
                         ${msg("MSG_RESETPASSWORD__2")}
                     </div>
                 </div>
-                <div>
+                <div class = 'password-update-input-wrapper'>
                     <div class="${properties.kcFormGroupClass!}">
                         <div class="${properties.kcLabelWrapperClass!}">
                             <label for="password" class="${properties.kcLabelClass!}">${msg("MSG_RESETPASSWORD__3")}</label>

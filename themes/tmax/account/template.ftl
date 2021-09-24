@@ -30,7 +30,7 @@
             <div class="navbar-header">
                 <div class="container">
                     <h1 class="navbar-title">Tmax</h1>
-                    <div class="navbar-bg-left"></div>
+                    <#--  <div class="navbar-bg-left"></div>  -->
                     <!--<div class="navbar-bg-right"></div>-->
                 </div>
             </div>
@@ -70,19 +70,19 @@
             <ul>
                 <li class="<#if active=='account'>active</#if>"><a href="${(url.accountUrl!'')}"><p id="account_icon"></p><p class="title">${msg("account")}</p></a></li>
                 <!--<#if features.passwordUpdateSupported><li class="<#if active=='password'>active</#if>"><a href="${url.passwordUrl}"><p id="password_icon"></p><p class="title">${msg("password")}</p></a></li></#if>-->
-                <li class="<#if active=='password'>active</#if>"><a href="${(url.passwordUrl!'')}"><p id="password_icon"></p><p class="title">${msg("password")}</p></a></li>
+                <li class="<#if active=='password'>active</#if>"><a href="${(url.passwordUrl!'')}"><p id="password_icon"></p><p class="title">${msg("passwordChange")}</p></a></li>
                 <li class="<#if active=='additionalAuth'>active</#if>"><a href="${(url.additionalAuthUrl!'')}"><p id="addtionalAuth_icon"></p><p class="title">${msg("additionalAuth")}</p></a></li>
                 <!--<li class="<#if active=='totp'>active</#if>"><a href="${(url.totpUrl!'')}"><p id="totp_icon"></p><p class="title">${msg("authenticator")}</p></a></li>-->
                 <!--<#if features.identityFederation><li class="<#if active=='social'>active</#if>"><a href="${url.socialUrl}"><p id="social_icon"></p><p class="title">${msg("federatedIdentity")}</p></a></li></#if>-->
-                <#if features.identityFederation><li class="<#if active=='social'>active</#if>"><a href="${(url.socialUrl!'')}"><p id="social_icon"></p><p class="title">${msg("federatedIdentity")}</p></a></li></#if>
+                <li class="<#if active=='social'>active</#if>"><a href="${(url.socialUrl!'')}"><p id="social_icon"></p><p class="title">${msg("federatedIdentity")}</p></a></li>
                 <li id="agreement_tab" class="<#if active=='agreement'>active</#if>"><a href="${(url.agreementUrl!'')}"><p id="aggrement_icon"></p><p class="title">${msg("agreement")}</p></a></li>
-                <li class="<#if active=='sessions'>active</#if>"><a href="${url.sessionsUrl}"><p id="sessions_icon"></p><p class="title">${msg("sessions")}</p></a></li>
+                <li class="<#if active=='sessions'>active</#if>"><a href="${url.sessionsUrl}"><p id="sessions_icon"></p><p class="title">${msg("sessionsManage")}</p></a></li>
 <#--                <li class="<#if active=='applications'>active</#if>"><a href="${url.applicationsUrl}"><p class="title">${msg("applications")}</p></a></li>-->
 <#--                <#if features.log><li class="<#if active=='log'>active</#if>"><a href="${url.logUrl}"><p class="title">${msg("log")}</p></a></li></#if>-->
 <#--                <#if realm.userManagedAccessAllowed && features.authorization><li class="<#if active=='authorization'>active</#if>"><a href="${url.resourceUrl}"><p class="title">${msg("myResources")}</p></a></li></#if>-->
             </ul>
         </div>
-
+        <div class = "content-area-wrapper">
         <div class="content-area">
             <!--<#if message?has_content>
                 <div class="alert alert-${message.type}">
@@ -98,7 +98,7 @@
                     <div class="md_content">
                         <div class="md_content__header">
                             <span class="md_content__header__title">
-                                ${msg("alertModalTitle")}
+                                ${msg("doSave")}
                             </span>
                             <span class="md_content__header__close" onclick="closeAlertModal()"></span>
                         </div>
@@ -117,12 +117,14 @@
 
             <#nested "content">
         </div>
+        </div>
     </div>
     <#if properties.scripts_template_hyperauth?has_content>
         <#list properties.scripts_template_hyperauth?split(' ') as script>
             <script type="text/javascript" src="${url.resourcesPath}/${script}"></script>
         </#list>
     </#if>
+    <script type="text/javascript" src="${url.resourcesPath}/js/template.js"></script>
 </body>
 </html>
 </#macro>

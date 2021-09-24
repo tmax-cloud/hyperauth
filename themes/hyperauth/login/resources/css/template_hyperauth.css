@@ -1,3 +1,8 @@
 /*.template-body .login-pf-page .card-pf {*/
 /*    margin: 0;*/
 /*}*/
+
+
+.template-body .otp-send-faild-button{
+    margin-top: 292px;
+}

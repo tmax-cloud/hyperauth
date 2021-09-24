@@ -15,7 +15,7 @@
                 ${msg("blockedMessage3")}
                 </p>
             </div>
-            <div class="${properties.kcFormGroupClass!}">
+            <div class="${properties.kcFormGroupClass!}" style = "display:none;">
                 <div id="info" >
                 <#--  <div class="call-icon"></div>  -->
                 <div class="info-message">${msg("blockedMessagePhoneNumber")}</div>

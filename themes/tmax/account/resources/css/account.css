@@ -1,5 +1,6 @@
 html {
   height: 100%;
+
 }
 
 body {
@@ -26,7 +27,7 @@ header .navbar {
 }
 
 .header .container {
-  background: #31475e;
+  background: #242E3C;
   position: relative;
   margin: 0;
   padding: 0;
@@ -36,7 +37,7 @@ header .navbar {
 
 @media (max-width: 767px) {
   .header .container {
-    background: #31475e;
+    background: #242E3C;
   }
 }
 
@@ -193,14 +194,20 @@ header .navbar {
     }
 }
 */
+.content-area-wrapper{
+  height: inherit;
+  overflow: auto;
+  position: relative;
+}
 .content-area {
+ 
   background-color: #ffffff;
-  padding: 20px 30px;
+  padding: 30px 24px;
   min-height: 100%;
   /* height: 100%; */
   border: none;
   border-radius: 4px;
-  margin-left: 336px;
+  /* margin-left: 336px; */
 }
 
 .margin-bottom {
@@ -210,7 +217,7 @@ header .navbar {
 @media (min-width: 1024px) {
   .bs-sidebar {
     float: left;
-    margin-right: 20px;
+    /* margin-right: 20px; */
     width: 190px;
   }
   /*
@@ -231,7 +238,8 @@ header .navbar {
 
 /* Sidebar */
 .bs-sidebar {
-  background-color: #f4f6f8;
+  background: #FFFFFF;
+  border-right: 1px solid #D4D6D6;
   padding-right: 0;
   padding-left: 0;
   z-index: 20;
@@ -243,7 +251,7 @@ header .navbar {
 .bs-sidebar ul {
   list-style: none;
   margin-bottom: 20px;
-  padding: 11px 12px 0px 12px;
+  padding:12px 0 0 0 ;
 }
 
 .bs-sidebar ul li:not(:last-child) {
@@ -252,16 +260,17 @@ header .navbar {
 }
 
 .bs-sidebar ul li a {
-  background: #f4f5f5;
+  background: #FFFFFF;
   display: block;
-  padding: 9px 13.5px 11px 16px;
+  padding: 9px 13.5px 11px 28px;
   font-size: 16px;
   border: none;
   border-radius: 1px;
   line-height: 0px;
   color: #000000;
-  width: 312px;
+  width: 100%;
   height: 48px;
+ 
   /*vertical-align: middle;*/
 }
 
@@ -272,7 +281,8 @@ header .navbar {
 }
 
 .bs-sidebar ul li.active a {
-  background: #dae6ec;
+  background: #F0F2F4;
+  width: 100%;
   border: none;
   border-radius: 0px;
   color: #000000;
@@ -281,46 +291,92 @@ header .navbar {
 
 /* Sidebar icon */
 .bs-sidebar ul li #account_icon {
-  background: url("../img/lnb_Admin_info.svg");
+  background: url("../img/person_outline.svg");
   background-position: center center;
   background-repeat: no-repeat;
-  height: 24px;
-  width: 24px;
+  height: 22px;
+  width: 22px;
 }
+
 .bs-sidebar ul li #password_icon {
-  background: url("../img/lnb_change_password.svg");
+  background: url("../img/vpn_key_outline.svg");
   background-position: center center;
   background-repeat: no-repeat;
-  height: 24px;
-  width: 24px;
+  height: 22px;
+  width: 22px;
 }
 .bs-sidebar ul li #addtionalAuth_icon {
-  background: url("../img/lnb_2nd_confirm.svg");
+background-image: url("../img/lock_outline.svg");
   background-position: center center;
   background-repeat: no-repeat;
-  height: 24px;
-  width: 24px;
+  height: 22px;
+  width: 22px;
 }
+
 .bs-sidebar ul li #social_icon {
-  background: url("../img/lnb_sns_link.svg");
+  background: url("../img/phone.svg");
   background-position: center center;
   background-repeat: no-repeat;
-  height: 24px;
-  width: 24px;
+  height: 22px;
+  width: 22px;
 }
 .bs-sidebar ul li #aggrement_icon {
-  background: url("../img/lnb_personal_info.svg");
+  background: url("../img/privacy_tip.svg");
   background-position: center center;
   background-repeat: no-repeat;
-  height: 24px;
-  width: 24px;
+  height: 22px;
+  width: 22px;
 }
 .bs-sidebar ul li #sessions_icon {
   background: url("../img/lnb_Session_setting.svg");
   background-position: center center;
   background-repeat: no-repeat;
-  height: 24px;
-  width: 24px;
+  height: 22px;
+  width: 22px;
+}
+.bs-sidebar ul li.active #account_icon {
+  background: url("../img/person_outline_active.svg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 22px;
+  width: 22px;
+}
+
+.bs-sidebar ul li.active #password_icon {
+  background: url("../img/vpn_key_outline_active.svg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 22px;
+  width: 22px;
+}
+.bs-sidebar ul li.active #addtionalAuth_icon {
+  background-image: url("../img/lock_outline_active.svg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 22px;
+  width: 22px;
+}
+
+.bs-sidebar ul li.active #social_icon {
+  background: url("../img/phone_active.svg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 22px;
+  width: 22px;
+}
+.bs-sidebar ul li.active #aggrement_icon {
+  background: url("../img/privacy_tip_active.svg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 22px;
+  width: 22px;
+}
+.bs-sidebar ul li.active #sessions_icon {
+  background: url("../img/lnb_Session_setting_active.svg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 22px;
+  width: 22px;
 }
 
 /* sidebar text */
@@ -332,13 +388,16 @@ header .navbar {
   position: absolute;
 }
 .bs-sidebar ul li .title {
+  font-family: NotoSansCJKkr-Medium;
+  font-weight: medium;
+font-size: 16px;
   margin: auto 20px;
   line-height: 25px;
 }
 .content-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 @media (max-width: 767px) {
@@ -355,23 +414,28 @@ header .navbar {
 .content-header h2 {
   display: inline-block;
   margin: 0;
-  padding: 0 6px;
+  padding: 0 ;
   height: 30px;
   width: auto;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
   border-radius: 2px;
   text-align: center;
   color: #000000;
 }
-
+.con
 .row h3 {
   margin: 0 0 10px 0;
   font-size: 16px;
   font-weight: bold;
   color: #000000;
 }
-
+#page-descript{
+  font-family: NotoSansCJKkr-Regular;
+  font-size: 16px;
+  color: #646A6A;
+  letter-spacing: 0;
+}
 .content-header .ic-required,
 .form-group .ic-required {
   display: inline-block;
@@ -436,7 +500,12 @@ header .navbar {
 .form-horizontal .form-group {
   display: flex;
   position: relative;
+
   margin: 0 0 10px 0;
+}
+#password-form .form-group{
+  margin:0 0 30px 0;
+
 }
 
 @media (max-width: 767px) {
@@ -470,6 +539,7 @@ header .navbar {
 .form-horizontal .control {
   flex-grow: 1;
   display: flex;
+
 }
 
 .form-horizontal .control .form-control {
@@ -478,10 +548,14 @@ header .navbar {
   width: 476px;
   height: 40px;
   font-size: 14px;
-  border: 1px solid #acb0bc;
-  border-radius: 4px;
   color: #000000;
+  border: 1px solid #A6ABBB;
+  border-radius: 8px;
 }
+/* #password-form .control input{
+  float: left;
+  position: absolute;
+} */
 
 .form-horizontal .control .form-control::placeholder {
   font-style: normal;
@@ -491,7 +565,6 @@ header .navbar {
 .form-horizontal .control .form-control:focus {
   background: #ffffff;
   border: 1px solid #042a54;
-  border-radius: 4px;
   box-shadow: none;
 }
 
@@ -515,6 +588,9 @@ header .navbar {
   text-align: center;
   flex-wrap: wrap;
   margin: 20px 0 0 0;
+}
+#password-form .form-group.buttons{
+  margin: 50px 0 0 0;
 }
 
 #kc-form-buttons {
@@ -684,14 +760,23 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-p {
+#usingCheckText {
   margin: 0px;
   display: inline-block;
-  font-size: 15px;
+  font-size: 14px;
+color: #646969;
   font-weight: bold;
 }
+#usingCheckText a{
+  margin-left: 4px;
+  font-size: 14px;
+color: #213557;
+}
 .rightMargin {
-  margin-right: 50px;
+  margin:5px 110px 5px 0;
+  font-family: NotoSansCJKkr-Regular;
+  font-size: 14px;
+  float: left;
 }
 
 .withdrawalCancel {
@@ -712,14 +797,19 @@ p {
   width: 100%;
 }
 .illustBox div {
-  margin: 0 auto;
+  margin: 50px auto 0 auto;
   width: 600px;
   height: 200px;
-  background: url(../img/Illust_2ndconfirm.svg) no-repeat center center;
+  background: url(../img/2step.png) no-repeat center center;
 }
 
-hr {
-  border-top: 1px solid #d3d3d3;
+#hr-top {
+  border-top: 2px solid #000000;
+  margin:30px 0;
+}
+#hr-bottom{
+  margin-top:30px;
+  border-top: 1px solid #D4D6D6;
 }
 
 /* by hyowook_park for modals */
@@ -862,9 +952,8 @@ hr {
   height: 194px;
   padding: 13px 20px 20px 20px;
   background: #ffffff;
-  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 2px;
-  border-radius: 2px;
+  box-shadow: 0 1px 8px 0 rgba(0,0,0,0.20);
+  border-radius: 12px;
 }
 
 #account-cancel .cancelModal .md_content .md_content__header {
@@ -897,7 +986,7 @@ hr {
 
 #account-cancel .cancelModal .md_content hr {
   margin: 13px 0 20px 0;
-  border-top: 1px solid #dadada;
+  border-top: 1px solid #242E3C;
 }
 
 #account-cancel .cancelModal .md_content .md_content__text {
@@ -916,7 +1005,9 @@ hr {
   margin-top: 20px;
   width: 68px;
   height: 32px;
-  background-color: #042a54;
+  background: #233558;
+  box-shadow: 1px 2px 5px 1px rgba(0,0,0,0.10);
+  border-radius: 4px;
   font-weight: normal;
   font-size: 14px;
   color: #ffffff;
@@ -942,9 +1033,13 @@ hr {
 }
 
 #account-cancel .cancelModal .md_content .modal_button_left {
-  background-color: white;
+  background: #FFFFFF;
+  border: 1px solid #EFF0F1;
+  box-shadow: 1px 2px 5px 1px rgba(64,71,78,0.10);
+  border-radius: 4px;
   color: #042a54;
-  border: solid 1px #cccccc;
+  margin-right: 5px;
+
 }
 
 #account-cancel .cancelModal .md_content .modal_button_left:hover {
@@ -1137,18 +1232,37 @@ hr {
 #success-image {
   background: url("../img/Illust_signout.svg") no-repeat center;
   background-size: 100% 100%;
-  width: 84px;
-  height: 75px;
+  width: 135px;
+  height: 135px;
   margin: auto;
+  margin-top: 50px;
 }
 #failure-image {
+  margin-top: 50px;
   background: url("../img/Illust_signout_fail.svg") no-repeat center;
   background-size: 100% 100%;
-  width: 84px;
-  height: 75px;
+  width: 135px;
+  height: 135px;
   margin: auto;
 }
-
+#success-text p{
+  margin : 30px 0 50px 0;
+  text-align: center;
+  font-size: 16px;
+  color: #3E3E3E;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+}
+#failure-text p{
+  margin : 30px 0 50px 0;
+  text-align: center;
+  font-size: 16px;
+  color: #3E3E3E;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+}
 #success-text h3,
 #failure-text h3 {
   text-align: center;
@@ -1164,13 +1278,28 @@ hr {
   font-size: 14px;
   margin: 24px auto;
 }
+#withdrawal-success #buttons{
+  margin-top: 50px;
+}
+#withdrawal-success #buttons button{
+  width: 380px;
+  height: 53px;
+}
+#withdrawal-failure #buttons{
+  margin-top: 50px;
+}
+#withdrawal-failure #buttons button{
+  width: 380px;
+  height: 53px;
+}
 
 /* Session */
 #logout-all-sessions {
-  width: 148px;
-  height: 36px;
-  border-radius: 1px;
-  font-size: 14px;
+ padding: 0px 14px;
+ box-sizing:content-box;
+  width: 153px;
+  min-width: auto;
+  
 }
 .table {
   margin-top: 24px;
@@ -1178,11 +1307,20 @@ hr {
 
 /* Logo */
 /* SNS Logo*/
-#kakao .control-label {
-  background: url("../img/logo_sns_link_Kakao.png") no-repeat center;
+#naver .control-label {
+  background: url("../img/naver_snslink.svg") no-repeat center;
   background-size: 100% 100%;
-  width: 150px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
+  margin: auto 16px auto 30px;
+}
+
+#kakao .control-label {
+  background: url("../img/kakao_snslink.svg") no-repeat center;
+  background-size: 100% 100%;
+  width: 40px;
+  height: 40px;
+  margin: auto 16px auto 30px;
 }
 /* Session Client Logo */
 #account.logo {
@@ -1236,6 +1374,8 @@ hr {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+
+
 }
 .snsBox:hover {
   font-weight: bold;
@@ -1243,11 +1383,14 @@ hr {
 .snsBox .message {
   margin-left: 8px;
   font-size: 16px;
-  font-weight: bolder;
+  font-weight: bold;
 }
 /* kakao */
 .snsBox.kakao {
-  background-color: #fddc3f;
+  background: #FDDC3F;
+  border: 1px solid #FFDB00;
+  box-shadow: 1px 4px 8px 2px rgba(253,220,63,0.25);
+  border-radius: 8px;
 }
 .snsBox.kakao:hover {
   background-color: #e8c322;
@@ -1272,11 +1415,15 @@ hr {
 }
 .boundaryBox hr {
   width: 40%;
+  border-top: 1px solid #DDD9D4;
+ 
 }
 .boundaryBox .text {
   width: 20%;
   text-align: center;
   line-height: 40px;
+  color: #646969;
+  
 }
 
 /* Password Icon */
@@ -1291,6 +1438,7 @@ hr {
   background-repeat: no-repeat;
   width: 20px;
   height: 20px;
+  
   top: 0;
   bottom: 0;
   right: -1px;
@@ -1333,9 +1481,8 @@ hr {
   height: 194px;
   padding: 13px 20px 20px 20px;
   background: #ffffff;
-  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 2px;
-  border-radius: 2px;
+  box-shadow: 0 1px 8px 0 rgba(0,0,0,0.20);
+  border-radius: 12px;
 }
 
 .modal .md_content .md_content__header {
@@ -1352,15 +1499,15 @@ hr {
 }
 
 .modal .md_content .md_content__header .md_content__header__close {
-  width: 17px;
-  height: 17px;
+  width: 16px;
+  height: 16px;
   background-image: url("../img/close.svg");
   cursor: pointer;
 }
 
 .modal .md_content hr {
   margin: 13px 0 20px 0;
-  border-top: 1px solid #dadada;
+  border-top: 1px solid #242E3C;;
 }
 
 .modal .md_content .md_content__text {
@@ -1372,14 +1519,17 @@ hr {
 }
 
 .modal .md_content .md_content__button {
+  margin-top: 35px;
   text-align: end;
 }
 
 .modal .md_content .button {
-  margin-top: 20px;
+
   width: 68px;
   height: 32px;
-  background-color: #042a54;
+  background: #233558;
+  box-shadow: 1px 2px 5px 1px rgba(0,0,0,0.10);
+  border-radius: 4px;
   font-weight: normal;
   font-size: 14px;
   color: #ffffff;
@@ -1420,4 +1570,165 @@ hr {
 
 #withdrawal-submit-button:disabled {
   cursor: not-allowed;
+}
+#withdrawal-term-text{
+
+  font-size: 15px;
+  font-weight: bold;
+}
+#withdrawal-term-text #first-term{
+float: left;
+}
+#withdrawal-term-text p{
+  display: inline-block;
+}
+#withdrawal-term-text #bar{
+  margin:0 10px 0 15px;
+}
+
+/* ===========================account 회원 정보=================================== */
+
+#email{
+  font-size: 14px;
+color: #000000;
+}
+#account-update-form label{
+  font-size: 14px;
+  color: #000000;
+}
+.upload-picture{
+  padding: 0px 5px;
+  margin-top: 5px;
+}
+#account-update #userProfileImg-wrapper{
+display: inline-block;
+
+}
+#account-update #userProfileImg{
+  float: left;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  background-image:url('../img/profile_image.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+  position: relative;
+}
+#account-update #userProfileImg img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+
+}
+#userProfileImg-hover-box{
+  cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+top:70px;
+position: absolute;
+  height: 32px;
+background: rgba(0, 0, 0, 0.5);
+width: 100%;
+}
+#userProfileImg-hover-box:hover{
+  background: rgba(0, 0, 0, 0.7);
+}
+#userProfileImg-hover-box:active{
+  background: rgba(0, 0, 0, 0.9);
+}
+#ic-profileImg{
+  background-image:url('../img/camera.svg');
+  background-repeat: no-repeat;
+  background-size: inherit;
+  width: 20px;
+  height: 20px;
+
+
+}
+#userProfileImg-delete-button{
+  background: #FFFFFF;
+border: 1px solid #E7E7E7;
+border-radius: 12px;
+width: 20px;
+height: 20px;
+padding:5px 5px;
+margin:0;
+
+}
+#userProfileImg-delete-button div{
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url('../img/close.svg');
+  width: 10px;
+  height: 10px;
+  margin:0;
+}
+
+#userProfileImg-delete-button:hover{
+  background: #F8F9FA;
+}
+#userProfileImg-delete-button:active{
+  background: #EFF1F3;
+  
+}
+/* ======================SNS연동================== */
+#federated-identities .form-group{
+  background: #F8F8F8;
+  border-radius: 4px;
+  height: 72px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+
+}
+#federated-identities .label label{
+  margin:16px 16px 16px 30px;
+  float: left;
+}
+#federated-identities .form-group  .label #snsTitle{
+  font-family: NotoSansCJKkr-Medium;
+  font-size: 19px;
+  color: #000000 !important;
+  margin: 22px auto;
+}
+#federated-identities .form-group .control{
+  justify-content: space-between;
+  margin-right:30px;
+
+
+}
+#federated-identities #sns-username-wrapper{
+  display: flex;
+  align-items: center;
+}
+#federated-identities #sns-username{
+  background: #E9EBEE;
+  border-radius: 8px;
+  height: 40px;
+  width: fit-content;
+
+  font-size: 15px;
+color: #333333;
+letter-spacing: 0;
+padding: 8px 20px 10px 20px;
+font-family: NotoSansCJKkr-bold;
+margin-left: 40px;
+
+}
+#SNS-form{
+  display: flex;
+  align-items: center;
+}
+
+#sns-account-message{
+  font-family: NotoSansCJKkr-Regular;
+  font-weight:bold;
+font-size: 16px;
+color: #000000;
+letter-spacing: 0;
+line-height: 24px;
+
 }

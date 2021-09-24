@@ -1,31 +1,54 @@
 <#import "template.ftl" as layout>
 <@layout.mainLayout active='account' bodyClass='user'; section>
+
     <div id="account-update" class="">
+        <div id="realmName" data-value="${realm.name}"></div>
+
         <@layout.contentHeader required=false; section>
             ${msg("editAccountHtmlTitle")}
         </@layout.contentHeader>
-        </br>
-        ${msg("editAccountHtmlBody")}
-        </br>
-        <hr>
+        <div id = 'page-descript'>${msg("editAccountHtmlBody")}</div>
+        <hr id='hr-top'>
+
         <input type="hidden" id="originName" name="originName" value="${(account.userNameAttr!'')}">        
         <form id="account-update-form" action="${url.accountUrl}" class="form-horizontal" method="post">
-
             <input type="hidden" id="stateChecker" name="stateChecker" value="${stateChecker}">
-
-            <#if !realm.registrationEmailAsUsername>
-                <@layout.formGroup key="username" required=false formGroupClass="${messagesPerField.printIfExists('username','has-error')}">
-                    <input type="text" class="form-control" id="username" name="username" <#if !realm.editUsernameAllowed>disabled="disabled"</#if> value="${(account.username!'')}"/>
-                </@layout.formGroup>
-            </#if>
+            <@layout.formGroup key="picture" required=false formGroupClass="${messagesPerField.printIfExists('picture','has-error')}">
+				<input id="profilePicture" type="file" class="hidden" accept=".jpg, .jpeg, .png, .bmp, .gif"/>
+                <div id = 'userProfileImg-wrapper'>
+                    <div id = 'userProfileImg'>
+                        <img id="picture"/>
+                        <label for="profilePicture"> 
+                            <div id='userProfileImg-hover-box'>
+                                <div id = 'ic-profileImg'></div>
+                            </div>
+                        </label>
+                    </div>
+                    <button id= 'userProfileImg-delete-button' onclick="deleteImageFileCheck(); return false;"/>
+                        <div></div>
+                    </button>  
+                </div>
+          
+            </@layout.formGroup>
 
             <@layout.formGroup key="email" required=false formGroupClass="${messagesPerField.printIfExists('email','has-error')}">
-                <input type="text" class="form-control" id="email" name="email" value="${(account.email!'')}" disabled="disabled" />
+            <#--  <div id="email">${(account.email!'')}</div>  -->
+                <input type="text" class="form-control" id="email" name="email" value="${(account.email!'')}" disabled="disabled" style="padding:0 0 12px 0;" />
             </@layout.formGroup>
+            <#if !realm.registrationEmailAsUsername>
+                <@layout.formGroup key="username" required=false formGroupClass="${messagesPerField.printIfExists('username','has-error')}">
+                    <input type="text" class="form-control" id="username" name="useruserNameAttrname" <#if !realm.editUsernameAllowed>disabled="disabled"</#if> value="${(account.username!'')}"/>
+                </@layout.formGroup>
+            </#if>
 
             <@layout.formGroup key="userNameAttr" required=false formGroupClass="${messagesPerField.printIfExists('userNameAttr','has-error')}">
                 <input type="text" class="form-control" id="userNameAttr" name="userNameAttr" autofocus value="${(account.userNameAttr!'')}" onkeyup="buttonAbled(); return false" maxlength="50"/>
             </@layout.formGroup>
+
+
+            
+        
+
             <div class="${properties.kcInputWrapperClass!} error_message" id="error_username_empty" style="display: none">
                 ${msg("MSG_ERROR_USERNAME_1")}
             </div>
@@ -43,8 +66,8 @@
 <#--        <@layout.formGroup key="lastName" required=true formGroupClass="${messagesPerField.printIfExists('lastName','has-error')}">-->
 <#--            <input type="text" class="form-control" id="lastName" name="lastName" value="${(account.lastName!'')}"/>-->
 <#--        </@layout.formGroup>-->
-            <hr>            
-            <p id="">
+            <hr id='hr-bottom'>            
+            <p id="usingCheckText">
                 ${msg("withdrawalHtmlBody")}
                 <a href="#" onclick="openWithdrawalPage(); return false;">
                     ${msg("withdrawalAccount")}
@@ -92,7 +115,7 @@
                             <span class="md_content__header__title">
                                 ${msg("accountCancelModalTitle")}
                             </span>
-                            <span class="md_content__header__close" onclick="closeCancelModal()"></span>
+                            <span class="md_content__header__close" onclick="closeAccountCancelModal()"></span>
                         </div>
                         <hr>
                         <div class="md_content__text">
@@ -101,7 +124,7 @@
                             ${msg("accountCancelModalMessage2")}
                         </div>
                         <div class="md_content__button">
-                            <div id="button-cancel" class="button modal_button_left" onclick="closeCancelModal()">
+                            <div id="button-cancel" class="button modal_button_left" onclick="closeAccountCancelModal()">
                                 ${msg("doCancel")}
                             </div>
                             <div id="button-ok" class="button modal_button_right" onclick="cancelChangeName()">
@@ -129,13 +152,15 @@
         <h3>${msg("withdrawalStep1_body1")}</h3>
         <h3>${msg("withdrawalStep1_body2")}</h3>
         <br>
-        <p><a href="#" onclick="openAgreementModal(1); return false;">
-            ${msg("withdrawalAcountAgreement")}
+        <div id = "withdrawal-term-text">
+        <p id ="first-term"><a href="#" onclick="openAgreementModal(1); return false;">
+            ${msg("withdrawalAcountAgreement")}  
         </a></p>
-        <p> | </p>
+        <p id = "bar"> | </p>  
         <p><a href="#" onclick="openAgreementModal(2); return false;">
             ${msg("withdrawalServiceAgreement")}
-        </a></p>        
+        </a></p> 
+        </div>       
         <hr>
         <@layout.formButtonGroup>
             <div id="buttons">
@@ -178,18 +203,15 @@
         <@layout.contentHeader required=false; section>
             ${msg("withdrawalTitle")}
         </@layout.contentHeader>        
-        </br>
-        ${msg("withdrawalStep2_Message")}
-        </br>
-        <hr>
-
+          <div id = 'page-descript'>${msg("withdrawalStep2_Message")}</div>
+     <hr id='hr-top'>
     
         <#assign withdrawalUrl = url.accountUrl?replace("^(.*)(/account/?)(\\?(.*))?$", "$1/console/withdrawal?$4", 'r') />
         <form id="withdrawal-form" action="${withdrawalUrl}" class="form-horizontal" method="post" enctype="multipart/form-data">
 
             <input type="hidden" id="stateChecker-withdrawal" name="stateChecker" value="${stateChecker}">
             <@layout.formGroup key="email" required=false formGroupClass="${messagesPerField.printIfExists('email','has-error')}">
-                <input type="text" class="form-control" id="email-withdrawal" name="email" value="${(account.username!'')}" disabled="disabled" />
+                <input type="text" class="form-control" id="email-withdrawal" name="email" value="${(account.username!'')}" disabled="disabled" style="padding:0 0 12px 0;"/>
             </@layout.formGroup>
 
 
@@ -197,7 +219,7 @@
                     <div>
                         <#if password.passwordSet>
                             <div class="passwordBox">
-                                <input type="password" class="form-control" id="password" name="password" value="${(account.password!'')}" onkeyup="withdrawalSubmitButtonAbled(); return false"/>
+                                <input type="password" class="form-control" id="password" name="password" value="${(account.password!'')}" placeholder="${msg("insertPassword")}" onkeyup="withdrawalSubmitButtonAbled(); return false"/>
                                 <div id="eye-password" class="eye" onclick="clickEye(this)"></div>
                                 <div class="${properties.kcInputWrapperClass!} error_message" id="error_password_empty" style="display: none">
                                     ${msg("MSG_ERROR_PASSWORD_EMPTY")}
@@ -210,45 +232,70 @@
                         <#list federatedIdentity.identities as identity>
                         <#--  <@layout.formGroup key="${identity.providerId!}" labelText="${identity.displayName!}">  -->
                         <#--<input disabled="true" class="form-control" value="${identity.userName!}">-->
+
                             <#if identity.connected>
-                                    <#if password.passwordSet>
-                                        <div class="boundaryBox">
-                                            <hr />
-                                                <span class="text">${msg("or")}</span>
-                                            <hr />
-                                        </div>
-                                    </#if>
-            <#--                    <#if federatedIdentity.removeLinkPossible>-->
-                                    <#if identity.displayName = 'kakao'>
-                                    <#-- kakao api key를 hidden input으로 받는다.   -->
-                                        <div class="snsBox kakao" onclick="loginWithKakao()">
-                                            <input id="kakao-api-key" type="hidden" value="${(identity.kakaoJsKey!'')}">
-                                            <a id="custom-login-btn" href="javascript:loginWithKakao()">
-                                                <img
-                                                        src="${url.resourcesPath}/img/btn_kakao_login.svg"
-                                                        width="20"
-                                                />
-                                            </a>
-                                            <span class="message kakao">KAKAO로 인증</span>
-                                        </div>
-                                    <#elseif identity.displayName = 'naver'>
-                                        <div class="snsBox naver" onclick="">
-                                            <div id="naver_id_login"></div>
-                                            <span class="message naver">NAVER로 인증</span>
-                                        </div>
-                                    </#if>
-            <#--                    </#if>-->
+                                <#if password.passwordSet>
+                                    <div class="boundaryBox">
+                                        <hr />
+                                            <span class="text">${msg("or_kr")}</span>
+                                        <hr />
+                                    </div>
+                                </#if>
+        <#--                    <#if federatedIdentity.removeLinkPossible>-->
+                                <#if identity.displayName = 'kakao'>
+                                <#-- kakao api key를 hidden input으로 받는다.   -->
+                                    <div class="snsBox kakao" onclick="loginWithKakao()">
+                                        <input id="kakao-api-key" type="hidden" value="${(identity.kakaoJsKey!'')}">
+                                        <input id="kakao-username" type="hidden" value="${(identity.userName!'')}">
+                                        <a id="custom-login-btn" href="javascript:loginWithKakao()">
+                                            <img
+                                                src="${url.resourcesPath}/img/btn_kakao_login.svg"
+                                                width="20"
+                                            />
+                                        </a>
+                                        <span class="message kakao">KAKAO로 인증</span>
+                                    </div>
+                                <#elseif identity.displayName = 'naver'>
+                                    <div class="snsBox naver" onclick="">
+                                        <div id="naver_id_login"></div>
+                                        <span class="message naver">NAVER로 인증</span>
+                                    </div>
+                                </#if>
+        <#--                    </#if>-->
                             </#if>
                         <#--  </@layout.formGroup>  -->
                         </#list>
                     </div>
                 </@layout.formGroup>
+                <div id="sns-auth">
+                    <div class="modal hidden">
+                        <div class="md_overlay"></div>
+                        <div class="md_content">
+                            <div class="md_content__header">
+                                <span class="md_content__header__title">
+                                    ${msg("snsAuthModalTitle")}
+                                </span>
+                                <span class="md_content__header__close" onclick="okSNSAuth()"></span>
+                            </div>
+                            <hr>
+                            <div class="md_content__text">
+                                ${msg("snsAuthModalMessage1")}
+                                <br>
+                                ${msg("snsAuthModalMessage2")}
+                            </div>
+                            <div class="md_content__button">
+                                <div id="button-ok" class="button modal_button_right" onclick="okSNSAuth()">
+                                    ${msg("doOK")}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-
-            <hr>
-            <h4 style="display: inline-block;">${msg("withdrawalStep2_body1")}</h4>
-            <h4 style="color: #ff0000; display: inline-block;">${msg("withdrawalSubmit")}</h4>
-            <h4 style="display: inline-block;">${msg("withdrawalStep2_body2")}</h4>            
+            <hr id = 'hr-bottom'>
+            <h4 style="display: inline-block;color: #646969;">${msg("withdrawalStep2_body1")}</h4>
+            <h4 style="color: #0F1727;font-weight:bold; display: inline-block;">${msg("withdrawalSubmit")}</h4>
+            <h4 style="display: inline-block;color: #646969;">${msg("withdrawalStep2_body2")}</h4>            
             <@layout.formButtonGroup>
                 <div id="buttons">
                     <#if url.referrerURI??><a href="${(url.referrerURI!'')}">${kcSanitize(msg("backToApplication")?no_esc)}</a></#if>            
@@ -262,17 +309,20 @@
         <@layout.contentHeader required=false; section>
             ${msg("withdrawalTitle")}
         </@layout.contentHeader>        
-        </br>
-        ${msg("withdrawalSucess_Message")}
-        </br>        
-        <hr>
+        <div id = 'page-descript'>${msg("withdrawalSucess_Message")}</div>
+        <hr id='hr-top'>
+        
+        
         <div id="success-image">        
             <p class="image"></p>                            
         </div>
         <div id="success-text">
-            <h3>${msg("withdrawalSucess_body1")}</h3>
-            <h3>${msg("withdrawalSucess_body2")}</h3>
-            <h3>${msg("withdrawalSucess_body3")}</h3>
+            <p>
+                ${msg("withdrawalSucess_body1")}<br/>
+                ${msg("withdrawalSucess_body2")}<br/>
+                ${msg("withdrawalSucess_body3")}
+            </p>
+        
             <div class="contact-info">
                 <div class="contact-box">
                     ${msg("callCenter")}<br>
@@ -282,7 +332,7 @@
                 <h3>${msg("withdrawalSucess_body5")}</h3>
             </div>
         </div>
-        <hr>
+        <hr id = 'hr-bottom'>
         <@layout.formButtonGroup>
             <div id="buttons">
                 <#if url.referrerURI??><a href="${(url.referrerURI!'')}">${kcSanitize(msg("backToApplication")?no_esc)}</a></#if>            
@@ -295,22 +345,20 @@
             ${msg("withdrawalTitle")}
         </@layout.contentHeader>
         <div>
-        </br>
-        ${msg("withdrawalFailure_Message")}
-        </br> 
-        <hr>       
+           <div id = 'page-descript'> ${msg("withdrawalFailure_Message")}</div>
+     <hr id='hr-top'>
         <div id="failure-image">
             <p class="image"></p>             
         </div>
         <div id="failure-text">
-            <h3 id="disableService">${msg("withdrawalFailure_body1")}</h3>
-            <h3>${msg("withdrawalFailure_body2")}</h3>
+            <p id="disableService">${msg("withdrawalFailure_body1")}<br/>${msg("withdrawalFailure_body2")}</p>
+          
             <div class="contact-info">
                 ${msg("callCenter")}<br>
                 ${msg("supportEmail")}
             </div>            
         </div>        
-        <hr>
+          <hr id = 'hr-bottom'>
         <@layout.formButtonGroup>
             <div id="buttons">
                 <#if url.referrerURI??><a href="${(url.referrerURI!'')}">${kcSanitize(msg("backToApplication")?no_esc)}</a></#if>            

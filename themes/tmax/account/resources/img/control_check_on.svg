@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="13px" height="13px" viewBox="0 0 13 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>control_check_on</title>
-    <g id="Ch3_Control" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Ch3_Control02" transform="translate(-1205.000000, -192.000000)">
-            <g id="CheckBtn" transform="translate(1190.000000, 144.000000)">
-                <g id="Group-4" transform="translate(15.000000, 47.000000)">
-                    <g id="Group" transform="translate(0.000000, 1.000000)">
-                        <rect id="Rectangle" fill="#185692" fill-rule="nonzero" x="0" y="0" width="13" height="13"></rect>
-                        <path d="M8.91317415,9.6046751 L4.17697148,9.6046751 L4.17697148,8.12200096 L7.42997148,8.12147053 L7.43050001,1.48547053 L8.91317415,1.48547053 L8.91317415,9.6046751 Z" id="Combined-Shape" fill="#FFFFFF" transform="translate(6.545073, 5.545073) rotate(-315.000000) translate(-6.545073, -5.545073) "></path>
+    <title>Control/CheckBtn/on</title>
+    <defs>
+        <circle id="path-1" cx="6.5" cy="6.5" r="6.5"></circle>
+    </defs>
+    <g id="Ch01_Login" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Ch1_Login_01" transform="translate(-1380.000000, -583.000000)">
+            <g id="@Login" transform="translate(1310.000000, 243.000000)">
+                <g id="@Login_contents" transform="translate(70.000000, 156.000000)">
+                    <g id="+info" transform="translate(0.000000, 180.000000)">
+                        <g id="Control/CheckBtn/on" transform="translate(0.000000, 4.000000)">
+                            <g id="Oval">
+                                <use fill="#FC664E" xlink:href="#path-1"></use>
+                                <use fill="#213557" xlink:href="#path-1"></use>
+                            </g>
+                            <g id="Group" transform="translate(0.000000, -0.000000)" fill="#FFFFFF">
+                                <g id="Icon/common/check" transform="translate(0.000000, -0.000000)">
+                                    <path d="M10.6693708,3.94512083 C10.4548708,3.73549583 10.1109125,3.74199583 9.90345417,3.95595417 L5.42007917,8.57257917 L3.10120417,6.12695417 C2.8959125,5.91082917 2.55249583,5.90107917 2.3352875,6.1069125 C2.11862083,6.31274583 2.1094125,6.65562083 2.31524583,6.87282917 L4.8410375,9.53349583 C4.9986625,9.6737875 5.2001625,9.74582917 5.40599583,9.74582917 C5.62157917,9.74582917 5.84149583,9.66674583 6.0207875,9.50695417 L10.6802042,4.7110375 C10.8887458,4.4965375 10.8838708,4.1536625 10.6693708,3.94512083" id="Fill-1"></path>
+                                </g>
+                            </g>
+                        </g>
                     </g>
                 </g>
             </g>

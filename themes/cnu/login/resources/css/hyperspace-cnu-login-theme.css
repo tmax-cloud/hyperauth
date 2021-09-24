@@ -284,6 +284,7 @@
     outline: none;
 }
 .login-body-hyperspace .btn-primary:disabled {
+    margin-top: 40px;
     background: #CCCCCC !important;
     color: #F2EDE6 !important;
 }

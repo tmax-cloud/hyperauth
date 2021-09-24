@@ -5,6 +5,8 @@
         ${msg("sessionsHtmlTitle")}
     </@layout.contentHeader>
 
+   <div id = 'page-descript'> ${msg("sessionHtmlBody")}</div>
+        <hr id='hr-top'>
 
     <form action="${url.sessionsUrl}" method="post">
         <input type="hidden" id="stateChecker" name="stateChecker" value="${stateChecker}">
@@ -13,8 +15,8 @@
 
     <table class="table">
         <thead>
-        <tr>
-            <th>${msg("services")}</th>
+        <tr >
+            <th >${msg("services")}</th>
             <th>${msg("ip")}</th>
             <th>${msg("started")}</th>
             <th>${msg("lastAccess")}</th>

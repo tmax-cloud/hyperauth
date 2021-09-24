@@ -1,26 +1,53 @@
 // kakao
 function loginWithKakao() {
   const key = document.getElementById("kakao-api-key").value;
-  console.log(key);
+  const kakao_username =  document.getElementById("kakao-username").value;
+  
   Kakao.init(key);
-  console.log(Kakao.isInitialized());
+  //console.log(Kakao.isInitialized());
   Kakao.Auth.login({
     success: function (authObj) {
-      // alert(JSON.stringify(authObj))
-      alert("인증되었습니다.");
+      Kakao.API.request({
+        url: '/v2/user/me',
+        data: {
+            property_keys: ["kakao_account.email"]
+        },
+        success: function(response) {
+            if(response.kakao_account.email ==kakao_username){
+              // alert("인증되었습니다.")
+              // 인증 완료 시, 탈퇴 신청 버튼에 vendor 값 넣어줌
+              //modal로 인증되었습니다. 띄우기만 하면 될듯
+              openSNSAuthModal();
 
-      // 인증 완료 시, 탈퇴 신청 버튼에 vendor 값 넣어줌
-      document
-        .getElementById("withdrawal-submit-button")
-        .setAttribute("data-vendor", "kakao");
-      document
-        .getElementById("withdrawal-submit-button")
-        .removeAttribute("disabled");
+              document
+              .getElementById("withdrawal-submit-button")
+              .setAttribute("data-vendor", "kakao");
+              document
+              .getElementById("withdrawal-submit-button")
+              .removeAttribute("disabled");
+            } else {
+              alert("인증 실패")
+            }
+        },
+        fail: function(error) {
+            console.log(error);
+        }
+    });
+
+      
     },
     fail: function (err) {
       alert(JSON.stringify(err));
     },
   });
+}
+
+function openSNSAuthModal() {
+  document.querySelector(".modal").classList.remove("hidden");
+}
+
+function okSNSAuth() {
+  document.querySelector(".modal").classList.add("hidden");
 }
 
 // naver

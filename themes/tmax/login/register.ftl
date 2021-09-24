@@ -13,7 +13,7 @@
                 ${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_1")}
             </div>
             <div>
-                <div>
+                <div id = "terms-wrpper">
                     <input type="checkbox" id="check_all" onclick="clickAgreeInput('check_all')">
                     <label for="check_all">${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_9")}</label>
                     <span class="arrow" onclick="clickArrow()"></span>
@@ -23,7 +23,7 @@
                 </div>
                 <hr>
                 <div class="${properties.kcFormGroupClass!}">
-                    <div>
+                    <div id = "terms-wrpper">
                         <input type="checkbox" name="agree" id="check_1" onclick="clickAgreeInput('check_1')">
                         <label for="check_1">${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_15")}</label>
                     </div>
@@ -31,22 +31,29 @@
                         ${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_20")?no_esc} (<a href="mailto:${msg('MSG_TEXT_SUPPORTMAIL_1')}">${msg("MSG_TEXT_SUPPORTMAIL_1")}</a>)
                     </div>
                 </div>
+                <div  class="agree-wrapper">
                 <div class="agree">
                     <div>
                         <input type="checkbox" name="agree" id="check_2" onclick="clickAgreeInput('check_2')">
                         <label for="check_2">${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_16")}<span>${msg("essential")}</span></label>
                     </div>
                     <div class="arrow" id="account_privacy_duty_terms-arrow" onclick="clickArrow('account_privacy_duty_terms-arrow')"></div>
+                    </div> 
+                    <div class="term" style="display:none;" id="account_privacy_duty_terms" disabled></div>
                 </div>
-                <div class="term" style="display:none;" id="account_privacy_duty_terms" disabled></div>
+
+                 <div  class="agree-wrapper">
                 <div class="agree">
-                    <div>
+                    <div >
                         <input type="checkbox" name="agree" id="check_3" onclick="clickAgreeInput('check_3')">
                         <label for="check_3">${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_11")}<span>${msg("essential")}</span></label>
                     </div>
                     <div class="arrow" id="account_terms-arrow" onclick="clickArrow('account_terms-arrow')"></div>
                 </div>
                 <div class="term" style="display:none;" id="account_terms" disabled></div>
+                 </div>
+
+                  <div  class="agree-wrapper">
                 <div class="agree">
                     <div>
                         <input type="checkbox" name="agree" id="check_4" onclick="clickAgreeInput('check_4')">
@@ -55,6 +62,9 @@
                     <div class="arrow" id="service_terms-arrow" onclick="clickArrow('service_terms-arrow')"></div>
                 </div>
                 <div class="term" style="display:none;" id="service_terms" disabled></div>
+                </div>
+
+                 <div  class="agree-wrapper">
                 <div class="agree">
                     <div>
                         <input type="checkbox" name="agree" id="check_5" onclick="clickAgreeInput('check_5')">
@@ -63,6 +73,9 @@
                     <div class="arrow" id="privacy_terms-arrow" onclick="clickArrow('privacy_terms-arrow')"></div>
                 </div>
                 <div class="term" style="display:none;" id="privacy_terms" disabled></div>
+                </div>
+
+                 <div  class="agree-wrapper">
                  <div class="agree">
                     <div>
                         <input type="checkbox" name="agree" id="check_6" onclick="clickAgreeInput('check_6')">
@@ -71,13 +84,17 @@
                     <div class="arrow" id="third_privacy_terms-arrow" onclick="clickArrow('third_privacy_terms-arrow')"></div>
                 </div>
                 <div class="term" style="display:none;" id="third_privacy_terms" disabled></div>
-                <div class="agree">
-                    <div>
-                        <input type="checkbox" name="agree" id="check_7" onclick="clickAgreeInput('check_7')">
-                        <label for="check_7">${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_14")}<span>${msg("optional")}</span></label>
-                    </div>
                 </div>
 
+            
+                 <div id = "terms-wrpper">
+                    
+                        <input type="checkbox" name="agree" id="check_7" onclick="clickAgreeInput('check_7')">
+                        <label for="check_7">${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_14")}<span style = 'color: #223558;'>${msg("optional")}</span></label>
+                   
+                </div>
+               
+                
                 <div class="${properties.kcFormGroupClass!}">
                     <div id="kc-form-buttons" class="${properties.kcFormButtonsClass!}">
                         <input id="agree_button" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" type="button" value="${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_8")}" onclick="clickAgreeButton()" disabled={true} />
@@ -297,7 +314,7 @@
                 <script src="${url.resourcesPath}/${script}" type="text/javascript"></script>
             </#list>
         </#if>
-        <#if !(url.selectedTheme == 'hyperauth' || url.selectedTheme == 'CNU' || url.selectedTheme == 'superVDS')>
+        <#if !(url.selectedTheme == 'hyperauth' || url.selectedTheme == 'CNU' || url.selectedTheme == 'cnu' || url.selectedTheme == 'supervds' || url.selectedTheme == 'superVDS')>
             <#if realm.internationalizationEnabled  && locale.supported?size gt 1>
                 <script>getTerms("${(locale.currentLanguageTag!'ko')}");</script>
             <#else>

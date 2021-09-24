@@ -211,7 +211,7 @@ footer .locale-wrapper {
 }
 
 #kc-form-options .checkbox {
-  color: #185692;
+  color: #233558;
 }
 
 /* required 속성 부여 시, error message 표시를 위해 display: none 설정 불가 */
@@ -227,31 +227,31 @@ input[type="checkbox"] {
 input[type="checkbox"] + label {
   display: inline-block;
   position: relative;
-  padding: 0;
+  padding-left:20px;
+  height: 20px;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  font-weight: 500;
+  font-weight: 400;
   font-family: "Noto Sans KR";
+  background: url("../img/control_check_off.svg") no-repeat;
+  background-size: 13px 13px;
+  background-position: 0 50%;
+
 }
 
 input[type="checkbox"] + label:hover {
   text-decoration: underline;
-}
-
-input[type="checkbox"] + label::before {
-  display: inline-block;
-  content: "";
-  background: url("../img/control_check_off.svg") no-repeat;
+  background: url("../img/control_check_hover.svg") no-repeat;
   background-size: 13px 13px;
-  margin: 0 8px -1px 0;
-  width: 13px;
-  height: 13px;
+  background-position: 0 50%;
 }
 
-input[type="checkbox"]:checked + label::before {
+input[type="checkbox"]:checked + label {
+  background-size: 13px 13px;
+  background-position: 0 50%;
   background: url("../img/control_check_on.svg") no-repeat;
 }
 
@@ -264,6 +264,7 @@ input[type="radio"] {
 }
 
 input[type="radio"] + label {
+
   display: inline-block;
   position: relative;
   padding: 0;
@@ -275,6 +276,7 @@ input[type="radio"] + label {
 }
 
 input[type="radio"] + label::before {
+
   display: inline-block;
   content: "";
   background: url("../img/Control_Radiobtn_Off.svg") no-repeat;
@@ -285,7 +287,9 @@ input[type="radio"] + label::before {
 }
 
 input[type="radio"]:checked + label::before {
-  background: url("../img/Control_Radiobtn_On.svg") no-repeat;
+  border-radius: 50%;
+  border:2px solid #233558
+  /* background: url("../img/Control_Radiobtn_On.svg") no-repeat; */
 }
 
 /* error message */

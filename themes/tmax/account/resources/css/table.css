@@ -9,7 +9,8 @@
 .table > thead > tr > th {
     padding: 10px 15px;
     border-bottom: 1px solid #38434d;
-    font-size: 13px;
+    font-family: NotoSansCJKkr-Medium; 
+    font-size:14px;
     color: #38434d;
     line-height: 20px;
     vertical-align: middle;
@@ -27,6 +28,13 @@
     color: #38434d;
     line-height: 20px;
     vertical-align: middle;
+
+    font-family: NotoSansCJKkr-Regular;
+font-size: 14px;
+color: rgba(0,0,0,0.87);
+letter-spacing: 0.05px;
+text-align: left;
+line-height: 20px;
 }
 
 td.empty {

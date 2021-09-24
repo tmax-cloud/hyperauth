@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="13px" height="13px" viewBox="0 0 13 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>control_check_off</title>
-    <g id="Ch3_Control" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Ch3_Control02" transform="translate(-1205.000000, -353.000000)" fill="#FFFFFF" stroke="#ACB0BC">
-            <g id="CheckBtn" transform="translate(1190.000000, 144.000000)">
-                <g id="Group-4" transform="translate(15.000000, 208.000000)">
-                    <g id="Rectangle" transform="translate(0.000000, 1.000000)">
-                        <rect x="0.5" y="0.5" width="12" height="12"></rect>
-                    </g>
-                </g>
-            </g>
-        </g>
+    <title>Control/CheckBtn/Off</title>
+    <g id="Control/CheckBtn/Off" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle" fill="#C3C7D5" fill-rule="nonzero" x="0" y="0" width="13" height="13" rx="6.5"></rect>
+        <circle id="Oval" fill="#DDDDDD" cx="6.5" cy="6.5" r="2.5"></circle>
+        <circle id="Oval" fill="#F5F5F5" cx="6.5" cy="6.5" r="2.5"></circle>
     </g>
 </svg>

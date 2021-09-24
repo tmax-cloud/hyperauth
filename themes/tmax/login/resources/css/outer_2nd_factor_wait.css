@@ -125,7 +125,7 @@
   padding: 13px 20px 20px 20px;
   background: #ffffff;
   box-shadow: 0 1px 8px 0 rgba(0,0,0,0.20);
-  border-radius: 12px;
+border-radius: 12px;
 }
 
 #opt-code .time_expired_modal .md_content .md_content__header {
@@ -134,10 +134,10 @@
 }
 
 #opt-code
-.time_expired_modal
-.md_content
-.md_content__header
-.md_content__header__title {
+  .time_expired_modal
+  .md_content
+  .md_content__header
+  .md_content__header__title {
   font-weight: normal;
   font-size: 16px;
   color: #444444;
@@ -146,10 +146,10 @@
 }
 
 #opt-code
-.time_expired_modal
-.md_content
-.md_content__header
-.md_content__header__close {
+  .time_expired_modal
+  .md_content
+  .md_content__header
+  .md_content__header__close {
   width: 17px;
   height: 17px;
   background-image: url("../img/close.svg");
@@ -262,10 +262,10 @@
   }
 
   #opt-code
-  .time_expired_modal
-  .md_content
-  .md_content__header
-  .md_content__header__title {
+    .time_expired_modal
+    .md_content
+    .md_content__header
+    .md_content__header__title {
     margin: 36px 0 8px 0;
     color: #000000;
   }
@@ -276,10 +276,10 @@
   }
 
   #opt-code
-  .time_expired_modal
-  .md_content
-  .md_content__header
-  .md_content__header__close {
+    .time_expired_modal
+    .md_content
+    .md_content__header
+    .md_content__header__close {
     display: none;
   }
 

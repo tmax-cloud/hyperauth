@@ -1,0 +1,46 @@
+.illust{
+    background-image:url("../img/error_page.png");   
+    width: 580px;
+    height: 360px;
+}
+
+.error-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ min-height: 80vh;
+   
+}
+.error-text-box{
+    float:left;
+    margin-right:317px;
+}
+.error-title{
+    font-family: NotoSansCJKkr-Medium;
+    font-size: 30px;
+    color: #233558;
+    letter-spacing: -1px;
+    margin: 0 0 20px 0; 
+    font-weight:Medium;
+}
+.error-message{
+    font-family: NotoSansCJKkr-Regular;
+    font-size: 20px;
+    color: #919AAB;
+    letter-spacing: -0.8px;
+    margin: 0 0 80px 0; 
+    width: 290px;
+}
+.error-box .backToApplication{
+    background: #233558;
+    border-radius: 30px;
+    width:229px;
+    height:50px;
+    font-family: NotoSansCJKkr-Medium;
+    font-size: 16px;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 13px 0;
+    box-sizing:border-box;
+    cursor: pointer;
+}

@@ -8,14 +8,13 @@
     <@layout.contentHeader required=false; section>
         ${msg("agreement")}
     </@layout.contentHeader>
-    </br>
-    ${msg("agreementHtmlBody")}
-    </br>
+         <div id = 'page-descript'> ${msg("agreementHtmlBody")}</div>
+        <hr id='hr-top'>
 
     <script type="text/javascript" src="${url.resourcesPath}/js/axios.min.js"></script>
     <script type="text/javascript" src="${url.resourcesPath}/js/agreement.js"></script>
 
-    <hr>    
+        
     <div id="agreement" class="agreementBox">
 
     <@layout.formButtonGroup>
@@ -25,6 +24,7 @@
         <div class="rowBox">
             <div class="col1"><div class="tmax-logo"></div></div>
             <div class="col2">                
+                <div class ="agree-wrapper" onclick="clickArrow('account_privacy_duty_terms-arrow')">
                 <div class="agree">
                     <div>
                         <label>${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_16")}<span>${msg("essential")}</span></label>
@@ -32,6 +32,9 @@
                     <div class="arrow" id="account_privacy_duty_terms-arrow" onclick="clickArrow('account_privacy_duty_terms-arrow')"></div>
                 </div>
                 <div class="term ${locale.currentLanguageTag}" style="display:none;" id="account_privacy_duty_terms" disabled></div>
+                </div>
+
+                <div class ="agree-wrapper" onclick="clickArrow('account_terms-arrow')">
                 <div class="agree">
                     <div>
                         <label>${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_11")}<span>${msg("essential")}</span></label>
@@ -39,6 +42,8 @@
                     <div class="arrow" id="account_terms-arrow" onclick="clickArrow('account_terms-arrow')"></div>
                 </div>
                 <div class="term ${locale.currentLanguageTag}" style="display:none;" id="account_terms" disabled></div>
+                </div>
+                 <div class ="agree-wrapper"  onclick="clickArrow('service_terms-arrow')">
                 <div class="agree">
                     <div>
                         <label>${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_12")}<span>${msg("essential")}</span></label>
@@ -46,6 +51,8 @@
                     <div class="arrow" id="service_terms-arrow" onclick="clickArrow('service_terms-arrow')"></div>
                 </div>
                 <div class="term ${locale.currentLanguageTag}" style="display:none;" id="service_terms" disabled></div>
+               </div>
+                 <div class ="agree-wrapper" onclick="clickArrow('privacy_terms-arrow')">
                 <div class="agree">
                     <div>
                         <label>${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_13")}<span>${msg("essential")}</span></label>
@@ -53,6 +60,8 @@
                     <div class="arrow" id="privacy_terms-arrow" onclick="clickArrow('privacy_terms-arrow')"></div>
                 </div>
                 <div class="term ${locale.currentLanguageTag}" style="display:none;" id="privacy_terms" disabled></div>
+               </div>
+                 <div class ="agree-wrapper" onclick="clickArrow('third_privacy_terms-arrow')">
                 <div class="agree">
                     <div>
                         <label>${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_17")}<span>${msg("essential")}</span></label>
@@ -60,12 +69,15 @@
                     <div class="arrow" id="third_privacy_terms-arrow" onclick="clickArrow('third_privacy_terms-arrow')"></div>
                 </div>
                 <div class="term ${locale.currentLanguageTag}" style="display:none;" id="third_privacy_terms" disabled></div>
+               </div>
+                 <div class ="agree-wrapper" >
                 <div class="agree">
                     <div>
                         <#if account.attributes.agreeMailOpt?has_content>
                         <input type="checkbox" name="agreeMailOpt" id="check_common" onclick="activateSaveButton();" <#if account.attributes.agreeMailOpt == "true">checked="true"</#if>>                        
                         </#if>                        
                         <label for="check_common">${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_14")}<span>${msg("optional")}</span></label>
+                    </div>
                     </div>
                 </div>                
             </div>            
@@ -77,7 +89,8 @@
    
         <div id="wapl-agree" class="rowBox">
             <div class="col1"><div class="wapl-logo"></div></div>
-            <div class="col2">                
+            <div class="col2">  
+             <div class ="agree-wrapper" onclick="clickArrow('wapl_service_terms-arrow')">        
                 <div class="agree">
                     <div>
                         <label>${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_18")}<span>${msg("essential")}</span></label>
@@ -85,6 +98,8 @@
                     <div class="arrow" id="wapl_service_terms-arrow" onclick="clickArrow('wapl_service_terms-arrow')"></div>
                 </div>
                 <div class="term ${locale.currentLanguageTag}" style="display:none;" id="wapl_service_terms" disabled></div>
+               </div>
+                <div class ="agree-wrapper" onclick="clickArrow('wapl_privacy_terms-arrow')">
                 <div class="agree">
                     <div>
                         <label>${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_19")}<span>${msg("essential")}</span></label>
@@ -92,6 +107,9 @@
                     <div class="arrow" id="wapl_privacy_terms-arrow" onclick="clickArrow('wapl_privacy_terms-arrow')"></div>
                 </div>
                 <div class="term ${locale.currentLanguageTag}" style="display:none;" id="wapl_privacy_terms" disabled></div>                
+               </div>
+                <div class ="agree-wrapper"  onclick="clickArrow('wapl_privacy_optional_terms-arrow')">
+               
                 <div class="agree">
                     <div>
                         <#if account.attributes.agreePerhyperspaceOpt?has_content>
@@ -102,6 +120,9 @@
                     <div class="arrow" id="wapl_privacy_optional_terms-arrow" onclick="clickArrow('wapl_privacy_optional_terms-arrow')"></div>                   
                 </div>
                 <div class="term ${locale.currentLanguageTag}" style="display:none;" id="wapl_privacy_optional_terms" disabled></div>
+                </div>
+                 <div class ="agree-wrapper">
+                
                 <div class="agree">
                     <div>
                         <#if account.attributes.agreeAdvhyperspaceOpt?has_content>
@@ -109,6 +130,7 @@
                         </#if>
                         <label for="check_wapl">${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_14")}<span>${msg("optional")}</span></label>
                     </div>
+                </div>
                 </div>
             </div>             
         </div>
@@ -120,7 +142,8 @@
 
         <div id="portal-agree" class="rowBox">
             <div class="col1"><div class="portal-logo"></div></div>
-            <div class="col2">        
+            <div class="col2">      
+             <div class ="agree-wrapper"  onclick="clickArrow('portal_service_terms-arrow')">  
                 <div class="agree">
                     <div>
                         <label>${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_18")}<span>${msg("essential")}</span></label>
@@ -128,6 +151,8 @@
                     <div class="arrow" id="portal_service_terms-arrow" onclick="clickArrow('portal_service_terms-arrow')"></div>
                 </div>
                 <div class="term ${locale.currentLanguageTag}" style="display:none;" id="portal_service_terms" disabled></div>
+               </div>
+                <div class ="agree-wrapper"onclick="clickArrow('portal_privacy_terms-arrow')">
                 <div class="agree">
                     <div>
                         <label>${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_19")}<span>${msg("essential")}</span></label>
@@ -135,6 +160,8 @@
                     <div class="arrow" id="portal_privacy_terms-arrow" onclick="clickArrow('portal_privacy_terms-arrow')"></div>
                 </div>
                 <div class="term ${locale.currentLanguageTag}" style="display:none;" id="portal_privacy_terms" disabled></div>                
+               </div>
+                <div class ="agree-wrapper">
                 <div class="agree">
                     <div>
                         <#if account.attributes.agreeAdvPortalOpt?has_content>
@@ -142,6 +169,7 @@
                         </#if>                        
                         <label for="check_portal">${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_14")}<span>${msg("optional")}</span></label>
                     </div>
+                </div>
                 </div>
             </div>            
         </div>
@@ -153,7 +181,8 @@
 
         <div id="hypermeeting-agree" class="rowBox">            
             <div class="col1"><div class="hypermeeting-logo"></div></div>
-            <div class="col2">                
+            <div class="col2">        
+             <div class ="agree-wrapper" onclick="clickArrow('hypermeeting_service_terms-arrow')">        
                 <div class="agree">
                     <div>
                         <label>${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_18")}<span>${msg("essential")}</span></label>
@@ -161,6 +190,8 @@
                     <div class="arrow" id="hypermeeting_service_terms-arrow" onclick="clickArrow('hypermeeting_service_terms-arrow')"></div>
                 </div>
                 <div class="term ${locale.currentLanguageTag}" style="display:none;" id="hypermeeting_service_terms" disabled></div>
+                </div>
+                 <div class ="agree-wrapper" onclick="clickArrow('hypermeeting_privacy_terms-arrow')">
                 <div class="agree">
                     <div>
                         <label>${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_19")}<span>${msg("essential")}</span></label>
@@ -168,6 +199,9 @@
                     <div class="arrow" id="hypermeeting_privacy_terms-arrow" onclick="clickArrow('hypermeeting_privacy_terms-arrow')"></div>
                 </div>
                 <div class="term ${locale.currentLanguageTag}" style="display:none;" id="hypermeeting_privacy_terms" disabled></div>                
+               </div>
+                <div class ="agree-wrapper">
+               
                 <div class="agree">
                     <div>
                         <#if account.attributes.agreeAdvHyperMeetingOpt?has_content>
@@ -175,6 +209,7 @@
                         </#if>                        
                         <label for="check_hypermeeting">${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_14")}<span>${msg("optional")}</span></label>
                     </div>
+                </div>
                 </div>
             </div>            
         </div>
@@ -186,7 +221,8 @@
         
         <div id="waplclass-agree" class="rowBox">                   
             <div class="col1"><div class="waplclass-logo"></div></div>
-            <div class="col2">                
+            <div class="col2">          
+             <div class ="agree-wrapper" onclick="clickArrow('waplclass_service_terms-arrow')">      
                 <div class="agree">
                     <div>
                         <label>${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_18")}<span>${msg("essential")}</span></label>
@@ -194,6 +230,8 @@
                     <div class="arrow" id="waplclass_service_terms-arrow" onclick="clickArrow('waplclass_service_terms-arrow')"></div>
                 </div>
                 <div class="term ${locale.currentLanguageTag}" style="display:none;" id="waplclass_service_terms" disabled></div>
+               </div>
+                <div class ="agree-wrapper" onclick="clickArrow('waplclass_privacy_terms-arrow')">
                 <div class="agree">
                     <div>
                         <label>${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_19")}<span>${msg("essential")}</span></label>
@@ -201,6 +239,8 @@
                     <div class="arrow" id="waplclass_privacy_terms-arrow" onclick="clickArrow('waplclass_privacy_terms-arrow')"></div>
                 </div>
                 <div class="term ${locale.currentLanguageTag}" style="display:none;" id="waplclass_privacy_terms" disabled></div>
+               </div>
+                <div class ="agree-wrapper"  onclick="clickArrow('waplclass_teenager_terms-arrow')">
                 <div class="agree">
                     <div>
                         <label>${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_20")}<span>${msg("essential")}</span></label>
@@ -208,6 +248,8 @@
                     <div class="arrow" id="waplclass_teenager_terms-arrow" onclick="clickArrow('waplclass_teenager_terms-arrow')"></div>
                 </div>
                 <div class="term ${locale.currentLanguageTag}" style="display:none;" id="waplclass_teenager_terms" disabled></div>
+              </div>
+               <div class ="agree-wrapper" onclick="clickArrow('waplclass_children_terms-arrow')">
                 <div class="agree">
                     <div>
                         <label>${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_21")}</label>
@@ -215,6 +257,10 @@
                     <div class="arrow" id="waplclass_children_terms-arrow" onclick="clickArrow('waplclass_children_terms-arrow')"></div>
                 </div>
                 <div class="term ${locale.currentLanguageTag}" style="display:none;" id="waplclass_children_terms" disabled></div>                
+               </div>
+                <div class ="agree-wrapper">
+               
+               
                 <div class="agree">
                     <div>
                         <#if account.attributes.agreeAdvWaplclassOpt?has_content>
@@ -222,6 +268,7 @@
                         </#if>                        
                         <label for="check_waplclass">${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_14")}<span>${msg("optional")}</span></label>
                     </div>
+                </div>
                 </div>
             </div>            
         </div>
@@ -233,7 +280,8 @@
 
         <div id="waplmath-agree" class="rowBox">        
             <div class="col1"><div class="waplmath-logo"></div></div>
-            <div class="col2">                
+            <div class="col2">     
+             <div class ="agree-wrapper"  onclick="clickArrow('waplmath_service_terms-arrow')">           
                 <div class="agree">
                     <div>
                         <label>${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_18")}<span>${msg("essential")}</span></label>
@@ -241,6 +289,8 @@
                     <div class="arrow" id="waplmath_service_terms-arrow" onclick="clickArrow('waplmath_service_terms-arrow')"></div>
                 </div>
                 <div class="term ${locale.currentLanguageTag}" style="display:none;" id="waplmath_service_terms" disabled></div>
+               </div>
+                <div class ="agree-wrapper" onclick="clickArrow('waplmath_privacy_terms-arrow')">
                 <div class="agree">
                     <div>
                         <label>${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_19")}<span>${msg("essential")}</span></label>
@@ -248,6 +298,8 @@
                     <div class="arrow" id="waplmath_privacy_terms-arrow" onclick="clickArrow('waplmath_privacy_terms-arrow')"></div>
                 </div>                    
                 <div class="term ${locale.currentLanguageTag}" style="display:none;" id="waplmath_privacy_terms" disabled></div>
+              </div>
+               <div class ="agree-wrapper" onclick="clickArrow('waplmath_teenager_terms-arrow')">
                 <div class="agree">
                     <div>
                         <label>${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_20")}<span>${msg("essential")}</span></label>
@@ -255,6 +307,8 @@
                     <div class="arrow" id="waplmath_teenager_terms-arrow" onclick="clickArrow('waplmath_teenager_terms-arrow')"></div>
                 </div>                    
                 <div class="term ${locale.currentLanguageTag}" style="display:none;" id="waplmath_teenager_terms" disabled></div>
+                </div>
+                 <div class ="agree-wrapper"  onclick="clickArrow('waplmath_children_terms-arrow')">
                 <div class="agree">
                     <div>
                         <label>${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_21")}</label>
@@ -262,6 +316,8 @@
                     <div class="arrow" id="waplmath_children_terms-arrow" onclick="clickArrow('waplmath_children_terms-arrow')"></div>
                 </div>                    
                 <div class="term ${locale.currentLanguageTag}" style="display:none;" id="waplmath_children_terms" disabled></div>                
+               </div>
+                <div class ="agree-wrapper">
                 <div class="agree">
                     <div>
                         <#if account.attributes.agreeAdvWaplmathOpt?has_content>
@@ -270,12 +326,13 @@
                         <label for="check_waplmath">${msg("MSG_CREATEACCOUNT_SERVICEAGREEMENT_14")}<span>${msg("optional")}</span></label>
                     </div>
                 </div>
+                </div>
             </div>            
         </div>
         <script>getTerms("waplmath", "${locale.currentLanguageTag}");</script>
         </#if>
 
-        <hr>
+        <hr id = 'hr-bottom' style = "margin-bottom:50px">
 
         <input type="hidden" name="stateChecker" value="${stateChecker}">
         <div class="form-group buttons">

@@ -1,4 +1,5 @@
 <#import "template.ftl" as layout>
+
 <@layout.registrationLayout displayMessage=false; section>
     <#if section = "header">
         <#if message.summary == msg('emailVerifiedMessage')>
@@ -28,11 +29,12 @@
                         ${msg("welcomeInstruction1")?no_esc}
                         <#if isBrokerLogin?has_content && isBrokerLogin == "true" && brokerEmail?has_content && brokerVendor?has_content>
                             ${msg("finishIdpUserVerificationMessage2", brokerVendor, brokerEmail)?no_esc}
+                            
                         </#if>
                     </p>
                 </div>
                 <div class="${properties.kcFormGroupClass!}">
-                    <button class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!}" style="margin-top: 15px;" <#if client.baseUrl?? && client.baseUrl!="">onclick="location.href='${client.baseUrl}'"<#else>onclick="location.href=document.location.origin"</#if>>${msg("doLogIn")}</button>
+                    <button class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!}" style="margin-top: 100px;" <#if client.baseUrl?? && client.baseUrl!="">onclick="location.href='${client.baseUrl}'"<#else>onclick="location.href=document.location.origin"</#if>>${msg("doLogIn")}</button>
                 </div>
             </div>
         <#elseif message.summary?contains("이 유효한지 확인하십시오.") || message.summary?contains("Confirm validity of e-mail address") || message.summary?contains("귀하의 계정과 연결되었는지 확인하십시오.") || message.summary?contains("Confirm linking the account ")>
@@ -55,13 +57,25 @@
                     <#else>
                         <div class="welcome-img"></div>
                     </#if>
-                    <p id="welcome-instruction">
-                        ${msg("finishIdpUserVerificationMessage1", identityProviderVendor, hyperauthUserName)?no_esc}
-                        ${msg("finishIdpUserVerificationMessage2", identityProviderVendor, identityProviderUserName)?no_esc}
-                    </p>
+                    <div id="welcome-instruction">
+                        ${msg("finishIdpUserVerificationMessage1")}
+                        <span id = 'connect-complete-span'> ${msg("finishIdpUserVerificationMessage1_2")}</span>
+                        <span> ${msg("finishIdpUserVerificationMessage1_3", hyperauthUserName)?no_esc}</span>
+                        <span> ${msg("${identityProviderVendor}")}${msg("finishIdpUserVerificationMessage1_4")}</span> 
+                 
+                    </div>
+                    <div id="welcome-connect-info">
+                       <span id = 'connect-info-span'>
+                       ${msg("finishIdpUserVerificationMessage2")} ${msg("${identityProviderVendor}")}
+                       ${msg("finishIdpUserVerificationMessage2_2", identityProviderUserName)?no_esc}
+                       </span>
+                       </div>
+                    
                 </div>
                 <div class="${properties.kcFormGroupClass!}">
-                    <button class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!}" style="margin-top: 70px;" <#if actionUri?has_content && (client.baseUrl)?has_content>onclick="finishIdpSuccess('${client.baseUrl}', '${actionUri}')"</#if>>${msg("finishIdpUserVerificationButton")}</button>
+                    <div id = 'connent-complete-bt'>
+                    <button class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!}" <#if actionUri?has_content && (client.baseUrl)?has_content>onclick="finishIdpSuccess('${client.baseUrl}', '${actionUri}')"</#if>>${msg("finishIdpUserVerificationButton")}</button>
+                    </div>
                 </div>
             </div>
         <#else>
@@ -81,5 +95,11 @@
         </#if>
         <script type="text/javascript" src="${url.resourcesPath}/js/axios.min.js"></script>
         <script type="text/javascript" src="${url.resourcesPath}/js/info.js"></script>
+        <#--  <script>
+            let vendor = "${msg(identityProviderVendor)}"
+            console.log(vendor)
+            let text  = document.getElementById('connect-info-span');
+            text.innerHTML = "${msg("finishIdpUserVerificationMessage2", vendor, identityProviderUserName)?no_esc}";
+        </script>  -->
     </#if>
 </@layout.registrationLayout>

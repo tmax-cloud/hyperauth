@@ -5,10 +5,9 @@
     </@layout.contentHeader>
 
 <body>
-</br>
-${msg("additionalAuthHtmlBody")}
-</br>
-<hr>
+    <div id = 'page-descript'>${msg("additionalAuthHtmlBody")}</div>
+        <hr id='hr-top'>
+
 <div class="illustBox">
     <div></div>
 </div>
@@ -26,12 +25,11 @@ ${msg("additionalAuthHtmlBody")}
             <span class="slider round"></span>
         </label>
 
-        <p id="off">OFF</p>
-        <p id="on" style="display:none;">ON</p>
+        <p id="off"></p>
+        <p id="on" style="display:none;"></p>
 
-        </br>
-        <hr>
-        </br>
+        <hr id="hr-bottom" style ="margin:50px 0;">
+     
         <@layout.formButtonGroup>
         <div id="additionalAuth-form-group" class="form-group">
             <div id="buttons">

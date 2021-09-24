@@ -23,19 +23,6 @@ checkEl.addEventListener("click", (e) => {
   }
 });
 
-formElEmailOtp.addEventListener("submit", (e) => {
-  if (checkEl.checked !== true) {
-    const input = document.createElement("input");
-    input.setAttribute("type", "hidden");
-    input.setAttribute("name", "otpEnable");
-    input.setAttribute("value", "false");
-    formEl.append(input);
-
-    // checkEl.value="false"
-    // checkEl.checked="true";
-  }
-});
-
 formElSimpleLogin.addEventListener("submit", (e) => {
   if (checkEl.checked !== true) {
     const input = document.createElement("input");

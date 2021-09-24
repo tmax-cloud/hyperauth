@@ -101,12 +101,19 @@ function clickAgreeInput(e) {
 function clickArrow(e) {
   const arrow = document.getElementById(e);
   const term = document.getElementById(e.split("-")[0]);
-  if (arrow.classList.contains("up")) {
+  const agreeWrapper =  term.parentElement
+  if (arrow.classList.contains("up")) { //닫으면
     arrow.classList.remove("up");
     term.style.display = "none";
-  } else {
+    agreeWrapper.classList.remove("up");
+
+  } else { //펼치면
     arrow.classList.add("up");
-    term.style.display = "block";
+    term.style.display = "block"; 
+    agreeWrapper.classList.add("up");
+  
+    
+  
   }
 }
 

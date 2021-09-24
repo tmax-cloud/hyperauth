@@ -21,7 +21,7 @@ function closeTimeExpiredModal() {
 function startTimer(expiredTime, fixedValidTimeLimit) {
   this.timeLimit = fixedValidTimeLimit; //정해진시간
   var time =
-      Math.floor(expiredTime / 1000) - Math.floor(new Date().getTime() / 1000);
+    Math.floor(expiredTime / 1000) - Math.floor(new Date().getTime() / 1000);
   if (time > 0) {
     var min = "";
     var sec = "";
@@ -36,7 +36,7 @@ function startTimer(expiredTime, fixedValidTimeLimit) {
           sec = "0" + sec;
         }
         timerContainer.setAttribute("data-value", min + ":" + sec);
-
+    
         time--;
         if (time < 0) {
           clearInterval(x);
@@ -85,10 +85,10 @@ function restartTimer(time) {
 
 
 function enableConfirmButton() {
-  document.getElementById("confirm-button").disabled = false;
+    document.getElementById("confirm-button").disabled = false;
 }
 
 function clickResendButton() {
-  openModal();
-  location.reload();
+    openModal();
+    location.reload();
 }

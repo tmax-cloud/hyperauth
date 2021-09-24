@@ -17,7 +17,7 @@
                 </p>
             </div>
             <div class="${properties.kcFormGroupClass!}">
-                <button class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!}" style="margin-top: 95px; font-size: 18px;" onclick="location.href='${url.loginRestartFlowUrl}'">${msg("doOk")}</button>
+                <button class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!}" style="margin-top: 153px; font-size: 18px;" onclick="location.href='${url.loginRestartFlowUrl}'">${msg("doOk")}</button>
             </div>
         </div>
     </#if>

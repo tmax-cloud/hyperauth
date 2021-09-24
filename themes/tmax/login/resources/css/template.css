@@ -13,15 +13,17 @@
 .welcome-img {
   background: url("../img/Illust_welcome.svg") no-repeat top;
   margin: auto;
-  width: 71px;
-  height: 90px;
+  width: 110px;
+  height: 113px;
+  background-size: cover;
 }
 
 .welcome-img-kakao {
-  background: url("../img/Illust_join_kakao.svg") no-repeat top;
+  background: url("../img/identification.svg") no-repeat top;
+  background-size: cover;
   margin: auto;
-  width: 96px;
-  height: 80px;
+  width: 120px;
+  height: 112px;
 }
 
 .email-confirm-img {
@@ -33,14 +35,14 @@
 }
 
 .timeout-img {
-  background: url("../img/Illust_timeout.svg") no-repeat top;
+  background: url("../img/timeout.svg") no-repeat top;
   margin: auto;
   width: 71px;
   height: 90px;
 }
 
 .change-password-img {
-  background: url("../img/Illust_password_change.svg") no-repeat top;
+  background: url("../img/password_change.svg") no-repeat top;
   margin: auto;
   width: 85px;
   height: 86px;
@@ -91,10 +93,11 @@
   background: url("../img/link_with_kakao.svg");
   background-position: center center;
   background-repeat: no-repeat;
-  height: 56px;
-  width: 198px;
-  margin: auto auto;
-  margin-top: 70px;
+  background-size: cover;
+  height: 84px;
+  width: 223px;
+  margin: 50px auto 0 auto;
+  
 }
 
 .eye {
@@ -123,6 +126,9 @@
 
 .header-icon.login_reset_password {
   margin: 40px auto 0px auto;
+  font-size: 28px;
+color: #000000;
+letter-spacing: 1px;
 }
 
 .header-icon.register {
@@ -138,26 +144,31 @@
 
 .template-body .login-pf-page #kc-content-wrapper .header-icon {
   width: 100%;
-  line-height: unset;
-  margin: 40px 0 45px 0;
+  margin: 30px 0 45px 0;
   height: 47px;
   line-height: 47px;
-  font-size: 32px;
-  font-weight: 700;
+  font-size: 28px;
+  font-weight: 500;
   font-family: "Noto Sans KR";
-  color: #042a54;
+  color: #000000;
+  letter-spacing: 1px;
   text-align: center;
 }
 
 .template-body .login-pf-page #kc-content-wrapper .header-icon.email-sent {
-  margin: 90px auto 35px auto;
+  font-size: 28px;
+color: #000000;
+letter-spacing: 1px;
+text-align: center;
+font-weight: 500;
+  margin: 53px auto 35px auto;
 }
 
 .template-body
   .login-pf-page
   #kc-content-wrapper
   .header-icon.withdrawal-cancel {
-  margin: 70px auto 35px auto;
+  margin: 53px auto 35px auto;
 }
 
 .footer-terms-link-wrapper {
@@ -220,17 +231,62 @@ div::-webkit-scrollbar-track {
   flex-direction: column;
 }
 
+.template-body.register-body .card-pf::-webkit-scrollbar-thumb{
+  margin-right: 5px;
+  height: 233px;
+  width: 5px;
+  padding-right: 10px;
+  background: #B8BBBE;
+border-radius: 5px;
+}
 .register-body #register_button {
   margin-top: 60px;
   margin-bottom: 38px;
 }
-
+#step1 #terms-wrpper{
+  height: 40px;
+  width: 400px;
+ padding:10px 0 10px 10px;
+ box-sizing: border-box;
+}
+#step1 #terms-wrpper:hover{
+  background: #EBEBEB;
+  border: 1px solid #F4F4F4;
+}
 #step1 .agree {
   display: flex;
   justify-content: space-between;
-  margin-top: 25px;
+  margin-top: 8px;
+  padding:10px 10px 10px 10px;
+  height: 40px;
+  width: 400px;
+
+  box-sizing: border-box;
 }
 
+#step1 .agree-wrapper{
+  background: #ffffff;
+  width: 400px;
+  
+  margin-bottom: 10px;
+  border: 1px solid #ffffff;
+}
+#step1 .agree-wrapper.up{
+  background: #F8F8F8;
+  border: 1px solid #F4F4F4;
+  width: 400px;
+  margin-bottom: 10px;
+  border: 1px solid #ffffff;
+}
+#step1 .agree-wrapper.up:hover{
+  background: #EBEBEB;
+border: 1px solid #F4F4F4;
+}
+#step1 .agree-wrapper:hover{
+ 
+  background-color: #EBEBEB;
+  border: 1px solid #F4F4F4;
+}
 hr {
   border-top: 1px solid #d3d3d3;
 }
@@ -238,13 +294,11 @@ hr {
 #step1 label {
   font-size: 14px;
   color: #3e3e3e;
-  line-height: 2rem;
+  text-decoration: none;
   display: block;
-  padding-left: 21px;
-  text-indent: -21px;
+  padding-left: 25px;
   font-weight: 500;
 }
-
 #step1 label span {
   color: #ff4646;
   margin-left: 6px;
@@ -273,12 +327,13 @@ hr {
 }
 
 #step1 .term {
-  margin-top: 10px;
+  margin: 0 20px 10px 10px;
   max-width: 380px;
   height: 200px;
+  box-sizing: border-box;
   width: 100%;
-  border: 1px solid #d3d3d3;
-  background: #f4f5f5;
+  border: none;
+  background: #ffffff;
   padding: 7px 0px 7px 7px;
   resize: none;
   overflow-y: scroll;
@@ -455,8 +510,10 @@ Register - User Information
   padding: 17px;
   max-width: 554px;
   height: 594px;
-  border: 1px solid #b9b9b9;
-  border-radius: 6px;
+  background: #ffffff;
+  border: 1px solid #EEF2F7;
+  box-shadow: 10px 16px 18px 1px rgba(195,203,213,0.40);
+  border-radius: 24px;
 }
 
 .template-body.register-body .login-pf-page .card-pf {
@@ -464,14 +521,16 @@ Register - User Information
 }
 
 .template-body.register-body .login-pf-page .card-pf {
+  background: #ffffff;
+  border: 1px solid #EEF2F7;
+  box-shadow: 10px 16px 18px 1px rgba(195,203,213,0.40);
+  border-radius: 24px;
+
   margin-bottom: 50px;
   min-height: 750px;
   overflow-x: hidden;
   overflow-y: auto;
-  border: 1px solid #cccccc;
-  border-radius: 6px;
   max-width: 620px;
-  border-bottom: 8px solid #042a54;
 }
 
 #navigation-bar {
@@ -523,7 +582,7 @@ Register - User Information
   font-size: 16px;
   line-height: 24px;
   padding-top: 0px;
-  color: #666666;
+  color: #333333;
 }
 
 .login_reset_password .form-group .control-label {
@@ -531,11 +590,11 @@ Register - User Information
 }
 
 .login_reset_password .marginBottom {
-  margin-bottom: 79px;
+  margin-bottom: 172px;
 }
 
 .login_reset_password .btn-primary {
-  margin-bottom: 38px;
+  margin-bottom: 30px;
 }
 
 /* login_reset_password - verify_passwrod */
@@ -548,7 +607,7 @@ Register - User Information
 }
 
 #verify_password .btn-primary {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 #verify_password .description {
@@ -590,8 +649,8 @@ Register - User Information
   padding: 13px 20px 20px 20px;
   background: #ffffff;
   box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 2px;
-  border-radius: 2px;
+  border-radius: 12px;
+
 }
 
 #verify_password .modal .md_content .md_content__header {
@@ -616,15 +675,16 @@ Register - User Information
   .md_content
   .md_content__header
   .md_content__header__close {
-  width: 17px;
-  height: 17px;
+  width: 16px;
+  height: 16px;
   background-image: url("../img/close.svg");
   cursor: pointer;
+  background-size: cover;
 }
 
 #verify_password .modal .md_content hr {
   margin: 13px 0 20px 0;
-  border-top: 1px solid #dadada;
+  border-top: 1px solid #242E3C;
 }
 
 #verify_password .modal .md_content .md_content__text {
@@ -636,10 +696,12 @@ Register - User Information
 }
 
 #verify_password .modal .md_content .button {
-  margin-top: 20px;
+  margin-top: 30px;
   width: 68px;
   height: 32px;
-  background-color: #042a54;
+  background-color: #233558 ;
+  box-shadow: 1px 2px 5px 1px rgba(0,0,0,0.10);
+border-radius: 4px;
   font-weight: normal;
   font-size: 14px;
   color: #ffffff;
@@ -672,6 +734,7 @@ Register - User Information
   font-weight: 500;
   color: #185692;
   text-align: center;
+  margin-bottom: 30px;
 }
 
 #forgot_password #register a {
@@ -694,7 +757,16 @@ Register - User Information
 
 /* login_reset_password - reset_password_complete */
 #reset_password_complete #kc-info {
-  margin-bottom: 225px;
+  margin-bottom: 152px;
+}
+#reset_password_complete #password-reset-image{
+  background-image:url('../img/password_regist.svg');
+  margin:0 150px 31px 140px;
+  width: 110px;
+  height: 113px;
+  border: none;
+  outline: none;
+
 }
 
 /* Form */
@@ -732,7 +804,7 @@ Register - User Information
   padding: 0;
   font-size: 14px;
   font-weight: normal;
-  color: #042a54;
+  color: #555555;
 }
 
 @media (min-width: 499px) {
@@ -746,12 +818,19 @@ div.form-group .form-control {
   background: #ffffff;
   padding: 0 15px;
   height: 40px;
-  border: 1px solid #aeaeae;
-  border-radius: 4px;
+  border: 1px solid #a6abbb;
+  border-radius: 8px;
   font-size: 14px;
-  color: #000000;
+  color:  #042a54;
   line-height: 16px;
   font-weight: normal;
+}
+
+div.form-group .form-control::placeholder {
+  font-size: 14px;
+  color:  #999999;
+  
+
 }
 
 div.form-group .form-control-short-bottom {
@@ -796,7 +875,7 @@ div.form-group .form-control.has-error {
 
 div.form-group .form-control::placeholder {
   font-style: normal;
-  color: #505050;
+  color: #999999;
 }
 
 div.form-group.has-error .form-control::placeholder {
@@ -807,17 +886,20 @@ div.form-group .form-control.has-error::placeholder {
   color: #ff4646;
 }
 
+
 /* Button */
 
 .template-body .btn-primary {
-  height: 50px;
-  background: #042a54;
-  border-radius: 4px;
-  border: 0;
-  font-size: 16px;
-  color: #ffffff;
+  height: 53px;
+  background: #233558;
+  border-radius: 10px;
+  box-shadow: 1px 4px 12px 4px rgba(62,64,68,0.09);
+  border:0;
+  font-size: 18px;
+  color: #FFFFFF;
+  letter-spacing: 0;
   font-family: "Noto Sans KR";
-  font-weight: 700;
+  font-weight: medium;
 }
 
 .template-body .btn-primary:hover {
@@ -830,9 +912,24 @@ div.form-group .form-control.has-error::placeholder {
 }
 
 .template-body .btn-primary[disabled] {
-  color: #ffffff !important;
-  background: #cccccc !important;
+  font-size: 18px;
+  box-shadow: none;
+ color: #AAAAAA !important;
+  background: #eeeeee !important;
+  border:none;
+  border-radius: 12px;
 }
+.template-body #withdrawal-cancel-button-wraper .btn-primary {
+  background: #FFFFFF;
+  height: 50px;
+  /* border: 1px solid #EFF0F1; */
+  box-shadow: 2px 3px 8px 2px rgba(105,116,128,0.10);
+  border-radius: 12px;
+
+  font-size: 18px;
+
+color: #243352;
+  }
 
 .template-body input[readonly] {
   background: #e4e4e4;
@@ -852,7 +949,11 @@ div.form-group .form-control.has-error::placeholder {
   color: #3e3e3e;
   margin-top: 10px;
 }
+.template-body .otp-send-faild-button{
+  margin-top: 95px; 
+  font-size: 18px;
 
+}
 /* back-to-login */
 
 /* form options : backToLogin */
@@ -866,9 +967,12 @@ div.form-group .form-control.has-error::placeholder {
     margin: 0;
   }
 }
-
+#change-password-step2 #kc-form-buttons{
+  margin-top: 90px;
+}
 #kc-form-buttons {
   padding: 0;
+ margin-top: 0;
 }
 
 #kc-form-buttons.padding-horizontal {
@@ -919,12 +1023,26 @@ div.form-group .form-control.has-error::placeholder {
   font-family: "Noto Sans KR";
   margin-top: 35px;
   font-size: 16px;
-  color: #666666;
+  color: #333333;
   letter-spacing: 0;
   text-align: center;
   line-height: 24px;
   font-weight: 400;
 }
+
+#email-sent #welcome-instruction #connect-complete-span{
+  color: #131724;
+  font-weight: 500;
+}
+#email-sent #welcome-connect-info{
+  margin-top:50px;
+  font-size: 16px;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+  font-weight: 400;
+  color: #888888;
+} 
 
 #email-sent #email-sent-instruction {
   font-size: 16px;
@@ -933,6 +1051,9 @@ div.form-group .form-control.has-error::placeholder {
   text-align: center;
   line-height: 24px;
   white-space: pre-line;
+}
+#email-sent #connent-complete-bt{
+  margin-top: 53px;
 }
 
 #email-sent #email-sent-instruction-small {
@@ -1001,10 +1122,9 @@ div.form-group .form-control.has-error::placeholder {
   width: 390px;
   height: 194px;
   padding: 13px 20px 20px 20px;
-  background: #ffffff;
-  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 2px;
-  border-radius: 2px;
+  background: #FFFFFF;
+  box-shadow: 0 1px 8px 0 rgba(0,0,0,0.20);
+  border-radius: 12px;
 }
 
 #email-sent .modal .md_content .md_content__header {
@@ -1021,15 +1141,16 @@ div.form-group .form-control.has-error::placeholder {
 }
 
 #email-sent .modal .md_content .md_content__header .md_content__header__close {
-  width: 17px;
-  height: 17px;
+  width: 16px;
+  height: 16px;
   background-image: url("../img/close.svg");
   cursor: pointer;
+  background-size: cover;
 }
 
 #email-sent .modal .md_content hr {
   margin: 13px 0 20px 0;
-  border-top: 1px solid #dadada;
+  border-top: 1px solid  #242E3C;
 }
 
 #email-sent .modal .md_content .md_content__text {
@@ -1044,7 +1165,9 @@ div.form-group .form-control.has-error::placeholder {
   margin-top: 20px;
   width: 68px;
   height: 32px;
-  background-color: #042a54;
+  background: #233558;
+box-shadow: 1px 2px 5px 1px rgba(0,0,0,0.10);
+border-radius: 4px;
   font-weight: normal;
   font-size: 14px;
   color: #ffffff;
@@ -1065,15 +1188,15 @@ div.form-group .form-control.has-error::placeholder {
 }
 
 #opt-code .infoText {
-  margin-top: 10px;
+  margin-top: 20px;
   padding-left: 10px;
 }
 
 #opt-code #instruction {
   font-family: "Noto Sans KR";
   margin-top: 50px;
-  font-size: 16px;
-  color: #666666;
+  font-size: 15px;
+color: #333333;
   letter-spacing: 0;
   text-align: center;
   line-height: 24px;
@@ -1103,9 +1226,9 @@ div.form-group .form-control.has-error::placeholder {
 
 #ip-blocked #instruction {
   font-family: "Noto Sans KR";
-  margin-top: 50px;
+  margin: 50px 0 267px 0;
   font-size: 16px;
-  color: #666666;
+  color: #333333;
   letter-spacing: 0;
   text-align: center;
   line-height: 24px;
@@ -1160,20 +1283,34 @@ div.form-group .form-control.has-error::placeholder {
   margin-bottom: 4px;
   font-size: 16px;
 }
+#withdrawal-cancel #script-wraper{
+  display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom:90px ;
+}
 
 #withdrawal-cancel #deletionDate {
+ 
+  width: 290px;
+ display: inline-block;
+  height: 42px;
+  background: #F0F2F4;
+  border: 1px solid rgba(252,102,78,0.03);
+  border-radius: 24px;
   font-size: 16px;
-  color: #0066cc;
+  color: #2D2E30;
   letter-spacing: 0;
   text-align: center;
   line-height: 24px;
-  font-weight: 700;
+  font-weight: 500;
+  padding-top:8px;
 }
 
 #withdrawal-cancel #instruction {
   font-family: "Noto Sans KR";
-  margin-top: 30px;
-  margin-bottom: 60px;
+  margin-top: 50px;
+  margin-bottom: 0px;
   font-size: 16px;
   color: #666666;
   letter-spacing: 0;
@@ -1208,8 +1345,8 @@ div.form-group .form-control.has-error::placeholder {
   padding: 13px 20px 20px 20px;
   background: #ffffff;
   box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 2px;
-  border-radius: 2px;
+  border-radius: 12px;
+ 
 }
 
 #withdrawal-cancel .modal .md_content .md_content__header {
@@ -1234,15 +1371,16 @@ div.form-group .form-control.has-error::placeholder {
   .md_content
   .md_content__header
   .md_content__header__close {
-  width: 17px;
-  height: 17px;
+  width: 16px;
+  height: 16px;
   background-image: url("../img/close.svg");
   cursor: pointer;
+  background-size: cover;
 }
 
 #withdrawal-cancel .modal .md_content hr {
   margin: 13px 0 20px 0;
-  border-top: 1px solid #dadada;
+  border-top: 1px solid  #242E3C;
 }
 
 #withdrawal-cancel .modal .md_content .md_content__text {
@@ -1251,10 +1389,12 @@ div.form-group .form-control.has-error::placeholder {
   color: #333333;
   letter-spacing: 0;
   line-height: 24px;
+  height: 48px;
 }
 
 #withdrawal-cancel .modal .md_content .md_content__button {
   text-align: end;
+ 
 }
 
 #withdrawal-cancel .modal .md_content .button {
@@ -1270,6 +1410,8 @@ div.form-group .form-control.has-error::placeholder {
   line-height: 31px;
   display: inline-block;
   cursor: pointer;
+  box-shadow: 1px 2px 5px 1px rgba(64,71,78,0.10);
+  border-radius: 4px;
 }
 
 #withdrawal-cancel .modal .md_content .button:hover {
@@ -1298,8 +1440,8 @@ div.form-group .form-control.has-error::placeholder {
 }
 
 #login-idp-link-confirm #email-address {
-  font-size: 18px;
-  color: #0066cc;
+  font-size: 16px;
+color: #213557;
   letter-spacing: 0;
   text-align: center;
   line-height: 24px;
@@ -1309,9 +1451,9 @@ div.form-group .form-control.has-error::placeholder {
 #login-idp-link-confirm #instruction {
   font-family: "Noto Sans KR";
   margin-top: 30px;
-  margin-bottom: 60px;
-  font-size: 18px;
-  color: #666666;
+  margin-bottom: 152px;
+  font-size: 16px;
+  color: #151515;
   letter-spacing: 0;
   text-align: center;
   line-height: 24px;
@@ -1320,7 +1462,7 @@ div.form-group .form-control.has-error::placeholder {
 
 #login-idp-link-confirm #instruction-container {
   text-align: center;
-  margin: 83px 0px;
+  margin: 35px 0 177px 0;
 }
 
 #change-password #instruction {
@@ -1328,7 +1470,7 @@ div.form-group .form-control.has-error::placeholder {
   margin-top: 50px;
   margin-bottom: 80px;
   font-size: 16px;
-  color: #666666;
+  color: #333333;
   letter-spacing: 0;
   text-align: center;
   line-height: 24px;
@@ -1340,7 +1482,7 @@ div.form-group .form-control.has-error::placeholder {
   margin-top: 25px;
   margin-bottom: 49px;
   font-size: 16px;
-  color: #666666;
+  color: #333333;
   letter-spacing: 0;
   text-align: center;
   line-height: 24px;
@@ -1355,19 +1497,32 @@ div.form-group .form-control.has-error::placeholder {
   min-height: 41px;
   height: auto;
 }
+#change-password-form .form-group{
+  margin-top: 150px;
+}
 
 .template-body .btn-white-background {
-  background-color: white;
-  color: #042a54;
-  border: 1px solid #042a54;
+  background: #FFFFFF;
+  height: 53px;
+  width: 158px;
+  border: 1px solid #EFF0F1;
+  box-shadow: 2px 3px 8px 2px rgba(105,116,128,0.10);
+  border-radius: 10px;
+  font-size: 18px;
+color: #243352;
+font-weight: 500;
 }
 
 .template-body .btn-white-background:hover {
   background: #eeeeee;
+  outline: none;
 }
 
 .template-body .btn-white-background:focus {
   background: #e4e4e4;
+  outline: none;
+}
+.template-body .btn-white-background:active{
   outline: none;
 }
 

@@ -1,18 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="67px" height="60px" viewBox="0 0 67 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>Illust_signout</title>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="05_01_account_setting-copy-3" transform="translate(-147.000000, -173.000000)">
-            <g id="Illust_signout" transform="translate(147.000000, 173.000000)">
-                <g id="Group-4" stroke="#1A3755">
-                    <rect id="Rectangle" stroke-width="2" fill="#EFF1F0" x="1" y="1" width="61" height="40.2463768" rx="5"></rect>
-                    <path d="M31.8987342,7.17391304 C36.3030303,7.17391304 39.8734177,10.7426578 39.8734177,15.1449275 C39.8734177,18.2364917 38.1125831,20.9169801 35.5386706,22.239072 C39.0186745,23.6708015 41.4683544,27.0950038 41.4683544,31.0913594 L41.4683544,33.4782609 L22.3291139,33.4777391 L22.3291139,31.0913594 C22.3291139,27.0946193 24.7792652,23.6701426 28.2594715,22.2380258 C25.6849854,20.9171325 23.9240506,18.2365796 23.9240506,15.1449275 C23.9240506,10.7426578 27.4944381,7.17391304 31.8987342,7.17391304 Z" id="Combined-Shape" stroke-width="2" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4,4"></path>
-                    <rect id="Rectangle" fill="#D8D8D8" x="31.6012658" y="42.7463768" width="1" height="10.1594203"></rect>
-                    <rect id="Rectangle-Copy-6" fill="#D8D8D8" x="13.2594937" y="53.9057971" width="37.278481" height="1"></rect>
-                </g>
-                <g id="Group-6" transform="translate(46.000000, 39.000000)">
-                    <path d="M10.5,0 C16.2989899,0 21,4.70101013 21,10.5 C21,16.2989899 16.2989899,21 10.5,21 C4.70101013,21 0,16.2989899 0,10.5 C0,4.70101013 4.70101013,0 10.5,0 Z" id="Path" fill="#0066CC"></path>
-                    <polygon id="Path" fill="#FFFFFF" points="15.0153693 6.234375 8.92828125 12.3073125 5.98586648 9.3646875 4.59375 10.756804 8.92933238 15.0923864 10.3214489 13.7002699 16.4074858 7.62649148"></polygon>
+<svg width="135px" height="135px" viewBox="0 0 135 135" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Illust/signout</title>
+    <defs>
+        <circle id="path-1" cx="67.5" cy="67.5" r="67.5"></circle>
+        <filter x="-18.1%" y="-18.1%" width="136.3%" height="136.3%" filterUnits="objectBoundingBox" id="filter-2">
+            <feGaussianBlur stdDeviation="24" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="0" dy="1" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.6 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <filter x="-26.7%" y="-31.3%" width="143.2%" height="154.7%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.945676057   0 0 0 0 0.945676057   0 0 0 0 0.945676057  0 0 0 1 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <filter x="-22.2%" y="-25.4%" width="144.3%" height="150.7%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="3" dy="4" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.679845936   0 0 0 0 0.700666526   0 0 0 0 0.741151008  0 0 0 0.303729718 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <rect id="path-5" x="0" y="0" width="79" height="53" rx="5"></rect>
+        <filter x="-3.8%" y="-5.7%" width="107.6%" height="111.3%" filterUnits="objectBoundingBox" id="filter-6">
+            <feGaussianBlur stdDeviation="2.5" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="1" dy="1" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 1 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="37.9711595%" y1="4.27278184%" x2="82.6183432%" y2="115.084843%" id="linearGradient-7">
+            <stop stop-color="#C9D1E0" offset="0%"></stop>
+            <stop stop-color="#D6D9DE" offset="27.3922753%"></stop>
+            <stop stop-color="#CBCFD6" offset="65.1544744%"></stop>
+            <stop stop-color="#B6BAC2" offset="100%"></stop>
+        </linearGradient>
+        <path d="M49.5,27.1875 C56.639075,27.1875 60,31.9660971 60,37.8607955 C60,39.5945303 58.5945303,41 56.8607955,41 L42.1392045,41 C40.4652537,41 39.0973193,39.689788 39.0049694,38.0389322 L39,37.8607955 C39,31.9660971 42.360925,27.1875 49.5,27.1875 Z M49.5,15 C52.622533,15 55.1538462,17.5313131 55.1538462,20.6538462 L55.1538462,20.7211538 C55.1538462,23.8436869 52.622533,26.375 49.5,26.375 C46.377467,26.375 43.8461538,23.8436869 43.8461538,20.7211538 L43.8461538,20.6538462 C43.8461538,17.5313131 46.377467,15 49.5,15 Z" id="path-8"></path>
+        <filter x="0.0%" y="0.0%" width="109.5%" height="107.7%" filterUnits="objectBoundingBox" id="filter-9">
+            <feGaussianBlur stdDeviation="0" in="SourceGraphic"></feGaussianBlur>
+        </filter>
+        <filter x="-4.8%" y="-3.8%" width="119.0%" height="115.4%" filterUnits="objectBoundingBox" id="filter-10">
+            <feOffset dx="1" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.806078705   0 0 0 0 0.81007533   0 0 0 0 0.817846547  0 0 0 0.3 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <path d="M13,15 C21.8388548,15 26,20.8813503 26,28.1363636 C26,30.2701911 24.2701911,32 22.1363636,32 L3.86363636,32 C1.79649103,32 0.108507607,30.3766149 0.00502733966,28.3351859 L0,28.1363636 C0,20.8813503 4.16114521,15 13,15 Z M13,0 C16.8659932,-7.10171439e-16 20,3.13400675 20,7 C20,10.8659932 16.8659932,14 13,14 C9.13400675,14 6,10.8659932 6,7 C6,3.13400675 9.13400675,7.10171439e-16 13,0 Z" id="path-11"></path>
+        <path d="M13,15 C21.8388548,15 26,20.8813503 26,28.1363636 C26,30.2701911 24.2701911,32 22.1363636,32 L3.86363636,32 C1.79649103,32 0.108507607,30.3766149 0.00502733966,28.3351859 L0,28.1363636 C0,20.8813503 4.16114521,15 13,15 Z M13,0 C16.8659932,-7.10171439e-16 20,3.13400675 20,7 C20,10.8659932 16.8659932,14 13,14 C9.13400675,14 6,10.8659932 6,7 C6,3.13400675 9.13400675,7.10171439e-16 13,0 Z" id="path-13"></path>
+        <filter x="-9.6%" y="-10.9%" width="138.5%" height="128.1%" filterUnits="objectBoundingBox" id="filter-15">
+            <feOffset dx="3" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.601123134   0 0 0 0 0.623627968   0 0 0 0 0.667387368  0 0 0 0.2 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <filter x="-36.4%" y="-36.4%" width="172.7%" height="172.7%" filterUnits="objectBoundingBox" id="filter-16">
+            <feOffset dx="1" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.765019853   0 0 0 0 0.774232541   0 0 0 0 0.792146102  0 0 0 1 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <path d="M14.85,0 L2.24999997,0 C1.38374997,0 0.682874967,0.708750003 0.682874967,1.57500001 L0.674999967,11.025 C0.674999967,11.89125 1.38374997,12.6000001 2.24999997,12.6000001 L14.85,12.6000001 C15.71625,12.6000001 16.425,11.89125 16.425,11.025 L16.425,1.57500001 C16.425,0.708750003 15.71625,0 14.85,0 L14.85,0 Z" id="path-17"></path>
+        <filter x="-25.4%" y="-31.7%" width="163.5%" height="179.4%" filterUnits="objectBoundingBox" id="filter-19">
+            <feOffset dx="1" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.101100459   0 0 0 0 0.122057123   0 0 0 0 0.162806193  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Ch01_Login" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Ch4_Account_Setting_07" transform="translate(-1061.000000, -248.000000)">
+            <g id="@Contents" transform="translate(360.000000, 94.000000)">
+                <g id="Illust/signout" transform="translate(701.000000, 154.000000)">
+                    <g id="Oval">
+                        <use fill="#E4E4E4" fill-rule="evenodd" xlink:href="#path-1"></use>
+                        <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                        <circle stroke="#F4F4F4" stroke-width="1" stroke-linejoin="square" cx="67.5" cy="67.5" r="67"></circle>
+                    </g>
+                    <g id="Illust_signout" filter="url(#filter-3)" transform="translate(26.000000, 35.000000)">
+                        <g id="+monitor" filter="url(#filter-4)">
+                            <path d="M39.6464466,49.6464466 C40.1380712,49.5 40.2630712,49.5559644 40.3535534,49.6464466 C40.4440356,49.7369288 40.5,49.8619288 40.5,50 L40.5,50 L40.5,67.5 L62,67.5 C62.1380712,67.5 62.2630712,67.5559644 62.3535534,67.6464466 C62.4440356,67.7369288 62.5,67.8619288 62.5,68 C62.5,68.1380712 62.4440356,68.2630712 62.3535534,68.3535534 C62.2630712,68.4440356 62.1380712,68.5 62,68.5 L62,68.5 L18,68.5 C17.8619288,68.5 17.7369288,68.4440356 17.6464466,68.3535534 C17.5559644,68.2630712 17.5,68.1380712 17.5,68 C17.5,67.8619288 17.5559644,67.7369288 17.6464466,67.6464466 C17.7369288,67.5559644 17.8619288,67.5 18,67.5 L18,67.5 L39.5,67.5 L39.5,50 C39.5,49.8619288 39.5559644,49.7369288 39.6464466,49.6464466 Z" id="leg" stroke="#FFFFFF"></path>
+                            <g id="monitor">
+                                <use fill="#F0F0F0" fill-rule="evenodd" xlink:href="#path-5"></use>
+                                <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+                                <rect stroke="#FFFFFF" stroke-width="0.5" stroke-linejoin="square" x="0.25" y="0.25" width="78.5" height="52.5" rx="5"></rect>
+                            </g>
+                            <g id="people_2" opacity="0.5" filter="url(#filter-9)">
+                                <use fill="black" fill-opacity="1" filter="url(#filter-10)" xlink:href="#path-8"></use>
+                                <use fill="url(#linearGradient-7)" fill-rule="evenodd" xlink:href="#path-8"></use>
+                                <use fill-opacity="0.16" fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-8"></use>
+                            </g>
+                            <g id="people_1" transform="translate(19.000000, 11.000000)">
+                                <mask id="mask-12" fill="white">
+                                    <use xlink:href="#path-11"></use>
+                                </mask>
+                                <use id="Combined-Shape" fill="#FFFFFF" xlink:href="#path-11"></use>
+                                <image id="people_2" opacity="0.153023856" mask="url(#mask-12)" x="16" y="5.28571429" width="32" height="37" xlink:href="data:image/png;base64,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"></image>
+                                <mask id="mask-14" fill="white">
+                                    <use xlink:href="#path-13"></use>
+                                </mask>
+                                <g id="Combined-Shape">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-15)" xlink:href="#path-13"></use>
+                                    <use fill-opacity="0.67" fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-13"></use>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                    <g id="+people" filter="url(#filter-16)" transform="translate(82.000000, 26.000000)">
+                        <path d="M16.5,0.45 C20.9320851,0.45 24.9445851,2.24645744 27.8490638,5.15093616 C30.7535426,8.05541488 32.55,12.0679149 32.55,16.5 C32.55,20.6670686 30.9619861,24.4632517 28.3580475,27.3163149 C25.7349587,30.1903604 22.0810644,32.1076167 17.9810495,32.4826053 L17.9810495,32.4826053 L2.26882473,32.5445666 L6.74546976,29.2467168 C2.91807615,26.3132429 0.45,21.6948689 0.45,16.5 C0.45,12.0679149 2.24645744,8.05541488 5.15093616,5.15093616 C8.05541488,2.24645744 12.0679149,0.45 16.5,0.45 Z" id="Combined-Shape" stroke-opacity="0.62" stroke="#556C99" stroke-width="0.9" fill="#233558" opacity="0.900000036"></path>
+                        <g id="email" transform="translate(8.000000, 11.000000)">
+                            <mask id="mask-18" fill="white">
+                                <use xlink:href="#path-17"></use>
+                            </mask>
+                            <g id="Icon" fill-rule="nonzero">
+                                <use fill="black" fill-opacity="1" filter="url(#filter-19)" xlink:href="#path-17"></use>
+                                <use fill="#FFFFFF" xlink:href="#path-17"></use>
+                            </g>
+                            <path d="M8.07300095,7.23937562 L2.91779864,4.01737417 C2.50237004,3.7577313 2.24999997,3.30239321 2.24999997,2.8125 C2.24999997,2.57144427 2.44541426,2.37602998 2.68646999,2.37602998 C2.76827308,2.37602998 2.84842976,2.39901862 2.91779864,2.44237417 L8.07300095,5.66437561 C8.36484421,5.84677765 8.73515579,5.84677765 9.02699905,5.66437561 L14.1822013,2.44237417 C14.3866162,2.31461488 14.6558965,2.3767565 14.7836558,2.58117136 C14.8270113,2.65054023 14.85,2.73069692 14.85,2.8125 C14.85,3.30239321 14.5976299,3.7577313 14.1822013,4.01737418 L9.02699905,7.23937562 C8.73515579,7.42177765 8.36484421,7.42177765 8.07300095,7.23937562 Z" id="Path" fill="#233558" fill-rule="nonzero" mask="url(#mask-18)"></path>
+                        </g>
+                    </g>
                 </g>
             </g>
         </g>

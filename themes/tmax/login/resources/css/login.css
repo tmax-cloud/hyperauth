@@ -1,15 +1,20 @@
 .template-body .login-pf-page .card-pf {
   height: 640px;
+  width: 520px;
+  background: #FFFFFF;
+  border-radius: 24px;
 }
 
 .login-body .login-pf-page .card-pf {
   background: #ffffff;
-  border: 1px solid #cccccc;
-  border-radius: 6px;
+  border: 1px solid #EEF2F7;
+  box-shadow: 10px 16px 18px 1px rgba(195,203,213,0.40);
+  border-radius: 24px;
+
 }
 
 .login-body .login-pf-page .login-pf-accounts {
-  /* max-width: 850px; */
+  height: auto;
 }
 
 .login-body #kc-registration {
@@ -24,7 +29,7 @@
 }
 
 .login-pf-page .login-pf-social {
-  margin: 20px 0 0 0;
+  margin: 10px 0 0 0;
 }
 
 @media (max-width: 769px) {
@@ -54,7 +59,7 @@
     margin: auto auto;
   }
   #kc-social-providers li:first-of-type {
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   .login-pf-page .login-pf-social-section:last-of-type {
@@ -94,7 +99,7 @@
 }
 
 .login-body #kc-content-wrapper {
-  margin: 70px auto 18px;
+  margin: 53px auto 0px;
   max-width: 1000px;
 }
 
@@ -129,22 +134,24 @@
 #kc-forgot-pw > span > a {
   font-family: "Noto Sans KR";
   font-size: 14px;
-  font-weight: 500;
-  color: #185692;
+  font-weight: 400;
+  color:#213557;
 }
 
 .login-body #kc-registration > span > a {
   margin: 0;
-  font-size: 16px;
-  font-weight: 500;
-  color: #185692;
+  font-size: 14px;
+  font-weight: 400;
+  color: #213557;
   letter-spacing: 0;
 }
-
+.login-body #kakako-login-confirm-exist-email-bt{
+  margin:120px 0 70px 0;
+}
 .login-body #kc-forgot-pw > span > a {
-  font-size: 16px;
-  color: #185692 ;
-  font-weight: 500;
+  font-size: 14px;
+  color: #213557 ;
+  font-weight: 400;
   letter-spacing: 0;
 }
 
@@ -161,9 +168,14 @@
 .login-body .alert-error {
   margin-bottom: 12px;
 }
+.login-body .form-group{
+  margin-bottom: 20px;
+ 
+}
 
 .login-body .form-group-short-margin-bottom {
   margin-bottom: 9px;
+  margin-top:5px;
 }
 
 .login-body .group-wrapper {
@@ -172,11 +184,11 @@
 }
 
 .login-body .group-wrapper-short-margin-bottom {
-  margin-bottom: 18px;
+  margin-bottom: 72px;
 }
 
 .login-body .empty-error {
-  height: 26px;
+  display: none;
 }
 
 .login-body .kc-option-wrapper {
@@ -188,10 +200,10 @@
 }
 
 .login-body div.kc-border{
-  font-size: 16px;
+  font-size: 12px;
   display: flex;
   align-items: center;
-  color: #185692;
+  color: #213557;
   margin: 1px 10px 2px 10px;
 }
 

@@ -7,7 +7,7 @@
 }
 
 #identity-email .marginBottom {
-  margin-bottom: 50px;
+  margin-bottom: 80px;
 }
 
 #identity-email .infoText {
@@ -17,9 +17,9 @@
 
 #identity-email #instruction-title {
   font-family: "Noto Sans KR";
-  margin-top: 90px;
+  margin-top: 35px;
   font-size: 16px;
-  color: #666666;
+  color: #333333;
   letter-spacing: 0;
   text-align: center;
   line-height: 24px;
@@ -32,7 +32,7 @@
 
 #identity-step1-newAccount #email-address {
   font-size: 16px;
-  color: #0066cc;
+  color: #213557;
   letter-spacing: 0;
   text-align: center;
   line-height: 24px;
@@ -42,18 +42,29 @@
 #identity-step1-newAccount #instruction {
   font-family: "Noto Sans KR";
   margin-top: 30px;
-  margin-bottom: 60px;
+  margin-bottom: 0;
   font-size: 16px;
-  color: #666666;
+  color: #151515;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+  font-weight: 400;
+}
+#identity-step1-newAccount #instruction2 {
+  font-family: "Noto Sans KR";
+  margin-top: 26px;
+  margin-bottom: 50px;
+  font-size: 16px;
+  color: #151515;
   letter-spacing: 0;
   text-align: center;
   line-height: 24px;
   font-weight: 400;
 }
 
-#identity-step1-newAccount #instruction2 {
+#identity-step1-newAccount #instruction3 {
   font-family: "Noto Sans KR";
-  margin-top: 30px;
+  margin-top: 0;
   margin-bottom: 60px;
   font-size: 16px;
   color: #999999;
@@ -65,7 +76,8 @@
 
 #identity-step1-newAccount #instruction-container {
   text-align: center;
-  margin: 83px 0px;
+  margin: 35px 0 0 0;
+ 
 }
 
 #identity-step2 .agree {
@@ -83,8 +95,8 @@ hr {
   color: #3e3e3e;
   line-height: 2rem;
   display: block;
-  padding-left: 21px;
-  text-indent: -21px;
+  padding-left: 25px;
+  
   font-weight: 500;
 }
 

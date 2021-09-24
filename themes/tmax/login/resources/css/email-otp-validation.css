@@ -42,8 +42,8 @@
   padding: 13px 20px 20px 20px;
   background: #ffffff;
   box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 2px;
-  border-radius: 2px;
+  border-radius: 12px;
+
 }
 
 #opt-code .modal .md_content .md_content__header {
@@ -60,15 +60,16 @@
 }
 
 #opt-code .modal .md_content .md_content__header .md_content__header__close {
-  width: 17px;
-  height: 17px;
+  width: 16px;
+  height: 16px;
   background-image: url("../img/close.svg");
   cursor: pointer;
+  background-size: cover;
 }
 
 #opt-code .modal .md_content hr {
   margin: 13px 0 20px 0;
-  border-top: 1px solid #dadada;
+  border-top: 1px solid #242E3C;
 }
 
 #opt-code .modal .md_content .md_content__text {
@@ -83,7 +84,9 @@
   margin-top: 20px;
   width: 68px;
   height: 32px;
-  background-color: #042a54;
+  background: #233558;
+  box-shadow: 1px 2px 5px 1px rgba(0,0,0,0.10);
+  border-radius: 4px;
   font-weight: normal;
   font-size: 14px;
   color: #ffffff;
@@ -121,9 +124,8 @@
   height: 194px;
   padding: 13px 20px 20px 20px;
   background: #ffffff;
-  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 2px;
-  border-radius: 2px;
+  box-shadow: 0 1px 8px 0 rgba(0,0,0,0.20);
+border-radius: 12px;
 }
 
 #opt-code .time_expired_modal .md_content .md_content__header {
@@ -152,11 +154,12 @@
   height: 17px;
   background-image: url("../img/close.svg");
   cursor: pointer;
+  background-size: cover;
 }
 
 #opt-code .time_expired_modal .md_content hr {
   margin: 13px 0 20px 0;
-  border-top: 1px solid #dadada;
+  border-top: 1px solid #242E3C;;
 }
 
 #opt-code .time_expired_modal .md_content .md_content__text {
@@ -171,7 +174,9 @@
   margin-top: 20px;
   width: 68px;
   height: 32px;
-  background-color: #042a54;
+  background: #233558;
+  box-shadow: 1px 2px 5px 1px rgba(0,0,0,0.10);
+  border-radius: 4px;
   font-weight: normal;
   font-size: 14px;
   color: #ffffff;

@@ -1,0 +1,59 @@
+#email-card{
+    width: 415px;
+    margin: 60px auto; 
+    text-align: center; 
+    font-family: Noto Sans KR;
+    border: 1px solid #E5E7E9;
+    box-shadow: 3px -6px 9px 3px rgba(0,0,0,0.06);
+}
+#email-card #service-logo{
+    width: 97px;
+    height: 18px;
+    margin:0 0 6px 0;
+    object-fit: contain;
+}
+#email-card #email-content-box{
+    height: 467px;
+    border-top: 3px solid #042A54;
+    background: #FFFFFF;
+    border: 1px solid #E5E7E9;
+    box-shadow: 3px -6px 9px 3px rgba(0,0,0,0.06);
+}
+#email-card #email-content-box #email-main-content{
+    margin:64px 0 0 0;
+    display: flex;
+    align-items: center;
+}
+#email-card #email-content-box #email-main-content #password-content #title{
+    font-family: NotoSansCJKkr-Medium;
+    font-size: 20px;
+    color: #000000;
+    text-align: center;
+    line-height: 29px;
+    margin-bottom: 40px;
+
+}
+#email-card #email-content-box #email-main-content #password-content #title span{
+    color: #3769FF
+}
+#email-card #email-content-box #email-main-content #password-content #verification-code-box{
+    width: 345px;
+    height: 53px;
+    background: #F4F6FB;
+    margin-bottom: 33px;
+
+}
+
+#password-content #verification-code-box p{
+    font-family: NotoSansCJKkr-Medium;
+    font-size: 20px;
+    color: #000000;
+    text-align: center;
+}
+#emil-card #email-content-box #email-main-content #password-content #descript{
+    font-family: NotoSansCJKkr-Regular;
+    font-size: 14px;
+    color: #505050;
+    line-height: 24px;
+}
+

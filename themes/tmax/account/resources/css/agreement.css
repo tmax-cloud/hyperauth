@@ -84,9 +84,9 @@ div.term p {
 }
 
 .col2{
-  /*margin: 0 auto;*/
+ 
   margin: 0 0;
-  width: 500px;
+
 }
 
 input[type="checkbox"] {
@@ -102,6 +102,7 @@ input[type="checkbox"] + label {
   position: relative;
   padding: 0;
   cursor: pointer;
+  
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;

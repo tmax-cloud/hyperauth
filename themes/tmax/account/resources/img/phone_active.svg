@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>lnb/phone</title>
+    <defs>
+        <path d="M17,18 L7,18 L7,6 L17,6 L17,17.0140606 L19,17.0140606 L19,6 L19,5 L19,3 C19,1.9 18.1,1 17,1 L7,1 C5.9,1 5,1.9 5,3 L5,21 C5,22.1 5.9,23 7,23 L17,23 C18.1,23 19,22.1 19,21 L19,19 L19,18 L19,17.0140606 L17,17.0140606 L17,18 Z M7,3 L17,3 L17,4 L7,4 L7,3 Z M17,21 L7,21 L7,20 L17,20 L17,21 Z" id="path-1"></path>
+    </defs>
+    <g id="lnb/phone" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="app_blocking_black_24dp">
+            <rect id="Rectangle" x="-1.13686838e-13" y="-3.41060513e-13" width="24" height="24"></rect>
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="Shape" fill="#333333" fill-rule="nonzero" xlink:href="#path-1"></use>
+            <rect id="↳-🎨-Color" fill="#000000" mask="url(#mask-2)" x="0" y="0" width="24" height="24"></rect>
+        </g>
+    </g>
+</svg>

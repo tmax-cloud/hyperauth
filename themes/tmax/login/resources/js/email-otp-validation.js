@@ -48,6 +48,7 @@ function startTimer(expiredTime, fixedValidTimeLimit) {
           sec = "0" + sec;
         }
         timerContainer.setAttribute("data-value", min + ":" + sec);
+    
         time--;
         if (time < 0) {
           clearInterval(x);
