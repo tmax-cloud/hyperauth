@@ -532,16 +532,17 @@ function deleteImageFile(){
 
 function ImportImageFile(){
   try {
-    console.log("1111111")
     const email =  document.getElementById("email").value;
     let fd = new FormData();
     fd.append('imageFile', importPicture)
     fd.append('imageName', importPicture.name)
     // data = { 'userName': email, 'base64EncodeImage': document.getElementById("picture").src };
-    console.log("2222222")
-
     axios.post(
-      `${serverUrl}/auth/realms/`+ realmName + `/picture/` + email, fd
+      `${serverUrl}/auth/realms/`+ realmName + `/picture/` + email, fd, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
     ).then((response) => {
       console.log("333333")
 
