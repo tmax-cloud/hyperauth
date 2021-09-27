@@ -568,7 +568,7 @@ function ImportImageFile(){
     headers: {
       "Content-Type": "multipart/form-data",
     },
-    body: fd,
+    body: fd
   })
       .then((response) => console.log(response));
 }
