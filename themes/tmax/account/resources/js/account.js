@@ -541,21 +541,11 @@ function ImportImageFile(){
     fd.append('imageName', importPicture.name)
     // data = { 'userName': email, 'base64EncodeImage': document.getElementById("picture").src };
     axios.post(
-      `${serverUrl}/auth/realms/`+ realmName + `/picture/` + email, fd, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }
+      `${serverUrl}/auth/realms/`+ realmName + `/picture/` + email, fd
     ).then((response) => {
-      console.log("333333")
-
       console.log(response);
     });
-    console.log("4444444")
-
   } catch (e) {
-    console.log("5555555")
-
     console.error(e);
   }
 }
