@@ -116,18 +116,8 @@ public class PictureProvider implements RealmResourceProvider {
             if (input.getFormDataMap()!= null && input.getFormDataMap().get("imageFile") != null){
                 InputPart inputPart = input.getFormDataMap().get("imageFile").get(0);
                 InputStream inputStream = inputPart.getBody(InputStream.class, null);
-
                 String imageName = input.getFormDataPart("imageName", String.class, null);
-                String fileName;
-                BufferedImage resizedImage = null;
-                if (FilenameUtils.getExtension(imageName).equalsIgnoreCase("gif")){
-                    log.info ("gif file Upload");
-                    fileName = System.getenv("JBOSS_HOME") + "/welcome-content/profile-picture/" + userName + "/" + userName + ".gif";
-                } else {
-                    log.info (FilenameUtils.getExtension(imageName) + " file Upload");
-                    fileName = System.getenv("JBOSS_HOME") + "/welcome-content/profile-picture/" + userName + "/" + userName + ".jpg";
-                    resizedImage = resize(inputStream, 720);
-                }
+                String fileName = System.getenv("JBOSS_HOME") + "/welcome-content/profile-picture/" + userName + "/" + userName + "." + FilenameUtils.getExtension(imageName);
                 File file = new File(fileName);
                 if (file.getParentFile().exists()){
                     // 유저 이름으로 된 폴더 및 하위 image 다 지워주기
@@ -142,43 +132,80 @@ public class PictureProvider implements RealmResourceProvider {
                 }
                 log.info (file.getAbsolutePath());
 
-                if (FilenameUtils.getExtension(imageName).equalsIgnoreCase("gif")){
-                    FileOutputStream fop = new FileOutputStream(file);
-                    byte[] content = getBytesFromInputStream(inputStream);
-                    fop.write(content);
-                    fop.flush();
-                    fop.close();
-                } else {
-                    ImageIO.write(resizedImage, "jpg", file);
-                }
+                FileOutputStream fop = new FileOutputStream(file);
+                byte[] content = getBytesFromInputStream(inputStream);
+                fop.write(content);
+                fop.flush();
+                fop.close();
             }
 
-
-//        log.info ( "picture in base64 encode : " + pictureModel.getBase64EncodeImage());
-//        log.info ( "pictureModel.getUserName() : " + pictureModel.getUserName());
-//        log.info ( "session.getContext().getRealm().getId() : " + session.getContext().getRealm().getId());
+//            if (input.getFormDataMap()!= null && input.getFormDataMap().get("imageFile") != null){
+//                InputPart inputPart = input.getFormDataMap().get("imageFile").get(0);
+//                InputStream inputStream = inputPart.getBody(InputStream.class, null);
 //
-//        //Delete If Already Exists
-//        List<ProfilePicture> prevProfileList = getEntityManager().createNamedQuery("findByUserID", ProfilePicture.class)
-//                .setParameter("userName",pictureModel.getUserName()).setParameter("realmId",session.getContext().getRealm().getId()).getResultList();
+//                String imageName = input.getFormDataPart("imageName", String.class, null);
+//                String fileName;
+//                BufferedImage resizedImage = null;
+//                if (FilenameUtils.getExtension(imageName).equalsIgnoreCase("gif")){
+//                    log.info ("gif file Upload");
+//                    fileName = System.getenv("JBOSS_HOME") + "/welcome-content/profile-picture/" + userName + "/" + userName + ".gif";
+//                } else {
+//                    log.info (FilenameUtils.getExtension(imageName) + " file Upload");
+//                    fileName = System.getenv("JBOSS_HOME") + "/welcome-content/profile-picture/" + userName + "/" + userName + ".jpg";
+//                    resizedImage = resize(inputStream, 720);
+//                }
+//                File file = new File(fileName);
+//                if (file.getParentFile().exists()){
+//                    // 유저 이름으로 된 폴더 및 하위 image 다 지워주기
+//                    File[] deleteFolderFileList = file.getParentFile().listFiles();
+//                    for (File deleteFile : deleteFolderFileList) {
+//                        deleteFile.delete();
+//                        log.info (deleteFile + " deleted");
+//                    }
+//                } else {
+//                    file.getParentFile().mkdirs();
+//                    file.createNewFile();
+//                }
+//                log.info (file.getAbsolutePath());
 //
-//        if(prevProfileList != null && prevProfileList.size() != 0) {
-//            log.info("update previous one");
-//            getEntityManager().createQuery("update ProfilePicture set image = '" + pictureModel.getBase64EncodeImage() + "' where userName = '" + pictureModel.getUserName() + "' and realmId = '" + session.getContext().getRealm().getId() + "'" ).executeUpdate();
-////            getEntityManager().remove(prevProfileList.get(0));
-//        }else{
-//            log.info("create new one");
-//            String id =  KeycloakModelUtils.generateId();
+//                if (FilenameUtils.getExtension(imageName).equalsIgnoreCase("gif")){
+//                    FileOutputStream fop = new FileOutputStream(file);
+//                    byte[] content = getBytesFromInputStream(inputStream);
+//                    fop.write(content);
+//                    fop.flush();
+//                    fop.close();
+//                } else {
 //
-//            //Create New Entity
-//            ProfilePicture entity = new ProfilePicture();
+//                    ImageIO.write(resizedImage, "jpg", file);
+//                }
+//            }
 //
-//            entity.setId(id);
-//            entity.setUserName(pictureModel.getUserName());
-//            entity.setRealmId(session.getContext().getRealm().getId());
-//            entity.setImage(pictureModel.getBase64EncodeImage().getBytes());
-//            getEntityManager().persist(entity);
-//        }
+//
+////        log.info ( "picture in base64 encode : " + pictureModel.getBase64EncodeImage());
+////        log.info ( "pictureModel.getUserName() : " + pictureModel.getUserName());
+////        log.info ( "session.getContext().getRealm().getId() : " + session.getContext().getRealm().getId());
+////
+////        //Delete If Already Exists
+////        List<ProfilePicture> prevProfileList = getEntityManager().createNamedQuery("findByUserID", ProfilePicture.class)
+////                .setParameter("userName",pictureModel.getUserName()).setParameter("realmId",session.getContext().getRealm().getId()).getResultList();
+////
+////        if(prevProfileList != null && prevProfileList.size() != 0) {
+////            log.info("update previous one");
+////            getEntityManager().createQuery("update ProfilePicture set image = '" + pictureModel.getBase64EncodeImage() + "' where userName = '" + pictureModel.getUserName() + "' and realmId = '" + session.getContext().getRealm().getId() + "'" ).executeUpdate();
+//////            getEntityManager().remove(prevProfileList.get(0));
+////        }else{
+////            log.info("create new one");
+////            String id =  KeycloakModelUtils.generateId();
+////
+////            //Create New Entity
+////            ProfilePicture entity = new ProfilePicture();
+////
+////            entity.setId(id);
+////            entity.setUserName(pictureModel.getUserName());
+////            entity.setRealmId(session.getContext().getRealm().getId());
+////            entity.setImage(pictureModel.getBase64EncodeImage().getBytes());
+////            getEntityManager().persist(entity);
+////        }
 
 
             status = Status.OK;
