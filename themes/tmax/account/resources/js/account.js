@@ -565,9 +565,6 @@ function ImportImageFile(){
 
   fetch(`${serverUrl}/auth/realms/`+ realmName + `/picture/` + email, {
     method: "POST",
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
     body: fd
   })
       .then((response) => console.log(response));
