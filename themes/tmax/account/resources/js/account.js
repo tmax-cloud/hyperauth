@@ -530,29 +530,45 @@ function deleteImageFile(){
   }
 }
 
+// function ImportImageFile(){
+//   try {
+//     const email =  document.getElementById("email").value;
+//     let fd = new FormData();
+//     fd.append('imageFile', importPicture)
+//     fd.append('imageName', importPicture.name)
+//     // data = { 'userName': email, 'base64EncodeImage': document.getElementById("picture").src };
+//     axios.post(
+//       `${serverUrl}/auth/realms/`+ realmName + `/picture/` + email, fd, {
+//           headers: {
+//             'Content-Type': 'multipart/form-data'
+//           }
+//         }
+//     ).then((response) => {
+//       console.log("333333")
+//
+//       console.log(response);
+//     });
+//     console.log("4444444")
+//
+//   } catch (e) {
+//     console.log("5555555")
+//
+//     console.error(e);
+//   }
+// }
+
 function ImportImageFile(){
-  try {
-    const email =  document.getElementById("email").value;
-    let fd = new FormData();
-    fd.append('imageFile', importPicture)
-    fd.append('imageName', importPicture.name)
-    // data = { 'userName': email, 'base64EncodeImage': document.getElementById("picture").src };
-    axios.post(
-      `${serverUrl}/auth/realms/`+ realmName + `/picture/` + email, fd, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }
-    ).then((response) => {
-      console.log("333333")
+  const email =  document.getElementById("email").value;
+  let fd = new FormData();
+  fd.append('imageFile', importPicture)
+  fd.append('imageName', importPicture.name)
 
-      console.log(response);
-    });
-    console.log("4444444")
-
-  } catch (e) {
-    console.log("5555555")
-
-    console.error(e);   
-  }
+  fetch(`${serverUrl}/auth/realms/`+ realmName + `/picture/` + email, {
+    method: "POST",
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    body: fd,
+  })
+      .then((response) => console.log(response));
 }
