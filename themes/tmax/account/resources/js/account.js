@@ -482,7 +482,7 @@ function chk(obj) {
   if (/(\.gif|\.jpg|\.jpeg|\.png|\.bmp)$/i.test(obj.name) == false) {
     throw new Error('Unable to parse IMG file.');
   }
-  if (obj.size > 5120){
+  if (obj.size > 512000){
     throw new Error('Cannot Upload IMG file larger than 500KB.');
   }
   return;
