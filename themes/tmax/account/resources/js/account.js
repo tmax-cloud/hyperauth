@@ -454,7 +454,7 @@ let importPicture = "";
 elImage.addEventListener("change", (evt) => {
   importPicture = evt.target.files[0];
   // console.log(picture)
-  chk(importPicture.name);
+  chk(importPicture);
 
   document.getElementById("picture").src = window.URL.createObjectURL(importPicture);
   document.getElementById("picture").style.display = "block";
@@ -479,8 +479,11 @@ elImage.addEventListener("change", (evt) => {
 });
 
 function chk(obj) {
-  if (/(\.gif|\.jpg|\.jpeg|\.png|\.bmp)$/i.test(obj) == false) {
+  if (/(\.gif|\.jpg|\.jpeg|\.png|\.bmp)$/i.test(obj.name) == false) {
     throw new Error('Unable to parse IMG file.');
+  }
+  if (obj.size > 5120){
+    throw new Error('Cannot Upload IMG file larger than 500KB.');
   }
   return;
 }
@@ -530,42 +533,42 @@ function deleteImageFile(){
   }
 }
 
-// function ImportImageFile(){
-//   try {
-//     const email =  document.getElementById("email").value;
-//     let fd = new FormData();
-//     fd.append('imageFile', importPicture)
-//     fd.append('imageName', importPicture.name)
-//     // data = { 'userName': email, 'base64EncodeImage': document.getElementById("picture").src };
-//     axios.post(
-//       `${serverUrl}/auth/realms/`+ realmName + `/picture/` + email, fd, {
-//           headers: {
-//             'Content-Type': 'multipart/form-data'
-//           }
-//         }
-//     ).then((response) => {
-//       console.log("333333")
-//
-//       console.log(response);
-//     });
-//     console.log("4444444")
-//
-//   } catch (e) {
-//     console.log("5555555")
-//
-//     console.error(e);
-//   }
-// }
-
 function ImportImageFile(){
-  const email =  document.getElementById("email").value;
-  let fd = new FormData();
-  fd.append('imageFile', importPicture)
-  fd.append('imageName', importPicture.name)
+  try {
+    const email =  document.getElementById("email").value;
+    let fd = new FormData();
+    fd.append('imageFile', importPicture)
+    fd.append('imageName', importPicture.name)
+    // data = { 'userName': email, 'base64EncodeImage': document.getElementById("picture").src };
+    axios.post(
+      `${serverUrl}/auth/realms/`+ realmName + `/picture/` + email, fd, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+    ).then((response) => {
+      console.log("333333")
 
-  fetch(`${serverUrl}/auth/realms/`+ realmName + `/picture/` + email, {
-    method: "POST",
-    body: fd
-  })
-      .then((response) => console.log(response));
+      console.log(response);
+    });
+    console.log("4444444")
+
+  } catch (e) {
+    console.log("5555555")
+
+    console.error(e);
+  }
 }
+
+// function ImportImageFile(){
+//   const email =  document.getElementById("email").value;
+//   let fd = new FormData();
+//   fd.append('imageFile', importPicture)
+//   fd.append('imageName', importPicture.name)
+//
+//   fetch(`${serverUrl}/auth/realms/`+ realmName + `/picture/` + email, {
+//     method: "POST",
+//     body: fd
+//   })
+//       .then((response) => console.log(response));
+// }
