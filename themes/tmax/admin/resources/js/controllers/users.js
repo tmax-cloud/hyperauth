@@ -483,11 +483,8 @@ module.controller('UserDetailCtrl', function ($scope, realm, user, BruteForceUse
                 convertAttributeValuesToString($scope.user);
                 user = angular.copy($scope.user);
                 var l = headers().location;
-
                 console.debug("Location == " + l);
-
                 var id = l.substring(l.lastIndexOf("/") + 1);
-
 
                 $location.url("/realms/" + realm.realm + "/users/" + id);
                 Notifications.success($translate.instant('user.create.success'));
@@ -527,10 +524,10 @@ module.controller('UserDetailCtrl', function ($scope, realm, user, BruteForceUse
             //         $scope.instancesLoaded = true;
             //     });
 
-            var fd = new FormData();
+            let fd = new FormData();
             fd.append('imageFile', image)
             fd.append('imageName', image.name)
-            var pictureUrl = "";
+            let pictureUrl = "";
             if ($scope.user.username != null) {
                 pictureUrl = authUrl + '/realms/' + realm.realm + '/picture/' + $scope.user.username;
             } else {

@@ -109,7 +109,7 @@ public class PictureProvider implements RealmResourceProvider {
     @Path("{userName}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response post(@PathParam("userName") final String userName, MultipartFormDataInput input) throws IOException {
+    public Response post(@PathParam("userName") final String userName, MultipartFormDataInput input) {
         log.info("***** POST /picture");
         log.info ("userName : " + userName );
         try {
@@ -147,7 +147,7 @@ public class PictureProvider implements RealmResourceProvider {
                     byte[] content = getBytesFromInputStream(inputStream);
                     fop.write(content);
                     fop.flush();
-                    fop.close();
+//                    fop.close();
                 } else {
                     ImageIO.write(resizedImage, "jpg", file);
                 }
