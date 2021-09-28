@@ -591,9 +591,7 @@ module.controller('UserDetailCtrl', function ($scope, realm, user, BruteForceUse
         image = document.getElementById('profilePicture').files[0];
         console.log(image.name);
         try {
-            chk(image.name);
-            console.log(image)
-
+            chk(image);
             document.getElementById("target-tag").src = window.URL.createObjectURL(image)
             document.getElementById("target-tag").onload = () => { 
                 window.URL.revokeObjectURL(this.src) 
@@ -622,9 +620,12 @@ module.controller('UserDetailCtrl', function ($scope, realm, user, BruteForceUse
     }
 
     function chk(obj) {
-        if (/(\.gif|\.jpg|\.jpeg|\.png|\.bmp)$/i.test(obj) == false) {
+        if (/(\.gif|\.jpg|\.jpeg|\.png|\.bmp)$/i.test(obj.name) == false) {
             Notifications.error('Unable to parse IMG file.');
             throw new Error('Unable to parse IMG file.');
+        }
+        if (obj.size > 512000){
+            throw new Error('Cannot Upload IMG file larger than 500KB.');
         }
         return;
     }
@@ -635,7 +636,7 @@ module.controller('UserDetailCtrl', function ($scope, realm, user, BruteForceUse
         $scope.changed = false;
     }
 
-    var picture = null;
+    let picture = null;
     getPrevUserPicture()
     function getPrevUserPicture() {
         try {

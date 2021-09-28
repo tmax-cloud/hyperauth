@@ -450,7 +450,7 @@ function clickEye(e) {
 }
 
 const elImage = document.querySelector("#profilePicture");
-let importPicture = "";
+let importPicture = null;
 elImage.addEventListener("change", (evt) => {
   importPicture = evt.target.files[0];
   // console.log(picture)
@@ -543,8 +543,10 @@ function ImportImageFile(){
     axios.post(
       `${serverUrl}/auth/realms/`+ realmName + `/picture/` + email, fd
     ).then((response) => {
-      console.log(response);
-    });
+      console.log('response : ', JSON.stringify(response, null, 2))
+    }).catch( error => {
+      console.log('failed to import image file', error)
+    })
   } catch (e) {
     console.error(e);
   }
