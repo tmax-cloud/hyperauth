@@ -19,6 +19,8 @@ embed-server --server-config=standalone-ha.xml --std-out=echo
 /subsystem=keycloak-server/theme=defaults/:write-attribute(name=cacheTemplates,value=false)
 /subsystem=keycloak-server/theme=defaults/:write-attribute(name=staticMaxAge,value=-1)
 
+/subsystem=undertow/server=default-server/https-listener=https:write-attribute(name="enable-http2", value="false")
+
 stop-embedded-server
 
 
