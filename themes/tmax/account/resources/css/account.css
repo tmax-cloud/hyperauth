@@ -1622,6 +1622,11 @@ display: inline-block;
   position: absolute;
 
 }
+
+#userProfileImg-message{
+  color:red;
+  margin-top: 12px;
+}
 #userProfileImg-hover-box{
   cursor: pointer;
 display: flex;
