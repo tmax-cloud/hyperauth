@@ -48,6 +48,9 @@
         "department": "ck1-3",	
         "position": "developer"
       },
+      "groups": [
+        "woo-group", "woo-group2"
+      ],
       "credentials": [{
         "value": "Qwerqwer1!"
       }]
