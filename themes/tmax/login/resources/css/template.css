@@ -257,7 +257,7 @@ border-radius: 5px;
   display: flex;
   justify-content: space-between;
   margin-top: 8px;
-  padding:10px 10px 10px 10px;
+  padding:3px 10px 10px 10px;
   height: 40px;
   width: 400px;
 
@@ -298,6 +298,7 @@ hr {
   display: block;
   padding-left: 25px;
   font-weight: 500;
+  height: fit-content;
 }
 #step1 label span {
   color: #ff4646;
@@ -327,7 +328,7 @@ hr {
 }
 
 #step1 .term {
-  margin: 0 20px 10px 10px;
+  margin: 10px 20px 10px 10px;
   max-width: 380px;
   height: 200px;
   box-sizing: border-box;

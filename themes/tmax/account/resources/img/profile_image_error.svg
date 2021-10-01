@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Illust/profile_image_error</title>
+    <defs>
+        <circle id="path-1" cx="50" cy="50" r="50"></circle>
+        <filter x="-4.5%" y="-4.5%" width="109.0%" height="109.0%" filterUnits="objectBoundingBox" id="filter-3">
+            <feGaussianBlur stdDeviation="4" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="1" dy="1" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 1 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <path d="M50.0048595,53 L50.591774,53.0047456 C58.1842604,53.1145102 64.3180221,55.0990817 68.9842806,58.9588039 C70.1159785,59.8946576 70.3381853,61.6735968 69.467704,62.9150446 C68.6221842,64.1244383 67.0561877,64.3552056 65.9534222,63.4432777 C62.0536832,60.2227552 56.7381258,58.6112098 49.9942965,58.6003411 C43.257482,58.5894724 37.9466704,60.193182 34.04698,63.4204213 C32.9479511,64.3338415 31.3846802,64.1064895 30.533106,62.8981302 C29.6630063,61.6624974 29.8824919,59.8774147 31.0126906,58.9401901 C35.5667168,55.1629919 41.5143909,53.1867454 48.8498765,53.0125561 L49.4318769,53.0025483 L50.0048595,53 Z M41.4388272,36 L41.722,39.264 L44.7510108,38.5467652 L45.6072469,41.3086753 L42.759,42.624 L44.3496054,45.4542371 L42.0812977,47.1869029 L40,44.712 L37.9187023,47.1869029 L35.6526179,45.4559354 L37.219,42.624 L34.3931705,41.307329 L35.2489892,38.5467652 L38.281,39.265 L38.5889769,36 L41.4388272,36 Z M61.4388272,36 L61.722,39.264 L64.7510108,38.5467652 L65.6072469,41.3086753 L62.759,42.624 L64.3496054,45.4542371 L62.0812977,47.1869029 L60,44.712 L57.9187023,47.1869029 L55.6526179,45.4559354 L57.219,42.624 L54.3931705,41.307329 L55.2489892,38.5467652 L58.281,39.265 L58.5889769,36 L61.4388272,36 Z" id="path-4"></path>
+        <filter x="-5.0%" y="-3.6%" width="110.0%" height="114.3%" filterUnits="objectBoundingBox" id="filter-5">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 1   0 0 0 0 0   0 0 0 0 0  0 0 0 0.07 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Ch01_Login" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Ch6_Account_Setting_01_02" transform="translate(-818.000000, -228.000000)">
+            <g id="@Contents" transform="translate(360.000000, 94.000000)">
+                <g id="+txtbox" transform="translate(0.000000, 134.000000)">
+                    <g id="Illust/profile_image_error" transform="translate(458.000000, 0.000000)">
+                        <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                        </mask>
+                        <g id="+Pictures">
+                            <use fill="#FFE6E5" fill-rule="evenodd" xlink:href="#path-1"></use>
+                            <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-1"></use>
+                            <circle stroke="#FF0800" stroke-width="1" stroke-linejoin="square" cx="50" cy="50" r="49.5"></circle>
+                        </g>
+                        <g id="Shape" fill-rule="nonzero" mask="url(#mask-2)">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-5)" xlink:href="#path-4"></use>
+                            <use fill="#FF9592" xlink:href="#path-4"></use>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

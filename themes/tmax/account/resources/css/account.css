@@ -1604,7 +1604,7 @@ color: #000000;
 display: inline-block;
 
 }
-#account-update #userProfileImg{
+#account-update .userProfileImg{
   float: left;
   border-radius: 50%;
   width: 100px;
@@ -1615,7 +1615,18 @@ display: inline-block;
   overflow: hidden;
   position: relative;
 }
-#account-update #userProfileImg img{
+#account-update .userProfileImg-error {
+  float: left;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  background-image:url('../img/profile_image_error.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+  position: relative;
+}
+#account-update .userProfileImg img{
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1624,8 +1635,29 @@ display: inline-block;
 }
 
 #userProfileImg-message{
-  color:red;
-  margin-top: 12px;
+  font-size: 14px;
+  color: #AAAAAA;
+  margin-top: 60px;
+}
+#userProfileImg-message-error{
+  display: none;
+  margin-top: 65px;
+}
+#userProfileImg-message-error div{
+  float: left;
+  width: 18px;
+  height: 18px;
+  background-image:url('../img/info.svg');
+  background-size: cover;
+  margin-right: 4px;
+
+}
+#userProfileImg-message-error p{
+  font-size: 14px;
+  color: #FF0800;
+  letter-spacing: 0;
+  margin-bottom: 3px;
+  
 }
 #userProfileImg-hover-box{
   cursor: pointer;
@@ -1653,7 +1685,11 @@ width: 100%;
 
 
 }
+#userProfileImg-button-msg{
+  display: inline-block;
+}
 #userProfileImg-delete-button{
+  display: inline-block;
   background: #FFFFFF;
 border: 1px solid #E7E7E7;
 border-radius: 12px;

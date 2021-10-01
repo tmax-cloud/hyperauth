@@ -15,9 +15,9 @@
             <input type="hidden" id="stateChecker" name="stateChecker" value="${stateChecker}">
             <@layout.formGroup key="picture" required=false formGroupClass="${messagesPerField.printIfExists('picture','has-error')}">
 				<input id="profilePicture" type="file" class="hidden" accept=".jpg, .jpeg, .png, .bmp, .gif"/>
-                <div>
+              
                 <div id = 'userProfileImg-wrapper'>
-                    <div id = 'userProfileImg'>
+                    <div id = 'userProfileImg' class = 'userProfileImg'>
                         <img id="picture"/>
                         <label for="profilePicture"> 
                             <div id='userProfileImg-hover-box'>
@@ -25,12 +25,18 @@
                             </div>
                         </label>
                     </div>
+                    <div id = "userProfileImg-button-msg">
                     <button id= 'userProfileImg-delete-button' onclick="deleteImageFileCheck(); return false;"/>
                         <div></div>
                     </button>  
+                    <p id = "userProfileImg-message">(${msg("accountProfileImageUploadLimit")})</P>
+                    <div id = "userProfileImg-message-error">
+                        <div></div>
+                        <p>${msg("accountProfileImageUploadLimitError")}</p>
+                    </div>
+                    </div>
                 </div>
-                    <p id = "userProfileImg-message">${msg("accountProfileImageUploadLimit")}</P>
-                </div>
+             
             </@layout.formGroup>
 
             <@layout.formGroup key="email" required=false formGroupClass="${messagesPerField.printIfExists('email','has-error')}">

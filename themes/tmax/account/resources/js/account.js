@@ -462,7 +462,10 @@ elImage.addEventListener("change", (evt) => {
   pictureDeleting = false;
   document.getElementById("account-save-button").disabled = false;
   document.getElementById("userProfileImg-delete-button").style.display="block";
-
+  document.querySelector('#userProfileImg').classList.remove("userProfileImg-error")
+  document.getElementById('userProfileImg-message').style.display = "inline-block"
+  document.getElementById('userProfileImg-message-error').style.display = "none"
+  document.getElementById("userProfileImg-delete-button").disabled = false;
   console.log('image file get');
 
   // let reader = new FileReader();
@@ -479,11 +482,21 @@ elImage.addEventListener("change", (evt) => {
 });
 
 function chk(obj) {
+
   if (/(\.gif|\.jpg|\.jpeg|\.png|\.bmp)$/i.test(obj.name) == false) {
     throw new Error('Unable to parse IMG file.');
   }
   if (obj.size > 512000){
-    throw new Error('Cannot Upload IMG file larger than 500KB.');
+    document.getElementById("picture").style.display="none";
+    document.querySelector('#userProfileImg').classList.add("userProfileImg-error")
+    document.getElementById('userProfileImg-message').style.display = "none"
+    document.getElementById('userProfileImg-message-error').style.display = "inline-flex"
+    document.getElementById("userProfileImg-delete-button").disabled = true;
+    
+    
+    
+  throw new Error('Cannot Upload IMG file larger than 500KB.');
+    
   }
   return;
 }
@@ -504,7 +517,7 @@ function getPrevUserPicture() {
         document.getElementById("userProfileImg-delete-button").style.display="block";
       } else {
         document.getElementById("picture").style.display="none";
-        document.getElementById("userProfileImg-delete-button").style.display="none";
+        //document.getElementById("userProfileImg-delete-button").style.display="none";
       }
       pictureImporting = false;
     });
@@ -515,7 +528,7 @@ function getPrevUserPicture() {
 
 function deleteImageFileCheck(){
   document.getElementById("picture").style.display="none";
-  document.getElementById("userProfileImg-delete-button").style.display="none";
+  document.getElementById("userProfileImg-delete-button").disabled = true;
   pictureDeleting = true;
   document.getElementById("account-save-button").disabled = false;
 }
@@ -534,6 +547,7 @@ function deleteImageFile(){
 }
 
 function ImportImageFile(){
+ 
   try {
     const email =  document.getElementById("email").value;
     let fd = new FormData();
@@ -542,13 +556,14 @@ function ImportImageFile(){
     // data = { 'userName': email, 'base64EncodeImage': document.getElementById("picture").src };
     axios.post(
       `${serverUrl}/auth/realms/`+ realmName + `/picture/` + email, fd
-    ).then((response) => {
-      console.log('response : ', JSON.stringify(response, null, 2))
-    }).catch( error => {
-      console.log('failed to import image file', error)
-    })
-  } catch (e) {
-    console.error(e);
+      ).then((response) => {
+        console.log('response : ', JSON.stringify(response, null, 2))
+        document.getElementById("userProfileImg-delete-button").disabled = false;
+      }).catch( error => {
+        console.log('failed to import image file', error)
+      })
+    } catch (e) {
+      console.error(e);
   }
 }
 
