@@ -6,7 +6,7 @@ const getAccessToken = function () {
 };
 let pictureImporting = false;
 let pictureDeleting = false;
-
+let fileUploadError = false;
 
 const validationStates = {
   email: false,
@@ -444,6 +444,7 @@ function clickEye(e) {
   } else {
     e.classList.add("activate");
     if (e.id === "eye-password") {
+
       document.getElementById("password").type = "text";
     }
   }
@@ -452,22 +453,29 @@ function clickEye(e) {
 const elImage = document.querySelector("#profilePicture");
 let importPicture = null;
 elImage.addEventListener("change", (evt) => {
+
   importPicture = evt.target.files[0];
-  // console.log(picture)
+
   chk(importPicture);
+  if(!fileUploadError){
+    pictureImporting = true;
+    pictureDeleting = false;
 
-  document.getElementById("picture").src = window.URL.createObjectURL(importPicture);
-  document.getElementById("picture").style.display = "block";
-  pictureImporting = true;
-  pictureDeleting = false;
-  document.getElementById("account-save-button").disabled = false;
-  document.getElementById("userProfileImg-delete-button").style.display="block";
-  document.querySelector('#userProfileImg').classList.remove("userProfileImg-error")
-  document.getElementById('userProfileImg-message').style.display = "inline-block"
-  document.getElementById('userProfileImg-message-error').style.display = "none"
-  document.getElementById("userProfileImg-delete-button").disabled = false;
-  console.log('image file get');
-
+    document.getElementById("picture").src = window.URL.createObjectURL(importPicture);
+    document.getElementById("picture").style.display = "block";
+    document.getElementById("account-save-button").disabled = false;
+    document.getElementById("userProfileImg-delete-button").style.display="flex";
+  
+    document.getElementById('userProfileImg-message').style.display = "inline-block"
+    document.getElementById('userProfileImg-message-error').style.display = "none"
+    document.getElementById("userProfileImg-delete-button").disabled = false;
+  }
+  else{
+    if(!pictureImporting){
+      document.getElementById("userProfileImg-delete-button").disabled = true;
+    }
+  }
+ 
   // let reader = new FileReader();
   // reader.readAsDataURL(picture);
   // reader.onload = function () {
@@ -482,27 +490,30 @@ elImage.addEventListener("change", (evt) => {
 });
 
 function chk(obj) {
+  
 
   if (/(\.gif|\.jpg|\.jpeg|\.png|\.bmp)$/i.test(obj.name) == false) {
+    fileUploadError = true;
     throw new Error('Unable to parse IMG file.');
   }
-  if (obj.size > 512000){
-    document.getElementById("picture").style.display="none";
-    document.querySelector('#userProfileImg').classList.add("userProfileImg-error")
+  else if (obj.size > 512000){
+    fileUploadError = true;
     document.getElementById('userProfileImg-message').style.display = "none"
     document.getElementById('userProfileImg-message-error').style.display = "inline-flex"
-    document.getElementById("userProfileImg-delete-button").disabled = true;
-    
-    
-    
-  throw new Error('Cannot Upload IMG file larger than 500KB.');
+    document.getElementById("account-save-button").disabled = true;
+    if(!pictureImporting){
+      document.getElementById("userProfileImg-delete-button").disabled = true;
+    }
+ 
+    throw new Error('Cannot Upload IMG file larger than 500KB.');
     
   }
+  else fileUploadError =false;
+
   return;
 }
 
 getPrevUserPicture()
-
 function getPrevUserPicture() {
   try {
     const email =  document.getElementById("email").value;
@@ -514,12 +525,12 @@ function getPrevUserPicture() {
       if (prevPicture != null && prevPicture.length > 0){
         document.getElementById("picture").style.display="block";
         document.getElementById("picture").src = `${serverUrl}/` + prevPicture;
-        document.getElementById("userProfileImg-delete-button").style.display="block";
+        document.getElementById("userProfileImg-delete-button").disabled=false;
+        pictureImporting = true;
       } else {
         document.getElementById("picture").style.display="none";
-        //document.getElementById("userProfileImg-delete-button").style.display="none";
+        pictureImporting = false;
       }
-      pictureImporting = false;
     });
   } catch (e) {
     console.error(e);
@@ -527,10 +538,17 @@ function getPrevUserPicture() {
 };
 
 function deleteImageFileCheck(){
-  document.getElementById("picture").style.display="none";
-  document.getElementById("userProfileImg-delete-button").disabled = true;
+ 
+  if(pictureImporting){
+    document.getElementById("account-save-button").disabled = false;
+  }
+  pictureImporting = false;
   pictureDeleting = true;
-  document.getElementById("account-save-button").disabled = false;
+  
+  document.getElementById("picture").style.display="none"; 
+  document.getElementById('userProfileImg-message').style.display = "inline-block"
+  document.getElementById('userProfileImg-message-error').style.display = "none"
+   
 }
 
 function deleteImageFile(){
@@ -547,7 +565,8 @@ function deleteImageFile(){
 }
 
 function ImportImageFile(){
- 
+
+
   try {
     const email =  document.getElementById("email").value;
     let fd = new FormData();

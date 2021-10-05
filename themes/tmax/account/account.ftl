@@ -17,7 +17,7 @@
 				<input id="profilePicture" type="file" class="hidden" accept=".jpg, .jpeg, .png, .bmp, .gif"/>
               
                 <div id = 'userProfileImg-wrapper'>
-                    <div id = 'userProfileImg' class = 'userProfileImg'>
+                    <div id = 'userProfileImg'>
                         <img id="picture"/>
                         <label for="profilePicture"> 
                             <div id='userProfileImg-hover-box'>
