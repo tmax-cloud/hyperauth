@@ -75,6 +75,8 @@ RUN chmod 755 opt/jboss/keycloak/welcome-content/profile-picture
 
 # For Security Test
 COPY build/jar/elastic-apm-agent-1.26.0.jar /opt/jboss/keycloak/elastic-apm-agent-1.26.0.jar
+RUN chmod 755 /opt/jboss/keycloak/elastic-apm-agent-1.26.0.jar
+
 #RUN chmod 750 /opt/jboss/keycloak/standalone/log
 #RUN rm /etc/profile
 #ADD profile /etc/profile
