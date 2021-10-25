@@ -1,6 +1,28 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.1.33 start -------------------->
+
+## HyperAuthServer 1.1.1.33 (2021. 10. 05. (화) 11:37:08 KST)
+
+### Added
+
+### Changed
+  - [mod]유저 프로필 이미지 관련 UI 로직 수정 by min9120
+  - [mod] 사진 업로드 제한 문구 추가 by dnxorjs1
+  - [mod] account 프로필 이미지 파일 사이즈 조건 메시지 추가 by min9120
+  - [mod] 사진 upload시 closedChanndelException 나는 현상 해결: jboss undertow http2 enable설정 false로 변경 하는 cli 스크립트 추가 by dnxorjs1
+  - [mod] 테마 리뉴얼 적용 머지 by dnxorjs1
+  - [mod] custom 메일에도 보내는 이름 cutom하게 설정 할수 있도록 변경 by dnxorjs1
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.1.33 end --------------------->
+
 <!-------------------- v1.1.1.32 start -------------------->
 
 ## HyperAuthServer 1.1.1.32 (2021. 09. 14. (화) 15:56:12 KST)
