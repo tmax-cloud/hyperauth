@@ -65,6 +65,7 @@ public class KafkaProducer {
 
 //      for SSL
         properties.setProperty(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SSL");
+        //TODO : v1.1.1.34 버전부터 cert-manager를 사용하면서 jks 이름이 변경 주의 요망
         properties.setProperty(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, "/etc/x509/kafka/truststore.jks");
         properties.setProperty(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, System.getenv("CERTS_PASSWORD"));
         properties.setProperty(SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG, "/etc/x509/kafka/keystore.jks");
