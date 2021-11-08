@@ -1,6 +1,24 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.1.35 start -------------------->
+
+## HyperAuthServer 1.1.1.35 (2021. 11. 09. (화) 00:11:15 KST)
+
+### Added
+
+### Changed
+  - [mod] tmax 관련 theme 전체 캐싱 방지 js, css 버전 쿼리파라미터 추가 by dnxorjs1
+  - [mod] 회원가입 후 10분후 메일인증 확인하는 Timer 코드버그 수정 by dnxorjs1
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.1.35 end --------------------->
+
 <!-------------------- v1.1.1.34 start -------------------->
 
 ## HyperAuthServer 1.1.1.34 (2021. 11. 04. (목) 17:26:35 KST)
