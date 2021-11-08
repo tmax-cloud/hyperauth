@@ -1,6 +1,24 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.1.34 start -------------------->
+
+## HyperAuthServer 1.1.1.34 (2021. 11. 04. (목) 17:26:35 KST)
+
+### Added
+
+### Changed
+  - [mod] cert-manager 사용 인증서 생성 방식으로 바뀌면서 jks(keystore, truststore) 파일 이름 변경, 이전 인증서 사용불가 주의 요망 !! by dnxorjs1
+
+### Fixed
+  - [ims][273313] direct grant 방식 로그인시에 temp lock 초기화 안되는 현상 추가 개발 by dnxorjs1
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.1.34 end --------------------->
+
 <!-------------------- v1.1.1.33 start -------------------->
 
 ## HyperAuthServer 1.1.1.33 (2021. 10. 05. (화) 11:37:08 KST)
