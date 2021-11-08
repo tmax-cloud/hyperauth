@@ -2,7 +2,7 @@
 <@layout.registrationLayout bodyClass="template-body register-body"; section>
     <#if properties.styles_template?has_content>
         <#list properties.styles_template_register?split(' ') as style>
-            <link href="${url.resourcesPath}/${style}" rel="stylesheet" />
+            <link href="${url.resourcesPath}/${style}?${properties.version}" rel="stylesheet" />
         </#list>
     </#if>
     <#if section = "back-button">
@@ -308,10 +308,10 @@
             </form>
         </div>
         <script type="text/javascript" src="${url.resourcesPath}/js/axios.min.js"></script>
-        <script type="text/javascript" src="${url.resourcesPath}/js/register.js"></script>
+        <script type="text/javascript" src="${url.resourcesPath}/js/register.js?${properties.version}"></script>
         <#if properties.scripts_register_hyperauth?has_content>
             <#list properties.scripts_register_hyperauth?split(' ') as script>
-                <script src="${url.resourcesPath}/${script}" type="text/javascript"></script>
+                <script src="${url.resourcesPath}/${script}?${properties.version}" type="text/javascript"></script>
             </#list>
         </#if>
         <#if !(url.selectedTheme == 'hyperauth' || url.selectedTheme == 'CNU' || url.selectedTheme == 'cnu' || url.selectedTheme == 'supervds' || url.selectedTheme == 'superVDS')>

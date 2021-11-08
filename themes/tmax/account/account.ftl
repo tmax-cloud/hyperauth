@@ -400,11 +400,11 @@
 <#--  <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>  -->
 
 <script type="text/javascript" src="${url.resourcesPath}/js/axios.min.js"></script>
-<script type="text/javascript" src="${url.resourcesPath}/js/account.js"></script>
+<script type="text/javascript" src="${url.resourcesPath}/js/account.js?${properties.version}"></script>
 <#if properties.scripts_account_hyperauth?has_content>
     <#list properties.scripts_account_hyperauth?split(' ') as script>
-        <script src="${url.resourcesPath}/${script}" type="text/javascript"></script>
+        <script src="${url.resourcesPath}/${script}?${properties.version}" type="text/javascript"></script>
     </#list>
 </#if>
-<script type="text/javascript" src="${url.resourcesPath}/js/sns.js"></script>
+<script type="text/javascript" src="${url.resourcesPath}/js/sns.js?${properties.version}"></script>
 </@layout.mainLayout>

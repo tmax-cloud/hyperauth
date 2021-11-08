@@ -14,10 +14,6 @@ embed-server --server-config=standalone-ha.xml --std-out=echo
 /subsystem=logging/logger=javax.mail:add(category=javax.mail,level=INFO)
 /subsystem=logging/logger=javax.mail:add-handler(name="FILE")
 
-
-
-
-
 /subsystem=undertow/server=default-server/https-listener=https:write-attribute(name="enable-http2", value="false")
 
 stop-embedded-server

@@ -2,7 +2,7 @@
 <@layout.mainLayout active='agreement' bodyClass='user'; section>
     <#if properties.styles_template?has_content>
         <#list properties.styles_template_agreement?split(' ') as style>
-            <link href="${url.resourcesPath}/${style}" rel="stylesheet" />
+            <link href="${url.resourcesPath}/${style}?${properties.version}" rel="stylesheet" />
         </#list>
     </#if>
     <@layout.contentHeader required=false; section>
@@ -12,7 +12,7 @@
         <hr id='hr-top'>
 
     <script type="text/javascript" src="${url.resourcesPath}/js/axios.min.js"></script>
-    <script type="text/javascript" src="${url.resourcesPath}/js/agreement.js"></script>
+    <script type="text/javascript" src="${url.resourcesPath}/js/agreement.js?${properties.version}"></script>
 
         
     <div id="agreement" class="agreementBox">

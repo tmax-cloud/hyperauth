@@ -28,7 +28,7 @@
         </div>
         <#if properties.scripts_security_policy_hyperauth?has_content>
             <#list properties.scripts_security_policy_hyperauth?split(' ') as script>
-                <script src="${url.resourcesPath}/${script}" type="text/javascript"></script>
+                <script src="${url.resourcesPath}/${script}?${properties.version}" type="text/javascript"></script>
             </#list>
         </#if>
     </#if>

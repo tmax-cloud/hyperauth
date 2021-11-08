@@ -22,7 +22,7 @@
 <head>
     <#if properties.styles_template?has_content>
         <#list properties.styles_error?split(' ') as style>
-            <link href="${url.resourcesPath}/${style}" rel="stylesheet" />
+            <link href="${url.resourcesPath}/${style}?${properties.version}" rel="stylesheet" />
         </#list>
     </#if>
     <link rel="icon" href="${url.resourcesPath}/img/favicon.ico" />

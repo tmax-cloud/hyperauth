@@ -2,7 +2,7 @@
 <@layout.registrationLayout; section>
     <#if properties.styles_template?has_content>
         <#list properties.styles_email_otp_validation?split(' ') as style>
-            <link href="${url.resourcesPath}/${style}" rel="stylesheet" />
+            <link href="${url.resourcesPath}/${style}?${properties.version}" rel="stylesheet" />
         </#list>
     </#if>
     <#if section = "header">
@@ -109,5 +109,5 @@
         }
     </script>
     <script type="text/javascript" src="${url.resourcesPath}/js/axios.min.js"></script>
-    <script type="text/javascript" src="${url.resourcesPath}/js/email-otp-validation.js"></script>
+    <script type="text/javascript" src="${url.resourcesPath}/js/email-otp-validation.js?${properties.version}"></script>
 </@layout.registrationLayout>

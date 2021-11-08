@@ -77,7 +77,7 @@
         </div>
     </@layout.cancelModal>
 
-    <script type="text/javascript" src="${url.resourcesPath}/js/additionalAuth.js"></script>
+    <script type="text/javascript" src="${url.resourcesPath}/js/additionalAuth.js?${properties.version}"></script>
 </body>
 
 </@layout.mainLayout>

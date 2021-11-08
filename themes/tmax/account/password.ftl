@@ -91,6 +91,6 @@
         </div>
         </#if>
     </form>
-    <script type="text/javascript" src="${url.resourcesPath}/js/password.js"></script>
+    <script type="text/javascript" src="${url.resourcesPath}/js/password.js?${properties.version}"></script>
     <script type="text/javascript" src="${url.resourcesPath}/js/axios.min.js"></script>
 </@layout.mainLayout>

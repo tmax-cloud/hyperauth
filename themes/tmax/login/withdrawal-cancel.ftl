@@ -53,5 +53,5 @@
         </div>
     </#if>
     <script type="text/javascript" src="${url.resourcesPath}/js/axios.min.js"></script>
-    <script type="text/javascript" src="${url.resourcesPath}/js/withdrawal-cancel.js"></script>
+    <script type="text/javascript" src="${url.resourcesPath}/js/withdrawal-cancel.js?${properties.version}"></script>
 </@layout.registrationLayout>

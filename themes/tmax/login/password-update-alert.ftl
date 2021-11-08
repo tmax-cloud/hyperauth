@@ -60,5 +60,5 @@
             </form>
         </div>
     </#if>
-    <script type="text/javascript" src="${url.resourcesPath}/js/change-password.js"></script>
+    <script type="text/javascript" src="${url.resourcesPath}/js/change-password.js?${properties.version}"></script>
 </@layout.registrationLayout>

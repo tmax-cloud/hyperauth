@@ -10,17 +10,17 @@
     <link rel="icon" href="${url.resourcesPath}/img/favicon.ico">
     <#if properties.styles?has_content>
         <#list properties.styles?split(' ') as style>
-            <link href="${url.resourcesPath}/${style}" rel="stylesheet" />
+            <link href="${url.resourcesPath}/${style}?${properties.version}" rel="stylesheet" />
         </#list>
     </#if>
     <#if properties.styles?has_content>
         <#list properties.styles_template?split(' ') as style>
-            <link href="${url.resourcesPath}/${style}" rel="stylesheet" />
+            <link href="${url.resourcesPath}/${style}?${properties.version}" rel="stylesheet" />
         </#list>
     </#if>
     <#if properties.scripts?has_content>
         <#list properties.scripts?split(' ') as script>
-            <script type="text/javascript" src="${url.resourcesPath}/${script}"></script>
+            <script type="text/javascript" src="${url.resourcesPath}/${script}?${properties.version}"></script>
         </#list>
     </#if>
 </head>
@@ -91,7 +91,7 @@
                     <span class="kc-feedback-text">${kcSanitize(message.summary)?no_esc}</span>
                 </div>
             </#if>-->
-            <script type="text/javascript" src="${url.resourcesPath}/js/template.js"></script>
+            <script type="text/javascript" src="${url.resourcesPath}/js/template.js?${properties.version}"></script>
             <#if message?has_content>                
                 <div id="alertModal" class="modal">
                     <div class="md_overlay"></div>
@@ -121,10 +121,10 @@
     </div>
     <#if properties.scripts_template_hyperauth?has_content>
         <#list properties.scripts_template_hyperauth?split(' ') as script>
-            <script type="text/javascript" src="${url.resourcesPath}/${script}"></script>
+            <script type="text/javascript" src="${url.resourcesPath}/${script}?${properties.version}"></script>
         </#list>
     </#if>
-    <script type="text/javascript" src="${url.resourcesPath}/js/template.js"></script>
+    <script type="text/javascript" src="${url.resourcesPath}/js/template.js?${properties.version}"></script>
 </body>
 </html>
 </#macro>
@@ -178,7 +178,7 @@
 
 
 <#macro cancelModal>
-    <script type="text/javascript" src="${url.resourcesPath}/js/template.js"></script>
+    <script type="text/javascript" src="${url.resourcesPath}/js/template.js?${properties.version}"></script>
     <div id="cancelModal" class="modal hidden">
         <div class="md_overlay"></div>
         <div class="md_content">

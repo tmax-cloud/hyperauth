@@ -3,7 +3,7 @@
     <#if section = "header">
         <div class="login-logo-wrapper">
             <div class="login-logo-wapl">
-                <img class="login-logo-image" src="${url.resourcesPath}/img/login.svg?${.now?long}"/>
+                <img class="login-logo-image" src="${url.resourcesPath}/img/login.svg?${properties.version}"/>
             </div>
         </div>
     <#elseif section = "form">
@@ -86,7 +86,7 @@
         </div>    
     </#if>
  <script type="text/javascript" src="${url.resourcesPath}/node_modules/jquery/dist/jquery.min.js"></script>
- <script type="text/javascript" src="${url.resourcesPath}/js/loginLogic.js"></script>
+ <script type="text/javascript" src="${url.resourcesPath}/js/loginLogic.js?${properties.version}"></script>
  <script type="text/javascript">
     if ($(window).width() < 500 ) {
         $('input:checkbox[id="rememberMe"]').attr("checked", true);

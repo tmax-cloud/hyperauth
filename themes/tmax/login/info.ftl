@@ -94,7 +94,7 @@
             </div>
         </#if>
         <script type="text/javascript" src="${url.resourcesPath}/js/axios.min.js"></script>
-        <script type="text/javascript" src="${url.resourcesPath}/js/info.js"></script>
+        <script type="text/javascript" src="${url.resourcesPath}/js/info.js?${properties.version}"></script>
         <#--  <script>
             let vendor = "${msg(identityProviderVendor)}"
             console.log(vendor)

@@ -63,7 +63,7 @@
         </#if>
     </#if>
     <script type="text/javascript" src="${url.resourcesPath}/node_modules/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="${url.resourcesPath}/js/login.js"></script>
+    <script type="text/javascript" src="${url.resourcesPath}/js/login.js?${properties.version}"></script>
     <script type="text/javascript">
         if ($(window).width() < 500 ) {
             $('input:checkbox[id="rememberMe"]').attr("checked", true);

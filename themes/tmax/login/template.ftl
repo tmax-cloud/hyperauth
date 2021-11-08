@@ -6,10 +6,6 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="robots" content="noindex, nofollow">
-    <meta http-equiv="Cache-Control" content="no-cache"/>
-    <meta http-equiv="Expires" content="0"/>
-    <meta http-equiv="Pragma" content="no-cache"/>
-
 
     <#if properties.meta?has_content>
         <#list properties.meta?split(' ') as meta>
@@ -20,28 +16,28 @@
     <link rel="icon" href="${url.resourcesPath}/img/favicon.ico" />
     <#if properties.styles?has_content>
         <#list properties.styles?split(' ') as style>
-            <link href="${url.resourcesPath}/${style}" rel="stylesheet" />
+            <link href="${url.resourcesPath}/${style}?${properties.version}" rel="stylesheet" />
         </#list>
     </#if>
     <#if properties.styles_template?has_content>
         <#list properties.styles_template?split(' ') as style>
-            <link href="${url.resourcesPath}/${style}" rel="stylesheet" />
+            <link href="${url.resourcesPath}/${style}?${properties.version}" rel="stylesheet" />
         </#list>
     </#if>
 <#--    hyperauth 로그인 테마에 css 를 변경할 일이 생길 경우 활성화 지금은 큰 수정없어서 주석처리-->
 <#--    <#if properties.styles_template_hyperauth?has_content>-->
 <#--        <#list properties.styles_template_hyperauth?split(' ') as style>-->
-<#--            <link href="${url.resourcesPath}/${style}" rel="stylesheet" />-->
+<#--            <link href="${url.resourcesPath}/${style}?${properties.version}" rel="stylesheet" />-->
 <#--        </#list>-->
 <#--    </#if>-->
     <#if properties.scripts?has_content>
         <#list properties.scripts?split(' ') as script>
-            <script src="${url.resourcesPath}/${script}" type="text/javascript"></script>
+            <script src="${url.resourcesPath}/${script}?${properties.version}" type="text/javascript"></script>
         </#list>
     </#if>
     <#if scripts??>
         <#list scripts as script>
-            <script src="${script}" type="text/javascript"></script>
+            <script src="${script}?${properties.version}" type="text/javascript"></script>
         </#list>
     </#if>
 </head>

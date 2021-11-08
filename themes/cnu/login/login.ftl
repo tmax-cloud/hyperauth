@@ -4,8 +4,8 @@
         <div class="login-logo-wrapper">
             <div class="login-logo-wapl">
                 <#--  <div class="login-logo-image"></div>  -->
-                <img class="cnu-symbol" src="${url.resourcesPath}/img/cnu_symbol.jpg"/>
-                <img class="cnu-logo" src="${url.resourcesPath}/img/cnu_logo.jpg"/>
+                <img class="cnu-symbol" src="${url.resourcesPath}/img/cnu_symbol.jpg?${properties.version}"/>
+                <img class="cnu-logo" src="${url.resourcesPath}/img/cnu_logo.jpg?${properties.version}"/>
             </div>
         </div>
     <#elseif section = "form">
@@ -87,7 +87,7 @@
         </div>    
     </#if>
  <script type="text/javascript" src="${url.resourcesPath}/node_modules/jquery/dist/jquery.min.js"></script>
- <script type="text/javascript" src="${url.resourcesPath}/js/loginLogic.js"></script>
+ <script type="text/javascript" src="${url.resourcesPath}/js/loginLogic.js?${properties.version}"></script>
  <script type="text/javascript">
     if ($(window).width() < 500 ) {
         $('input:checkbox[id="rememberMe"]').attr("checked", true);

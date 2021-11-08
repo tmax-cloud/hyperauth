@@ -2,7 +2,7 @@
 <@layout.registrationLayout displayInfo=true; section>
     <#if properties.styles_template?has_content>
         <#list properties.styles_template_login_reset_password?split(' ') as style>
-            <link href="${url.resourcesPath}/${style}" rel="stylesheet" />
+            <link href="${url.resourcesPath}/${style}?${properties.version}" rel="stylesheet" />
         </#list>
     </#if>
     <#if section = "form">
@@ -189,10 +189,10 @@
         </div>
 
         <script type="text/javascript" src="${url.resourcesPath}/js/axios.min.js"></script>
-        <script type="text/javascript" src="${url.resourcesPath}/js/login-reset-password.js"></script>
+        <script type="text/javascript" src="${url.resourcesPath}/js/login-reset-password.js?${properties.version}"></script>
         <#if properties.scripts_reset_password_cnu?has_content>
             <#list properties.scripts_reset_password_cnu?split(' ') as script>
-                <script src="${url.resourcesPath}/${script}" type="text/javascript"></script>
+                <script src="${url.resourcesPath}/${script}?${properties.version}" type="text/javascript"></script>
             </#list>
         </#if>
 

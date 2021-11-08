@@ -1,7 +1,7 @@
 <#import "template.ftl" as layout>
 <@layout.registrationLayout bodyClass="template-body login-body" displayInfo=social.displayInfo displayWide=(realm.password && social.providers??); section>
     <#if section = "header">
-        <div class="supervds-logo-img"></div>
+        <div class="supervds-logo-img?${properties.version}"></div>
     <#elseif section = "form">
     <div id="kc-form" <#if realm.password && social.providers??>class="${properties.kcContentWrapperClass!}"</#if>>
       <div id="kc-form-wrapper" <#if realm.password && social.providers??>class="${properties.kcFormSocialAccountContentClass!} ${properties.kcFormSocialAccountClass!}"<#else>style="max-width: 380px; margin: auto auto;"</#if>>
@@ -88,7 +88,7 @@
         </div>
     </#if>
     <script type="text/javascript" src="${url.resourcesPath}/node_modules/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="${url.resourcesPath}/js/login.js"></script>
+    <script type="text/javascript" src="${url.resourcesPath}/js/login.js?${properties.version}"></script>
     <script type="text/javascript">
         if ($(window).width() < 500 ) {
             $('input:checkbox[id="rememberMe"]').attr("checked", true);

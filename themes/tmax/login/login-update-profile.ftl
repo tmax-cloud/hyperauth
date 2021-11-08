@@ -2,7 +2,7 @@
 <@layout.registrationLayout; section>
     <#if properties.styles_template?has_content>
         <#list properties.styles_identity_provider?split(' ') as style>
-            <link href="${url.resourcesPath}/${style}" rel="stylesheet" />
+            <link href="${url.resourcesPath}/${style}?${properties.version}" rel="stylesheet" />
         </#list>
     </#if>
     <#if section = "header">
@@ -215,10 +215,10 @@
         </div>
     </#if>
     <script type="text/javascript" src="${url.resourcesPath}/js/axios.min.js"></script>
-    <script type="text/javascript" src="${url.resourcesPath}/js/identity-provider.js"></script>
+    <script type="text/javascript" src="${url.resourcesPath}/js/identity-provider.js?${properties.version}"></script>
     <#if properties.scripts_identity_provider_hyperauth?has_content>
         <#list properties.scripts_identity_provider_hyperauth?split(' ') as script>
-            <script src="${url.resourcesPath}/${script}" type="text/javascript"></script>
+            <script src="${url.resourcesPath}/${script}?${properties.version}" type="text/javascript"></script>
         </#list>
     </#if>
     <script type="text/javascript">

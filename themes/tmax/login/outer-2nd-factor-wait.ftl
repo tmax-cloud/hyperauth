@@ -81,5 +81,5 @@
         </div>
     </#if>
     <script type="text/javascript" src="${url.resourcesPath}/js/axios.min.js"></script>
-    <script type="text/javascript" src="${url.resourcesPath}/js/outer-2nd-factor-wait.js"></script>
+    <script type="text/javascript" src="${url.resourcesPath}/js/outer-2nd-factor-wait.js?${properties.version}"></script>
 </@layout.registrationLayout>

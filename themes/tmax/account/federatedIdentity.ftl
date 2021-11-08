@@ -68,5 +68,5 @@
     </div>
 
 
-<script type="text/javascript" src="${url.resourcesPath}/js/federatedIdentity.js"></script>
+<script type="text/javascript" src="${url.resourcesPath}/js/federatedIdentity.js?${properties.version}"></script>
 </@layout.mainLayout>
