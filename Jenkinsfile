@@ -25,13 +25,13 @@ node {
 
         if(type == 'distribution') {
             sh "sed -i 's/hyperauth_version/${imageTag}/g' themes/tmax/account/theme.properties"
-            sh "sed -i 's/hyperauth_version/${imageTag}/g' themes/tmax/tmax/theme.properties"
+            sh "sed -i 's/hyperauth_version/${imageTag}/g' themes/tmax/admin/theme.properties"
             sh "sed -i 's/hyperauth_version/${imageTag}/g' themes/tmax/email/theme.properties"
             sh "sed -i 's/hyperauth_version/${imageTag}/g' themes/tmax/login/theme.properties"
             sh "sed -i 's/hyperauth_version/${imageTag}/g' themes/tmax/welcome/theme.properties"
         } else if(type == 'test'){
             sh "sed -i 's/hyperauth_version/b${testVersion}/g' themes/tmax/account/theme.properties"
-            sh "sed -i 's/hyperauth_version/b${testVersion}/g' themes/tmax/tmax/theme.properties"
+            sh "sed -i 's/hyperauth_version/b${testVersion}/g' themes/tmax/admin/theme.properties"
             sh "sed -i 's/hyperauth_version/b${testVersion}/g' themes/tmax/email/theme.properties"
             sh "sed -i 's/hyperauth_version/b${testVersion}/g' themes/tmax/login/theme.properties"
             sh "sed -i 's/hyperauth_version/b${testVersion}/g' themes/tmax/welcome/theme.properties"
