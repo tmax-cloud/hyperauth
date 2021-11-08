@@ -61,6 +61,7 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                         log.info("User [ " + event.getDetails().get("username") + " ], Client [ " + event.getClientId() + " ] Session-Restrict Success");
                     }
                     break;
+                case "SEND_VERIFY_EMAIL":
                 case "SEND_VERIFY_EMAIL_ERROR":
                     String email = event.getDetails().get("email");
                     long interval = 1000 * 60 * 10;
