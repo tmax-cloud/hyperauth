@@ -6,6 +6,10 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+
 
     <#if properties.meta?has_content>
         <#list properties.meta?split(' ') as meta>
