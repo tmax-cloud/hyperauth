@@ -410,7 +410,7 @@ public class UserProvider implements RealmResourceProvider {
         try {
             session.users().removeUser(realm, userModel);
             event.event(EventType.UPDATE_PROFILE).user(userModel).realm(session.getContext().getRealm()).detail("username", userName).detail("userDelete","t").success(); //FIXME
-//                HypercloudOperatorCaller.deleteNewUserRole(userName);
+            HypercloudOperatorCaller.deleteNewUserRole(userName);
 
             status = Status.OK;
             out = " User [" + userName + "] Delete Success ";
