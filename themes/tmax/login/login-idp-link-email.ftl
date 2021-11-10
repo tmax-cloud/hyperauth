@@ -44,5 +44,5 @@
         </div>
     </#if>
     <script type="text/javascript" src="${url.resourcesPath}/js/axios.min.js"></script>
-    <script type="text/javascript" src="${url.resourcesPath}/js/login-idp-link-email.js"></script>
+    <script type="text/javascript" src="${url.resourcesPath}/js/login-idp-link-email.js?${properties.version}"></script>
 </@layout.registrationLayout>
