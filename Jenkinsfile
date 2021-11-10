@@ -71,6 +71,12 @@ node {
         }
 
         stage('git push'){
+            sh "sed -i 's/${imageTag}/hyperauth_version/g' themes/tmax/account/theme.properties"
+            sh "sed -i 's/${imageTag}/hyperauth_version/g' themes/tmax/admin/theme.properties"
+            sh "sed -i 's/${imageTag}/hyperauth_version/g' themes/tmax/email/theme.properties"
+            sh "sed -i 's/${imageTag}/hyperauth_version/g' themes/tmax/login/theme.properties"
+            sh "sed -i 's/${imageTag}/hyperauth_version/g' themes/tmax/welcome/theme.properties"
+
             sh "git checkout ${params.buildBranch}"
             sh "git add -A"
 
