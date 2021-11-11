@@ -7,7 +7,7 @@ usergroup=$3
 echo join usergroup : $usergroup
 
 # get Admin Token
-token=$(curl -X POST 'http://'$hyperauthserver':8080/auth/realms/master/protocol/openid-connect/token' \
+token=$(curl -k -X POST 'https://'$hyperauthserver'/auth/realms/master/protocol/openid-connect/token' \
  -H "Content-Type: application/x-www-form-urlencoded" \
  -d "username=admin" \
  -d 'password='$password'' \
@@ -17,13 +17,13 @@ token=$(curl -X POST 'http://'$hyperauthserver':8080/auth/realms/master/protocol
 echo accessToken : $token
 
 # Get Hypercloud5 UserGroup ID
-groupid=$(curl -X GET 'http://'$hyperauthserver':8080/auth/admin/realms/tmax/groups' \
+groupid=$(curl -k -X GET 'https://'$hyperauthserver'/auth/admin/realms/tmax/groups' \
   -H "authorization: Bearer $token" | jq '[.[] | select(.name | contains("'$usergroup'")) | .id ]' | cut -f 2 -d '[' | cut -f 1 -d ']' | tr -d '"' | tr -d '' )
 
 groupid2=$(echo $groupid | tr -d '')
 echo $usergroup group id : $groupid2
 
-useridlist=$(curl -i -X GET 'http://'$hyperauthserver':8080/auth/admin/realms/tmax/users' \
+useridlist=$(curl -i -k -X GET 'https://'$hyperauthserver'/auth/admin/realms/tmax/users?max=10000' \
    -H "Authorization:Bearer $token" | grep id | jq .[].id | tr -d '"')
 echo useridlist : $useridlist 
 
@@ -31,8 +31,8 @@ echo useridlist : $useridlist
 for userid in $useridlist
 do
 	echo userid : $userid
-	echo 'http://'$hyperauthserver':8080/auth/admin/realms/tmax/users/'$userid'/groups/'$groupid2''
-        curl 'http://'$hyperauthserver':8080/auth/admin/realms/tmax/users/'$userid'/groups/'$groupid2'' \
+	echo 'https://'$hyperauthserver'/auth/admin/realms/tmax/users/'$userid'/groups/'$groupid2''
+        curl -k 'https://'$hyperauthserver'/auth/admin/realms/tmax/users/'$userid'/groups/'$groupid2'' \
         -X 'PUT' \
         -H "content-type: application/json;charset=UTF-8" \
         -H "authorization: Bearer $token" 
