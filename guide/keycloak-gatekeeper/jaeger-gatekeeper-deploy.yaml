@@ -1,0 +1,101 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  labels:
+    app: jaeger
+    app.kubernetes.io/component: query
+    app.kubernetes.io/name: jaeger
+  name: jaeger-query
+  namespace: istio-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jaeger
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        prometheus.io/port: "16686"
+        prometheus.io/scrape: "true"
+      creationTimestamp: null
+      labels:
+        app: jaeger
+        app.kubernetes.io/component: query
+        app.kubernetes.io/name: jaeger
+    spec:
+      containers:
+      - name: gatekeeper
+        image: quay.io/keycloak/keycloak-gatekeeper:10.0.0
+        imagePullPolicy: Always
+        args:
+        - --client-id=gatekeeper
+        - --client-secret=a77edc0b-c742-44d6-9783-175788ad1380
+        - --listen=:3000
+        - --upstream-url=http://127.0.0.1:16686
+        - --discovery-url=https://hyperauth.org/auth/realms/tmax
+        - --secure-cookie=true
+        - --skip-openid-provider-tls-verify=true
+        - --enable-self-signed-tls
+        - --skip-upstream-tls-verify=true
+        - --enable-default-deny=true
+        - --enable-refresh-tokens=true
+        - --enable-metrics=true
+        - --encryption-key=AgXa7xRcoClDEU0ZDSH4X0XhL5Qy2Z2j
+        - --forbidden-page=/html/access-forbidden.html
+        - --resources=uri=/*|roles=gatekeeper:gatekeeper-manager
+        - --enable-encrypted-token
+        - --verbose
+        ports:
+        - containerPort: 3000
+          name: gatekeeper
+        volumeMounts:
+        - name: gatekeeper-files
+          mountPath: /html
+      - args:
+        - --config-file=/conf/query.yaml
+        env:
+        - name: SPAN_STORAGE_TYPE
+          valueFrom:
+            configMapKeyRef:
+              key: span-storage-type
+              name: jaeger-configuration
+        image: jaegertracing/jaeger-query:1.16.0
+        imagePullPolicy: IfNotPresent
+        name: jaeger-query
+        ports:
+        - containerPort: 16686
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /
+            port: 16687
+            scheme: HTTP
+          initialDelaySeconds: 20
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 4
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /conf
+          name: jaeger-configuration-volume
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name : gatekeeper-files
+        configMap:
+          name: gatekeeper-files
+      - configMap:
+          defaultMode: 420
+          items:
+          - key: query
+            path: query.yaml
+          name: jaeger-configuration
+        name: jaeger-configuration-volume

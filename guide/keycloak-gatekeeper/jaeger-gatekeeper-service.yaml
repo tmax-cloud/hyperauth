@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+  labels:
+    app: jaeger
+    app.kubernetes.io/component: query
+    app.kubernetes.io/name: jaeger
+  name: jaeger-query
+  namespace: istio-system
+spec:
+  ports:
+  - name: jaeger-query
+    nodePort: 31589
+    port: 80
+    protocol: TCP
+    targetPort: 16686
+  - name: gatekeeper
+    port: 3000
+  selector:
+    app.kubernetes.io/component: query
+    app.kubernetes.io/name: jaeger
+  type: LoadBalancer
