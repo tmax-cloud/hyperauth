@@ -10,11 +10,6 @@ metadata:
   namespace: istio-system
 spec:
   ports:
-  - name: jaeger-query
-    nodePort: 31589
-    port: 80
-    protocol: TCP
-    targetPort: 16686
   - name: gatekeeper
     port: 3000
   selector:
