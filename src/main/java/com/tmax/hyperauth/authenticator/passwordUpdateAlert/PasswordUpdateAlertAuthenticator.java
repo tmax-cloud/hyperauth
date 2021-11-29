@@ -128,6 +128,13 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
                             UserCredentialModel.password(password, false));
                     log.info("User [ " + context.getUser().getUsername() + " ] Change Password Success");
 
+                    // Delete UPDATE_PASSWORD Required Action If Exists
+                    if(context.getUser().getRequiredActions().contains(UserModel.RequiredAction.UPDATE_PASSWORD.toString())){
+                        log.info("User [ " + context.getUser().getUsername() + " ] Delete Update Password Required Action");
+                        context.getUser().removeRequiredAction(UserModel.RequiredAction.UPDATE_PASSWORD);
+                        context.getAuthenticationSession().removeRequiredAction(UserModel.RequiredAction.UPDATE_PASSWORD);
+                    }
+
                     // Event Publish
                     EventBuilder event = new EventBuilder(context.getRealm(), context.getSession(), context.getConnection());
                     event.event(EventType.UPDATE_PASSWORD).user(context.getUser()).realm(context.getSession().getContext().getRealm())

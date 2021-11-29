@@ -138,11 +138,18 @@ public class PasswordProvider implements RealmResourceProvider {
             }
 
         try {
+            UserModel user = session.users().getUserByUsername(username, realm);
             // Change Password
             log.debug("Change Password to " + password);
             session.userCredentialManager().updateCredential(realm,
-                    session.users().getUserByUsername(username, realm),
-                    UserCredentialModel.password(password, false));
+                    user, UserCredentialModel.password(password, false));
+
+            // Delete UPDATE_PASSWORD Required Action If Exists
+            if(user.getRequiredActions().contains(UserModel.RequiredAction.UPDATE_PASSWORD.toString())){
+                log.info("User [ " + user.getUsername() + " ] Delete Update Password Required Action");
+                user.removeRequiredAction(UserModel.RequiredAction.UPDATE_PASSWORD);
+            }
+
             log.info("Change Password Success");
 
             // If Locked, Disable Temporary lock
