@@ -14,11 +14,11 @@
                 </div>
                 <div class = 'password-update-input-wrapper'>
                     <div class="${properties.kcFormGroupClass!}">
-                        <div class="${properties.kcLabelWrapperClass!}">
+                        <div class="${properties.kcLabelWrapperClass!} password-update-alert-label">
                             <label for="password" class="${properties.kcLabelClass!}">${msg("MSG_RESETPASSWORD__3")}</label>
                         </div>
                         <div id="password_wrapper" class="${properties.kcInputWrapperClass!} marginBottom">
-                            <input type="password" id="password" name="password" class="${properties.kcInputClass!}<#if message?has_content> ${message.type}</#if>" autocomplete="new-password" placeholder="${msg("MSG_RESETPASSWORD__4")}" onblur="passwordChange('password')" onkeyup="setButtonDisabled()"/>
+                            <input type="password" id="password" name="password" class="${properties.kcInputClass!}<#if message?has_content> ${message.type}</#if>" autocomplete="new-password" placeholder="${msg("MSG_RESETPASSWORD__4")}" onkeyup="passwordChange()"/>
                             <div class="error-container">
                                 <div class="error_message" id="error_none_password" style="display: none">
                                     ${msg("MSG_ERROR_PASSWORD_1")}
@@ -38,11 +38,11 @@
                         </div>
                     </div>
                     <div class="${properties.kcFormGroupClass!}">
-                        <div class="${properties.kcLabelWrapperClass!}">
+                        <div class="${properties.kcLabelWrapperClass!} password-update-alert-label">
                             <label for="confirmPassword" class="${properties.kcLabelClass!}">${msg("MSG_RESETPASSWORD__7")}</label>
                         </div>
-                        <div id="confirm_password_wrapper" class="${properties.kcInputWrapperClass!} marginBottom">
-                            <input type="password" id="confirmPassword" name="confirmPassword" class="${properties.kcInputClass!}<#if message?has_content> ${message.type}</#if>" autocomplete="new-password" placeholder="${msg("MSG_RESETPASSWORD__5")}" onblur="passwordChange('confirmPassword')" onkeyup="setButtonDisabled()"/>
+                        <div id="confirm_password_wrapper" class="${properties.kcInputWrapperClass!} marginBottom-confirm">
+                            <input type="password" id="confirmPassword" name="confirmPassword" class="${properties.kcInputClass!}<#if message?has_content> ${message.type}</#if>" autocomplete="new-password" placeholder="${msg("MSG_RESETPASSWORD__5")}" onkeyup="passwordChange()"/>
                             <div class="error-container">
                                 <div class="error_message" id="error_none_password_confirm" style="display: none">
                                     ${msg("MSG_ERROR_CONFIRMPASSWORD_1")}

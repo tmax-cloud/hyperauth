@@ -1,8 +1,3 @@
-function setButtonDisabled() {
-  const save_button = document.getElementById("save_password");
-  save_button.disabled = true;
-}
-
 function passwordRemoveValidation() {
   const wrapperClassList = document.getElementById("password_wrapper")
     .classList;
@@ -36,6 +31,7 @@ function passwordValidation() {
     pwd_class.contains("has-error") || pwd_class.add("has-error");
     wrapperClassList.contains("marginBottom") &&
       wrapperClassList.remove("marginBottom");
+    return false;
   } else if (pwdValue.length < 9 || pwdValue.length > 20) {
     const leng = document.getElementById("error_length_password");
     leng.style.display = "block";
@@ -99,9 +95,8 @@ function passwordConfirmValidation() {
   return true;
 }
 
-function passwordChange(inputId) {
+function passwordChange() {
   const save_button = document.getElementById("save_password");
-
   if (passwordValidation() && passwordConfirmValidation()) {
     save_button.disabled = false;
   } else {

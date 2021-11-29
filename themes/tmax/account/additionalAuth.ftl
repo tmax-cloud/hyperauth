@@ -25,8 +25,8 @@
             <span class="slider round"></span>
         </label>
 
-        <p id="off"></p>
-        <p id="on" style="display:none;"></p>
+        <#--  <p id="off"></p>    #slider button 옆에 on / off 글자로 보여주던 기능 기획변경으로 제거
+        <p id="on" style="display:none;"></p>  -->
 
         <hr id="hr-bottom" style ="margin:50px 0;">
      

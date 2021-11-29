@@ -24,3 +24,4 @@ function cancelWithdrawal() {
   document.getElementById("button-ok").classList.add("modal_button_disabled");
   document.getElementById("withdrawal-cancel-form").submit();
 }
+

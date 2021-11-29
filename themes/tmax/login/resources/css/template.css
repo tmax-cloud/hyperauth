@@ -926,11 +926,14 @@ div.form-group .form-control.has-error::placeholder {
   /* border: 1px solid #EFF0F1; */
   box-shadow: 2px 3px 8px 2px rgba(105,116,128,0.10);
   border-radius: 12px;
-
   font-size: 18px;
+  color: #243352;
+}
 
-color: #243352;
-  }
+.template-body #withdrawal-cancel-button-wraper .btn-primary:hover {
+  background: #243352;
+  color: #FFFFFF;
+}
 
 .template-body input[readonly] {
   background: #e4e4e4;
@@ -1492,7 +1495,21 @@ color: #213557;
 
 #change-password-step2 .marginBottom {
   /* margin-bottom: 39px; */
+  padding:0;
 }
+
+#change-password-step2 .password-update-alert-label{
+  padding:0;
+}
+
+#change-password-step2 #password_wrapper{
+  padding:0;
+}
+
+#change-password-step2 #confirm_password_wrapper{
+  padding:0;
+}
+
 
 #change-password-step2 .error-container {
   min-height: 41px;

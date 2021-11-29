@@ -26,26 +26,21 @@ function clickEye(e) {
   }
 }
 
-const validationPasswordStates = {
-  password: false,
-  passwordNew: false,
-  passwordConfirm: false,
-};
-
 function showErrorMessage(errorId, visible) {
   const error = document.getElementById(errorId);
   error.style.display = visible ? "block" : "none";
 }
 
-function checkPasswordInputStates() {
-  const registerButton = document.getElementById("password-save-button");
-  for (let value of Object.values(validationPasswordStates)) {
-    if (!value) {
-      registerButton.disabled = true;
-      return;
-    }
-  }
-  registerButton.disabled = false;
+function passwordChange() {
+  const saveButton = document.getElementById("password-save-button");
+  if (validatePassword() && validatePasswordNew() && validatePasswordConfirm()) {
+    console.log("activate save button")
+    saveButton.disabled = false;
+    return;
+  }else{
+    console.log("disable save button")
+    saveButton.disabled = true;
+  } 
 }
 
 function validatePassword() {
@@ -54,13 +49,9 @@ function validatePassword() {
 
   if (isEmptyPasswordField()) {
     password.classList.add("has_error");
-    validationPasswordStates.password = false;
-    checkPasswordInputStates();
     return false;
   } else {
     password.classList.remove("has_error");
-    validationPasswordStates.password = true;
-    checkPasswordInputStates();
     return true;
   }
 }
@@ -82,13 +73,9 @@ function validatePasswordNew() {
   const passwordNew = document.getElementById("password-new");
   if (validatePasswordField()) {
     passwordNew.classList.add("has_error");
-    validationPasswordStates.passwordNew = false;
-    checkPasswordInputStates();
     return false;
   } else {
     passwordNew.classList.remove("has_error");
-    validationPasswordStates.passwordNew = true;
-    checkPasswordInputStates();
     return true;
   }
 }
@@ -98,12 +85,10 @@ function validatePassword() {
   const password = document.getElementById("password");
   if (validatePasswordField()) {
     password.classList.add("has-error");
-    validationPasswordStates.password = false;
     checkPasswordInputStates();
     return false;
   } else {
     password.classList.remove("has-error");
-    validationPasswordStates.password = true;
     checkPasswordInputStates();
     return true;
   }
@@ -157,13 +142,9 @@ function validatePasswordConfirm() {
   const password = document.getElementById("password-confirm");
   if (validatePasswordConfirmField()) {
     password.classList.add("has_error");
-    validationPasswordStates.passwordConfirm = false;
-    checkPasswordInputStates();
     return false;
   } else {
     password.classList.remove("has_error");
-    validationPasswordStates.passwordConfirm = true;
-    checkPasswordInputStates();
     return true;
   }
 }
@@ -264,7 +245,6 @@ async function submitPassword() {
   } catch (e) {
     console.error(e);
     showErrorMessage("error_password_wrong", true);
-    validationPasswordStates.password = false;
     document.getElementById("password").classList.add("has_error");
     checkPasswordInputStates();
     return passwordResult;

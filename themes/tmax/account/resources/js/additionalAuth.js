@@ -1,26 +1,31 @@
 const checkEl = document.querySelector("input[type='checkbox']");
-const offEl = document.querySelector("#off");
-const onEl = document.querySelector("#on");
+// const offEl = document.querySelector("#off");
+// const onEl = document.querySelector("#on");
 const formElEmailOtp = document.querySelector("#emailOtpAuthUrl");
 const formElSimpleLogin = document.querySelector("#simpleLoginUrl");
-if (checkEl.checked === true) {
-  offEl.style.display = "none";
-  onEl.style.display = "";
-}
+// if (checkEl.checked === true) {
+//   offEl.style.display = "none";
+//   onEl.style.display = "";
+// }
 
 checkEl.addEventListener("click", (e) => {
-  document.getElementById("additionalAuth-save-button").removeAttribute("disabled");
-  if (offEl.style.display === "none") {
-    offEl.style.display = "";
+  const saveButton = document.getElementById("additionalAuth-save-button");
+  if(saveButton.getAttribute("disabled") != null){
+    saveButton.removeAttribute("disabled");
   } else {
-    offEl.style.display = "none";
+    saveButton.setAttribute("disabled", true);
   }
+  // if (offEl.style.display === "none") {
+  //   offEl.style.display = "";
+  // } else {
+  //   offEl.style.display = "none";
+  // }
 
-  if (onEl.style.display === "none") {
-    onEl.style.display = "";
-  } else {
-    onEl.style.display = "none";
-  }
+  // if (onEl.style.display === "none") {
+  //   onEl.style.display = "";
+  // } else {
+  //   onEl.style.display = "none";
+  // }
 });
 
 formElSimpleLogin.addEventListener("submit", (e) => {

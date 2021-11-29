@@ -68,7 +68,7 @@
                 <div class="${properties.kcLabelWrapperClass!}">
                     <label for="verification_input" class="${properties.kcLabelClass!}">${msg("MSG_FINDPASSWORD_CONFIRMVERIFICATIONCODE_0")}</label>
                 </div>
-                <div class="${properties.kcInputWrapperClass!} marginBottom">
+                <div class="${properties.kcInputWrapperClass!} marginBottom ">
                     <input type="text" id="verification_input" name="verification_input" class="${properties.kcInputClass!}<#if message?has_content> ${message.type}</#if>" autofocus onkeyup="verificationChange('verification_confirm')" onchange="verificationChange('verification_confirm')" onpaste="verificationChange('verification_confirm')" placeholder="${msg("MSG_FINDPASSWORD_CONFIRMVERIFICATIONCODE_3")}" />
                     <div class="error_message" id="error_wrong_code" style="display: none">
                         ${msg("MSG_ERROR_VERIFICATIONCODE_1")}
@@ -147,7 +147,7 @@
                 <div class="${properties.kcLabelWrapperClass!}">
                     <label for="password_confirm" class="${properties.kcLabelClass!}">${msg("MSG_RESETPASSWORD__7")}</label>
                 </div>
-                <div class="${properties.kcInputWrapperClass!} marginBottom">
+                <div class="${properties.kcInputWrapperClass!} marginBottom-confirm">
                     <input type="password" id="password_confirm" name="password_confirm" class="${properties.kcInputClass!}<#if message?has_content> ${message.type}</#if>" autofocus placeholder="${msg("MSG_RESETPASSWORD__5")}" onkeyup="passwordChange()" onfocusout="passwordConfirmValidation()" />
                     <div class="error_message" id="error_none_password_confirm" style="display: none">
                         ${msg("MSG_ERROR_CONFIRMPASSWORD_1")}

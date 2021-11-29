@@ -43,7 +43,7 @@
   }
 }
 
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   .login-pf-page .login-pf-social-section {
     -ms-flex: 0 1 90%;
     flex: 0 1 80%;

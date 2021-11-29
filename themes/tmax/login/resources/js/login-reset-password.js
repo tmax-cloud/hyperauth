@@ -163,7 +163,7 @@ function passwordChange() {
   const password_confirm_input = document.getElementById("password_confirm");
   const save_button = document.getElementById("save_password");
 
-  if (password_input.value !== "" && password_confirm_input.value !== "" && password_input.value == password_confirm_input.value) {
+  if (passwordValidation() && passwordConfirmValidation()) {
     save_button.disabled = false;
   } else {
     save_button.disabled = true;
@@ -195,20 +195,25 @@ function passwordValidation() {
     const none = document.getElementById("error_none_password");
     none.style.display = "block";
     pwd_class.contains("has-error") || pwd_class.add("has-error");
+    return false;
   } else if (pwdValue.length < 9 || pwdValue.length > 20) {
     const leng = document.getElementById("error_length_password");
     leng.style.display = "block";
     pwd_class.contains("has-error") || pwd_class.add("has-error");
+    return false;
   } else if (!passwordReg.test(pwdValue)) {
     const wrong = document.getElementById("error_wrong_password");
     wrong.style.display = "block";
     pwd_class.contains("has-error") || pwd_class.add("has-error");
+    return false;
   }
+  return true;
 }
 
 function passwordConfirmRemoveValidation() {
   const none = document.getElementById("error_none_password_confirm");
   const wrong = document.getElementById("error_wrong_password_confirm");
+  
   none.style.display = "none";
   wrong.style.display = "none";
 }
@@ -226,11 +231,14 @@ function passwordConfirmValidation() {
     const none = document.getElementById("error_none_password_confirm");
     none.style.display = "block";
     pwdConfirm_class.contains("has-error") || pwdConfirm_class.add("has-error");
+    return false;
   } else if (pwdValue !== pwdConfirmValue) {
     const wrong = document.getElementById("error_wrong_password_confirm");
     wrong.style.display = "block";
     pwdConfirm_class.contains("has-error") || pwdConfirm_class.add("has-error");
+    return false;
   }
+  return true;
 }
 
 async function clickPasswordSaveButton() {
