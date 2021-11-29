@@ -157,13 +157,15 @@
         
         <div class="copyright-wrapper">
             <div class="footer-tabs-lang-wrapper">
-                <div class="footer-tab-wrapper">
-                    <a id="terms-conditions-tab"  href="${client.baseUrl}/term-and-conditions" target="_blank">${msg("CM_TERMS_OF_USE")}</a>
-                    <div class="kc-border">|</div>
-                    <a id="privacy-policy-tab" href="${client.baseUrl}/privacy-policy" target="_blank">${msg("CM_PRIVACY_POLICY")}</a>
-                    <div class="kc-border">|</div>
-                    <a id="service-tab"  href="${client.baseUrl}/?force=true">${msg("CM_SERVICE_INTRO")}</a>
-                </div>
+                <#if client.baseUrl?has_content>
+                    <div class="footer-tab-wrapper">
+                        <a id="terms-conditions-tab"  href="${client.baseUrl}/term-and-conditions" target="_blank">${msg("CM_TERMS_OF_USE")}</a>
+                        <div class="kc-border">|</div>
+                        <a id="privacy-policy-tab" href="${client.baseUrl}/privacy-policy" target="_blank">${msg("CM_PRIVACY_POLICY")}</a>
+                        <div class="kc-border">|</div>
+                        <a id="service-tab"  href="${client.baseUrl}/?force=true">${msg("CM_SERVICE_INTRO")}</a>
+                    </div>
+                </#if>
                 <div class="locale-wrapper">
                     <#if realm.internationalizationEnabled  && locale.supported?size gt 1>
                         <div id="kc-locale">
