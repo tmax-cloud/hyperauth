@@ -753,7 +753,10 @@ border-radius: 4px;
 }
 
 #update_password .marginBottom {
-  margin-bottom: 39px;
+  margin-bottom: 16px;
+}
+#update_password .marginBottom-confirm {
+  margin-bottom: 90px;
 }
 
 /* login_reset_password - reset_password_complete */
@@ -1494,8 +1497,12 @@ color: #213557;
 }
 
 #change-password-step2 .marginBottom {
-  /* margin-bottom: 39px; */
+  margin-bottom: 16px;
   padding:0;
+}
+#change-password-step2 .marginBottom-confirm {
+  margin-bottom: 30px;
+ 
 }
 
 #change-password-step2 .password-update-alert-label{
@@ -1512,7 +1519,6 @@ color: #213557;
 
 
 #change-password-step2 .error-container {
-  min-height: 41px;
   height: auto;
 }
 #change-password-form .form-group{
