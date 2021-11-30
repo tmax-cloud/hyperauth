@@ -50,6 +50,13 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
         return false;
     }
 
+    private boolean isUserHasPasswordUpdateRequiredAction(AuthenticationFlowContext context) {
+        if(context.getUser().getRequiredActions().contains(UserModel.RequiredAction.UPDATE_PASSWORD.toString())){
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void authenticate(AuthenticationFlowContext context) {
         log.debug("authenticate called ... User = " + context.getUser().getUsername());
@@ -67,12 +74,18 @@ public class PasswordUpdateAlertAuthenticator implements Authenticator {
             log.info("User [ " + context.getUser().getUsername() + " ] Do Not Need to Update Password");
             context.success();
             return;
+        }
+        if( isUserHasPasswordUpdateRequiredAction(context)){
+            log.info("User [ " + context.getUser().getUsername() + " ] Has Update Password Required Action, Bypass UpdatePassword Alert Authenticator");
+            context.success();
+            return;
         } else {
             log.info("User [ " + context.getUser().getUsername() + " ] Need to Update Password");
             Response challenge = context.form().createForm("password-update-alert-choose.ftl");
             context.challenge(challenge);
         }
     }
+
 
 
 
