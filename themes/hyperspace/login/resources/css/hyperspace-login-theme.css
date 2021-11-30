@@ -23,9 +23,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 329px !important;
+        width: 80vw !important;
         max-width: 345px !important;
-        min-width: 0px !important;
+        min-width: 250px !important;
         padding: 15px 21px 0px 22px !important;
         height: auto !important;
         border: 1px solid rgba(0, 0, 0, 0.05);
@@ -242,6 +242,7 @@
     font-size: 14px;
     font-weight: bold;
     color: #F2EDE6;
+    margin-top: 40px;
 }
 
 .login-body-hyperspace .btn-primary:hover {
@@ -274,10 +275,6 @@
 /* checkbox */
 .login-body-hyperspace input[type="checkbox"] + label::before {
     background: url("../img/checkbox_off.svg") no-repeat;
-    border-radius: 7.5px;
-    background-size: 13px 13px;
-    width: 13px;
-    height: 13px;
 }
 .login-body-hyperspace input[type="checkbox"]:checked + label::before {
     background: url('../img/checkbox_on.svg') no-repeat;
@@ -289,6 +286,7 @@
     font-size: 13px;
     color: #232D3B;
     letter-spacing: 0px;
+    background-position: 0 50%;
 }
 /* login header */
 .login-body-hyperspace div.login-pf-page .login-pf-header{

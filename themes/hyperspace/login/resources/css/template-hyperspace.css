@@ -77,3 +77,7 @@ div.copyright-wrapper .footer-tabs-lang-wrapper{
     margin-bottom: 14px;
 }
 
+.login-pf-page .login-pf-social-link a{
+    box-shadow: none;
+    border-radius: 4px;
+}
