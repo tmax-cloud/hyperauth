@@ -1,6 +1,35 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.1.36 start -------------------->
+
+## HyperAuthServer 1.1.1.36 (2021. 11. 30. (화) 17:33:21 KST)
+
+### Added
+  - [feat] keycloak-gatekeeper.pptx 추가 by dnxorjs1
+
+### Changed
+  - [mod] wapl 로그인 화면 모바일에서 잘리던 현상 수정 by bin_lim
+  - [mod] 비밀번호 변경 required action이 있을 경우 3개월 비밀번호 변경 페이지 노출되지 않도록 조치 by dnxorjs1
+  - [mod] 비밀번호 변경 관련 페이지 기획 및 디자인 통일 -김경민- by dnxorjs1
+  - [mod] baseUrl이 없는 client의 wapl 테마 로그인 화면에서 npe 나는 현상 수정 by dnxorjs1
+  - [ims] [274662 UPDATE_PASSWORD required action 관련 페이지 구현 [mod] 비밀번호 변경 관련 페이지 저장버튼 활성화 관련 로직 고도화 [mod] typo 수정 [mod] ux 패턴 고도화 by dnxorjs1
+  - [mod] keycloak-service jar 수정 : updatePassword에 기존비밀번호와 같을 경우 에러 발생하도록 로직 추가 by dnxorjs1
+  - [mod] 비밀번호 변경 로직에서 UPDATE_PASSWORD required action이 존재할 경우 지워주는 로직 추가 by dnxorjs1
+  - [mod] keycloak-gatekeeper 가이드 Yaml 추가 by dnxorjs1
+  - [mod] joinGroup shell script 고도화 : http--> https, insecure 옵션 추가, userlistget 10000명으로 변경 by dnxorjs1
+  - [mod] 기본 테마 캐시 정책 1달 --> 1주일 로 변경, 모든 유저를 특정 userGroup에 속하게 하는 script추가 by dnxorjs1
+  - [mod] js, css 버전관리 배포 시스템 버그 수정 by dnxorjs1
+  - [mod] 유저 삭제 api에서 hypercloud4 userrole 삭제 api 재추가 (정책) by dnxorjs1
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.1.36 end --------------------->
+
 <!-------------------- v1.1.1.35 start -------------------->
 
 ## HyperAuthServer 1.1.1.35 (2021. 11. 09. (화) 00:11:15 KST)
