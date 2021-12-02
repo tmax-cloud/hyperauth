@@ -1,0 +1,105 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kibana
+  namespace: kube-logging
+  labels:
+    app: kibana
+  annotations:
+    traefik.ingress.kubernetes.io/service.serverstransport: tmaxcloud@file
+spec:
+  type: ClusterIP
+  ports:
+  - port: 443
+    name: https
+    targetPort: 3000
+  selector:
+    app: kibana
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana
+  namespace: kube-logging
+  labels:
+    app: kibana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kibana
+  template:
+    metadata:
+      labels:
+        app: kibana
+    spec:
+      containers:
+      - name: gatekeeper
+        image: quay.io/keycloak/keycloak-gatekeeper:10.0.0
+        imagePullPolicy: Always
+        args:
+        - --client-id=kibana
+        - --client-secret=e720562b-e986-47ff-b040-9513b91989b9
+        - --listen=:3000
+        - --upstream-url=http://127.0.0.1:5601
+        - --discovery-url=https://hyperauth.org/auth/realms/tmax
+        - --secure-cookie=false
+        - --tls-cert=/etc/secrets/tls.crt
+        - --tls-private-key=/etc/secrets/tls.key
+        - --tls-ca-certificate=/etc/secrets/ca.crt
+        - --skip-openid-provider-tls-verify=true
+        - --enable-self-signed-tls=false
+        - --skip-upstream-tls-verify=true
+        - --upstream-keepalives=false
+        - --enable-default-deny=true
+        - --enable-refresh-tokens=true
+        - --enable-metrics=true
+        - --encryption-key=AgXa7xRcoClDEU0ZDSH4X0XhL5Qy2Z2j
+        - --resources=uri=/*|roles=kibana:kibana-manager
+        - --verbose
+        ports:
+        - containerPort: 3000
+          name: service
+        volumeMounts:
+        - name: secret
+          mountPath: "/etc/secrets"
+          readOnly: true
+      - name: kibana
+        image: docker.elastic.co/kibana/kibana:7.2.0
+        resources:
+          limits:
+            cpu: 300m
+            memory: 500Mi
+          requests:
+            cpu: 300m
+            memory: 500Mi
+        env:
+          - name: ELASTICSEARCH_URL
+            value: http://elasticsearch.kube-logging.svc.cluster.local:9200
+        ports:
+        - containerPort: 5601
+        volumeMounts:
+        - mountPath: /usr/share/kibana/config/kibana.yml
+          name: config
+          subPath: kibana.yml
+      volumes:
+      - name: secret
+        secret:
+          secretName: kibana-secret
+      - name: config
+        configMap:
+          name: kibana-config
+---
+apiVersion: v1
+data:
+  kibana.yml: |
+    server.name: kibana
+    server.host: "0"
+    #server.basePath: "/api/kibana"
+    #server.rewriteBasePath: true
+    elasticsearch.hosts: [ "http://elasticsearch:9200" ]
+    elasticsearch.requestTimeout: "100000ms"
+kind: ConfigMap
+metadata:
+  name: kibana-config
+  namespace: kube-logging
