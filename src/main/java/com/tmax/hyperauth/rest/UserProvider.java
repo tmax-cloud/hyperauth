@@ -324,6 +324,7 @@ public class UserProvider implements RealmResourceProvider {
             }
 
             userOut.setUsername(userName);
+            userOut.setId(user.getId()); //added ims-275099
             userOut.setEmail(user.getEmail());
             userOut.setGroups(groupName);
 //            session.getProvider(BruteForceProtector.class).isTemporarilyDisabled(session, realm, user);
