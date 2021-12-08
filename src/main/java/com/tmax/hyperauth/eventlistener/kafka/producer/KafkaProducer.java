@@ -13,7 +13,7 @@ import java.util.Properties;
 @Slf4j
 public class KafkaProducer {
     private static String nameSpace = StringUtil.isNotEmpty(System.getenv("NAMESPACE"))? System.getenv("NAMESPACE") : "hyperauth";
-    private static String BOOTSTRAP_SERVER = "kafka-1."+ nameSpace +":9092,kafka-2."+ nameSpace +":9092,kafka-3."+ nameSpace +":9092";
+    private static String BOOTSTRAP_SERVER = "kafka-kafka-bootstrap."+ nameSpace +":9092"; //modified 211208
     public static void publishEvent(String topic, Object value){
         //reset thread context
         resetThreadContext();
