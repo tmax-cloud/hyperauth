@@ -1,6 +1,24 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.1.37 start -------------------->
+
+## HyperAuthServer 1.1.1.37 (2021. 12. 07. (화) 14:38:33 KST)
+
+### Added
+
+### Changed
+  - [mod] gatekeeper 가이드 및 예시 추가 by dnxorjs1
+  - [mod] gatekeeper 가이드 audience mapper 설정 추가 by dnxorjs1
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.1.37 end --------------------->
+
 <!-------------------- v1.1.1.36 start -------------------->
 
 ## HyperAuthServer 1.1.1.36 (2021. 11. 30. (화) 17:33:21 KST)
