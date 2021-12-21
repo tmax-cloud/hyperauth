@@ -23,9 +23,10 @@ ADD build/postgresql/module.xml /opt/jboss/keycloak/modules/system/layers/keyclo
 # 2. Update stanalone.xml & domain.xml
 ADD build/config/docker-entrypoint.sh /opt/jboss/tools/docker-entrypoint.sh
 
-# 3. add tmax theme & hypercloud/login & hyperspace/login & hyperauth & cnu & supervds
+# 3. add tmax theme & hypercloud/login & supercloud/login & hyperspace/login & hyperauth & cnu & supervds
 COPY themes/tmax /opt/jboss/keycloak/themes/tmax
 COPY themes/hypercloud/login /opt/jboss/keycloak/themes/hypercloud/login
+COPY themes/supercloud/login /opt/jboss/keycloak/themes/supercloud/login
 COPY themes/hyperspace/login /opt/jboss/keycloak/themes/hyperspace/login
 COPY themes/hyperauth /opt/jboss/keycloak/themes/hyperauth
 COPY themes/cnu /opt/jboss/keycloak/themes/CNU
@@ -73,7 +74,7 @@ ENV HYPERAUTH_VERSION $HYPERAUTH_VERSION
 RUN mkdir -p opt/jboss/keycloak/welcome-content/profile-picture
 RUN chmod 755 opt/jboss/keycloak/welcome-content/profile-picture
 
-# For Security Test
+# 10. For Elastic APM Jar
 COPY build/jar/elastic-apm-agent-1.26.0.jar /opt/jboss/keycloak/elastic-apm-agent-1.26.0.jar
 RUN chmod 755 /opt/jboss/keycloak/elastic-apm-agent-1.26.0.jar
 

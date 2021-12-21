@@ -1,0 +1,14 @@
+.supercloud-logo-img {
+  background: url("../img/login_logo_supercloud.png") no-repeat top;
+  background-size: contain;
+  margin: auto;
+  width: 256px;
+  height: 40px;
+}
+
+@media (max-width: 499px) {
+  .supercloud-logo-img {
+    width: 250px;
+    height: 30px;
+  }
+}
