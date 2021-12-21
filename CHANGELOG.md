@@ -1,6 +1,25 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.1.38 start -------------------->
+
+## HyperAuthServer 1.1.1.38 (2021. 12. 21. (화) 14:01:42 KST)
+
+### Added
+  - [feat] supercloud 테마 추가, 관련 빌드 및 배포 시스템 추가 구현 by dnxorjs1
+
+### Changed
+  - [mod] wapl cnu 로그인 화면 모바일에서 잘리던 현상 수정 by bin_lim
+  - [mod] strimzi kafka에 맞추어서 kafka producer 주소 변경 by dnxorjs1
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.1.38 end --------------------->
+
 <!-------------------- v1.1.1.37 start -------------------->
 
 ## HyperAuthServer 1.1.1.37 (2021. 12. 07. (화) 14:38:33 KST)
