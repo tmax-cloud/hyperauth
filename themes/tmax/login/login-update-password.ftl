@@ -85,7 +85,7 @@
                         <input class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonLargeClass!}" type="submit" value="${msg("MSG_RESETPASSWORD__6")}" />
                         <button class="${properties.kcButtonClass!} ${properties.kcButtonDefaultClass!} ${properties.kcButtonLargeClass!}" type="submit" name="cancel-aia" value="true" />${msg("doCancel")}</button>
                     <#else>
-                        <input class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" type="submit" value="${msg("MSG_RESETPASSWORD__6")}" disabled = {true} id = "save_password" style ="margin-top:90px"/>      
+                        <input class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" type="submit" value="${msg("MSG_RESETPASSWORD__6")}" disabled = {true} id = "save_password" onclick="this.disabled='disabled'; this.form.submit();" style ="margin-top:90px"/>
                     </#if>
                 </div>
             </div>
