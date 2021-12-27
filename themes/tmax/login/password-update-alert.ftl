@@ -55,7 +55,7 @@
                     </div>
                 </div>
                  <div id="kc-form-buttons" class="${properties.kcFormButtonsClass!}">
-                    <input class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" style="margin-bottom: 30px;" type="submit" value="${msg("MSG_RESETPASSWORD__6")}" id="save_password" disabled={true} />
+                    <input class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" style="margin-bottom: 30px;" type="submit" value="${msg("MSG_RESETPASSWORD__6")}" id="save_password" onclick="this.disabled='disabled'; this.form.submit();" disabled={true} />
                 </div>
             </form>
         </div>
