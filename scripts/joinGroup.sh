@@ -18,7 +18,7 @@ echo accessToken : $token
 
 # Get Hypercloud5 UserGroup ID
 groupid=$(curl -k -X GET 'https://'$hyperauthserver'/auth/admin/realms/tmax/groups' \
-  -H "authorization: Bearer $token" | jq '[.[] | select(.name | contains("'$usergroup'")) | .id ]' | cut -f 2 -d '[' | cut -f 1 -d ']' | tr -d '"' | tr -d '' )
+  -H "authorization: Bearer $token" | jq '[.[] | select(.name == "'$usergroup'") | .id ]' | cut -f 2 -d '[' | cut -f 1 -d ']' | tr -d '"' | tr -d '' )
 
 groupid2=$(echo $groupid | tr -d '')
 echo $usergroup group id : $groupid2
