@@ -1,6 +1,24 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.1.39 start -------------------->
+
+## HyperAuthServer 1.1.1.39 (2021. 12. 27. (월) 17:37:44 KST)
+
+### Added
+
+### Changed
+  - [mod] login-update-password.ftl 저장버튼 비활성화 안되는 현상 해결 by dnxorjs1
+  - [mod] joinGroup.sh Contain 로직 equal으로 수정 by dnxorjs1
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.1.39 end --------------------->
+
 <!-------------------- v1.1.1.38 start -------------------->
 
 ## HyperAuthServer 1.1.1.38 (2021. 12. 21. (화) 14:01:42 KST)
