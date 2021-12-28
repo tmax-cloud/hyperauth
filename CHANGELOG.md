@@ -1,6 +1,24 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.1.40 start -------------------->
+
+## HyperAuthServer 1.1.1.40 (2021. 12. 28. (화) 11:52:27 KST)
+
+### Added
+
+### Changed
+  - [mod] 비밀번호 변경 required action 화면에서 이전비밀번호와 동일 에러가 한번 뜨면 사라지지 않는 현상 해결 by dnxorjs1
+  - [mod] 3개월 비밀번호 변경 페이지 저장 버튼 비활성화 안되는 현상 해결 by dnxorjs1
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.1.40 end --------------------->
+
 <!-------------------- v1.1.1.39 start -------------------->
 
 ## HyperAuthServer 1.1.1.39 (2021. 12. 27. (월) 17:37:44 KST)
