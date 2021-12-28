@@ -36,9 +36,6 @@
                     <div class="error_message" id="error_wrong_password" style="display: none">
                         ${msg("MSG_ERROR_PASSWORD_3")}
                     </div>
-                    <div class="error_message" id="error_sameAsBefore_password" style="display: none">
-                        ${msg("MSG_ERROR_PASSWORD_4")}
-                    </div>
                     <#if message?has_content>
                         <#if message.type = 'error' && message.summary = 'samePasswordMessage'>
                             <div class="error_message" id="error_sameAsBefore_password" style="display: block">

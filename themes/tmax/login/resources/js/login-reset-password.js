@@ -174,11 +174,13 @@ function passwordRemoveValidation() {
   const none = document.getElementById("error_none_password");
   const leng = document.getElementById("error_length_password");
   const wrong = document.getElementById("error_wrong_password");
-  const same = document.getElementById("error_sameAsBefore_password");
+  if (document.getElementById("error_sameAsBefore_password") !== null){ //login-update-password에서 해당 에러가 서버에서 주기전에는 선언되어 있지 않아서 null 처리 추가
+    const same = document.getElementById("error_sameAsBefore_password");
+    same.style.display = "none";
+  }
   none.style.display = "none";
   leng.style.display = "none";
   wrong.style.display = "none";
-  same.style.display = "none";
 }
 
 function passwordValidation() {
