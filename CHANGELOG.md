@@ -1,6 +1,25 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.1.41 start -------------------->
+
+## HyperAuthServer 1.1.1.41 (2022. 01. 24. (월) 21:58:39 KST)
+
+### Added
+  - [feat] tmax-realm 최신 형상반영 by dnxorjs1
+
+### Changed
+  - [mod] client secret tmax_client_secret 으로 변경 by dnxorjs1
+
+### Fixed
+  - [ims][274662] 최초로그인시 출력되는 비밀번호 변경페이지 다음에 변경하기 기능 추가 by dnxorjs1
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.1.41 end --------------------->
+
 <!-------------------- v1.1.1.40 start -------------------->
 
 ## HyperAuthServer 1.1.1.40 (2021. 12. 28. (화) 11:52:27 KST)
