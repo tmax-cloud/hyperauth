@@ -51,14 +51,13 @@ ADD build/config/realm-identity-provider-kakao-ext.html /opt/jboss/keycloak/them
 
 # 7. For pdf term file
 USER jboss
-COPY build/config/TmaxOneAccount_Privacy_Policy_210401.pdf /opt/jboss/keycloak/welcome-content/term/TmaxOneAccount_Privacy_Policy.pdf
-COPY build/config/TmaxOneAccount_Service_Policy_210401.pdf /opt/jboss/keycloak/welcome-content/term/TmaxOneAccount_Service_Policy.pdf
+COPY build/config/TmaxOneAccount_Privacy_Policy.pdf /opt/jboss/keycloak/welcome-content/term/TmaxOneAccount_Privacy_Policy.pdf
+COPY build/config/TmaxOneAccount_Service_Policy.pdf /opt/jboss/keycloak/welcome-content/term/TmaxOneAccount_Service_Policy.pdf
 COPY build/config/TmaxOneAccount_Privacy_Policy_210222.pdf /opt/jboss/keycloak/welcome-content/term/TmaxOneAccount_Privacy_Policy_210222.pdf
 COPY build/config/TmaxOneAccount_Service_Policy_210222.pdf /opt/jboss/keycloak/welcome-content/term/TmaxOneAccount_Service_Policy_210222.pdf
 COPY build/config/TmaxOneAccount_Privacy_Policy_210105.pdf /opt/jboss/keycloak/welcome-content/term/TmaxOneAccount_Privacy_Policy_210105.pdf
 COPY build/config/TmaxOneAccount_Service_Policy_210105.pdf /opt/jboss/keycloak/welcome-content/term/TmaxOneAccount_Service_Policy_210105.pdf
-COPY build/config/TmaxOneAccount_Privacy_Policy_210401.pdf /opt/jboss/keycloak/welcome-content/term/TmaxOneAccount_Privacy_Policy_210401.pdf
-COPY build/config/TmaxOneAccount_Service_Policy_210401.pdf /opt/jboss/keycloak/welcome-content/term/TmaxOneAccount_Service_Policy_210401.pdf
+COPY build/config/TmaxOneAccount_Privacy_Policy_220314.pdf /opt/jboss/keycloak/welcome-content/term/TmaxOneAccount_Privacy_Policy_220314.pdf
 
 # 8. For Log to File
 USER root
