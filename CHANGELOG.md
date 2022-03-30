@@ -1,6 +1,23 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.1.42 start -------------------->
+
+## HyperAuthServer 1.1.1.42 (2022. 03. 30. (수) 11:37:33 KST)
+
+### Added
+
+### Changed
+
+### Fixed
+  - [ims][279881] 개인정보처리방침 변경으로 인한 내용 변경 반영 요청 by dnxorjs1
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.1.42 end --------------------->
+
 <!-------------------- v1.1.1.41 start -------------------->
 
 ## HyperAuthServer 1.1.1.41 (2022. 01. 24. (월) 21:58:39 KST)
