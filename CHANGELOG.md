@@ -1,6 +1,23 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.1.44 start -------------------->
+
+## HyperAuthServer 1.1.1.44 (2022. 04. 07. (목) 15:29:27 KST)
+
+### Added
+
+### Changed
+  - [mod] 코드에 realm.getDisplayName 로직 getName으로 일괄 변경 by dnxorjs1
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.1.44 end --------------------->
+
 <!-------------------- v1.1.1.43 start -------------------->
 
 ## HyperAuthServer 1.1.1.43 (2022. 04. 07. (목) 15:12:22 KST)
