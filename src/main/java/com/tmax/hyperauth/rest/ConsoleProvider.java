@@ -180,7 +180,7 @@ public class ConsoleProvider implements RealmResourceProvider {
         }
         log.info("Withdrawal Request Success, User [ " + userModel.getUsername() + " ]");
         return account.setSuccess(Messages.ACCOUNT_UPDATED).createResponse(AccountPages.ACCOUNT);
-//        return Response.seeOther(RealmsResource.accountUrl(session.getContext().getUri().getBaseUriBuilder()).build(realm.getDisplayName())).build();
+//        return Response.seeOther(RealmsResource.accountUrl(session.getContext().getUri().getBaseUriBuilder()).build(realm.getName())).build();
     }
 
 

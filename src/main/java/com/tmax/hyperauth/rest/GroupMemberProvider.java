@@ -219,7 +219,7 @@ public class GroupMemberProvider implements RealmResourceProvider {
         UserRepresentation userOut = new UserRepresentation();
         log.info("group : " + group);
         RealmModel realm = session.getContext().getRealm();
-        String realmName = realm.getDisplayName();
+        String realmName = realm.getName();
         if (realmName == null) {
         	realmName = realm.getName();
         }

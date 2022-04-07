@@ -280,7 +280,7 @@ public class UserProvider implements RealmResourceProvider {
         log.info("userName request : " + userName);
 
         RealmModel realm = session.getContext().getRealm();
-        String realmName = realm.getDisplayName();
+        String realmName = realm.getName();
         if (realmName == null) {
             realmName = realm.getName();
         }
@@ -390,7 +390,7 @@ public class UserProvider implements RealmResourceProvider {
             return Util.setCors(status, out);
         }
 
-        String realmName = realm.getDisplayName();
+        String realmName = realm.getName();
         if (realmName == null) {
             realmName = session.getContext().getRealm().getName();
         }
@@ -461,7 +461,7 @@ public class UserProvider implements RealmResourceProvider {
             status = Status.BAD_REQUEST;
             out = "Disabled Client ";
         } else {
-            String realmName = realm.getDisplayName();
+            String realmName = realm.getName();
             if (realmName == null) {
                 realmName = session.getContext().getRealm().getName();
             }

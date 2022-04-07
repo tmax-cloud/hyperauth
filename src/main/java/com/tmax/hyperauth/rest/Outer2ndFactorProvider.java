@@ -67,7 +67,7 @@ public class Outer2ndFactorProvider implements RealmResourceProvider {
                 return Util.setCors(status, out);
             }
 
-            UserModel user = session.users().getUserByUsername(userName, session.realms().getRealmByName(session.getContext().getRealm().getDisplayName()));
+            UserModel user = session.users().getUserByUsername(userName, session.realms().getRealmByName(session.getContext().getRealm().getName()));
             RealmModel realm = session.getContext().getRealm();
 
             String expTimeString = session.userCredentialManager().getStoredCredentialsByType(realm, user,
