@@ -1,6 +1,23 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.1.43 start -------------------->
+
+## HyperAuthServer 1.1.1.43 (2022. 04. 07. (목) 15:12:22 KST)
+
+### Added
+
+### Changed
+  - [mod] userExists API 에서 realm 이름을 displayname으로 가져오던걸 name으로 변경 by dnxorjs1
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.1.43 end --------------------->
+
 <!-------------------- v1.1.1.42 start -------------------->
 
 ## HyperAuthServer 1.1.1.42 (2022. 03. 30. (수) 11:37:33 KST)
