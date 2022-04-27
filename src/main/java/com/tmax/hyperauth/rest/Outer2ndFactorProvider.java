@@ -66,9 +66,9 @@ public class Outer2ndFactorProvider implements RealmResourceProvider {
                 out = "Outer 2nd Factor Authenticate Failed, Parameter missing";
                 return Util.setCors(status, out);
             }
-
-            UserModel user = session.users().getUserByUsername(userName, session.realms().getRealmByName(session.getContext().getRealm().getName()));
             RealmModel realm = session.getContext().getRealm();
+            log.info("realm ID : " + realm.getId());
+            UserModel user = session.users().getUserByUsername(userName, realm);
 
             String expTimeString = session.userCredentialManager().getStoredCredentialsByType(realm, user,
                     AuthenticatorConstants.USR_CRED_OUTER_WAIT_EXP_TIME).get(0).getCredentialData();
@@ -114,7 +114,7 @@ public class Outer2ndFactorProvider implements RealmResourceProvider {
                     // Create New Credentials
                     session.userCredentialManager().createCredential(realm, user, credentials);
 
-                    log.info(addiParamKey + " not matched");
+                    log.info(addiParamKey + " matched");
                     out = "Outer 2nd Factor Authenticate Status Update Success, User [ " + userName + " ]";
                     status = Status.OK;
                     return Util.setCors(status, out);
