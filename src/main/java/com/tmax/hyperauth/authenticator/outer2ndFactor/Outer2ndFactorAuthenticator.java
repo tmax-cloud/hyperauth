@@ -81,7 +81,7 @@ public class Outer2ndFactorAuthenticator implements Authenticator {
             long ttl = AuthenticatorUtil.getConfigLong(config, AuthenticatorConstants.CONF_PRP_WAIT_SEC, 5 * 60L); // 5 minutes in s
             String expTimeString = context.getSession().userCredentialManager().getStoredCredentialsByType(context.getRealm(), context.getUser(),
                     AuthenticatorConstants.USR_CRED_OUTER_WAIT_EXP_TIME).get(0).getCredentialData();
-
+            log.info("Outer 2nd Factor Authentication TTL time : " + Long.valueOf(ttl).intValue() + " second");
             Response challenge = context.form()
                     .setAttribute(AuthenticatorConstants.ATTR_PRP_USER_NAME, user.getUsername())
                     .setAttribute(AuthenticatorConstants.ATTR_PRP_REALM_NAME, realm.getName())
