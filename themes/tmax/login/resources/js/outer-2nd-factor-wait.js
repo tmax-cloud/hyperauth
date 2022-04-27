@@ -20,8 +20,8 @@ function closeTimeExpiredModal() {
 
 function startTimer(expiredTime, fixedValidTimeLimit) {
   this.timeLimit = fixedValidTimeLimit; //정해진시간
-  var time =
-    Math.floor(expiredTime / 1000) - Math.floor(new Date().getTime() / 1000);
+  var time = timeLimit
+    // Math.floor(expiredTime / 1000) - Math.floor(new Date().getTime() / 1000);
   if (time > 0) {
     var min = "";
     var sec = "";

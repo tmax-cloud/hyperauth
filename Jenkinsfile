@@ -58,9 +58,13 @@ node {
             sh "sudo docker rmi tmaxcloudck/hyperauth:${imageTag}"
 
         } else if(type == 'test'){
-            sh "sudo docker build --tag 192.168.9.12:5000/hyperauth-server:b${testVersion} --build-arg HYPERAUTH_VERSION=b${testVersion} ."
-            sh "sudo docker push 192.168.9.12:5000/hyperauth-server:b${testVersion}"
-            sh "sudo docker rmi 192.168.9.12:5000/hyperauth-server:b${testVersion}"
+//             sh "sudo docker build --tag 192.168.9.12:5000/hyperauth-server:b${testVersion} --build-arg HYPERAUTH_VERSION=b${testVersion} ."
+//             sh "sudo docker push 192.168.9.12:5000/hyperauth-server:b${testVersion}"
+//             sh "sudo docker rmi 192.168.9.12:5000/hyperauth-server:b${testVersion}"
+
+            sh "sudo docker build --tag 172.22.6.2:5000/hyperauth-server:b${testVersion} --build-arg HYPERAUTH_VERSION=b${testVersion} ."
+            sh "sudo docker push 172.22.6.2:5000/hyperauth-server:b${testVersion}"
+            sh "sudo docker rmi 172.22.6.2:5000/hyperauth-server:b${testVersion}"
 
         }
     }
