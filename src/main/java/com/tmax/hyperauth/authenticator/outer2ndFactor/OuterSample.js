@@ -6,9 +6,9 @@ function getURLParams(){
     const tab_id = URLParams.get('tab_id')
     const additional_param = URLParams.get('additional_param')
 
-    const authURL = `hyperauth.ckcloud.org`  // FIXME : change to Hyperauth URL
+    const authURL = `localhost:8180`  // FIXME : change to Hyperauth URL
 
-    const resultURL = `https://${authURL}/auth/realms/tmax/outer2ndFactor?user_name=${user_name}&realm_name=${realm_name}&tab_id=${tab_id}&secret_key=topsecret&additional_param=${additional_param}`
+    const resultURL = `http://${authURL}/auth/realms/tmax/outer2ndFactor?user_name=${user_name}&realm_name=${realm_name}&tab_id=${tab_id}&secret_key=topsecret&additional_param=${additional_param}`
 
     return resultURL;
 }
