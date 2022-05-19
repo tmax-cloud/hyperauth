@@ -8,6 +8,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
+import com.tmax.hyperauth.caller.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.annotations.cache.NoCache;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
@@ -15,6 +17,7 @@ import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.representations.AccessToken;
 
+import org.keycloak.services.managers.AppAuthManager;
 import org.keycloak.services.resource.RealmResourceProvider;
 
 import com.tmax.hyperauth.jpa.Agreement;
@@ -27,6 +30,7 @@ import com.tmax.hyperauth.jpa.Agreement;
 public class AgreementProvider implements RealmResourceProvider { 
     @Context
     private KeycloakSession session;
+    AppAuthManager appAuthManager = new AppAuthManager();
 
     public AgreementProvider(KeycloakSession session) {	
         this.session = session;
@@ -70,7 +74,10 @@ public class AgreementProvider implements RealmResourceProvider {
         log.info("agreement : " + agreement.getAgreement());
         log.info("version : " + agreement.getVersion());
         log.info("Agreement Create Service");
-
+        if (StringUtil.isEmpty(tokenString)){
+            tokenString = appAuthManager.extractAuthorizationHeaderTokenOrReturnNull(session.getContext().getRequestHeaders());
+        }
+        log.debug("token : " + tokenString);
         try {
             if (!Util.isHyperauthAdmin(session,tokenString)){
                 log.error("User Who requested is not Admin of Hyperauth");
@@ -121,6 +128,10 @@ public class AgreementProvider implements RealmResourceProvider {
     @Produces("text/plain; charset=utf-8")
     public Response delete(@PathParam("clientName") final String clientName, @QueryParam("realmName") String realmName , @QueryParam("version") String version, @QueryParam("token") String tokenString ) {
     	log.info("clientName : " + clientName + ", version : " + version + "Agreement Delete Service");
+        if (StringUtil.isEmpty(tokenString)){
+            tokenString = appAuthManager.extractAuthorizationHeaderTokenOrReturnNull(session.getContext().getRequestHeaders());
+        }
+        log.debug("token : " + tokenString);
         try {
             if (!Util.isHyperauthAdmin(session,tokenString)){
                 log.error("User who requested is not Admin of Hyperauth");

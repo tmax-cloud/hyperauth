@@ -1,5 +1,6 @@
 package com.tmax.hyperauth.rest;
 
+import com.tmax.hyperauth.caller.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.OAuthErrorException;
@@ -19,6 +20,7 @@ import org.keycloak.representations.AccessToken;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.keycloak.services.ErrorResponseException;
 import org.keycloak.services.Urls;
+import org.keycloak.services.managers.AppAuthManager;
 import org.keycloak.services.resource.RealmResourceProvider;
 import org.keycloak.services.resources.admin.UserResource;
 
@@ -48,6 +50,7 @@ public class GroupMemberProvider implements RealmResourceProvider {
     public GroupMemberProvider(KeycloakSession session) {
         this.session = session;
     }
+    AppAuthManager appAuthManager = new AppAuthManager();
     private AccessToken token;
     private ClientModel clientModel;
 
@@ -65,7 +68,10 @@ public class GroupMemberProvider implements RealmResourceProvider {
         log.info("***** POST /GroupMember");
 
         RealmModel realm = session.getContext().getRealm();
-
+        if (StringUtil.isEmpty(tokenString)){
+            tokenString = appAuthManager.extractAuthorizationHeaderTokenOrReturnNull(session.getContext().getRequestHeaders());
+        }
+        log.debug("token : " + tokenString);
         clientConnection = session.getContext().getConnection();
         EventBuilder event = new EventBuilder(realm, session, clientConnection);
         String groupAdminName = "";
@@ -214,15 +220,14 @@ public class GroupMemberProvider implements RealmResourceProvider {
     @Produces(MediaType.APPLICATION_JSON)
     public Response get(@PathParam("group") final String group, @QueryParam("token") String tokenString) {
         log.info("***** GET /GroupMember");
-
+        if (StringUtil.isEmpty(tokenString)){
+            tokenString = appAuthManager.extractAuthorizationHeaderTokenOrReturnNull(session.getContext().getRequestHeaders());
+        }
+        log.debug("token : " + tokenString);
         List < UserRepresentation > userOutList = new ArrayList<>();
         UserRepresentation userOut = new UserRepresentation();
         log.info("group : " + group);
         RealmModel realm = session.getContext().getRealm();
-        String realmName = realm.getName();
-        if (realmName == null) {
-        	realmName = realm.getName();
-        }
 
         String groupAdminName = "";
         try {
@@ -291,6 +296,9 @@ public class GroupMemberProvider implements RealmResourceProvider {
     public Response put(@PathParam("group") final String group,@QueryParam("userName") String userName, @QueryParam("token") String tokenString, UserRepresentation rep) {
         log.info("group : " + group);
         log.info("userName : " + userName);
+        if (StringUtil.isEmpty(tokenString)){
+            tokenString = appAuthManager.extractAuthorizationHeaderTokenOrReturnNull(session.getContext().getRequestHeaders());
+        }
         log.debug("token : " + tokenString);
         RealmModel realm = session.getContext().getRealm();
         clientConnection = session.getContext().getConnection();
@@ -381,7 +389,7 @@ public class GroupMemberProvider implements RealmResourceProvider {
     }
 
     private void verifyToken(String tokenString, RealmModel realm) throws VerificationException {
-        if (tokenString == null) {
+        if (StringUtil.isEmpty(tokenString)){
             out = "Token not provided";
             throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "Token not provided", Status.BAD_REQUEST);
         }

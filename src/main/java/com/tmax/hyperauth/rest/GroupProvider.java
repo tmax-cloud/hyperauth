@@ -1,5 +1,6 @@
 package com.tmax.hyperauth.rest;
 
+import com.tmax.hyperauth.caller.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.OAuthErrorException;
@@ -17,6 +18,7 @@ import org.keycloak.protocol.oidc.TokenManager;
 import org.keycloak.representations.AccessToken;
 import org.keycloak.services.ErrorResponseException;
 import org.keycloak.services.Urls;
+import org.keycloak.services.managers.AppAuthManager;
 import org.keycloak.services.resource.RealmResourceProvider;
 
 import javax.persistence.EntityManager;
@@ -47,7 +49,7 @@ public class GroupProvider implements RealmResourceProvider {
     public GroupProvider(KeycloakSession session) {
         this.session = session;
     }
-
+    AppAuthManager appAuthManager = new AppAuthManager();
     private AccessToken token;
     private ClientModel clientModel;
 
@@ -72,6 +74,9 @@ public class GroupProvider implements RealmResourceProvider {
     public Response list(@QueryParam("startsWith") String startsWith, @QueryParam("except") List<String> except, @QueryParam("exceptDefault") boolean exceptDefault,  @QueryParam("token") String tokenString) {
         log.info("***** LIST /group");
         List<String> groupListOut;
+        if (StringUtil.isEmpty(tokenString)){
+            tokenString = appAuthManager.extractAuthorizationHeaderTokenOrReturnNull(session.getContext().getRequestHeaders());
+        }
         log.debug("token : " + tokenString);
         log.info("startsWith request : " + startsWith);
         log.info("except request : " + except);
@@ -80,7 +85,6 @@ public class GroupProvider implements RealmResourceProvider {
             if (!Util.isHyperauthAdmin(session,tokenString)){
                 verifyToken(tokenString, session.getContext().getRealm());
                 log.info(" User Who Requested Group List : " + token.getPreferredUsername());
-
                 if (!(token.getResourceAccess("realm-management")!= null
                         && token.getResourceAccess("realm-management").getRoles() != null
                         && token.getResourceAccess("realm-management").getRoles().contains("view-users"))){
@@ -150,7 +154,7 @@ public class GroupProvider implements RealmResourceProvider {
     }
 
     private void verifyToken(String tokenString, RealmModel realm) throws VerificationException {
-        if (tokenString == null) {
+        if (StringUtil.isEmpty(tokenString)){
             out = "Token not provided";
             throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "Token not provided", Status.BAD_REQUEST);
         }

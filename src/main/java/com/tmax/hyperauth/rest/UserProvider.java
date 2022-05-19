@@ -5,10 +5,12 @@ import java.util.*;
 import javax.persistence.EntityManager;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
+import com.tmax.hyperauth.caller.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.OAuthErrorException;
@@ -31,6 +33,7 @@ import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.keycloak.services.ErrorResponseException;
 import org.keycloak.services.Urls;
+import org.keycloak.services.managers.AppAuthManager;
 import org.keycloak.services.resource.RealmResourceProvider;
 import com.tmax.hyperauth.caller.HypercloudOperatorCaller;
 import org.keycloak.services.resources.admin.UserResource;
@@ -56,6 +59,7 @@ public class UserProvider implements RealmResourceProvider {
     }
     private AccessToken token;
     private ClientModel clientModel;
+    AppAuthManager appAuthManager = new AppAuthManager();
 
     @Override
     public Object getResource() {
@@ -189,6 +193,9 @@ public class UserProvider implements RealmResourceProvider {
     public Response list(@QueryParam("startsWith") String startsWith, @QueryParam("except") List<String> except, @QueryParam("token") String tokenString) {
         log.info("***** LIST /User");
         List userListOut;
+        if (StringUtil.isEmpty(tokenString)){
+            tokenString = appAuthManager.extractAuthorizationHeaderTokenOrReturnNull(session.getContext().getRequestHeaders());
+        }
         log.debug("token : " + tokenString);
         log.info("startsWith request : " + startsWith);
         log.info("except request : " + except);
@@ -284,6 +291,9 @@ public class UserProvider implements RealmResourceProvider {
         if (realmName == null) {
             realmName = realm.getName();
         }
+        if (StringUtil.isEmpty(tokenString)){
+            tokenString = appAuthManager.extractAuthorizationHeaderTokenOrReturnNull(session.getContext().getRequestHeaders());
+        }
         log.debug("token : " + tokenString);
 
         try{
@@ -361,8 +371,10 @@ public class UserProvider implements RealmResourceProvider {
     @Produces(MediaType.APPLICATION_JSON)
     public Response delete(@PathParam("userName") final String userName, @QueryParam("token") String tokenString ) {
         log.info("***** DELETE /User");
-
         log.info("userName : " + userName);
+        if (StringUtil.isEmpty(tokenString)){
+            tokenString = appAuthManager.extractAuthorizationHeaderTokenOrReturnNull(session.getContext().getRequestHeaders());
+        }
         log.debug("token : " + tokenString);
         RealmModel realm = session.getContext().getRealm();
         clientConnection = session.getContext().getConnection();
@@ -432,10 +444,12 @@ public class UserProvider implements RealmResourceProvider {
     @Produces(MediaType.APPLICATION_JSON)
     public Response put(@PathParam("userName") final String userName, @QueryParam("token") String tokenString,  @QueryParam("withdrawal") String withdrawal , UserRepresentation rep) {
         log.info("***** PUT /User");
-
         log.info("userName : " + userName);
-        log.debug("token : " + tokenString);
         log.info("withdrawal : " + withdrawal);
+        if (StringUtil.isEmpty(tokenString)){
+            tokenString = appAuthManager.extractAuthorizationHeaderTokenOrReturnNull(session.getContext().getRequestHeaders());
+        }
+        log.debug("token : " + tokenString);
         RealmModel realm = session.getContext().getRealm();
         clientConnection = session.getContext().getConnection();
         EventBuilder event = new EventBuilder(realm, session, clientConnection); // FIXME
@@ -561,7 +575,7 @@ public class UserProvider implements RealmResourceProvider {
 
 
     private void verifyToken(String tokenString, RealmModel realm) throws VerificationException {
-        if (tokenString == null) {
+        if (StringUtil.isEmpty(tokenString)){
             out = "Token not provided";
             throw new ErrorResponseException(OAuthErrorException.INVALID_REQUEST, "Token not provided", Status.BAD_REQUEST);
         }

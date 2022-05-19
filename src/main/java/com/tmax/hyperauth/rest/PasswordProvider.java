@@ -20,6 +20,7 @@ import org.keycloak.protocol.oidc.TokenManager;
 import org.keycloak.representations.AccessToken;
 import org.keycloak.services.ErrorResponseException;
 import org.keycloak.services.Urls;
+import org.keycloak.services.managers.AppAuthManager;
 import org.keycloak.services.managers.BruteForceProtector;
 import org.keycloak.services.resource.RealmResourceProvider;
 import javax.persistence.EntityManager;
@@ -57,6 +58,7 @@ public class PasswordProvider implements RealmResourceProvider {
     public Object getResource() {
         return this;
     }
+    AppAuthManager appAuthManager = new AppAuthManager();
     private AccessToken token;
     private ClientModel clientModel;
 
@@ -76,7 +78,10 @@ public class PasswordProvider implements RealmResourceProvider {
                 return Util.setCors(status, out);
             }
             log.info("email : " + email);
-
+            if (StringUtil.isEmpty(tokenString)){
+                tokenString = appAuthManager.extractAuthorizationHeaderTokenOrReturnNull(session.getContext().getRequestHeaders());
+            }
+            log.debug("token : " + tokenString);
             RealmModel realm = session.getContext().getRealm();
             clientConnection = session.getContext().getConnection();
             EventBuilder event = new EventBuilder(realm, session, clientConnection); // FIXME
