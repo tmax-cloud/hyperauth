@@ -1,6 +1,26 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.1.45 start -------------------->
+
+## HyperAuthServer 1.1.1.45 (2022. 06. 13. (월) 17:18:03 KST)
+
+### Added
+
+### Changed
+  - [mod] realm Export API에서 User Credential 정보 Export 여부 결정가능하도록 기능 및 버튼 추가 by dnxorjs1
+  - [mod] userToken 관련 API Header bearer 토큰을 통해서도 받을 수 있도록 로직 추가 by dnxorjs1
+  - [mod] admin console에서 export시 user를 export 할수 있도록 추가 구현 by dnxorjs1
+  - [mod] Outer2ndFactor 인증 수단 고도화 by dnxorjs1
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.1.45 end --------------------->
+
 <!-------------------- v1.1.1.44 start -------------------->
 
 ## HyperAuthServer 1.1.1.44 (2022. 04. 07. (목) 15:29:27 KST)
