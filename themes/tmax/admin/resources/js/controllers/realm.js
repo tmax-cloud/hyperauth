@@ -3057,6 +3057,9 @@ module.controller('RealmExportCtrl', function($scope, realm, $http,
         if ($scope.exportUsers) {
             params['exportUsers'] = true;
         }
+        if ($scope.includeUserCredentials) {
+            params['includeUserCredentials'] = true;
+        }
         if (Object.keys(params).length > 0) {
             exportUrl += '?' + $httpParamSerializer(params);
         }

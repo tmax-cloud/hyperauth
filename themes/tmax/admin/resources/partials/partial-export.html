@@ -25,7 +25,14 @@
             <div class="form-group">
                 <label class="col-md-2 control-label" for="exportUsers">{{:: 'export-users' | translate}}</label>
                 <div class="col-sm-6">
-                    <input ng-model="exportUsers" name="exportUsers" id="exportUsers" onoffswitch on-text="{{:: 'onText'| translate}}" off-text="{{:: 'offText'| translate}}"/>
+                    <input ng-model="exportUsers" ng-click="switchChange()" name="exportUsers" id="exportUsers" onoffswitch on-text="{{:: 'onText'| translate}}" off-text="{{:: 'offText'| translate}}"/>
+                </div>
+            </div>
+
+            <div class="form-group" data-ng-show="exportUsers">
+                <label class="col-md-2 control-label" for="includeUserCredentials">{{:: 'include-user-credentials' | translate}}</label>
+                <div class="col-sm-6">
+                    <input ng-model="includeUserCredentials" name="includeUserCredentials" id="includeUserCredentials" onoffswitch on-text="{{:: 'onText'| translate}}" off-text="{{:: 'offText'| translate}}"/>
                 </div>
             </div>
 
