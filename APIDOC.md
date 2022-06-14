@@ -2,6 +2,8 @@
 - HyperAuth에서 **확장 기능으로 제공하는 API 목록**
 - **Keycloak 공식 Admin REST API 문서**
   - https://www.keycloak.org/docs-api/5.0/rest-api/index.html 
+- tmaxcloudck/hyperauth:b1.1.1.45 버전 이후로 query parameter 로 넣어주던 token 값을 header로도 넣을 수 있도록 수정 (둘 중 하나만 넣어도 됨)
+  - Authorization : Bearer {AccessToken} 
 
 ## USER
 사용자의 username은 attribute으로 관리 (Key 값 고정)
@@ -78,7 +80,7 @@
 
   - **RequestHeader**
 
-    X
+    Authorization : Bearer {AccessToken} 
 
   - **QueryParam**
 
@@ -107,7 +109,7 @@
 
   - **RequestHeader**
 
-       X
+       Authorization : Bearer {AccessToken} 
 
   - **QueryParam**
      
@@ -136,7 +138,7 @@
 
   - **RequestHeader**
 
-       X
+       Authorization : Bearer {AccessToken} 
        
   - **QueryParam**
      
@@ -171,6 +173,7 @@
   - **RequestHeader**
 
       Content-Type : application/json
+      Authorization : Bearer {AccessToken} 
 
   - **QueryParam**
 
@@ -245,7 +248,7 @@
 
   - **RequestHeader**
 
-       X
+       Authorization : Bearer {AccessToken} 
 
   - **QueryParam**
        token : {AccessToken}
@@ -303,6 +306,7 @@
   - **RequestHeader**
 
     Content-Type : application/json
+    Authorization : Bearer {AccessToken} 
 
   - **QueryParam**
 
@@ -373,7 +377,7 @@
 
   - **RequestHeader**
 
-    X
+    Authorization : Bearer {AccessToken} 
 
   - **QueryParam**
 
@@ -403,6 +407,7 @@
   - **RequestHeader**
 
     Content-Type : application/json
+    Authorization : Bearer {AccessToken} 
 
   - **QueryParam**
 
@@ -453,6 +458,7 @@
     - **RequestHeader**
 
       Content-Type : application/json
+      Authorization : Bearer {AccessToken} 
 
     - **QueryParam**
 
@@ -488,7 +494,7 @@
 
   - **RequestHeader**
 
-    X
+    Authorization : Bearer {AccessToken} 
 
   - **QueryParam**
     token : {AccessToken}
@@ -630,7 +636,7 @@
 
   - **RequestHeader**
 
-    X
+    Authorization : Bearer {AccessToken} 
 
   - **QueryParam**
 
@@ -724,7 +730,7 @@
 
   - **PathParam**
 
-      {sessionId}
+    {sessionId}
       
   - **ResponseBody**
 
@@ -754,7 +760,7 @@
  #### Get
   - **Description** 
 
-      <u>Hyperauth Metrics Get API for Prometheus
+    <u>Hyperauth Metrics Get API for Prometheus
 
   - **RequestURL**
     
@@ -762,15 +768,15 @@
         
   - **RequestHeader**
 
-      Authorization : Basic {Base64 Encoded username:password}        ex) admin:admin --> Authorization : Basic YWRtaW46YWRtaW4=
+    Authorization : Basic {Base64 Encoded username:password}        ex) admin:admin --> Authorization : Basic YWRtaW46YWRtaW4=
 
   - **PathParam**
 
-      X
+    X
       
   - **ResponseBody**
 
-      X               
+    X               
 
 
 
