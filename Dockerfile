@@ -77,18 +77,7 @@ RUN chmod 755 opt/jboss/keycloak/welcome-content/profile-picture
 COPY build/jar/elastic-apm-agent-1.26.0.jar /opt/jboss/keycloak/elastic-apm-agent-1.26.0.jar
 RUN chmod 755 /opt/jboss/keycloak/elastic-apm-agent-1.26.0.jar
 
-#RUN chmod 750 /opt/jboss/keycloak/standalone/log
-#RUN rm /etc/profile
-#ADD profile /etc/profile
-#RUN rm /etc/bashrc
-#ADD bashrc /etc/bashrc
-#RUN rm /etc/csh.cshrc
-#ADD csh.cshrc /etc/csh.cshrc
-#RUN rm -rf /opt/jboss/keycloak/docs/example
-#RUN rm /opt/jboss/keycloak/modules/system/layers/keycloak/org/keycloak/keycloak-server-subsystem/main/server-war/WEB-INF/web.xml
-#ADD web.xml /opt/jboss/keycloak/modules/system/layers/keycloak/org/keycloak/keycloak-server-subsystem/main/server-war/WEB-INF/web.xml
-#RUN rm /opt/jboss/keycloak/bin/standalone.conf
-#ADD standalone.conf /opt/jboss/keycloak/bin/standalone.conf
+
 
 
 

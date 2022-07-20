@@ -4,14 +4,19 @@ embed-server --server-config=standalone-ha.xml --std-out=echo
 /subsystem=logging/periodic-rotating-file-handler=FILE:write-attribute(name="formatter", value="%d{HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n")
 /subsystem=logging/periodic-rotating-file-handler=FILE:write-attribute(name="autoflush", value="true")
 
+/subsystem=logging/root-logger=ROOT:add-handler(name="FILE")
+/subsystem=logging/root-logger=ROOT:write-attribute(name="level", value=${env.LOG_LEVEL:INFO})
+
 /subsystem=logging/logger=org.keycloak:add-handler(name="FILE")
-/subsystem=logging/logger=com.tmax.hyperauth:add(category=com.tmax.hyperauth,level=INFO)
+/subsystem=logging/logger=org.keycloak:write-attribute(name="level", value=${env.LOG_LEVEL:INFO})
+
+/subsystem=logging/logger=com.tmax.hyperauth:add(category=com.tmax.hyperauth,level=${env.LOG_LEVEL:INFO})
 /subsystem=logging/logger=com.tmax.hyperauth:add-handler(name="FILE")
 
-/subsystem=logging/logger=org.apache.kafka:add(category=org.apache.kafka,level=WARN)
+/subsystem=logging/logger=org.apache.kafka:add(category=org.apache.kafka,level=${env.LOG_LEVEL:WARN})
 /subsystem=logging/logger=org.apache.kafka:add-handler(name="FILE")
 
-/subsystem=logging/logger=javax.mail:add(category=javax.mail,level=INFO)
+/subsystem=logging/logger=javax.mail:add(category=javax.mail,level=${env.LOG_LEVEL:WARN})
 /subsystem=logging/logger=javax.mail:add-handler(name="FILE")
 
 /subsystem=keycloak-server/theme=defaults/:write-attribute(name=staticMaxAge,value=604800)
