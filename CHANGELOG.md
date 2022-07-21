@@ -1,6 +1,23 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.2.0 start -------------------->
+
+## HyperAuthServer 1.1.2.0 (2022. 07. 21. (목) 11:13:35 KST)
+
+### Added
+
+### Changed
+  - [mod] hyperauth 로그 시스템 (keycloak, hyperauth, kafka, jboss ..) 전부 LOG_LEVEL 환경변수로 조절가능하게끔 초기 jboss-cli 명령 추가 by dnxorjs1
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.2.0 end --------------------->
+
 <!-------------------- v1.1.1.45 start -------------------->
 
 ## HyperAuthServer 1.1.1.45 (2022. 06. 13. (월) 17:18:03 KST)
