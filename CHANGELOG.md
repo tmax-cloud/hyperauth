@@ -1,6 +1,23 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.2.1 start -------------------->
+
+## HyperAuthServer 1.1.2.1 (2022. 08. 05. (금) 17:45:19 KST)
+
+### Added
+
+### Changed
+  - [mod] 로그인 관련 화면에서 로그인 초기 화면으로 가야 하는 기능에서 client의 baseUrl이 등록되어 있지 않아도 갈수 있도록 restartLoginUrl로 가도록 로직 변경 by dnxorjs1
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.2.1 end --------------------->
+
 <!-------------------- v1.1.2.0 start -------------------->
 
 ## HyperAuthServer 1.1.2.0 (2022. 07. 21. (목) 11:13:35 KST)
