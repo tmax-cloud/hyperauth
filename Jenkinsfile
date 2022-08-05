@@ -51,6 +51,9 @@ node {
 
     stage('image build & push'){
         if(type == 'distribution') {
+//             withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "" ]) {
+//                     bat "docker push tmaxcloudck/hyperauth:${imageTag}"
+//             }
             sh "sudo docker build --tag tmaxcloudck/hyperauth:${imageTag} --build-arg HYPERAUTH_VERSION=${imageTag} ."
             sh "sudo docker tag tmaxcloudck/hyperauth:${imageTag} tmaxcloudck/hyperauth:latest"
             sh "sudo docker push tmaxcloudck/hyperauth:${imageTag}"

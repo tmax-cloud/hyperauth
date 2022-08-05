@@ -13,7 +13,7 @@
             </div>
             <p id="user-email">${(email!'')}</p>
             <div class="${properties.kcFormGroupClass!}">
-                <button class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!}" <#if client.baseUrl?has_content>onclick="goToLoginHome('${client.baseUrl}')"<#else>onclick="goToLoginHome(document.location.origin)"</#if>> ${msg("MSG_CREATEACCOUNT_CREATEACCOUNTCOMPLETE_3")}</button>
+                <button class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!}" <#if url.loginUrl?has_content>onclick="goToLoginHome('${url.loginUrl}')"<#else>onclick="goToLoginHome(document.location.origin)"</#if>> ${msg("MSG_CREATEACCOUNT_CREATEACCOUNTCOMPLETE_3")}</button>
                 <p id="email-sent-instruction-small">
                     ${msg("MSG_TEXT__2")} <a id="resend-link" href="#" onclick="clickResendEmailButton('${url.loginAction}'); return false;">${msg("MSG_BUTTON_RESEND_1")}</a>
                 </p>
