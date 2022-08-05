@@ -37,8 +37,8 @@
     <div class ='error-text-box' >
         <p class ="error-title">${msg("errorTitle")}</P>
         <p class = 'error-message'>${message.summary?no_esc}</p>
-         <#if client?? && client.baseUrl?has_content>
-        <div class = "backToApplication" onclick="location.href ='${client.baseUrl}'">${kcSanitize(msg("backToApplication"))?no_esc}</div>
+         <#if client?? && url.loginRestartFlowUrl?has_content>
+        <div class = "backToApplication" onclick="location.href ='${url.loginRestartFlowUrl}'">${kcSanitize(msg("backToApplication"))?no_esc}</div>
          </#if>
     </div>
     <div class="illust"></div>

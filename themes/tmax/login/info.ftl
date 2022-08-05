@@ -34,7 +34,7 @@
                     </p>
                 </div>
                 <div class="${properties.kcFormGroupClass!}">
-                    <button class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!}" style="margin-top: 100px;" <#if client.baseUrl?? && client.baseUrl!="">onclick="location.href='${client.baseUrl}'"<#else>onclick="location.href=document.location.origin"</#if>>${msg("doLogIn")}</button>
+                    <button class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!}" style="margin-top: 100px;" <#if url.loginRestartFlowUrl?? && url.loginRestartFlowUrl!="">onclick="location.href='${url.loginRestartFlowUrl}'"<#else>onclick="location.href=document.location.origin"</#if>>${msg("doLogIn")}</button>
                 </div>
             </div>
         <#elseif message.summary?contains("이 유효한지 확인하십시오.") || message.summary?contains("Confirm validity of e-mail address") || message.summary?contains("귀하의 계정과 연결되었는지 확인하십시오.") || message.summary?contains("Confirm linking the account ")>
@@ -87,8 +87,8 @@
                         <p><a href="${pageRedirectUri}">${kcSanitize(msg("backToApplication"))?no_esc}</a></p>
                     <#elseif actionUri?has_content>
                         <p><a href="${actionUri}">${kcSanitize(msg("proceedWithAction"))?no_esc}</a></p>
-                    <#elseif (client.baseUrl)?has_content>
-                        <p><a href="${client.baseUrl}">${kcSanitize(msg("backToApplication"))?no_esc}</a></p>
+                    <#elseif (url.loginRestartFlowUrl)?has_content>
+                        <p><a href="${url.loginRestartFlowUrl}">${kcSanitize(msg("backToApplication"))?no_esc}</a></p>
                     </#if>
                 </#if>
             </div>

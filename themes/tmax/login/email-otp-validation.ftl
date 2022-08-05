@@ -44,8 +44,8 @@
                         <div id="kc-info-message" class="${properties.kcLabelWrapperClass!} infoText">
                             <#--  현재 페이지 새로고침할 때 메일 재전송 되고있어서 임시방안으로 새로고침을 통한 재전송으로 구현해놓음  -->
                             <p>${msg("MSG_LOGIN_OTPCODE_5")}  <a id="resend-link" href="#" onclick="clickResendEmailButton(document.location.href); return false;">${msg("MSG_LOGIN_OTPCODE_6")}</a></p>
-                            <#if client?? && client.baseUrl?has_content>
-                                <p>${msg("MSG_LOGIN_OTPCODE_7")}  <a href="${client.baseUrl}" style="color: #185692;">${msg("MSG_LOGIN_OTPCODE_8")}</a></p>
+                            <#if client?? && url.loginRestartFlowUrl?has_content>
+                                <p>${msg("MSG_LOGIN_OTPCODE_7")}  <a href="${curl.loginRestartFlowUrl}" style="color: #185692;">${msg("MSG_LOGIN_OTPCODE_8")}</a></p>
                             </#if>
                         </div>
                         <div class="modal hidden">

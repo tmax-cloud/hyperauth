@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="${properties.kcFormGroupClass!}">
-                <button class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!}" style="margin-top: 95px; font-size: 18px;" <#if client.baseUrl?? && client.baseUrl!="">onclick="location.href='${client.baseUrl}'"<#else>onclick="location.href=document.location.origin"</#if>>${msg("sessionExpiredMsg3")}</button>
+                <button class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!}" style="margin-top: 95px; font-size: 18px;" <#if url.loginRestartFlowUrl?? && url.loginRestartFlowUrl!="">onclick="location.href='${url.loginRestartFlowUrl}'"<#else>onclick="location.href=document.location.origin"</#if>>${msg("sessionExpiredMsg3")}</button>
             </div>
         </div>
         <#if properties.scripts_security_policy_hyperauth?has_content>

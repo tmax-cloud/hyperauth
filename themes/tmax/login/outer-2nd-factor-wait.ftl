@@ -33,8 +33,8 @@
                         </div>
                         <div id="kc-info-message" class="${properties.kcLabelWrapperClass!} infoText">
                             <p>${msg("MSG_OUTER_2ND_FACTOR_4")}  <a id="resend-link" href="#" onclick="clickResendButton(document.location.href); return false;">${msg("MSG_OUTER_2ND_FACTOR_5")}</a></p>
-                            <#if client?? && client.baseUrl?has_content>
-                                <p>${msg("MSG_OUTER_2ND_FACTOR_6")}  <a href="${client.baseUrl}" style="color: #185692;">${msg("MSG_OUTER_2ND_FACTOR_7")}</a></p>
+                            <#if client?? && url.loginRestartFlowUrl?has_content>
+                                <p>${msg("MSG_OUTER_2ND_FACTOR_6")}  <a href="${url.loginRestartFlowUrl}" style="color: #185692;">${msg("MSG_OUTER_2ND_FACTOR_7")}</a></p>
                             </#if>
                         </div>
                         <div class="modal hidden">
