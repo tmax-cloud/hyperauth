@@ -367,8 +367,9 @@ async function submitWithdrawal() {
     if (e.response.status === 403){
       rejectService = e.response.data;
       withdrawalResult = false;
+    }else {
+      withdrawalResult = true;
     }
-    withdrawalResult = true;
     console.error(e);
   }
 
