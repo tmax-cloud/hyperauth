@@ -72,7 +72,7 @@
                </div>
                  <div class ="agree-wrapper" >
                 <div class="agree">
-                    <div>
+                    <div class="optional-term">
                         <#if account.attributes.agreeMailOpt?has_content>
                         <input type="checkbox" name="agreeMailOpt" id="check_common" onclick="activateSaveButton();" <#if account.attributes.agreeMailOpt == "true">checked="true"</#if>>                        
                         </#if>                        
@@ -124,7 +124,7 @@
                  <div class ="agree-wrapper">
                 
                 <div class="agree">
-                    <div>
+                    <div class="optional-term"> 
                         <#if account.attributes.agreeAdvhyperspaceOpt?has_content>
                         <input type="checkbox" name="agreeAdvhyperspaceOpt" id="check_wapl" onclick="activateSaveButton();" <#if account.attributes.agreeAdvhyperspaceOpt == "true">checked="true"</#if>>                        
                         </#if>
@@ -163,7 +163,7 @@
                </div>
                 <div class ="agree-wrapper">
                 <div class="agree">
-                    <div>
+                    <div class="optional-term">
                         <#if account.attributes.agreeAdvPortalOpt?has_content>
                         <input type="checkbox" name="agreeAdvPortalOpt" id="check_portal" onclick="activateSaveButton();" <#if account.attributes.agreeAdvPortalOpt == "true">checked="true"</#if>>                        
                         </#if>                        
@@ -203,7 +203,7 @@
                 <div class ="agree-wrapper">
                
                 <div class="agree">
-                    <div>
+                    <div class="optional-term">
                         <#if account.attributes.agreeAdvHyperMeetingOpt?has_content>
                         <input type="checkbox" name="agreeAdvHyperMeetingOpt" id="check_hypermeeting" onclick="activateSaveButton();" <#if account.attributes.agreeAdvHyperMeetingOpt == "true">checked="true"</#if>>                        
                         </#if>                        
@@ -262,7 +262,7 @@
                
                
                 <div class="agree">
-                    <div>
+                    <div class="optional-term">
                         <#if account.attributes.agreeAdvWaplclassOpt?has_content>
                         <input type="checkbox" name="agreeAdvWaplclassOpt" id="check_waplclass" onclick="activateSaveButton();" <#if account.attributes.agreeAdvWaplclassOpt == "true">checked="true"</#if>>                        
                         </#if>                        

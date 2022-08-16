@@ -15,12 +15,12 @@
 
     <table class="table">
         <thead>
-        <tr >
+        <tr>
             <th >${msg("services")}</th>
             <th>${msg("ip")}</th>
             <th>${msg("started")}</th>
-            <th>${msg("lastAccess")}</th>
-            <th>${msg("expires")}</th>            
+            <th class="tbl-hidden">${msg("lastAccess")}</th>
+            <th class="tbl-hidden">${msg("expires")}</th>            
         </tr>
         </thead>
 
@@ -31,8 +31,8 @@
                     <td>${client}</td>
                     <td>${session.ipAddress}</td>
                     <td>${session.started?datetime}</td>
-                    <td>${session.lastAccess?datetime}</td>
-                    <td>${session.expires?datetime}</td>                
+                    <td class="tbl-hidden">${session.lastAccess?datetime}</td>
+                    <td class="tbl-hidden">${session.expires?datetime}</td>                
                 </tr>
             </#list>
         </#list>

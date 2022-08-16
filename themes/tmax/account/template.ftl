@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="robots" content="noindex, nofollow">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     <title>${msg("accountManagementTitle")}</title>
     <link rel="icon" href="${url.resourcesPath}/img/favicon.ico">
     <#if properties.styles?has_content>
@@ -32,11 +33,7 @@
                     <h1 class="navbar-title">Tmax</h1>
                     <#--  <div class="navbar-bg-left"></div>  -->
                     <!--<div class="navbar-bg-right"></div>-->
-                </div>
-            </div>
-            <div class="navbar-collapse navbar-collapse-1">
-                <div class="container">
-                    <ul class="nav navbar-nav navbar-utility">
+                    <ul class="navbar-utility">
                          <#if referrer?has_content && referrer.url?has_content && referrer.name == '${' + "client_security-admin-console" + '}'>
                             <li>
                                 <a href="${referrer.url}" id="referrer"><div class="icon ic-admin-console"></div>${msg("backTo",referrer.name)}</a>
@@ -60,6 +57,10 @@
                             <a href="${url.logoutUrl}"><!--<div class="icon ic-sign-out"></div>-->${msg("doSignOut")}</a>
                          </li>
                     </ul>
+                    <#--  모바일인 경우 GNB에 로그아웃만 지원  -->
+                    <div class="navbar-utility-mobile">
+                         <a href="${url.logoutUrl}"><!--<div class="icon ic-sign-out"></div>-->${msg("doSignOut")}</a>
+                    </div>
                 </div>
             </div>
         </nav>

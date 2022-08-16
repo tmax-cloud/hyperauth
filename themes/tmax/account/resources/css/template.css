@@ -221,9 +221,17 @@ cursor: pointer;
   align-items: center;
   justify-content: space-between;
   margin-top: 10px;
- 
-width: 540px;
-height: 60px;
+  width: 540px;
+  height: 60px;
+}
+
+@media (max-width: 768px) {
+  #agreement .agree {
+    width: auto;
+  }
+  #agreement .term {
+    width: auto !important;
+  }
 }
 
 hr {

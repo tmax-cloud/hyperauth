@@ -74,13 +74,16 @@
 <#--        <@layout.formGroup key="lastName" required=true formGroupClass="${messagesPerField.printIfExists('lastName','has-error')}">-->
 <#--            <input type="text" class="form-control" id="lastName" name="lastName" value="${(account.lastName!'')}"/>-->
 <#--        </@layout.formGroup>-->
-            <hr id='hr-bottom'>            
-            <p id="usingCheckText">
-                ${msg("withdrawalHtmlBody")}
+            <hr id='hr-bottom'>     
+            <div id="usingCheckText"> 
+                <p>
+                    ${msg("withdrawalHtmlBody")}
+                </p> 
                 <a href="#" onclick="openWithdrawalPage(); return false;">
                     ${msg("withdrawalAccount")}
                 </a>
-            </p>
+            </div>       
+           
             <br>
             
             <@layout.formButtonGroup>

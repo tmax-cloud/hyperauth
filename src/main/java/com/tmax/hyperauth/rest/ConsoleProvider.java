@@ -173,7 +173,10 @@ public class ConsoleProvider implements RealmResourceProvider {
             }
         } catch (Exception e) {
             log.error("Error Occurs!!", e);
-            return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.ACCOUNT);
+            out = "Server Internal Error";
+            Status status = Status.BAD_REQUEST;
+            return Util.setCors(status, out);
+//            return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.ACCOUNT);
         } catch (Throwable throwable) {
             log.error("Error Occurs!!", throwable);
             return account.setError(Response.Status.BAD_REQUEST, "Mail Send Failed").createResponse(AccountPages.ACCOUNT);
