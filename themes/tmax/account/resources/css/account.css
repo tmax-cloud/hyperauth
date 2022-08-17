@@ -1267,11 +1267,14 @@ input:checked + .slider:before {
     font-size: 1.17em;
   }
 
+}
+
+@media (max-width: 517px) {
   #withdrawal-term-text #bar {
     display: none;
   }
-
 }
+
 #signout-logo {
   background: url("../img/Illust_signout_logo.svg") no-repeat center;
   background-size: 100% 100%;
@@ -1430,15 +1433,20 @@ input:checked + .slider:before {
 
 /* SNS 관련 CSS */
 .snsBox {
-  width: 476px;
+  width: 340px;
   height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-
-
 }
+
+@media (max-width: 768px) {
+  .snsBox {
+    width: 200px;
+  }
+}
+
 .snsBox:hover {
   font-weight: bold;
 }
