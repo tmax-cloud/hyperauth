@@ -1,6 +1,25 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.2.2 start -------------------->
+
+## HyperAuthServer 1.1.2.2 (2022. 08. 19. (금) 19:19:09 KST)
+
+### Added
+  - [feat] 계정관리 메뉴 모바일 css 고려 작업 수행 by dnxorjs1
+
+### Changed
+  - [mod] test 배포 imageRegistry 변수화 by dnxorjs1
+  - [mod] 탈퇴시 카카오로 로그인 모바일 디자인 적용 by dnxorjs1
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.2.2 end --------------------->
+
 <!-------------------- v1.1.2.1 start -------------------->
 
 ## HyperAuthServer 1.1.2.1 (2022. 08. 05. (금) 17:45:19 KST)
