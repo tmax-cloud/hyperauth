@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 ### Changed
-
+  - [mod] cnu 로그인 로고 이미지 변경 및 기존 이미지 삭제 by bin_lim
 ### Fixed
 
 ### CRD yaml
