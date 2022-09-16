@@ -1,6 +1,22 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.2.3 start -------------------->
+
+## HyperAuthServer 1.1.2.3 (2022. 09. 13. (화) 17:00:25 KST)
+
+### Added
+
+### Changed
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.2.3 end --------------------->
+
 <!-------------------- v1.1.2.2 start -------------------->
 
 ## HyperAuthServer 1.1.2.2 (2022. 08. 19. (금) 19:19:09 KST)

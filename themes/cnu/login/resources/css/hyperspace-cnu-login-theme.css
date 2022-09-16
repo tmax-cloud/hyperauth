@@ -92,6 +92,10 @@
     .login-body div.login-pf-page .login-pf-page-header{
         visibility: visible !important;
     }
+
+    .login-body-hyperspace .login-logo-wrapper .login-logo-wapl .cnu-logo{
+        margin-top: 35px;
+     }
 }
 /* wapl login logo & text */
 .login-body-hyperspace #kc-content-wrapper #kc-page-title{
@@ -109,22 +113,9 @@
     justify-content: center;
 }
 
-/* .login-body-hyperspace .login-logo-wrapper .login-logo-wapl .login-logo-image{
-    background: url('../img/cnu_symbol.jpg') no-repeat center;
-    width: 291px;
-    height: 280px;
-    margin-top: 35px;
-} */
-
-.login-body-hyperspace .login-logo-wrapper .login-logo-wapl .cnu-symbol{
-    width: 72px;
-    height: 72px;
-    margin-bottom: 6px;
-}
-
 .login-body-hyperspace .login-logo-wrapper .login-logo-wapl .cnu-logo{
-    width: 160px;
-    height: 25px;
+    width: 139px;
+    height: 179px;
 }
 
 .login-body-hyperspace form#kc-form-login div#idWrapper{
