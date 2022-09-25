@@ -1,6 +1,24 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.2.4 start -------------------->
+
+## HyperAuthServer 1.1.2.4 (2022. 09. 25. (일) 13:35:53 KST)
+
+### Added
+
+### Changed
+  - [mod] Redirect URI 와일드 카드 중간 혹은 앞에도 들어가서 subdomain 고려 가능하게 끔 수정 by dnxorjs1
+  - [mod] keycloak의 expire password 기능을 이용해서 비밀번호 변경을 유도할 경우, 다음에 변경하기가 동작하지 않는 현상 해결 by dnxorjs1
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.2.4 end --------------------->
+
 <!-------------------- v1.1.2.3 start -------------------->
 
 ## HyperAuthServer 1.1.2.3 (2022. 09. 13. (화) 17:00:25 KST)
