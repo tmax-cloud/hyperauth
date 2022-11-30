@@ -28,8 +28,7 @@
                     <p id="welcome-instruction">
                         ${msg("welcomeInstruction1")?no_esc}
                         <#if isBrokerLogin?has_content && isBrokerLogin == "true" && brokerEmail?has_content && brokerVendor?has_content>
-                            ${msg("finishIdpUserVerificationMessage2", brokerVendor, brokerEmail)?no_esc}
-                            
+                            ${msg("finishIdpUserVerificationMessage3", brokerVendor, brokerEmail)?no_esc}
                         </#if>
                     </p>
                 </div>
