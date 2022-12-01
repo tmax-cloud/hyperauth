@@ -56,8 +56,6 @@ public class HyperAuthCaller {
 
         //GET svc
         HttpUrl.Builder urlBuilder = HttpUrl.parse(setHyperAuthURL(Constants.SERVICE_NAME_USER_DETAIL) + userId).newBuilder();
-        log.info(" setHyperAuthURL(Constants.SERVICE_NAME_USER_DETAIL ) + userId" + setHyperAuthURL(Constants.SERVICE_NAME_USER_DETAIL) + userId);
-
         String url = urlBuilder.build().toString();
         request = new Request.Builder().url(url).addHeader("Authorization", "Bearer " + token).get().build();
 
