@@ -1,6 +1,23 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.2.5 start -------------------->
+
+## HyperAuthServer 1.1.2.5 (2022. 12. 01. (목) 16:37:17 KST)
+
+### Added
+
+### Changed
+
+### Fixed
+  - [ims][289418] 회원가입 (일반, 소셜로그인) 인증 메일을 통한 인증완료 시에 로그인 초기 화면으로 돌아가지 못하는 현상 해결 by dnxorjs1
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.2.5 end --------------------->
+
 <!-------------------- v1.1.2.4 start -------------------->
 
 ## HyperAuthServer 1.1.2.4 (2022. 09. 25. (일) 13:35:53 KST)
