@@ -54,7 +54,7 @@
         - ex) {"type":"LOGIN_ERROR","userName":"admin@tmax.co.kr","userId":"3c2f0ab5-5c6e-4739-b9db-877ebcfbcd29","time":1610614321868,"realmId":"tmax","clientId":"hypercloud4","ipAddress":"192.168.6.107","error":"invalid_user_credentials","details":{"auth_method":"openid-connect","auth_type":"code","redirect_uri":"https://172.22.6.2:31304/?first","code_id":"afa917bc-c54d-4fa0-b04e-d902baf0f3d5","username":"admin@tmax.co.kr"}}
         - [TopicEvent.java](src/main/java/com/tmax/hyperauth/eventlistener/provider/TopicEvent.java)
       - **현재 Publish 중인 Event Verb (정책)**
-        - https://www.keycloak.org/docs-api/6.0/javadocs/org/keycloak/events/EventType.html 참조
+        - https://www.keycloak.org/docs-api/11.0/javadocs/org/keycloak/events/EventType.html 참조
         - 추가
           - USER_WITHDRAWAL : 유저가 탈퇴 신청을 한 경우
           - USER_WITHDRAWAL_CANCEL : 유저가 탈퇴신청을 철회한 경우
