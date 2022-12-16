@@ -24,7 +24,7 @@
       - Prometheus 설치를 통해 수집 가능 ( ServiceMonitor 추가 필요 ) 
       - 수집 Metric 정보 : https://github.com/tmax-cloud/hyperauth/blob/main/METRICS.md 참조
     - Grafana Hyperauth Metrics Json
-      - https://github.com/tmax-cloud/install-hyperauth/blob/main/manifest/hyperauth_metric.json   
+      - https://github.com/tmax-cloud/hyperauth/blob/main/guide/hyperauth%20metric.json 
       - ![image](https://user-images.githubusercontent.com/61040426/123621787-8bd16b80-d846-11eb-946e-aee0f8884717.png)
   - Hyperauth 서버 이중화 및 세션 클러스터링 적용
     - Protocol : KUBE_PING
