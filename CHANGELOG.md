@@ -1,6 +1,24 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.2.6 start -------------------->
+
+## HyperAuthServer 1.1.2.6 (2023. 01. 27. (금) 11:52:27 KST)
+
+### Added
+
+### Changed
+
+### Fixed
+  - [ims][297420] hyperauth 중복로그인 방지 기능 optional 하게 제공 by taegeon_woo
+  - [ims][297420] hyperauth 중복로그인 방지 기능 optional 하게 제공 by taegeon_woo
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.2.6 end --------------------->
+
 <!-------------------- v1.1.2.5 start -------------------->
 
 ## HyperAuthServer 1.1.2.5 (2022. 12. 01. (목) 16:37:17 KST)
