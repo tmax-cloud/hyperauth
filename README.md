@@ -13,7 +13,7 @@
 - **운영 및 기능 가이드**  
   - Events Config 관리 
     - 원하는 기능만 사용할 수 있게끔 Plug-In 형식으로 사용 가능
-  ![image](https://user-images.githubusercontent.com/61040426/122870463-a9936200-d368-11eb-87c1-e331848078d2.png)
+      - <img width="551" alt="image" src="https://user-images.githubusercontent.com/61040426/215000253-71d8be0d-f666-4d0b-a264-dfdb6dae8dc0.png">
     - hyperauth_event_listener : Realm 에서 발생하는 Event 로그 수집, Tmax 정책에 따른 여러 기능 수행
       - hypercloud4 관련 API Call ( 삭제 예정 ) : hypercloud4 가 설치 되어 있는 k8s 환경에서만 적용하면  
       - 회원가입 후 10분안에 메일 인증을 안 할시 유저 삭제
