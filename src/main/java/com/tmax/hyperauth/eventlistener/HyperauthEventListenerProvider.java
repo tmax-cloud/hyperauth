@@ -4,7 +4,6 @@ import java.util.*;
 import javax.ws.rs.core.Context;
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
 import lombok.extern.slf4j.Slf4j;
-import org.keycloak.common.util.Time;
 import org.keycloak.events.Event;
 import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.admin.AdminEvent;
@@ -12,16 +11,14 @@ import org.keycloak.models.KeycloakSession;
 import com.google.gson.JsonObject;
 import com.tmax.hyperauth.caller.HyperAuthCaller;
 import com.tmax.hyperauth.caller.HypercloudOperatorCaller;
-import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.timer.TimerProvider;
-import org.keycloak.timer.TimerSpi;
 
 /**
  * @author taegeon_woo@tmax.co.kr
  */
 @Slf4j
-public class HyperauthEventListenerProvider extends TimerSpi implements EventListenerProvider {
+public class HyperauthEventListenerProvider implements EventListenerProvider {
     @Context
     private final KeycloakSession session;
     public HyperauthEventListenerProvider(KeycloakSession session) {
@@ -30,7 +27,6 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
 
     @Override
     public void onEvent(Event event) {
-        String userName = "";
         log.info("Event Occurred:" + toString(event));
 
         if (event.getRealmId().equalsIgnoreCase("tmax")) {
@@ -43,22 +39,6 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
                         HypercloudOperatorCaller.createNewUserRole(event.getDetails().get("username"));   //FIXME : Delete Later !!!!
                     } catch (Exception e) {
                         log.error("Error Occurs!!", e);
-                    }
-                    break;
-                case "LOGIN":
-                    // For Session-Restrict Policy
-                    if (!event.getDetails().get("username").equalsIgnoreCase("admin@tmax.co.kr")) { //FIXME : Delete Later !!!!
-                        log.info("User [ " + event.getDetails().get("username") + " ], Client [ " + event.getClientId() + " ] Session-Restrict Start");
-                        UserModel user = session.users().getUserById(event.getUserId(), session.realms().getRealmByName(event.getRealmId()));
-                        RealmModel realm = session.realms().getRealmByName(event.getRealmId());
-                        session.sessions().getUserSessions(realm, session.clients().getClientByClientId(realm, event.getClientId())).forEach(userSession -> {
-                            if( userSession.getUser().getUsername().equalsIgnoreCase(event.getDetails().get("username"))
-                                    && !userSession.getId().equals(event.getSessionId()) ) {
-                                session.sessions().removeUserSession(realm, userSession);
-                                log.info("Remove user session [ " + userSession.getId() + " ]");
-                            }
-                        } );
-                        log.info("User [ " + event.getDetails().get("username") + " ], Client [ " + event.getClientId() + " ] Session-Restrict Success");
                     }
                     break;
                 case "SEND_VERIFY_EMAIL":
@@ -141,7 +121,6 @@ public class HyperauthEventListenerProvider extends TimerSpi implements EventLis
 
     @Override
     public void close() {
-
     }
 
     private String toString(Event event) {

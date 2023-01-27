@@ -1,3 +1,4 @@
 com.tmax.hyperauth.eventlistener.HyperauthEventListenerProviderFactory
 com.tmax.hyperauth.eventlistener.kafka.producer.KafkaEventListenerProviderFactory
 com.tmax.hyperauth.eventlistener.prometheus.MetricsEventListenerFactory
+com.tmax.hyperauth.eventlistener.DuplicateLoginBlockProviderFactory
