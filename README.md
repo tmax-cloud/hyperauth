@@ -13,12 +13,13 @@
 - **운영 및 기능 가이드**  
   - Events Config 관리 
     - 원하는 기능만 사용할 수 있게끔 Plug-In 형식으로 사용 가능
-  ![image](https://user-images.githubusercontent.com/61040426/122870463-a9936200-d368-11eb-87c1-e331848078d2.png)
+      - <img width="551" alt="image" src="https://user-images.githubusercontent.com/61040426/215000253-71d8be0d-f666-4d0b-a264-dfdb6dae8dc0.png">
     - hyperauth_event_listener : Realm 에서 발생하는 Event 로그 수집, Tmax 정책에 따른 여러 기능 수행
-      - hypercloud4 관련 API Call ( 삭제 예정 ) 
-      - Client의 유저당 세션을 1개로 유지 하는 기능
+      - hypercloud4 관련 API Call ( 삭제 예정 ) : hypercloud4 가 설치 되어 있는 k8s 환경에서만 적용하면  
       - 회원가입 후 10분안에 메일 인증을 안 할시 유저 삭제
       - 비밀번호 변경 시간 관리
+    - duplicate_login_block (ims-297420 이슈로 Plug-in 화 분리 진행)
+      - Client의 유저당 세션을 1개로 유지 하는 기능
     - kafka_producer : Realm의 Event를 Kafka로 Publish 한다.
     - Prometheus_metric_listener(개발중) : Realm의 Event를 Prometheus Metric의 형태로 ( auth/realm/{realmId}/metrics ) 노출
       - Prometheus 설치를 통해 수집 가능 ( ServiceMonitor 추가 필요 ) 
@@ -32,15 +33,15 @@
     - 설치 변경 : https://github.com/tmax-cloud/install-hyperauth/blob/main/manifest/2.hyperauth_deployment.yaml 
       - replica : 2
       - 이중화 관련 Env 추가
-    - **LOG 수집 가이드**
-      - 주의 :  hyperauth 이미지 tmaxcloudck/hyperauth:b1.1.0.15부터 적용
-        - 설치 yaml 중 2.hyperauth_deployment.yaml에서 args: ["-c standalone.xml", "-Dkeycloak.profile.feature.docker=enabled -b 0.0.0.0"] 부분 추가해야 사용가능
-      - kubectl exec -it -n hyperauth $(kubectl get pod -n hyperauth | grep hyperauth | cut -d ' ' -f1 | awk 'NR == 1 { print $0; exit }') bash
-      - cd /opt/jboss/keycloak/standalone/log/hyperauth
-      - {hyperauth_pod_name}.log 로 실시간 로그가 적재된다.
-      - {hyperauth_pod_name}.log.2021-04-21 등으로 하루에 하나씩 로그가 저장된다.
-      - hyperauth pod 내부에서 /opt/jboss/keycloak/bin/jboss-cli.sh 를 사용하여서 실시간 로그 설정 변경도 가능하다.
-        - 참조 : https://github.com/tmax-cloud/hyperauth/blob/main/guide/rotational_file_log_command
+  - **LOG 수집 가이드**
+    - 주의 :  hyperauth 이미지 tmaxcloudck/hyperauth:b1.1.0.15부터 적용
+      - 설치 yaml 중 2.hyperauth_deployment.yaml에서 args: ["-c standalone.xml", "-Dkeycloak.profile.feature.docker=enabled -b 0.0.0.0"] 부분 추가해야 사용가능
+    - kubectl exec -it -n hyperauth $(kubectl get pod -n hyperauth | grep hyperauth | cut -d ' ' -f1 | awk 'NR == 1 { print $0; exit }') bash
+    - cd /opt/jboss/keycloak/standalone/log/hyperauth
+    - {hyperauth_pod_name}.log 로 실시간 로그가 적재된다.
+    - {hyperauth_pod_name}.log.2021-04-21 등으로 하루에 하나씩 로그가 저장된다.
+    - hyperauth pod 내부에서 /opt/jboss/keycloak/bin/jboss-cli.sh 를 사용하여서 실시간 로그 설정 변경도 가능하다.
+      - 참조 : https://github.com/tmax-cloud/hyperauth/blob/main/guide/rotational_file_log_command
   - **Topic Consumer가이드**
     - [TopicConsumerExample.java](src/main/java/com/tmax/hyperauth/eventlistener/kafka/consumer/EventConsumer.java)
       - TODO 부분 수행 
