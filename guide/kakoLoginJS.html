@@ -1,0 +1,39 @@
+<a id="kakao-login-btn" href="javascript:loginWithKakao()">
+    <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222"
+         alt="카카오 로그인 버튼" />
+</a>
+<p id="token-result"></p>
+
+<script>
+    function loginWithKakao() {
+        Kakao.init('611b55642c4cccfd1f98ccff35e0a0f0'); // 사용하려는 앱의 JavaScript 키 입력
+        Kakao.Auth.login({
+            success: function (authObj) {
+                console.log(authObj)
+                Kakao.API.request({
+                    url: '/v2/user/me',
+                    data: {
+                        property_keys: ["kakao_account.email"]
+                    },
+                    success: function(response) {
+                        console.log(response)
+                        displayToken()
+                        function displayToken() {
+                            document.getElementById('token-result').innerText
+                                = 'LOGIN SUCCESS \n access token: ' + authObj.access_token  + '\n refresh token: ' + authObj.refresh_token
+                            + '\n Kakao UserName : ' + response.kakao_account.email;
+                        }
+                    },
+                    fail: function(error) {
+                        console.log(error);
+                    }
+                });
+            },
+            fail: function (err) {
+                alert(JSON.stringify(err));
+            },
+        });
+    }
+</script>
+
+<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
