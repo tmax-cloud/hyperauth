@@ -12,3 +12,7 @@ buildNumber.properties
 keycloak-spi.iml
 .idea/
 src/main/java/com/tmax/hyperauth/rest/testMain.java
+.settings/
+.project
+.classpath
+*.iml
