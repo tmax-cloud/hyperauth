@@ -33,12 +33,14 @@
     - [Grafana Hyperauth Metrics Json](guide/hyperauth%20metric.json)
       - Grafana Dashboard Import 해서 사용가능
       - ![image](https://user-images.githubusercontent.com/61040426/123621787-8bd16b80-d846-11eb-946e-aee0f8884717.png)
+      
   - Hyperauth 서버 이중화 및 세션 클러스터링 적용
     - Protocol  (Jboss WAS 레벨에서의 세션클러스터링 기능을 활성화 해주는 기능)
       - [KUBE_PING](https://github.com/jgroups-extras/jgroups-kubernetes/blob/master/README.adoc)
     - [설치 Manifest](https://github.com/tmax-cloud/install-hyperauth/blob/main/manifest/2.hyperauth_deployment.yaml) 
       - replica : 2
       - 이중화 관련 Env 추가
+      
   - **LOG 수집 가이드**
     - 주의 : hyperauth 이미지 tmaxcloudck/hyperauth:b1.1.0.15부터 적용
       - [설치 yaml](https://github.com/tmax-cloud/install-hyperauth/blob/main/manifest/2.hyperauth_deployment.yaml) 에서 args: ["-c standalone.xml", "-Dkeycloak.profile.feature.docker=enabled -b 0.0.0.0"] 부분 추가해야 사용가능
@@ -49,6 +51,15 @@
     - {hyperauth_pod_name}.log.2021-04-21 등으로 하루에 하나씩 로그가 저장된다.
     - hyperauth pod 내부에서 /opt/jboss/keycloak/bin/jboss-cli.sh 를 사용하여서 실시간 로그 설정 변경도 가능하다.
       - [참조](guide/rotational_file_log_command)
+      
+  - **Token CustomClaim 추가하는 가이드**
+    - [Keycloak ProtocolMapper SPI를 활용하여 구현](src/main/java/com/tmax/hyperauth/protocolmapper/ExternalApiMapper.java)
+    - External Url API 호출을 통해 Access Token, ID Token, UserProfile에 Claim에 key:value 추가가능
+      - 외부 인가에 활용가능
+      - Clients 별로 설정을 하기 때문에, 해당 Client로 유저가 로그인을 하는 경우, Claim에 추가 인가 정보 추가
+        - 해당 Claim 정보를 통해 인가를 처리하는 부분은 Client Application에서 별도로 구현이 되어야 한다.
+      - ![img.png](guide/image/protocol_mapper.png)
+      
   - **Topic Consumer가이드**
     - [Example Consumer](src/main/java/com/tmax/hyperauth/eventlistener/kafka/consumer/EventConsumer.java)
       - TODO 부분 수행
@@ -100,6 +111,11 @@
     - 과거에 사용하던 비밀번호 사용 불가능
     
   - [**탈퇴 신청 로그인시, 탈퇴 신청 철회 화면 사용 가이드**](src/main/java/com/tmax/hyperauth/authenticator/withdrawalCancel/WithdrawalCancelAuthenticator.java)
+    - 탈퇴 신청
+      - Account Console(Tmax Theme) - 회원정보 탭에서 유저가 스스로 탈퇴를 신청할수 있음.
+      - 탈퇴 신청의 경우 30일간 로그인 제한이 걸리고, 유저는 30일 이내에 언제든 탈퇴 신청 취소를 할수 있다.
+      - 30일 경과 시 유저가 완전히 삭제된다.
+      - ![img.png](guide/image/user_withdrawal.png)
     - Admin Console
       - Authentication - Bindings - Brower Flow : **Browser With User Withdrawal Cancel** 선택
     - 탈퇴 취소 버튼 클릭 시, 탈퇴 신청이 취소되고, 정상적으로 서비스 이용가능
@@ -111,6 +127,7 @@
         - OTP code time to live : OTP 코드 만료시간 Seconds ( default : 600 )
         - Length of the OTP code : OTP 코드 길이 ( default: 6 )
         - ( Alpha ) Template of text to send to the user : 메일 template
+        - ![img_1.png](guide/image/emailOTP_config.png)
     - 적용방법
       - 유저가 본인이 적용
         - Account Console (Tmax Theme) - 2차 인증 관리 - OTP 설정
@@ -120,9 +137,10 @@
     
   - [**IP 차단 기능 사용 가이드**](src/main/java/com/tmax/hyperauth/authenticator/securityPolicy/SecurityPolicyAuthenticator.java)
     - Authentication - Bindings - Brower Flow : **Browser with security policy** 선택
-    - IP Block 정책을 걸고자 하는 user에게 Attribute을 추가
+    - IP Block 정책을 걸고자 하는 user에게 Attribute을 추가 (Admin이 수동으로 추가 해야함, Keycloak Admin API로 User Attribute을 추가해주어도 가능)
       1. **ipBlock** : true
       2. **ipPermitList** : 192.168.6.196/16##172.22.6.2/24##172.21.6.3/24
+      -![img.png](guide/image/ipBlock.png) 
 
   - [`SecretQuestion 2-factor 인증 기능 사용 가이드`](https://github.com/tmax-cloud/hyperauth/blob/main/src/main/java/com/tmax/hyperauth/authenticator/secretQuestion/SecretQuestionAuthenticator.java) (Alpha)
     - Admin Console
@@ -140,6 +158,7 @@
       - Keycloak 11.0.2 : b1.0.10.0 ~ latest
     - [Github](https://github.com/keycloak/keycloak/tree/11.0.2)
     - Hyperauth Jar Build
+      - Java Version : 1.8
       - ```sh
         mvn install:install-file -Dfile=lib/com/tmax/tibero/jdbc/6.0/tibero6-jdbc.jar -DgroupId=com.tmax.tibero -DartifactId=jdbc -Dversion=6.0 -Dpackaging=jar -DgeneratePom=true
         mvn install:install-file -Dfile=lib/com/tmax/hyperauth/server-spi-private/11.0.2/keycloak-server-spi-private-11.0.2.jar -DgroupId=com.tmax.hyperauth -DartifactId=server-spi-private -Dversion=11.0.2 -Dpackaging=jar -DgeneratePom=true
@@ -211,13 +230,17 @@
   - [약관 AGREEMENT 테이블 확장](src/main/java/com/tmax/hyperauth/jpa/Agreement.java)
     - [Hibernate 동적 DDL 생성기능 활용](src/main/resources/META-INF/extend_table.xml)
 
-- `네이버로 로그인, 카카오로 로그인` 
+- **네이버로 로그인, 카카오로 로그인**
   - [카카오로 로그인 가이드](guide/kakako_login_guide.pptx)
   - [소셜로그인 개발](src/main/java/com/tmax/hyperauth/identity/kakao/KakaoIdentityProvider.java) 
+    - Keycloak SocialIdentityProvider SPI 구현
+    - 구글, 페이스북, 깃헙 등등의 Identity Provider는 기존에 Keycloak 에 추가되어 있음
+    
 - **회원 탈퇴 신청 기능**
   - 탈퇴 신청 후, 사용자 데이터 30일 유지
     - [30일 이전 로그인시 탈퇴 신청 취소 페이지 등장](src/main/java/com/tmax/hyperauth/authenticator/withdrawalCancel/WithdrawalCancelAuthenticator.java)
     - [30일 이후, Scheduler가 유저 삭제](src/main/java/com/tmax/hyperauth/eventlistener/HyperauthEventListenerProviderFactory.java)
+    
 - **2-factor 인증 기능**
   - [**EmailOTP 기능**](src/main/java/com/tmax/hyperauth/authenticator/otp/EmailOTPAuthenticator.java)
     - 유효시간, 인증숫자의 개수는 설정으로 변경 가능 (default: 10min, 6자리)
@@ -228,23 +251,28 @@
     - 질문에 대한 답을 입력하는 추가 인증 기능
     - 현재 질문이 하나로 고정되어 있음
     - What is your mom's first name?
+    
 - [**IP 차단 기능**](src/main/java/com/tmax/hyperauth/authenticator/securityPolicy/SecurityPolicyAuthenticator.java)
   - 사용자 별 IP 차단 기능 제공
     - WhiteList 기반 관리
     - ipBlock attribute 가 true 일때, ipPermitList의 **IP(CIDR)에 대한 접근 허용**
     - 복수개의 CIDR를 등록시 ##으로 구분해서 추가
+    
 - [**그룹 관리자 관련 기능**](src/main/java/com/tmax/hyperauth/rest/GroupProvider.java)
   - 그룹 관리자는 그룹에 속해 있어야 하고, attribute으로 isAdmin : {groupName} 을 가지고 있어야 한다.
   - 그룹 하위 사용자들에 대한 CRU 기능
   - 기 사용자를 그룹에 초대하는 기능
   - 그룹에 대한 생성, 그룹 관리자로 승격은 HyperAuth 관리자가 직접 제어
+  
 - [**사용자 비밀번호 관련 기능**](src/main/java/com/tmax/hyperauth/rest/PasswordProvider.java)
   - 사용자가 자신의 비밀번호 변경 기능 (자신의 Token 필요)
   - 비밀번호 찾기 기능 (인증 코드를 Email으로 발송)
+  
 - [Admin Console 프로필 사진 기능 추가](src/main/java/com/tmax/hyperauth/rest/PictureProvider.java)
   - ![img.png](guide/image/profile.png)
   - Admin Console Theme : Tmax
   - 프로필 사진을 파일로 관리
+  
 - [**BCrypt Password Hash 알고리즘 추가**](src/main/java/com/tmax/hyperauth/passwordhash/BCryptPasswordHashProvider.java)
   - keycloak이 기본적으로 제공하는 pbkdf2-sha256 알고리즘 외에 BCrypt 알고리즘을 이용해 password를 hashing 할 수 있게 지원
   - Admin Console
