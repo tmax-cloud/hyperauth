@@ -1,6 +1,24 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.2.7 start -------------------->
+
+## HyperAuthServer 1.1.2.7 (2023. 10. 31. (화) 15:23:15 KST)
+
+### Added
+  - [feat] fido 가이드 업데이트 by taegeon_woo
+
+### Changed
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+  - [etc] dockerfile layer 간소화 by 2smin
+
+<!--------------------- v1.1.2.7 end --------------------->
+
 <!-------------------- v1.1.2.6 start -------------------->
 
 ## HyperAuthServer 1.1.2.6 (2023. 01. 27. (금) 11:52:27 KST)
