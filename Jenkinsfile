@@ -12,7 +12,7 @@ node {
     def githubUserName = "ck-jenkins"
     def githubUserToken = "${params.githubUserToken}"
     def userEmail = "taegeon_woo@tmax.co.kr"
-    
+
     stage('git pull from hyperauth') {
     	git branch: "${params.buildBranch}",
         credentialsId: '${githubUserName}',
@@ -41,7 +41,8 @@ node {
     stage('Maven build from Hyperauth-spi & git push') {
     	withMaven(
             maven: 'M353',
-            mavenSettingsConfig: 'd8df29f7-3dc7-4506-b839-e2474e4fc051')
+            mavenSettingsConfig: 'd8df29f7-3dc7-4506-b839-e2474e4fc051',
+            jdk: 'jdk-1.8')
         {
             sh "mvn install:install-file -Dfile=lib/com/tmax/tibero/jdbc/6.0/tibero6-jdbc.jar -DgroupId=com.tmax.tibero -DartifactId=jdbc -Dversion=6.0 -Dpackaging=jar -DgeneratePom=true"
             sh "mvn install:install-file -Dfile=lib/com/tmax/hyperauth/server-spi-private/11.0.2/keycloak-server-spi-private-11.0.2.jar -DgroupId=com.tmax.hyperauth -DartifactId=server-spi-private -Dversion=11.0.2 -Dpackaging=jar -DgeneratePom=true"
@@ -135,7 +136,8 @@ void mavenInstall(dirPath,globalVersion) {
     dir (dirPath) {
         withMaven(
         maven: 'M353',
-        mavenSettingsConfig: 'd8df29f7-3dc7-4506-b839-e2474e4fc051') {
+        mavenSettingsConfig: 'd8df29f7-3dc7-4506-b839-e2474e4fc051',
+        jdk: 'jdk-1.8') {
             sh "mvn clean install -N"
             sh "mvn clean install"
         }
