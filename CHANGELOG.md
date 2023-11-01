@@ -7,8 +7,12 @@ All notable changes to this project will be documented in this file.
 
 ### Added
   - [feat] fido 가이드 업데이트 by taegeon_woo
+  - [feat] External Url 입력을 통해 토큰에 Claim을 추가 할수 있는 Client Mapper 기능 및 가이드(readme.md) 추가 by taegeon_woo
 
 ### Changed
+  - [mod] jenkinsfile maven 빌드시에 java 버전을 1.8 사용하도록 maven 설정 추가 by taegeon_woo
+  - [mod] readme.md 리뉴얼 및 이미지 보강 작업 수행 by taegeon_woo
+  - [mod] .gitignore 수정 ide 관련 파일 tracking 안되도록 수정 by taegeon_woo
 
 ### Fixed
 
@@ -28,7 +32,6 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 ### Fixed
-  - [ims][297420] hyperauth 중복로그인 방지 기능 optional 하게 제공 by taegeon_woo
   - [ims][297420] hyperauth 중복로그인 방지 기능 optional 하게 제공 by taegeon_woo
 
 ### CRD yaml
