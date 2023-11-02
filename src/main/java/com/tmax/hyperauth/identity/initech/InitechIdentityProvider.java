@@ -41,9 +41,9 @@ public class InitechIdentityProvider extends AbstractOAuth2IdentityProvider impl
         BrokeredIdentityContext user = new BrokeredIdentityContext(profile.get("id").asText());
         String email = profile.get("email").asText();
         String username = profile.get("username").asText();
-        System.out.println("email : " + email);
-        System.out.println("id : " + profile.get("id").asText());
-        System.out.println("username : " + username);
+//        System.out.println("email : " + email);
+//        System.out.println("id : " + profile.get("id").asText());
+//        System.out.println("username : " + username);
         user.setIdpConfig(getConfig());
         user.setUsername(email);
         user.setEmail(email);
