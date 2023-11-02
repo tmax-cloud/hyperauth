@@ -5,3 +5,4 @@ com.tmax.hyperauth.authenticator.passwordUpdateAlert.PasswordUpdateAlertAuthenti
 com.tmax.hyperauth.authenticator.withdrawalCancel.WithdrawalCancelAuthenticatorFactory
 com.tmax.hyperauth.authenticator.authSelectBox.selectAuthenticatorFactory
 com.tmax.hyperauth.authenticator.outer2ndFactor.Outer2ndFactorAuthenticatorFactory
+com.tmax.hyperauth.authenticator.externalProvider.InitechAuthenticatorFactory
