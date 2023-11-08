@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.keycloak.broker.oidc.AbstractOAuth2IdentityProvider;
 import org.keycloak.broker.oidc.OAuth2IdentityProviderConfig;
 import org.keycloak.broker.oidc.mappers.AbstractJsonUserAttributeMapper;
+import org.keycloak.broker.provider.AuthenticationRequest;
 import org.keycloak.broker.provider.BrokeredIdentityContext;
 import org.keycloak.broker.provider.IdentityBrokerException;
 import org.keycloak.broker.provider.util.SimpleHttp;
@@ -12,11 +13,14 @@ import org.keycloak.broker.social.SocialIdentityProvider;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.models.KeycloakSession;
 
+import javax.ws.rs.core.Response;
+import java.net.URI;
+
 @Slf4j
 public class InitechIdentityProvider extends AbstractOAuth2IdentityProvider implements SocialIdentityProvider {
-    public static final String AUTH_URL = "http://localhost:8081/externalauth"; //FIXME!!
-    public static final String TOKEN_URL = "http://localhost:8081/token";
-    public static final String PROFILE_URL = "http://localhost:8081/user";
+    public static final String AUTH_URL = "http://tmax.initech.com:8081/externalauth"; //FIXME!!
+    public static final String TOKEN_URL = "http://tmax.initech.com:8081/token";
+    public static final String PROFILE_URL = "http://tmax.initech.com:8081/user";
     public static final String DEFAULT_SCOPE = "basic";
 
     public InitechIdentityProvider(KeycloakSession session, OAuth2IdentityProviderConfig config) {
@@ -25,6 +29,17 @@ public class InitechIdentityProvider extends AbstractOAuth2IdentityProvider impl
         config.setTokenUrl(TOKEN_URL);
         config.setUserInfoUrl(PROFILE_URL);
     }
+
+//    @Override
+//    public Response performLogin(AuthenticationRequest request) {
+//        try {
+//            URI authorizationUrl = createAuthorizationUrl(request).build();
+//
+//            return Response.seeOther(authorizationUrl).build();
+//        } catch (Exception e) {
+//            throw new IdentityBrokerException("Could not create authentication request.", e);
+//        }
+//    }
 
     @Override
     protected boolean supportsExternalExchange() {
