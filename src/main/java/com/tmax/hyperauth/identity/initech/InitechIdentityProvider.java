@@ -54,14 +54,14 @@ public class InitechIdentityProvider extends AbstractOAuth2IdentityProvider impl
     @Override
     protected BrokeredIdentityContext extractIdentityFromProfile(EventBuilder event, JsonNode profile) {
         BrokeredIdentityContext user = new BrokeredIdentityContext(profile.get("id").asText());
-        String email = profile.get("email").asText();
+//        String email = profile.get("email").asText();
         String username = profile.get("username").asText();
 //        System.out.println("email : " + email);
 //        System.out.println("id : " + profile.get("id").asText());
 //        System.out.println("username : " + username);
         user.setIdpConfig(getConfig());
-        user.setUsername(email);
-        user.setEmail(email);
+        user.setUsername(username);
+//        user.setEmail(username);
         user.setIdp(this);
         AbstractJsonUserAttributeMapper.storeUserProfileForMapper(user, profile, getConfig().getAlias());
         return user;
