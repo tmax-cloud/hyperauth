@@ -64,3 +64,8 @@ RUN mkdir -p opt/jboss/keycloak/welcome-content/profile-picture \ chmod 755 opt/
 # 11. For Elastic APM Jar
 COPY build/jar/elastic-apm-agent-1.26.0.jar /opt/jboss/keycloak/elastic-apm-agent-1.26.0.jar
 RUN chmod 755 /opt/jboss/keycloak/elastic-apm-agent-1.26.0.jar
+
+
+# 12. For External OIDC Provider Cert
+RUN mkdir /opt/jboss/keycloak/cert
+COPY build/config/external-oidc.jks /opt/jboss/keycloak/cert/external-oidc.jks
