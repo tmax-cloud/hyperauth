@@ -11,7 +11,9 @@ import org.keycloak.broker.provider.IdentityBrokerException;
 import org.keycloak.broker.provider.util.SimpleHttp;
 import org.keycloak.broker.social.SocialIdentityProvider;
 import org.keycloak.events.EventBuilder;
+import org.keycloak.models.KeycloakContext;
 import org.keycloak.models.KeycloakSession;
+import org.keycloak.services.Urls;
 
 import javax.ws.rs.core.Response;
 import java.net.URI;
@@ -19,9 +21,11 @@ import java.net.URI;
 @Slf4j
 public class InitechIdentityProvider extends AbstractOAuth2IdentityProvider implements SocialIdentityProvider {
     public static final String AUTH_URL = "https://tmax.initech.com/externalauth"; //FIXME!!
-    public static final String TOKEN_URL = "https://tmax.initech.com/token";
-    public static final String PROFILE_URL = "https://tmax.initech.com/user";
+    public static final String TOKEN_URL = "http://tmax.initech.com/token";
+    public static final String PROFILE_URL = "http://tmax.initech.com/user";
     public static final String DEFAULT_SCOPE = "basic";
+
+
 
     public InitechIdentityProvider(KeycloakSession session, OAuth2IdentityProviderConfig config) {
         super(session, config);
@@ -30,7 +34,7 @@ public class InitechIdentityProvider extends AbstractOAuth2IdentityProvider impl
         config.setUserInfoUrl(PROFILE_URL);
     }
 
-//    @Override
+    //    @Override
 //    public Response performLogin(AuthenticationRequest request) {
 //        try {
 //            URI authorizationUrl = createAuthorizationUrl(request).build();
