@@ -14,7 +14,12 @@ ADD build/postgresql/* /opt/jboss/keycloak/modules/system/layers/keycloak/org/po
 
 # 1. Update stanalone.xml & domain.xml
 RUN rm /opt/jboss/keycloak/standalone/configuration/standalone.xml
+RUN rm /opt/jboss/keycloak/standalone/configuration/standalone-ha.xml
+RUN rm /opt/jboss/keycloak/domain/configuration/domain.xml
+
 ADD build/config/standalone.xml /opt/jboss/keycloak/standalone/configuration/standalone.xml
+ADD build/config/standalone-ha.xml /opt/jboss/keycloak/standalone/configuration/standalone-ha.xml
+ADD build/config/domain.xml /opt/jboss/keycloak/domain/configuration/domain.xml
 
 ADD build/config/docker-entrypoint.sh /opt/jboss/tools/docker-entrypoint.sh
 
