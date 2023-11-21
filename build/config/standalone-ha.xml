@@ -734,3 +734,4 @@
         </outbound-socket-binding>
     </socket-binding-group>
 
+</server>
