@@ -13,6 +13,9 @@ ADD build/tibero/module.xml /opt/jboss/tools/databases/tibero/module.xml
 ADD build/postgresql/* /opt/jboss/keycloak/modules/system/layers/keycloak/org/postgresql/main/
 
 # 1. Update stanalone.xml & domain.xml
+RUN rm /opt/jboss/keycloak/standalone/configuration/standalone.xml \
+ADD build/config/standalone.xml /opt/jboss/keycloak/standalone/configuration/standalone.xml
+
 ADD build/config/docker-entrypoint.sh /opt/jboss/tools/docker-entrypoint.sh
 
 # 2. add tmax theme & hypercloud/login & supercloud/login & hyperspace/login & hyperauth & cnu & supervds

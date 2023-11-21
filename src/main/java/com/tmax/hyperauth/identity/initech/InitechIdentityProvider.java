@@ -21,8 +21,8 @@ import java.net.URI;
 @Slf4j
 public class InitechIdentityProvider extends AbstractOAuth2IdentityProvider implements SocialIdentityProvider {
     public static final String AUTH_URL = "https://tmax.initech.com/externalauth"; //FIXME!!
-    public static final String TOKEN_URL = "http://tmax.initech.com/token";
-    public static final String PROFILE_URL = "http://tmax.initech.com/user";
+    public static final String TOKEN_URL = "https://tmax.initech.com/token";
+    public static final String PROFILE_URL = "https://tmax.initech.com/user";
     public static final String DEFAULT_SCOPE = "basic";
 
 
@@ -44,6 +44,13 @@ public class InitechIdentityProvider extends AbstractOAuth2IdentityProvider impl
 //            throw new IdentityBrokerException("Could not create authentication request.", e);
 //        }
 //    }
+
+
+
+    @Override
+    protected String extractTokenFromResponse(String response, String tokenName) {
+        return super.extractTokenFromResponse(response, tokenName);
+    }
 
     @Override
     protected boolean supportsExternalExchange() {
