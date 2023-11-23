@@ -18,9 +18,10 @@ import java.net.URI;
 
 @Slf4j
 public class InitechIdentityProvider extends AbstractOAuth2IdentityProvider implements SocialIdentityProvider {
-    public static final String AUTH_URL = "http://tmax.initech.com:8081/externalauth"; //FIXME!!
-    public static final String TOKEN_URL = "http://tmax.initech.com:8081/token";
-    public static final String PROFILE_URL = "http://tmax.initech.com:8081/user";
+
+    public static final String AUTH_URL = System.getenv("EXTERNAL_OIDC_PROVIDER_AUTH_URL");
+    public static final String TOKEN_URL = System.getenv("EXTERNAL_OIDC_PROVIDER_TOKEN_URL");
+    public static final String PROFILE_URL = System.getenv("EXTERNAL_OIDC_PROVIDER_PROFILE_URL");
     public static final String DEFAULT_SCOPE = "basic";
 
     public InitechIdentityProvider(KeycloakSession session, OAuth2IdentityProviderConfig config) {
@@ -54,14 +55,13 @@ public class InitechIdentityProvider extends AbstractOAuth2IdentityProvider impl
     @Override
     protected BrokeredIdentityContext extractIdentityFromProfile(EventBuilder event, JsonNode profile) {
         BrokeredIdentityContext user = new BrokeredIdentityContext(profile.get("id").asText());
-        String email = profile.get("email").asText();
+
         String username = profile.get("username").asText();
-//        System.out.println("email : " + email);
-//        System.out.println("id : " + profile.get("id").asText());
-//        System.out.println("username : " + username);
+        user.setUsername(username);
+
+        //If needed, get email from external provider and set on user (should external provider support email return)
+
         user.setIdpConfig(getConfig());
-        user.setUsername(email);
-        user.setEmail(email);
         user.setIdp(this);
         AbstractJsonUserAttributeMapper.storeUserProfileForMapper(user, profile, getConfig().getAlias());
         return user;
