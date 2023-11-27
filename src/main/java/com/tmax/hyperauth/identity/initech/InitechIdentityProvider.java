@@ -58,6 +58,8 @@ public class InitechIdentityProvider extends AbstractOAuth2IdentityProvider impl
 
         String username = profile.get("username").asText();
         user.setUsername(username);
+        String email = profile.get("email").asText();
+        user.setEmail(email);
 
         //If needed, get email from external provider and set on user (should external provider support email return)
 
