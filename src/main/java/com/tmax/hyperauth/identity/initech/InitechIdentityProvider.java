@@ -20,9 +20,10 @@ import java.net.URI;
 
 @Slf4j
 public class InitechIdentityProvider extends AbstractOAuth2IdentityProvider implements SocialIdentityProvider {
-    public static final String AUTH_URL = "https://tmax.initech.com/externalauth"; //FIXME!!
-    public static final String TOKEN_URL = "http://tmax.initech.com/token";
-    public static final String PROFILE_URL = "http://tmax.initech.com/user";
+
+    public static final String AUTH_URL = System.getenv("EXTERNAL_OIDC_PROVIDER_AUTH_URL");
+    public static final String TOKEN_URL = System.getenv("EXTERNAL_OIDC_PROVIDER_TOKEN_URL");
+    public static final String PROFILE_URL = System.getenv("EXTERNAL_OIDC_PROVIDER_PROFILE_URL");
     public static final String DEFAULT_SCOPE = "basic";
 
 
@@ -58,6 +59,7 @@ public class InitechIdentityProvider extends AbstractOAuth2IdentityProvider impl
     @Override
     protected BrokeredIdentityContext extractIdentityFromProfile(EventBuilder event, JsonNode profile) {
         BrokeredIdentityContext user = new BrokeredIdentityContext(profile.get("id").asText());
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 //        String email = profile.get("email").asText();
         String username = profile.get("username").asText();
@@ -66,11 +68,17 @@ public class InitechIdentityProvider extends AbstractOAuth2IdentityProvider impl
         if(profile.hasNonNull("username")){
             String username = profile.get("username").asText();
             logger.info("initech username : " + username);
+=======
+
+        if(profile.hasNonNull("username")){
+            String username = profile.get("username").asText();
+>>>>>>> main
             user.setUsername(username);
         }
 
         if(profile.hasNonNull("email")){
             String email = profile.get("email").asText();
+<<<<<<< HEAD
             logger.info("initech email : " + email);
             user.setEmail(email);
         }
@@ -92,6 +100,14 @@ public class InitechIdentityProvider extends AbstractOAuth2IdentityProvider impl
         user.setIdpConfig(getConfig());
         user.setUsername(username);
 //        user.setEmail(email);
+=======
+            user.setEmail(email);
+        }
+
+        //If needed, get email from external provider and set on user (should external provider support email return)
+
+        user.setIdpConfig(getConfig());
+>>>>>>> main
         user.setIdp(this);
         AbstractJsonUserAttributeMapper.storeUserProfileForMapper(user, profile, getConfig().getAlias());
         return user;
