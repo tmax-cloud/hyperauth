@@ -58,8 +58,37 @@ public class InitechIdentityProvider extends AbstractOAuth2IdentityProvider impl
     @Override
     protected BrokeredIdentityContext extractIdentityFromProfile(EventBuilder event, JsonNode profile) {
         BrokeredIdentityContext user = new BrokeredIdentityContext(profile.get("id").asText());
+<<<<<<< Updated upstream
 //        String email = profile.get("email").asText();
         String username = profile.get("username").asText();
+=======
+
+        if(profile.hasNonNull("username")){
+            String username = profile.get("username").asText();
+            logger.info("initech username : " + username);
+            user.setUsername(username);
+        }
+
+        if(profile.hasNonNull("email")){
+            String email = profile.get("email").asText();
+            logger.info("initech email : " + email);
+            user.setEmail(email);
+        }
+
+        if(profile.hasNonNull("firstName")){
+            String firstName = profile.get("firstName").asText();
+            logger.info("initech firstName : " + firstName);
+            user.setFirstName(firstName);
+        }
+
+        if(profile.hasNonNull("lastName")){
+            String lastName = profile.get("lastName").asText();
+            logger.info("initech lastName : " + lastName);
+            user.setLastName(lastName);
+        }
+        //If needed, get email from external provider and set on user (should external provider support email return)
+
+>>>>>>> Stashed changes
         user.setIdpConfig(getConfig());
         user.setUsername(username);
 //        user.setEmail(email);
