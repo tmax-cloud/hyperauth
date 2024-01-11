@@ -11,7 +11,9 @@ import org.keycloak.broker.provider.IdentityBrokerException;
 import org.keycloak.broker.provider.util.SimpleHttp;
 import org.keycloak.broker.social.SocialIdentityProvider;
 import org.keycloak.events.EventBuilder;
+import org.keycloak.models.KeycloakContext;
 import org.keycloak.models.KeycloakSession;
+import org.keycloak.services.Urls;
 
 import javax.ws.rs.core.Response;
 import java.net.URI;
@@ -24,6 +26,8 @@ public class InitechIdentityProvider extends AbstractOAuth2IdentityProvider impl
     public static final String PROFILE_URL = System.getenv("EXTERNAL_OIDC_PROVIDER_PROFILE_URL");
     public static final String DEFAULT_SCOPE = "basic";
 
+
+
     public InitechIdentityProvider(KeycloakSession session, OAuth2IdentityProviderConfig config) {
         super(session, config);
         config.setAuthorizationUrl(AUTH_URL);
@@ -31,7 +35,7 @@ public class InitechIdentityProvider extends AbstractOAuth2IdentityProvider impl
         config.setUserInfoUrl(PROFILE_URL);
     }
 
-//    @Override
+    //    @Override
 //    public Response performLogin(AuthenticationRequest request) {
 //        try {
 //            URI authorizationUrl = createAuthorizationUrl(request).build();
@@ -56,6 +60,8 @@ public class InitechIdentityProvider extends AbstractOAuth2IdentityProvider impl
     protected BrokeredIdentityContext extractIdentityFromProfile(EventBuilder event, JsonNode profile) {
         BrokeredIdentityContext user = new BrokeredIdentityContext(profile.get("id").asText());
 
+
+
         if(profile.hasNonNull("username")){
             String username = profile.get("username").asText();
             user.setUsername(username);
@@ -63,9 +69,21 @@ public class InitechIdentityProvider extends AbstractOAuth2IdentityProvider impl
 
         if(profile.hasNonNull("email")){
             String email = profile.get("email").asText();
+            logger.info("initech email : " + email);
             user.setEmail(email);
         }
 
+        if(profile.hasNonNull("firstName")){
+            String firstName = profile.get("firstName").asText();
+            logger.info("initech firstName : " + firstName);
+            user.setFirstName(firstName);
+        }
+
+        if(profile.hasNonNull("lastName")){
+            String lastName = profile.get("lastName").asText();
+            logger.info("initech lastName : " + lastName);
+            user.setLastName(lastName);
+        }
         //If needed, get email from external provider and set on user (should external provider support email return)
 
         user.setIdpConfig(getConfig());
