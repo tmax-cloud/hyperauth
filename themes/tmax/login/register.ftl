@@ -179,6 +179,23 @@
                         <div class="error_message" id="error_email_time_expired" style="display: none">
                             ${msg("createAccountEmailTimeExpiredMessage")}
                         </div>  -->
+                        <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('firstName',properties.kcFormGroupErrorClass!)}">
+                            <div class="${properties.kcLabelWrapperClass!}">
+                                <label for="firstName" class="${properties.kcLabelClass!}">${msg("firstName")}</label>
+                            </div>
+                            <div class="${properties.kcInputWrapperClass!}">
+                                <input type="text" id="firstName" class="${properties.kcInputClass!}" name="firstName" value="${(register.formData.firstName!'')}" />
+                            </div>
+                        </div>
+
+                        <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('lastName',properties.kcFormGroupErrorClass!)}">
+                            <div class="${properties.kcLabelWrapperClass!}">
+                                <label for="lastName" class="${properties.kcLabelClass!}">${msg("lastName")}</label>
+                            </div>
+                            <div class="${properties.kcInputWrapperClass!}">
+                                <input type="text" id="lastName" class="${properties.kcInputClass!}" name="lastName" value="${(register.formData.lastName!'')}" />
+                            </div>
+                        </div>
                     </div>
                     
                     <#if passwordRequired??>
