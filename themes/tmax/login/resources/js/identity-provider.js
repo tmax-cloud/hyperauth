@@ -211,10 +211,10 @@ function sendVerificationEmailForNewAccount() {
   var inputLastName = document.getElementById("input-last-name").value
   idpForm.querySelector("#firstName").value = inputFirstName;
   idpForm.querySelector("#lastName").value = inputLastName;
-  if(emailAsUsername == true){
-    var inputUsername = document.getElementById("user.attributes.user_name").value
-    idpForm.querySelector("#username").value = inputUsername;
-  }
+
+  var inputUsername = document.getElementById("input-username").value
+  idpForm.querySelector("#username").value = inputUsername;
+
 
   idpForm.submit();
 }
