@@ -224,7 +224,7 @@
                             <label for="firstName" class="${properties.kcLabelClass!}">${msg("firstName")}</label>
                         </div>
                         <div class="${properties.kcInputWrapperClass!}">
-                            <input type="text" id="firstName" class="${properties.kcInputClass!}" name="firstName" value="${(register.formData.firstName!'')}" />
+                            <input type="text" id="firstName" name="firstName" value="${(user.firstName!'')}" class="${properties.kcInputClass!}" />
                         </div>
                     </div>
 
@@ -233,7 +233,7 @@
                             <label for="lastName" class="${properties.kcLabelClass!}">${msg("lastName")}</label>
                         </div>
                         <div class="${properties.kcInputWrapperClass!}">
-                            <input type="text" id="lastName" class="${properties.kcInputClass!}" name="lastName" value="${(register.formData.lastName!'')}" />
+                            <input type="text" id="lastName" name="lastName" value="${(user.lastName!'')}" class="${properties.kcInputClass!}" />
                         </div>
                     </div>
                 </div> 
