@@ -290,17 +290,12 @@
             var otherInputValue = document.getElementById('user.attributes.user_name').value;
             document.getElementById('input-username').value = otherInputValue;
         }
-        function fillUserNameWithNewAccountEmail() {
-            var email = document.getElementById('email-for-new-account').value;
-            document.getElementById('user.attributes.user_name').value = email;
-            document.getElementById('input-username').value = email;
-        }
     </script>
     <#if !user.editUsernameAllowed>
         <script type="text/javascript">
-            fillUserNameWithNewAccountEmail();
+            fillEmailAndUserNameWithCachedEmailInput();
             validateUserName();
-            console.log("automatically filled username, send email enabled");
+            console.log("send email enabled");
         </script>
     </#if>
     <#if properties.scripts_identity_provider_hyperauth?has_content>
