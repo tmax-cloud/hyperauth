@@ -286,7 +286,7 @@
     <script type="text/javascript" src="${url.resourcesPath}/js/axios.min.js"></script>
     <script type="text/javascript" src="${url.resourcesPath}/js/identity-provider.js?${properties.version}"></script>
 
-    <#setting boolean_format="true,false">
+    <#assign editUsernameEnabled="true,false">
 
     <script type="text/javascript">
         function updateHiddenInputValue() {
@@ -294,7 +294,8 @@
             document.getElementById('input-username').value = otherInputValue;
         }
 
-        var editUsernameAllowed = Boolean(${user.editUsernameAllowed});
+        <#--var editUsernameAllowed = ${user.editUsernameAllowed}-->
+        console.log("editUsernameAllowed: " + ${user.editUsernameAllowed});
         function updateUsernameForm(){
             if(!editUsernameAllowed){
                 document.getElementById('user.attributes.user_name').value = document.getElementById("email");
