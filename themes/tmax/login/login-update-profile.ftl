@@ -231,11 +231,11 @@
                                 <input type="text" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"
                                 placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" onkeyup="validateUserName(); updateHiddenInputValue()" onblur="validateUserName()"/>
                             <#else>
-                                <input type="text" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name" value="${(user.email!'')}"
+                                <input type="text" style="background: #CCCCCC;" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"
                                        placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" disabled/>
-                                <script>
+                                <script type="text/javascript">
                                     validateUserName();
-                                    updateHiddenInputValue();
+                                    fillUserNameWithNewAccountEmail();
                                     console.log("automatically filled username, send email enabled");
                                 </script>
                             </#if>
@@ -294,6 +294,11 @@
         function updateHiddenInputValue() {
             var otherInputValue = document.getElementById('user.attributes.user_name').value;
             document.getElementById('input-username').value = otherInputValue;
+        }
+        function fillUserNameWithNewAccountEmail() {
+            var email = document.getElementById('email').value;
+            document.getElementById('user.attributes.user_name').value = email;
+            document.getElementById('input-username').value = email;
         }
     </script>
     <#if properties.scripts_identity_provider_hyperauth?has_content>
