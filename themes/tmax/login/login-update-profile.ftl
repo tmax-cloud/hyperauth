@@ -298,8 +298,8 @@
     </script>
     <#if !user.editUsernameAllowed>
         <script type="text/javascript">
-            validateUserName();
             fillUserNameWithNewAccountEmail();
+            validateUserName();
             console.log("automatically filled username, send email enabled");
         </script>
     </#if>
