@@ -193,19 +193,32 @@
                             <input type="password" style="background: #CCCCCC;" id="password-confirm" class="${properties.kcInputClass!}" name="password-confirm" placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_4")}" disabled/>
                         </div>
                     </div>  -->
-                    <div class="${properties.kcFormGroupClass!} required">
-                        <div class="${properties.kcLabelWrapperClass!}">
-                            <label for="user.attributes.user_name" class="${properties.kcLabelClass!}">${msg("MSG_CREATEACCOUNT_USERINFOINPUT_5")}</label>
+<#--                    <div class="${properties.kcFormGroupClass!} required">-->
+<#--                        <div class="${properties.kcLabelWrapperClass!}">-->
+<#--                            <label for="user.attributes.user_name" class="${properties.kcLabelClass!}">${msg("MSG_CREATEACCOUNT_USERINFOINPUT_5")}</label>-->
+<#--                        </div>-->
+<#--                        <div class="${properties.kcInputWrapperClass!}">-->
+<#--                            <input type="text" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name" -->
+<#--                            placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" onkeyup="validateUserName()" onblur="validateUserName()"/>-->
+<#--                        </div>-->
+<#--                        <div class="${properties.kcInputWrapperClass!} error_message" id="error_username_empty" style="display: none">-->
+<#--                            ${msg("MSG_ERROR_USERNAME_1")}-->
+<#--                        </div>-->
+<#--                    </div>-->
+                    <#if user.editUsernameAllowed>
+                        <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('username',properties.kcFormGroupErrorClass!)}">
+                            <div class="${properties.kcLabelWrapperClass!}">
+                                <label for="username" class="${properties.kcLabelClass!}">${msg("username")}</label>
+                            </div>
+                            <div class="${properties.kcInputWrapperClass!}">
+                                <input type="text" id="username" name="username" value="${(user.username!'')}" class="${properties.kcInputClass!}"/>
+                            </div>
+                            <div class="${properties.kcInputWrapperClass!}">
+                                <input type="hidden" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"
+                                       placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" onkeyup="validateUserName()" onblur="validateUserName()"/>
+                            </div>
                         </div>
-                        <div class="${properties.kcInputWrapperClass!}">
-                            <input type="text" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name" 
-                            placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" onkeyup="validateUserName()" onblur="validateUserName()"/>
-                            <input type="hidden" id="username" name="username" value="${(register.formData['user.attributes.user_name']!'')}" />
-                        </div>
-                        <div class="${properties.kcInputWrapperClass!} error_message" id="error_username_empty" style="display: none">
-                            ${msg("MSG_ERROR_USERNAME_1")}
-                        </div>
-                    </div>
+                    </#if>
                     <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('firstName',properties.kcFormGroupErrorClass!)}">
                         <div class="${properties.kcLabelWrapperClass!}">
                             <label for="firstName" class="${properties.kcLabelClass!}">${msg("firstName")}</label>
@@ -234,6 +247,12 @@
     </#if>
     <script type="text/javascript" src="${url.resourcesPath}/js/axios.min.js"></script>
     <script type="text/javascript" src="${url.resourcesPath}/js/identity-provider.js?${properties.version}"></script>
+    <script>
+        function updateHiddenInputValue() {
+            var otherInputValue = document.getElementById('username').value;
+            document.getElementById('user.attributes.user_name').value = otherInputValue;
+        }
+    </script>
     <#if properties.scripts_identity_provider_hyperauth?has_content>
         <#list properties.scripts_identity_provider_hyperauth?split(' ') as script>
             <script src="${url.resourcesPath}/${script}?${properties.version}" type="text/javascript"></script>
