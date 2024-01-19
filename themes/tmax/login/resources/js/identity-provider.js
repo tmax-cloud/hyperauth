@@ -214,8 +214,8 @@ function sendVerificationEmailForNewAccount() {
   console.log("input-first-name", inputFirstName)
   console.log("input-last-name", inputLastName)
 
-  idpForm.querySelector("firstName").value = inputFirstName;
-  idpForm.querySelector("lastName").value = inputLastName;
+  idpForm.querySelector("#firstName").setVa
+  idpForm.querySelector("#lastName").value = inputLastName;
 
   idpForm.submit();
 }
