@@ -12,7 +12,6 @@ var idpTermList = [
   IDP_TERM_PRIVACY,
   IDP_TERM_THIRD_PRIVACY,
 ];
-
 function showErrorMessage(errorId, visible) {
   const error = document.getElementById(errorId);
   error.style.display = visible ? "block" : "none";
@@ -210,10 +209,12 @@ function sendVerificationEmailForNewAccount() {
 
   var inputFirstName = document.getElementById("input-first-name").value
   var inputLastName = document.getElementById("input-last-name").value
-  var inputUsername = document.getElementById("user.attributes.user_name").value
   idpForm.querySelector("#firstName").value = inputFirstName;
   idpForm.querySelector("#lastName").value = inputLastName;
-  idpForm.querySelector("#username").value = inputUsername;
+  if(emailAsUsername == true){
+    var inputUsername = document.getElementById("user.attributes.user_name").value
+    idpForm.querySelector("#username").value = inputUsername;
+  }
 
   idpForm.submit();
 }
