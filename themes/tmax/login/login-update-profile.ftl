@@ -287,8 +287,7 @@
     <script type="text/javascript" src="${url.resourcesPath}/js/identity-provider.js?${properties.version}"></script>
 
     <#setting boolean_format="true,false">
-    <#assign editUsernameAllowedStr = user.editUsernameAllowed?string("true,false")>
-    <#assign editUsernameAllowedBool = user.editUsernameAllowed?boolean>
+
     <script type="text/javascript">
         function updateHiddenInputValue() {
             var otherInputValue = document.getElementById('user.attributes.user_name').value;
