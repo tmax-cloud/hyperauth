@@ -285,7 +285,11 @@
     </#if>
     <script type="text/javascript" src="${url.resourcesPath}/js/axios.min.js"></script>
     <script type="text/javascript" src="${url.resourcesPath}/js/identity-provider.js?${properties.version}"></script>
-    <script>
+
+    <#setting boolean_format="true,false">
+    <#assign editUsernameAllowedStr = user.editUsernameAllowed?string("true,false")>
+    <#assign editUsernameAllowedBool = user.editUsernameAllowed?boolean>
+    <script type="text/javascript">
         function updateHiddenInputValue() {
             var otherInputValue = document.getElementById('user.attributes.user_name').value;
             document.getElementById('input-username').value = otherInputValue;
