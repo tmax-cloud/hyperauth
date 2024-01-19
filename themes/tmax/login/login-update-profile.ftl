@@ -79,7 +79,7 @@
                         <input class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonLargeClass!}" type="submit" value="${msg("doSubmit")}" />
                         <button class="${properties.kcButtonClass!} ${properties.kcButtonDefaultClass!} ${properties.kcButtonLargeClass!}" type="submit" name="cancel-aia" value="true" />${msg("doCancel")}</button>
                         <#else>  -->
-                        <button class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" id="next-button" type="button" onclick="checkEmailExist()" value="Next">${msg("doNext")}</button>
+                        <button class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" id="next-button" type="button" onclick="checkEmailExist(); updateUsernameForm();" value="Next">${msg("doNext")}</button>
                         <#--  </#if>  -->
                         </div>
                     </div>
@@ -290,7 +290,17 @@
             var otherInputValue = document.getElementById('user.attributes.user_name').value;
             document.getElementById('input-username').value = otherInputValue;
         }
+
+        var editUsernameAllowed = ${user.editUsernameAllowed};
+        function updateUsernameForm(){
+            if(!editUsernameAllowed){
+                document.getElementById('user.attributes.user_name').value = document.getElementById("email");
+                document.getElementById('input-username').value = document.getElementById("email");
+                console.log("edit username disallowed. fill username with cached email input");
+            }
+        }
     </script>
+
     <#if !user.editUsernameAllowed>
         <script type="text/javascript">
             fillEmailAndUserNameWithCachedEmailInput();

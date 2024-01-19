@@ -45,14 +45,12 @@ function validateEmail(input, event) {
     }
   }
 }
-let emailInputCachedForEmailAsUserName = "";
 async function checkEmailExist() {
   const emailInput = document.getElementById("email");
   const email = !!emailInput.value ? emailInput.value : "";
   window.sessionStorage.setItem("idp-user-email", email);
   document.getElementById("email-address").innerText = email;
   document.getElementById("email-for-new-account").value = email;
-  emailInputCachedForEmailAsUserName = email;
   try {
     const res = await axios.get(
       `${idpServerUrl}/auth/realms/tmax/user/${email}/exists`
@@ -177,11 +175,6 @@ function clickAgreeBottomButton() {
   step3.style.display = "block";
 }
 
-function fillEmailAndUserNameWithCachedEmailInput() {
-  document.getElementById('user.attributes.user_name').value = emailInputCachedForEmailAsUserName;
-  document.getElementById('input-username').value = emailInputCachedForEmailAsUserName;
-  console.log("automatically filled email and username with cached email input :" + emailInputCachedForEmailAsUserName);
-}
 
 function sendVerificationEmailForNewAccount() {
   const idpForm = document.getElementById("kc-identity-provider-form");
