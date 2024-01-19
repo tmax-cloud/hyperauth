@@ -241,21 +241,21 @@
 <#--                            </div>-->
 <#--                        </div>-->
 <#--                    </#if>-->
-                    <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('firstName',properties.kcFormGroupErrorClass!)}">
+                    <div class="${properties.kcFormGroupClass!}">
                         <div class="${properties.kcLabelWrapperClass!}">
                             <label for="input-first-name" class="${properties.kcLabelClass!}">${msg("firstName")}</label>
                         </div>
                         <div class="${properties.kcInputWrapperClass!}">
-                            <input type="text" id="input-first-name" name="firstName" class="${properties.kcInputClass!}" />
+                            <input type="text" id="input-first-name" name="input.first.name" class="${properties.kcInputClass!}" />
                         </div>
                     </div>
 
-                    <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('lastName',properties.kcFormGroupErrorClass!)}">
+                    <div class="${properties.kcFormGroupClass!}">
                         <div class="${properties.kcLabelWrapperClass!}">
                             <label for="input-last-Name" class="${properties.kcLabelClass!}">${msg("lastName")}</label>
                         </div>
                         <div class="${properties.kcInputWrapperClass!}">
-                            <input type="text" id="input-last-Name" name="lastName" class="${properties.kcInputClass!}" />
+                            <input type="text" id="input-last-Name" name="input.last.name" class="${properties.kcInputClass!}" />
                         </div>
                     </div>
                 </div> 
