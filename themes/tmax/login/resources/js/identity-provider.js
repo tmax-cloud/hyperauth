@@ -207,5 +207,9 @@ function sendVerificationEmailForNewAccount() {
   document.getElementById(
     "sendVerificationEmailForNewAccountButton"
   ).disabled = true;
+
+  idpForm.querySelector("firstName").value = document.getElementById("input-first-name").value;
+  idpForm.querySelector("lastName").value = document.getElementById("input-last-name").value;
+
   idpForm.submit();
 }
