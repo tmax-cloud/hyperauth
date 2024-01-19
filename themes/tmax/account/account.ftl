@@ -67,13 +67,13 @@
                 ${msg("MSG_ERROR_USERNAME_3")}
             </div>
 
-<#--        <@layout.formGroup key="firstName" required=true formGroupClass="${messagesPerField.printIfExists('firstName','has-error')}">-->
-<#--            <input type="text" class="form-control" id="firstName" name="firstName" value="${(account.firstName!'')}"/>-->
-<#--        </@layout.formGroup>-->
+            <@layout.formGroup key="firstName" required=true formGroupClass="${messagesPerField.printIfExists('firstName','has-error')}">
+                <input type="text" class="form-control" id="firstName" name="firstName" value="${(account.firstName!'')}"/>
+            </@layout.formGroup>
 
-<#--        <@layout.formGroup key="lastName" required=true formGroupClass="${messagesPerField.printIfExists('lastName','has-error')}">-->
-<#--            <input type="text" class="form-control" id="lastName" name="lastName" value="${(account.lastName!'')}"/>-->
-<#--        </@layout.formGroup>-->
+            <@layout.formGroup key="lastName" required=true formGroupClass="${messagesPerField.printIfExists('lastName','has-error')}">
+                <input type="text" class="form-control" id="lastName" name="lastName" value="${(account.lastName!'')}"/>
+            </@layout.formGroup>
             <hr id='hr-bottom'>     
             <div id="usingCheckText"> 
                 <p>

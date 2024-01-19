@@ -200,9 +200,27 @@
                         <div class="${properties.kcInputWrapperClass!}">
                             <input type="text" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name" 
                             placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" onkeyup="validateUserName()" onblur="validateUserName()"/>
+                            <input type="hidden" id="username" name="username" value="${(register.formData['user.attributes.user_name']!'')}" />
                         </div>
                         <div class="${properties.kcInputWrapperClass!} error_message" id="error_username_empty" style="display: none">
                             ${msg("MSG_ERROR_USERNAME_1")}
+                        </div>
+                    </div>
+                    <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('firstName',properties.kcFormGroupErrorClass!)}">
+                        <div class="${properties.kcLabelWrapperClass!}">
+                            <label for="firstName" class="${properties.kcLabelClass!}">${msg("firstName")}</label>
+                        </div>
+                        <div class="${properties.kcInputWrapperClass!}">
+                            <input type="text" id="firstName" class="${properties.kcInputClass!}" name="firstName" value="${(register.formData.firstName!'')}" />
+                        </div>
+                    </div>
+
+                    <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('lastName',properties.kcFormGroupErrorClass!)}">
+                        <div class="${properties.kcLabelWrapperClass!}">
+                            <label for="lastName" class="${properties.kcLabelClass!}">${msg("lastName")}</label>
+                        </div>
+                        <div class="${properties.kcInputWrapperClass!}">
+                            <input type="text" id="lastName" class="${properties.kcInputClass!}" name="lastName" value="${(register.formData.lastName!'')}" />
                         </div>
                     </div>
                 </div> 

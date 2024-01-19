@@ -244,6 +244,7 @@
                         <div class="${properties.kcInputWrapperClass!}">
                             <input type="text" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name" value="${(register.formData['user.attributes.user_name']!'')}"
                             placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" onkeyup="removeUsernameValidationErrors()" onblur="validateUserName()"/>
+                            <input type="hidden" id="username" name="username" value="${(register.formData['user.attributes.user_name']!'')}" />
                         </div>
                         <div class="${properties.kcInputWrapperClass!} error_message" id="error_username_empty" style="display: none">
                             ${msg("MSG_ERROR_USERNAME_1")}
