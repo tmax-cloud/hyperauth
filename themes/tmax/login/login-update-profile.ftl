@@ -286,7 +286,15 @@
     <script type="text/javascript" src="${url.resourcesPath}/js/axios.min.js"></script>
     <script type="text/javascript" src="${url.resourcesPath}/js/identity-provider.js?${properties.version}"></script>
 
-    <#assign editUsernameEnabled="true,false">
+    <#if user.editUsernameAllowed>
+        <div class="${properties.kcFormGroupClass!}" style="display: none">
+            <input type="hidden" id="editUsernameAllowed" name="editUsernameAllowed" value="true"/>
+        </div>
+    <#else>
+        <div class="${properties.kcFormGroupClass!}" style="display: none">
+            <input type="hidden" id="editUsernameAllowed" name="editUsernameAllowed" value="false"/>
+        </div>
+    </#if>
 
     <script type="text/javascript">
         function updateHiddenInputValue() {
@@ -294,10 +302,9 @@
             document.getElementById('input-username').value = otherInputValue;
         }
 
-        <#--var editUsernameAllowed = ${user.editUsernameAllowed}-->
-        console.log("editUsernameAllowed: " + ${user.editUsernameAllowed});
+        var editUsernameAllowed = document.getElementById('editUsernameAllowed').value;
         function updateUsernameForm(){
-            if(!editUsernameAllowed){
+            if(editUsernameAllowed == "false"){
                 document.getElementById('user.attributes.user_name').value = document.getElementById("email");
                 document.getElementById('input-username').value = document.getElementById("email");
                 console.log("edit username disallowed. fill username with cached email input");
