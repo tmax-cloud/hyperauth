@@ -235,7 +235,12 @@
                             </div>
                         </div>
                     <#else>
-                        <script> document.getElementById('input-username').value = ${(user.email!'')}; </script>
+                        <script>
+                            document.getElementById('input-username').value = ${(user.email!'')};
+                            document.getElementById(
+                                "sendVerificationEmailForNewAccountButton"
+                            ).disabled = false;
+                        </script>
                     </#if>
                     <div class="${properties.kcInputWrapperClass!}">
                         <input type="hidden" id="input-username" name="username" value="${(user.username!'')}" class="${properties.kcInputClass!}"/>
