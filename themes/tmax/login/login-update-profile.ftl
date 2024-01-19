@@ -45,6 +45,25 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('firstName',properties.kcFormGroupErrorClass!)}">
+                        <div class="${properties.kcLabelWrapperClass!}">
+                            <label for="firstName" class="${properties.kcLabelClass!}">${msg("firstName")}</label>
+                        </div>
+                        <div class="${properties.kcInputWrapperClass!}">
+                            <input type="text" id="firstName" name="firstName" value="${(user.firstName!'')}" class="${properties.kcInputClass!}" />
+                        </div>
+                    </div>
+
+                    <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('lastName',properties.kcFormGroupErrorClass!)}">
+                        <div class="${properties.kcLabelWrapperClass!}">
+                            <label for="lastName" class="${properties.kcLabelClass!}">${msg("lastName")}</label>
+                        </div>
+                        <div class="${properties.kcInputWrapperClass!}">
+                            <input type="text" id="lastName" name="lastName" value="${(user.lastName!'')}" class="${properties.kcInputClass!}" />
+                        </div>
+                    </div>
+
                     <div class="${properties.kcFormGroupClass!}">
                         <div id="kc-form-buttons" class="${properties.kcFormButtonsClass!}">
                         <#--  <#if isAppInitiatedAction??>
@@ -252,8 +271,8 @@
     <script type="text/javascript" src="${url.resourcesPath}/js/identity-provider.js?${properties.version}"></script>
     <script>
         function updateHiddenInputValue() {
-            var otherInputValue = document.getElementById('username').value;
-            document.getElementById('user.attributes.user_name').value = otherInputValue;
+            var otherInputValue = document.getElementById('user.attributes.user_name').value;
+            document.getElementById('username').value = otherInputValue;
         }
     </script>
     <#if properties.scripts_identity_provider_hyperauth?has_content>
