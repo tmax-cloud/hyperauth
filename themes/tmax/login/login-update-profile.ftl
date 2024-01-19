@@ -252,10 +252,10 @@
 
                     <div class="${properties.kcFormGroupClass!}">
                         <div class="${properties.kcLabelWrapperClass!}">
-                            <label for="input-last-Name" class="${properties.kcLabelClass!}">${msg("lastName")}</label>
+                            <label for="input-last-name" class="${properties.kcLabelClass!}">${msg("lastName")}</label>
                         </div>
                         <div class="${properties.kcInputWrapperClass!}">
-                            <input type="text" id="input-last-Name" name="input.last.name" class="${properties.kcInputClass!}" />
+                            <input type="text" id="input-last-name" name="input.last.name" class="${properties.kcInputClass!}" />
                         </div>
                     </div>
                 </div> 
