@@ -301,13 +301,6 @@
         }
     </script>
 
-    <#if !user.editUsernameAllowed>
-        <script type="text/javascript">
-            fillEmailAndUserNameWithCachedEmailInput();
-            validateUserName();
-            console.log("send email enabled");
-        </script>
-    </#if>
     <#if properties.scripts_identity_provider_hyperauth?has_content>
         <#list properties.scripts_identity_provider_hyperauth?split(' ') as script>
             <script src="${url.resourcesPath}/${script}?${properties.version}" type="text/javascript"></script>
