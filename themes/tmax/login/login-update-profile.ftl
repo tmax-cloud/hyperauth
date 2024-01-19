@@ -193,32 +193,35 @@
                             <input type="password" style="background: #CCCCCC;" id="password-confirm" class="${properties.kcInputClass!}" name="password-confirm" placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_4")}" disabled/>
                         </div>
                     </div>  -->
-<#--                    <div class="${properties.kcFormGroupClass!} required">-->
-<#--                        <div class="${properties.kcLabelWrapperClass!}">-->
-<#--                            <label for="user.attributes.user_name" class="${properties.kcLabelClass!}">${msg("MSG_CREATEACCOUNT_USERINFOINPUT_5")}</label>-->
-<#--                        </div>-->
-<#--                        <div class="${properties.kcInputWrapperClass!}">-->
-<#--                            <input type="text" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name" -->
-<#--                            placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" onkeyup="validateUserName()" onblur="validateUserName()"/>-->
-<#--                        </div>-->
-<#--                        <div class="${properties.kcInputWrapperClass!} error_message" id="error_username_empty" style="display: none">-->
-<#--                            ${msg("MSG_ERROR_USERNAME_1")}-->
-<#--                        </div>-->
-<#--                    </div>-->
-                    <#if user.editUsernameAllowed>
-                        <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('username',properties.kcFormGroupErrorClass!)}">
-                            <div class="${properties.kcLabelWrapperClass!}">
-                                <label for="username" class="${properties.kcLabelClass!}">${msg("username")}</label>
-                            </div>
-                            <div class="${properties.kcInputWrapperClass!}">
-                                <input type="text" id="username" name="username" value="${(user.username!'')}" class="${properties.kcInputClass!}"/>
-                            </div>
-                            <div class="${properties.kcInputWrapperClass!}">
-                                <input type="hidden" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"
-                                       placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" onkeyup="validateUserName()" onblur="validateUserName()"/>
-                            </div>
+                    <div class="${properties.kcFormGroupClass!} required">
+                        <div class="${properties.kcLabelWrapperClass!}">
+                            <label for="user.attributes.user_name" class="${properties.kcLabelClass!}">${msg("MSG_CREATEACCOUNT_USERINFOINPUT_5")}</label>
                         </div>
-                    </#if>
+                        <div class="${properties.kcInputWrapperClass!}">
+                            <input type="text" id="username" name="username" value="${(user.username!'')}" class="${properties.kcInputClass!}" onkeyup="updateHiddenInputValue()"/>
+                        </div>
+                        <div class="${properties.kcInputWrapperClass!}">
+                            <input type="hidden" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"
+                            placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" onkeyup="validateUserName()" onblur="validateUserName()"/>
+                        </div>
+                        <div class="${properties.kcInputWrapperClass!} error_message" id="error_username_empty" style="display: none">
+                            ${msg("MSG_ERROR_USERNAME_1")}
+                        </div>
+                    </div>
+<#--                    <#if user.editUsernameAllowed>-->
+<#--                        <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('username',properties.kcFormGroupErrorClass!)}">-->
+<#--                            <div class="${properties.kcLabelWrapperClass!}">-->
+<#--                                <label for="username" class="${properties.kcLabelClass!}">${msg("username")}</label>-->
+<#--                            </div>-->
+<#--                            <div class="${properties.kcInputWrapperClass!}">-->
+<#--                                <input type="text" id="username" name="username" value="${(user.username!'')}" class="${properties.kcInputClass!}" onkeyup="updateHiddenInputValue()"/>-->
+<#--                            </div>-->
+<#--                            <div class="${properties.kcInputWrapperClass!}">-->
+<#--                                <input type="hidden" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"-->
+<#--                                       placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" onkeyup="validateUserName()" onblur="validateUserName()"/>-->
+<#--                            </div>-->
+<#--                        </div>-->
+<#--                    </#if>-->
                     <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('firstName',properties.kcFormGroupErrorClass!)}">
                         <div class="${properties.kcLabelWrapperClass!}">
                             <label for="firstName" class="${properties.kcLabelClass!}">${msg("firstName")}</label>
