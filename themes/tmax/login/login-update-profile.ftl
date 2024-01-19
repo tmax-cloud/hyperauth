@@ -64,6 +64,15 @@
                         </div>
                     </div>
 
+                    <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('username',properties.kcFormGroupErrorClass!)}" style="display: none">
+                        <div class="${properties.kcLabelWrapperClass!}">
+                            <label for="username" class="${properties.kcLabelClass!}">${msg("username")}</label>
+                        </div>
+                        <div class="${properties.kcInputWrapperClass!}">
+                            <input type="text" id="username" name="username" value="${(user.username!'')}" class="${properties.kcInputClass!}"/>
+                        </div>
+                    </div>
+
                     <div class="${properties.kcFormGroupClass!}">
                         <div id="kc-form-buttons" class="${properties.kcFormButtonsClass!}">
                         <#--  <#if isAppInitiatedAction??>

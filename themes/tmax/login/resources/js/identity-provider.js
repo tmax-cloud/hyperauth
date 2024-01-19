@@ -210,8 +210,10 @@ function sendVerificationEmailForNewAccount() {
 
   var inputFirstName = document.getElementById("input-first-name").value
   var inputLastName = document.getElementById("input-last-name").value
+  var inputUsername = document.getElementById("user.attributes.user_name").value
   idpForm.querySelector("#firstName").value = inputFirstName;
   idpForm.querySelector("#lastName").value = inputLastName;
+  idpForm.querySelector("#username").value = inputUsername;
 
   idpForm.submit();
 }
