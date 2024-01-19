@@ -291,7 +291,7 @@
             document.getElementById('input-username').value = otherInputValue;
         }
         function fillUserNameWithNewAccountEmail() {
-            var email = document.getElementById('email').value;
+            var email = document.getElementById('email-for-new-account').value;
             document.getElementById('user.attributes.user_name').value = email;
             document.getElementById('input-username').value = email;
         }
