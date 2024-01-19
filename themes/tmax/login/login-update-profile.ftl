@@ -305,8 +305,13 @@
         var editUsernameAllowed = document.getElementById('editUsernameAllowed').value;
         function updateUsernameForm(){
             if(editUsernameAllowed == "false"){
-                document.getElementById('user.attributes.user_name').value = document.getElementById("email");
-                document.getElementById('input-username').value = document.getElementById("email");
+                var email = document.getElementById("email").value;
+                var emailForNewAccount = document.getElementById("emailForNewAccount").value;
+                console.log("email: " + email);
+                console.log("emailForNewAccount: " + emailForNewAccount);
+
+                document.getElementById('user.attributes.user_name').value = emailForNewAccount;
+                document.getElementById('input-username').value = emailForNewAccount;
                 console.log("edit username disallowed. fill username with cached email input");
             }
         }
