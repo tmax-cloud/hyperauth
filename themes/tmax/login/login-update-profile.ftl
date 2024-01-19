@@ -233,11 +233,6 @@
                             <#else>
                                 <input type="text" style="background: #CCCCCC;" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"
                                        placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" disabled/>
-                                <script type="text/javascript">
-                                    validateUserName();
-                                    fillUserNameWithNewAccountEmail();
-                                    console.log("automatically filled username, send email enabled");
-                                </script>
                             </#if>
                         </div>
                         <div class="${properties.kcInputWrapperClass!}">
@@ -301,6 +296,13 @@
             document.getElementById('input-username').value = email;
         }
     </script>
+    <#if !user.editUsernameAllowed>
+        <script type="text/javascript">
+            validateUserName();
+            fillUserNameWithNewAccountEmail();
+            console.log("automatically filled username, send email enabled");
+        </script>
+    </#if>
     <#if properties.scripts_identity_provider_hyperauth?has_content>
         <#list properties.scripts_identity_provider_hyperauth?split(' ') as script>
             <script src="${url.resourcesPath}/${script}?${properties.version}" type="text/javascript"></script>
