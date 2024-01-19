@@ -171,7 +171,7 @@
 
                     <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('email',properties.kcFormGroupErrorClass!)} required">
                         <div class="${properties.kcLabelWrapperClass!}">
-                            <label for="email-for-new-account" class="${properties.kcLabelClass!}">${msg("MSG_FINDPASSWORD__3")}</label>
+                            <label for="email-for-new-account" class="${properties.kcLabelClass!}">${msg("email")}</label>
                         </div>
                         <div class="${properties.kcInputWrapperClass!}">
                             <input type="text" style="background: #CCCCCC;" id="email-for-new-account" class="${properties.kcInputClass!}" name="email-for-new-account" placeholder="${msg("MSG_FINDPASSWORD__4")}" disabled/>
@@ -198,11 +198,11 @@
                             <label for="user.attributes.user_name" class="${properties.kcLabelClass!}">${msg("MSG_CREATEACCOUNT_USERINFOINPUT_5")}</label>
                         </div>
                         <div class="${properties.kcInputWrapperClass!}">
-                            <input type="text" id="username" name="username" value="${(user.username!'')}" class="${properties.kcInputClass!}" onkeyup="updateHiddenInputValue()"/>
+                            <input type="text" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"
+                            placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" onkeyup="validateUserName(); updateHiddenInputValue()" onblur="validateUserName()"/>
                         </div>
                         <div class="${properties.kcInputWrapperClass!}">
-                            <input type="hidden" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"
-                            placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" onkeyup="validateUserName()" onblur="validateUserName()"/>
+                            <input type="hidden" id="username" name="username" value="${(user.username!'')}" class="${properties.kcInputClass!}"/>
                         </div>
                         <div class="${properties.kcInputWrapperClass!} error_message" id="error_username_empty" style="display: none">
                             ${msg("MSG_ERROR_USERNAME_1")}
