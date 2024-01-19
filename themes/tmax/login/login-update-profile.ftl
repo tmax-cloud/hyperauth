@@ -306,7 +306,7 @@
         function updateUsernameForm(){
             if(editUsernameAllowed == "false"){
                 var email = document.getElementById("email").value;
-                var emailForNewAccount = document.getElementById("emailForNewAccount").value;
+                var emailForNewAccount = document.getElementById("email-for-new-account").value;
                 console.log("email: " + email);
                 console.log("emailForNewAccount: " + emailForNewAccount);
 
