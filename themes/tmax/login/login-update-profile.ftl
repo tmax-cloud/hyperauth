@@ -291,7 +291,7 @@
             document.getElementById('input-username').value = otherInputValue;
         }
 
-        var editUsernameAllowed = ${user.editUsernameAllowed};
+        var editUsernameAllowed = Boolean(${user.editUsernameAllowed});
         function updateUsernameForm(){
             if(!editUsernameAllowed){
                 document.getElementById('user.attributes.user_name').value = document.getElementById("email");
