@@ -88,7 +88,7 @@
         </div>
         <div id="identity-step1-newAccount" style="display: none;">
             <div class="${properties.kcFormGroupClass!}">
-                <div class="link-with-kakao-icon"></div>
+                <div class="link-with-${providerId}-icon"></div>
             </div>
             <div class="${properties.kcFormGroupClass!}">
                 <div id="instruction-container">

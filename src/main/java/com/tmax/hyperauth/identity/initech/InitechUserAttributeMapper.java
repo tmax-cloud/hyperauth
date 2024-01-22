@@ -13,6 +13,6 @@ public class InitechUserAttributeMapper extends AbstractJsonUserAttributeMapper 
 
     @Override
     public String getId() {
-        return "shinhan-initech-user-attribute-mapper";
+        return "initech-user-attribute-mapper";
     }
 }
