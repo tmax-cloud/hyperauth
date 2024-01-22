@@ -235,7 +235,7 @@
                                     <input type="text" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"
                                            placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" onkeyup="validateUserName(); updateHiddenInputValue()" onblur="validateUserName()"/>
                                 <#else>
-                                    <input type="text" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"
+                                    <input type="text" style="background: #CCCCCC;" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"
                                            placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" disabled/>
                                 </#if>
                             </#if>
@@ -248,20 +248,6 @@
                         </div>
                     </div>
 
-<#--                    <#if user.editUsernameAllowed>-->
-<#--                        <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('username',properties.kcFormGroupErrorClass!)}">-->
-<#--                            <div class="${properties.kcLabelWrapperClass!}">-->
-<#--                                <label for="username" class="${properties.kcLabelClass!}">${msg("username")}</label>-->
-<#--                            </div>-->
-<#--                            <div class="${properties.kcInputWrapperClass!}">-->
-<#--                                <input type="text" id="username" name="username" value="${(user.username!'')}" class="${properties.kcInputClass!}" onkeyup="updateHiddenInputValue()"/>-->
-<#--                            </div>-->
-<#--                            <div class="${properties.kcInputWrapperClass!}">-->
-<#--                                <input type="hidden" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"-->
-<#--                                       placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" onkeyup="validateUserName()" onblur="validateUserName()"/>-->
-<#--                            </div>-->
-<#--                        </div>-->
-<#--                    </#if>-->
                     <div class="${properties.kcFormGroupClass!}">
                         <div class="${properties.kcLabelWrapperClass!}">
                             <label for="input-first-name" class="${properties.kcLabelClass!}">${msg("firstName")}</label>
@@ -282,7 +268,13 @@
                 </div> 
                 <div class="${properties.kcFormGroupClass!}">
                     <div id="kc-form-buttons" class="${properties.kcFormButtonsClass!}">
-                        <button style = "margin-top:200px"class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" type="button" id="sendVerificationEmailForNewAccountButton" onclick="sendVerificationEmailForNewAccount()" disabled>${msg("sendVerificationEmail")}</button>
+                        <button style = "margin-top:200px"class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" type="button" id="sendVerificationEmailForNewAccountButton" onclick="sendVerificationEmailForNewAccount()" disabled>
+                            <#if verifyEmail>
+                                ${msg("sendVerificationEmail")}
+                            <#else>
+                                ${msg("skipVerificationEmail")}
+                            </#if>
+                        </button>
                     </div>
                 </div>
             </form>
