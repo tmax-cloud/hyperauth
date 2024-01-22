@@ -227,13 +227,25 @@
                             <label for="user.attributes.user_name" class="${properties.kcLabelClass!}">${msg("MSG_CREATEACCOUNT_USERINFOINPUT_5")}</label>
                         </div>
                         <div class="${properties.kcInputWrapperClass!}">
-                            <#if user.editUsernameAllowed>
-                                <input type="text" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"
-                                placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" onkeyup="validateUserName(); updateHiddenInputValue()" onblur="validateUserName()"/>
-                            <#else>
+                            <#if emailAsUserName>
                                 <input type="text" style="background: #CCCCCC;" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"
                                        placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" disabled/>
+                            <#else>
+                                <#if editUserNameAllowed>
+                                    <input type="text" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"
+                                           placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" onkeyup="validateUserName(); updateHiddenInputValue()" onblur="validateUserName()"/>
+                                <#else>
+                                    <input type="text" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"
+                                           placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" value=""disabled/>
+                                </#if>
                             </#if>
+<#--                            <#if user.editUsernameAllowed>-->
+<#--                                <input type="text" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"-->
+<#--                                placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" onkeyup="validateUserName(); updateHiddenInputValue()" onblur="validateUserName()"/>-->
+<#--                            <#else> &lt;#&ndash; email as username &ndash;&gt;-->
+<#--                                <input type="text" style="background: #CCCCCC;" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"-->
+<#--                                       placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" disabled/>-->
+<#--                            </#if>-->
                         </div>
                         <div class="${properties.kcInputWrapperClass!}">
                             <input type="hidden" id="input-username" name="input-username" value="${(user.username!'')}" class="${properties.kcInputClass!}"/>
@@ -286,13 +298,22 @@
     <script type="text/javascript" src="${url.resourcesPath}/js/axios.min.js"></script>
     <script type="text/javascript" src="${url.resourcesPath}/js/identity-provider.js?${properties.version}"></script>
 
-    <#if user.editUsernameAllowed>
+    <#if editUsernameAllowed>
         <div class="${properties.kcFormGroupClass!}" style="display: none">
             <input type="hidden" id="editUsernameAllowed" name="editUsernameAllowed" value="true"/>
         </div>
     <#else>
         <div class="${properties.kcFormGroupClass!}" style="display: none">
             <input type="hidden" id="editUsernameAllowed" name="editUsernameAllowed" value="false"/>
+        </div>
+    </#if>
+    <#if emailAsUserName>
+        <div class="${properties.kcFormGroupClass!}" style="display: none">
+            <input type="hidden" id="emailAsUserName" name="emailAsUserName" value="true"/>
+        </div>
+    <#else>
+        <div class="${properties.kcFormGroupClass!}" style="display: none">
+            <input type="hidden" id="emailAsUserName" name="emailAsUserName" value="false"/>
         </div>
     </#if>
     <script type="text/javascript">
@@ -305,18 +326,24 @@
             document.getElementById('input-username').value = otherInputValue;
         }
 
-        var editUsernameAllowed = document.getElementById('editUsernameAllowed').value;
-        function updateUsernameForm(){
-            if(editUsernameAllowed == "false"){
-                var email = document.getElementById("email").value;
-                var emailForNewAccount = document.getElementById("email-for-new-account").value;
-                console.log("email: " + email);
-                console.log("emailForNewAccount: " + emailForNewAccount);
+        console.log("editUsernameAllowed: " + document.getElementById('editUsernameAllowed').value);
+        console.log("emailAsUserName: " + document.getElementById('emailAsUserName').value);
 
+        var editUsernameAllowed = document.getElementById('editUsernameAllowed').value;
+        var emailAsUserName = document.getElementById('emailAsUserName').value;
+        function updateUsernameForm(){
+            if(emailAsUserName == "true"){
+                var emailForNewAccount = document.getElementById("email-for-new-account").value;
                 document.getElementById('user.attributes.user_name').value = emailForNewAccount;
                 document.getElementById('input-username').value = emailForNewAccount;
-                console.log("edit username disallowed. fill username with cached email input");
 
+                console.log("use email as username.");
+            }else{
+                document.getElementById('user.attributes.user_name').value = ${(user.username!'')}
+                document.getElementById('input-username').value = ${(user.username!'')};
+                console.log("need username.");
+            }
+            if(editUsernameAllowed == "false"){
                 document.getElementById(
                     "sendVerificationEmailForNewAccountButton"
                 ).disabled = false;
