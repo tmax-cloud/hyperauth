@@ -1,4 +1,4 @@
-package com.tmax.hyperauth.identity.initech;
+package com.tmax.hyperauth.identity.shinhan_initech;
 
 import org.keycloak.broker.oidc.OAuth2IdentityProviderConfig;
 import org.keycloak.broker.provider.AbstractIdentityProviderFactory;

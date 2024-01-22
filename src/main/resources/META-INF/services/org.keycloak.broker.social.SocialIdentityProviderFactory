@@ -1,3 +1,3 @@
 com.tmax.hyperauth.identity.naver.NaverIdentityProviderFactory
 com.tmax.hyperauth.identity.kakao.KakaoIdentityProviderFactory
-com.tmax.hyperauth.identity.initech.InitechIdentityProviderFactory
+com.tmax.hyperauth.identity.shinhan_initech.InitechIdentityProviderFactory
