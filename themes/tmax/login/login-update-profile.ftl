@@ -338,15 +338,21 @@
                 document.getElementById('input-username').value = emailForNewAccount;
 
                 console.log("use email as username.");
+
+                document.getElementById(
+                    "sendVerificationEmailForNewAccountButton"
+                ).disabled = false;
+
             }else{
                 document.getElementById('user.attributes.user_name').value = ${(user.username!'')}
                 document.getElementById('input-username').value = ${(user.username!'')};
                 console.log("need username.");
-            }
-            if(editUsernameAllowed == "false"){
-                document.getElementById(
-                    "sendVerificationEmailForNewAccountButton"
-                ).disabled = false;
+
+                if(editUsernameAllowed == "false"){
+                    document.getElementById(
+                        "sendVerificationEmailForNewAccountButton"
+                    ).disabled = false;
+                }
             }
         }
     </script>
