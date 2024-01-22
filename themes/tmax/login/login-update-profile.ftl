@@ -312,20 +312,15 @@
     </#if>
 
     <script type="text/javascript">
-        console.log("user.identityProviderId: " + "${providerId}");
-    </script>
 
-    <script type="text/javascript">
         function updateHiddenInputValue() {
             var otherInputValue = document.getElementById('user.attributes.user_name').value;
             document.getElementById('input-username').value = otherInputValue;
         }
 
-        console.log("editUserNameAllowed: " + document.getElementById('editUserNameAllowed').value);
-        console.log("emailAsUserName: " + document.getElementById('emailAsUserName').value);
-
         var editUserNameAllowed = document.getElementById('editUserNameAllowed').value;
         var emailAsUserName = document.getElementById('emailAsUserName').value;
+
         function updateUsernameForm(){
             if(emailAsUserName == "true"){
                 var emailForNewAccount = document.getElementById("email-for-new-account").value;
