@@ -1,4 +1,4 @@
-package com.tmax.hyperauth.identity.shinhan_initech;
+package com.tmax.hyperauth.identity.initech;
 
 import org.keycloak.broker.oidc.mappers.AbstractJsonUserAttributeMapper;
 
@@ -13,6 +13,6 @@ public class InitechUserAttributeMapper extends AbstractJsonUserAttributeMapper 
 
     @Override
     public String getId() {
-        return "shinhan-initech-user-attribute-mapper";
+        return "initech-user-attribute-mapper";
     }
 }

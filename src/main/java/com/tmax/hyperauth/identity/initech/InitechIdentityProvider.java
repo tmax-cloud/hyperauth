@@ -1,4 +1,4 @@
-package com.tmax.hyperauth.identity.shinhan_initech;
+package com.tmax.hyperauth.identity.initech;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;

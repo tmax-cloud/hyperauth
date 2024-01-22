@@ -237,7 +237,7 @@
     - 구글, 페이스북, 깃헙 등등의 Identity Provider는 기존에 Keycloak 에 추가되어 있음
   - [외부 OIDC Provider 서버 개발](https://github.com/tmax-cloud/external-oidc-provider)
     - 카카오, 네이버 역할을 할수 있는 OIDC Provider 예제 서버 개발 가이드
-    - [연동 SPI 개발 예시](src/main/java/com/tmax/hyperauth/identity/shinhan_initech/InitechIdentityProvider.java)
+    - [연동 SPI 개발 예시](src/main/java/com/tmax/hyperauth/identity/initech/InitechIdentityProvider.java)
     
 - **회원 탈퇴 신청 기능**
   - 탈퇴 신청 후, 사용자 데이터 30일 유지

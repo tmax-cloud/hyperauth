@@ -1,4 +1,4 @@
-package com.tmax.hyperauth.identity.shinhan_initech;
+package com.tmax.hyperauth.identity.initech;
 
 import org.keycloak.broker.oidc.OAuth2IdentityProviderConfig;
 import org.keycloak.broker.provider.AbstractIdentityProviderFactory;
@@ -7,11 +7,11 @@ import org.keycloak.models.IdentityProviderModel;
 import org.keycloak.models.KeycloakSession;
 
 public class InitechIdentityProviderFactory extends AbstractIdentityProviderFactory<InitechIdentityProvider> implements SocialIdentityProviderFactory<InitechIdentityProvider> {
-    public static final String PROVIDER_ID = "shinhan_initech";
+    public static final String PROVIDER_ID = "initech";
 
     @Override
     public String getName() {
-        return "shinhan_initech";
+        return "initech";
     }
 
     @Override
