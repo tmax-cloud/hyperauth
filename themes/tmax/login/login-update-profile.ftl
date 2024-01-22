@@ -22,7 +22,7 @@
                         </div>
                     </#if>  -->
                     <div class="${properties.kcFormGroupClass!}">
-                        <div class="link-with-kakao-icon"></div>
+                        <div class="link-with-${providerId}-icon"></div>
                         <p id="instruction-title" >
                             ${msg("MSG_LINKACCOUNT_MESSAGE_1")?no_esc}
                         </p>

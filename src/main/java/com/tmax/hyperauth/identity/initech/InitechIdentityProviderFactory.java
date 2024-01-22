@@ -7,11 +7,11 @@ import org.keycloak.models.IdentityProviderModel;
 import org.keycloak.models.KeycloakSession;
 
 public class InitechIdentityProviderFactory extends AbstractIdentityProviderFactory<InitechIdentityProvider> implements SocialIdentityProviderFactory<InitechIdentityProvider> {
-    public static final String PROVIDER_ID = "initech";
+    public static final String PROVIDER_ID = "shinhan-initech";
 
     @Override
     public String getName() {
-        return "initech";
+        return "shinhan-initech";
     }
 
     @Override
