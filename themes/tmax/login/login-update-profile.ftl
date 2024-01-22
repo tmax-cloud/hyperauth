@@ -295,6 +295,9 @@
             <input type="hidden" id="editUsernameAllowed" name="editUsernameAllowed" value="false"/>
         </div>
     </#if>
+    <script type="text/javascript">
+        console.log("user.identityProviderId: " + "${providerId}");
+    </script>
 
     <script type="text/javascript">
         function updateHiddenInputValue() {
@@ -313,6 +316,10 @@
                 document.getElementById('user.attributes.user_name').value = emailForNewAccount;
                 document.getElementById('input-username').value = emailForNewAccount;
                 console.log("edit username disallowed. fill username with cached email input");
+
+                document.getElementById(
+                    "sendVerificationEmailForNewAccountButton"
+                ).disabled = false;
             }
         }
     </script>
