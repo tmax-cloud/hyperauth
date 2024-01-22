@@ -236,16 +236,9 @@
                                            placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" onkeyup="validateUserName(); updateHiddenInputValue()" onblur="validateUserName()"/>
                                 <#else>
                                     <input type="text" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"
-                                           placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" value=""disabled/>
+                                           placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" disabled/>
                                 </#if>
                             </#if>
-<#--                            <#if user.editUsernameAllowed>-->
-<#--                                <input type="text" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"-->
-<#--                                placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" onkeyup="validateUserName(); updateHiddenInputValue()" onblur="validateUserName()"/>-->
-<#--                            <#else> &lt;#&ndash; email as username &ndash;&gt;-->
-<#--                                <input type="text" style="background: #CCCCCC;" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"-->
-<#--                                       placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" disabled/>-->
-<#--                            </#if>-->
                         </div>
                         <div class="${properties.kcInputWrapperClass!}">
                             <input type="hidden" id="input-username" name="input-username" value="${(user.username!'')}" class="${properties.kcInputClass!}"/>
@@ -298,13 +291,14 @@
     <script type="text/javascript" src="${url.resourcesPath}/js/axios.min.js"></script>
     <script type="text/javascript" src="${url.resourcesPath}/js/identity-provider.js?${properties.version}"></script>
 
-    <#if editUsernameAllowed>
+    <#--to use ftl parameters in script blocks-->
+    <#if editUserNameAllowed>
         <div class="${properties.kcFormGroupClass!}" style="display: none">
-            <input type="hidden" id="editUsernameAllowed" name="editUsernameAllowed" value="true"/>
+            <input type="hidden" id="editUserNameAllowed" name="editUserNameAllowed" value="true"/>
         </div>
     <#else>
         <div class="${properties.kcFormGroupClass!}" style="display: none">
-            <input type="hidden" id="editUsernameAllowed" name="editUsernameAllowed" value="false"/>
+            <input type="hidden" id="editUserNameAllowed" name="editUserNameAllowed" value="false"/>
         </div>
     </#if>
     <#if emailAsUserName>
@@ -316,6 +310,7 @@
             <input type="hidden" id="emailAsUserName" name="emailAsUserName" value="false"/>
         </div>
     </#if>
+
     <script type="text/javascript">
         console.log("user.identityProviderId: " + "${providerId}");
     </script>
@@ -326,19 +321,16 @@
             document.getElementById('input-username').value = otherInputValue;
         }
 
-        console.log("editUsernameAllowed: " + document.getElementById('editUsernameAllowed').value);
+        console.log("editUserNameAllowed: " + document.getElementById('editUserNameAllowed').value);
         console.log("emailAsUserName: " + document.getElementById('emailAsUserName').value);
 
-        var editUsernameAllowed = document.getElementById('editUsernameAllowed').value;
+        var editUserNameAllowed = document.getElementById('editUserNameAllowed').value;
         var emailAsUserName = document.getElementById('emailAsUserName').value;
         function updateUsernameForm(){
             if(emailAsUserName == "true"){
                 var emailForNewAccount = document.getElementById("email-for-new-account").value;
                 document.getElementById('user.attributes.user_name').value = emailForNewAccount;
                 document.getElementById('input-username').value = emailForNewAccount;
-
-                console.log("use email as username.");
-
                 document.getElementById(
                     "sendVerificationEmailForNewAccountButton"
                 ).disabled = false;
@@ -346,9 +338,7 @@
             }else{
                 document.getElementById('user.attributes.user_name').value = ${(user.username!'')}
                 document.getElementById('input-username').value = ${(user.username!'')};
-                console.log("need username.");
-
-                if(editUsernameAllowed == "false"){
+                if(editUserNameAllowed == "false"){
                     document.getElementById(
                         "sendVerificationEmailForNewAccountButton"
                     ).disabled = false;
