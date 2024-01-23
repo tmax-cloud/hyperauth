@@ -52,13 +52,13 @@ node {
 
     stage('image build & push'){
         if(type == 'distribution') {
-            sh "docker login hyperregistry.tmaxcloud.org -u admin -p admin"
+
             sh" sudo docker login hyperregistry.tmaxcloud.org -u admin -p admin"
-            sh "sudo docker build --tag hyperregistry.tmaxcloud.org/hyperauth:${imageTag} --build-arg HYPERAUTH_VERSION=${imageTag} ."
-            sh "sudo docker tag hyperregistry.tmaxcloud.org/hyperauth:${imageTag} hyperregistry/hyperauth:latest"
-            sh "sudo docker push hyperregistry.tmaxcloud.org/hyperauth:${imageTag}"
-            sh "sudo docker push hyperregistry.tmaxcloud.org/hyperauth:latest"
-            sh "sudo docker rmi hyperregistry.tmaxcloud.org/hyperauth:${imageTag}"
+            sh "sudo docker build --tag hyperregistry.tmaxcloud.org/hyperauth/hyperauth:${imageTag} --build-arg HYPERAUTH_VERSION=${imageTag} ."
+            sh "sudo docker tag hyperregistry.tmaxcloud.org/hyperauth/hyperauth:${imageTag} hyperregistry/hyperauth:latest"
+            sh "sudo docker push hyperregistry.tmaxcloud.org/hyperauth/hyperauth:${imageTag}"
+            sh "sudo docker push hyperregistry.tmaxcloud.org/hyperauth/hyperauth:latest"
+            sh "sudo docker rmi hyperregistry.tmaxcloud.org/hyperauth/hyperauth:${imageTag}"
         } else if(type == 'test'){
             sh "sudo docker build --tag 192.168.9.12:5000/hyperauth-server:b${testVersion} --build-arg HYPERAUTH_VERSION=b${testVersion} ."
             sh "sudo docker push 192.168.9.12:5000/hyperauth-server:b${testVersion}"
