@@ -52,7 +52,7 @@ node {
 
     stage('image build & push'){
         if(type == 'distribution') {
-
+            sh "docker login hyperregistry.tmaxcloud.org -u admin -p admin"
             sh" sudo docker login hyperregistry.tmaxcloud.org -u admin -p admin"
             sh "sudo docker build --tag hyperregistry.tmaxcloud.org/hyperauth:${imageTag} --build-arg HYPERAUTH_VERSION=${imageTag} ."
             sh "sudo docker tag hyperregistry.tmaxcloud.org/hyperauth:${imageTag} hyperregistry/hyperauth:latest"
