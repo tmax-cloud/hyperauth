@@ -55,7 +55,7 @@ node {
 
             sh" sudo docker login hyperregistry.tmaxcloud.org -u admin -p admin"
             sh "sudo docker build --tag hyperregistry.tmaxcloud.org/hyperauth/hyperauth:${imageTag} --build-arg HYPERAUTH_VERSION=${imageTag} ."
-            sh "sudo docker tag hyperregistry.tmaxcloud.org/hyperauth/hyperauth:${imageTag} hyperregistry/hyperauth:latest"
+            sh "sudo docker tag hyperregistry.tmaxcloud.org/hyperauth/hyperauth:${imageTag} hyperregistry.tmaxcloud.org/hyperauth/hyperauth:latest"
             sh "sudo docker push hyperregistry.tmaxcloud.org/hyperauth/hyperauth:${imageTag}"
             sh "sudo docker push hyperregistry.tmaxcloud.org/hyperauth/hyperauth:latest"
             sh "sudo docker rmi hyperregistry.tmaxcloud.org/hyperauth/hyperauth:${imageTag}"
