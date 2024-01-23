@@ -1,6 +1,24 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.2.8 start -------------------->
+
+## HyperAuthServer 1.1.2.8 (2023. 12. 08. (금) 11:11:54 KST)
+
+### Added
+- [feat] 신한라이프 Initech 외부 연동을 위한 예제 Initech 소셜로그인 Provider 추가 by taegeon_woo
+
+### Changed
+- [mod] oidc-provider로부터 userEmail을 받아오도록 수정 by 2smin
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.2.8 end --------------------->
+
 <!-------------------- v1.1.2.7 start -------------------->
 
 ## HyperAuthServer 1.1.2.7 (2023. 10. 31. (화) 15:23:15 KST)
