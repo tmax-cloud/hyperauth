@@ -269,11 +269,7 @@
                 <div class="${properties.kcFormGroupClass!}">
                     <div id="kc-form-buttons" class="${properties.kcFormButtonsClass!}">
                         <button style = "margin-top:200px"class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" type="button" id="sendVerificationEmailForNewAccountButton" onclick="sendVerificationEmailForNewAccount()" disabled>
-                            <#if verifyEmail>
-                                ${msg("sendVerificationEmail")}
-                            <#else>
-                                ${msg("skipVerificationEmail")}
-                            </#if>
+                                ${msg("SignUp")}
                         </button>
                     </div>
                 </div>
