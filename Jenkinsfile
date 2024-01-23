@@ -52,18 +52,17 @@ node {
 
     stage('image build & push'){
         if(type == 'distribution') {
-//             withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "" ]) {
-//                     bat "docker push tmaxcloudck/hyperauth:${imageTag}"
-//             }
-            sh "sudo docker build --tag tmaxcloudck/hyperauth:${imageTag} --build-arg HYPERAUTH_VERSION=${imageTag} ."
-            sh "sudo docker tag tmaxcloudck/hyperauth:${imageTag} tmaxcloudck/hyperauth:latest"
-            sh "sudo docker push tmaxcloudck/hyperauth:${imageTag}"
-            sh "sudo docker push tmaxcloudck/hyperauth:latest"
-            sh "sudo docker rmi tmaxcloudck/hyperauth:${imageTag}"
+
+            sh" sudo docker login hyperregistry.tmaxcloud.org -u admin -p admin"
+            sh "sudo docker build --tag hyperregistry.tmaxcloud.org/hyperauth:${imageTag} --build-arg HYPERAUTH_VERSION=${imageTag} ."
+            sh "sudo docker tag hyperregistry.tmaxcloud.org/hyperauth:${imageTag} hyperregistry/hyperauth:latest"
+            sh "sudo docker push hyperregistry.tmaxcloud.org/hyperauth:${imageTag}"
+            sh "sudo docker push hyperregistry.tmaxcloud.org/hyperauth:latest"
+            sh "sudo docker rmi hyperregistry.tmaxcloud.org/hyperauth:${imageTag}"
         } else if(type == 'test'){
-            sh "sudo docker build --tag ${imageRegistry}/hyperauth-server:b${testVersion} --build-arg HYPERAUTH_VERSION=b${testVersion} ."
-            sh "sudo docker push ${imageRegistry}/hyperauth-server:b${testVersion}"
-            sh "sudo docker rmi ${imageRegistry}/hyperauth-server:b${testVersion}"
+            sh "sudo docker build --tag 192.168.9.12:5000/hyperauth-server:b${testVersion} --build-arg HYPERAUTH_VERSION=b${testVersion} ."
+            sh "sudo docker push 192.168.9.12:5000/hyperauth-server:b${testVersion}"
+            sh "sudo docker rmi 192.168.9.12:5000/hyperauth-server:b${testVersion}"
 
         }
     }
