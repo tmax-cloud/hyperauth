@@ -100,6 +100,17 @@
   
 }
 
+.link-with-initech-icon {
+  background: url("../img/link_with_initech.svg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 84px;
+  width: 223px;
+  margin: 50px auto 0 auto;
+
+}
+
 .eye {
   background-image: url("../img/hide.svg");
   position: absolute;

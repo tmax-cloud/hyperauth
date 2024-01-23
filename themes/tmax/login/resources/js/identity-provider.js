@@ -12,7 +12,6 @@ var idpTermList = [
   IDP_TERM_PRIVACY,
   IDP_TERM_THIRD_PRIVACY,
 ];
-
 function showErrorMessage(errorId, visible) {
   const error = document.getElementById(errorId);
   error.style.display = visible ? "block" : "none";
@@ -46,7 +45,6 @@ function validateEmail(input, event) {
     }
   }
 }
-
 async function checkEmailExist() {
   const emailInput = document.getElementById("email");
   const email = !!emailInput.value ? emailInput.value : "";
@@ -177,6 +175,7 @@ function clickAgreeBottomButton() {
   step3.style.display = "block";
 }
 
+
 function sendVerificationEmailForNewAccount() {
   const idpForm = document.getElementById("kc-identity-provider-form");
   const userName = document.createElement("input");
@@ -207,5 +206,15 @@ function sendVerificationEmailForNewAccount() {
   document.getElementById(
     "sendVerificationEmailForNewAccountButton"
   ).disabled = true;
+
+  var inputFirstName = document.getElementById("input-first-name").value
+  var inputLastName = document.getElementById("input-last-name").value
+  idpForm.querySelector("#firstName").value = inputFirstName;
+  idpForm.querySelector("#lastName").value = inputLastName;
+
+  var inputUsername = document.getElementById("input-username").value
+  idpForm.querySelector("#username").value = inputUsername;
+
+
   idpForm.submit();
 }

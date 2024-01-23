@@ -22,7 +22,7 @@
                         </div>
                     </#if>  -->
                     <div class="${properties.kcFormGroupClass!}">
-                        <div class="link-with-kakao-icon"></div>
+                        <div class="link-with-${providerId}-icon"></div>
                         <p id="instruction-title" >
                             ${msg("MSG_LINKACCOUNT_MESSAGE_1")?no_esc}
                         </p>
@@ -45,13 +45,41 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('firstName',properties.kcFormGroupErrorClass!)}" style="display: none">
+                        <div class="${properties.kcLabelWrapperClass!}">
+                            <label for="firstName" class="${properties.kcLabelClass!}">${msg("firstName")}</label>
+                        </div>
+                        <div class="${properties.kcInputWrapperClass!}">
+                            <input type="hidden" id="firstName" name="firstName" value="${(user.firstName!'')}" class="${properties.kcInputClass!}" />
+                        </div>
+                    </div>
+
+                    <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('lastName',properties.kcFormGroupErrorClass!)}" style="display: none">
+                        <div class="${properties.kcLabelWrapperClass!}">
+                            <label for="lastName" class="${properties.kcLabelClass!}">${msg("lastName")}</label>
+                        </div>
+                        <div class="${properties.kcInputWrapperClass!}">
+                            <input type="hidden" id="lastName" name="lastName" value="${(user.lastName!'')}" class="${properties.kcInputClass!}" />
+                        </div>
+                    </div>
+
+                    <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('username',properties.kcFormGroupErrorClass!)}" style="display: none">
+                        <div class="${properties.kcLabelWrapperClass!}">
+                            <label for="username" class="${properties.kcLabelClass!}">${msg("username")}</label>
+                        </div>
+                        <div class="${properties.kcInputWrapperClass!}">
+                            <input type="text" id="username" name="username" value="${(user.username!'')}" class="${properties.kcInputClass!}"/>
+                        </div>
+                    </div>
+
                     <div class="${properties.kcFormGroupClass!}">
                         <div id="kc-form-buttons" class="${properties.kcFormButtonsClass!}">
                         <#--  <#if isAppInitiatedAction??>
                         <input class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonLargeClass!}" type="submit" value="${msg("doSubmit")}" />
                         <button class="${properties.kcButtonClass!} ${properties.kcButtonDefaultClass!} ${properties.kcButtonLargeClass!}" type="submit" name="cancel-aia" value="true" />${msg("doCancel")}</button>
                         <#else>  -->
-                        <button class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" id="next-button" type="button" onclick="checkEmailExist()" value="Next">${msg("doNext")}</button>
+                        <button class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" id="next-button" type="button" onclick="checkEmailExist(); updateUsernameForm();" value="Next">${msg("doNext")}</button>
                         <#--  </#if>  -->
                         </div>
                     </div>
@@ -60,7 +88,7 @@
         </div>
         <div id="identity-step1-newAccount" style="display: none;">
             <div class="${properties.kcFormGroupClass!}">
-                <div class="link-with-kakao-icon"></div>
+                <div class="link-with-${providerId}-icon"></div>
             </div>
             <div class="${properties.kcFormGroupClass!}">
                 <div id="instruction-container">
@@ -171,7 +199,7 @@
 
                     <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('email',properties.kcFormGroupErrorClass!)} required">
                         <div class="${properties.kcLabelWrapperClass!}">
-                            <label for="email-for-new-account" class="${properties.kcLabelClass!}">${msg("MSG_FINDPASSWORD__3")}</label>
+                            <label for="email-for-new-account" class="${properties.kcLabelClass!}">${msg("email")}</label>
                         </div>
                         <div class="${properties.kcInputWrapperClass!}">
                             <input type="text" style="background: #CCCCCC;" id="email-for-new-account" class="${properties.kcInputClass!}" name="email-for-new-account" placeholder="${msg("MSG_FINDPASSWORD__4")}" disabled/>
@@ -193,22 +221,56 @@
                             <input type="password" style="background: #CCCCCC;" id="password-confirm" class="${properties.kcInputClass!}" name="password-confirm" placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_4")}" disabled/>
                         </div>
                     </div>  -->
+
                     <div class="${properties.kcFormGroupClass!} required">
                         <div class="${properties.kcLabelWrapperClass!}">
                             <label for="user.attributes.user_name" class="${properties.kcLabelClass!}">${msg("MSG_CREATEACCOUNT_USERINFOINPUT_5")}</label>
                         </div>
                         <div class="${properties.kcInputWrapperClass!}">
-                            <input type="text" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name" 
-                            placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" onkeyup="validateUserName()" onblur="validateUserName()"/>
+                            <#if emailAsUserName>
+                                <input type="text" style="background: #CCCCCC;" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"
+                                       placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" disabled/>
+                            <#else>
+                                <#if editUserNameAllowed>
+                                    <input type="text" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"
+                                           placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" onkeyup="validateUserName(); updateHiddenInputValue()" onblur="validateUserName()"/>
+                                <#else>
+                                    <input type="text" style="background: #CCCCCC;" id="user.attributes.user_name" class="${properties.kcInputClass!}" name="user.attributes.user_name"
+                                           placeholder="${msg("MSG_CREATEACCOUNT_USERINFOINPUT_6")}" disabled/>
+                                </#if>
+                            </#if>
+                        </div>
+                        <div class="${properties.kcInputWrapperClass!}">
+                            <input type="hidden" id="input-username" name="input-username" value="${(user.username!'')}" class="${properties.kcInputClass!}"/>
                         </div>
                         <div class="${properties.kcInputWrapperClass!} error_message" id="error_username_empty" style="display: none">
                             ${msg("MSG_ERROR_USERNAME_1")}
                         </div>
                     </div>
+
+                    <div class="${properties.kcFormGroupClass!}">
+                        <div class="${properties.kcLabelWrapperClass!}">
+                            <label for="input-first-name" class="${properties.kcLabelClass!}">${msg("firstName")}</label>
+                        </div>
+                        <div class="${properties.kcInputWrapperClass!}">
+                            <input type="text" id="input-first-name" name="input.first.name" class="${properties.kcInputClass!}" />
+                        </div>
+                    </div>
+
+                    <div class="${properties.kcFormGroupClass!}">
+                        <div class="${properties.kcLabelWrapperClass!}">
+                            <label for="input-last-name" class="${properties.kcLabelClass!}">${msg("lastName")}</label>
+                        </div>
+                        <div class="${properties.kcInputWrapperClass!}">
+                            <input type="text" id="input-last-name" name="input.last.name" class="${properties.kcInputClass!}" />
+                        </div>
+                    </div>
                 </div> 
                 <div class="${properties.kcFormGroupClass!}">
                     <div id="kc-form-buttons" class="${properties.kcFormButtonsClass!}">
-                        <button style = "margin-top:200px"class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" type="button" id="sendVerificationEmailForNewAccountButton" onclick="sendVerificationEmailForNewAccount()" disabled>${msg("sendVerificationEmail")}</button>
+                        <button style = "margin-top:200px"class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" type="button" id="sendVerificationEmailForNewAccountButton" onclick="sendVerificationEmailForNewAccount()" disabled>
+                                ${msg("SignUp")}
+                        </button>
                     </div>
                 </div>
             </form>
@@ -216,6 +278,58 @@
     </#if>
     <script type="text/javascript" src="${url.resourcesPath}/js/axios.min.js"></script>
     <script type="text/javascript" src="${url.resourcesPath}/js/identity-provider.js?${properties.version}"></script>
+
+    <#--to use ftl parameters in script blocks-->
+    <#if editUserNameAllowed>
+        <div class="${properties.kcFormGroupClass!}" style="display: none">
+            <input type="hidden" id="editUserNameAllowed" name="editUserNameAllowed" value="true"/>
+        </div>
+    <#else>
+        <div class="${properties.kcFormGroupClass!}" style="display: none">
+            <input type="hidden" id="editUserNameAllowed" name="editUserNameAllowed" value="false"/>
+        </div>
+    </#if>
+    <#if emailAsUserName>
+        <div class="${properties.kcFormGroupClass!}" style="display: none">
+            <input type="hidden" id="emailAsUserName" name="emailAsUserName" value="true"/>
+        </div>
+    <#else>
+        <div class="${properties.kcFormGroupClass!}" style="display: none">
+            <input type="hidden" id="emailAsUserName" name="emailAsUserName" value="false"/>
+        </div>
+    </#if>
+
+    <script type="text/javascript">
+
+        function updateHiddenInputValue() {
+            var otherInputValue = document.getElementById('user.attributes.user_name').value;
+            document.getElementById('input-username').value = otherInputValue;
+        }
+
+        var editUserNameAllowed = document.getElementById('editUserNameAllowed').value;
+        var emailAsUserName = document.getElementById('emailAsUserName').value;
+
+        function updateUsernameForm(){
+            if(emailAsUserName == "true"){
+                var emailForNewAccount = document.getElementById("email-for-new-account").value;
+                document.getElementById('user.attributes.user_name').value = emailForNewAccount;
+                document.getElementById('input-username').value = emailForNewAccount;
+                document.getElementById(
+                    "sendVerificationEmailForNewAccountButton"
+                ).disabled = false;
+
+            }else{
+                document.getElementById('user.attributes.user_name').value = ${(user.username!'')}
+                document.getElementById('input-username').value = ${(user.username!'')};
+                if(editUserNameAllowed == "false"){
+                    document.getElementById(
+                        "sendVerificationEmailForNewAccountButton"
+                    ).disabled = false;
+                }
+            }
+        }
+    </script>
+
     <#if properties.scripts_identity_provider_hyperauth?has_content>
         <#list properties.scripts_identity_provider_hyperauth?split(' ') as script>
             <script src="${url.resourcesPath}/${script}?${properties.version}" type="text/javascript"></script>

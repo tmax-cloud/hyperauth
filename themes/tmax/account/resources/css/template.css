@@ -96,7 +96,15 @@
   margin: auto auto;
   margin-top: 70px;
 }
-
+.link-with-initech-icon {
+  background: url("../img/link_with_initech.svg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 56px;
+  width: 198px;
+  margin: auto auto;
+  margin-top: 70px;
+}
 .template-body #kc-content-wrapper .header-icon {
   margin-bottom: 60px;
   font-weight: 500;

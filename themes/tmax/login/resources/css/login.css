@@ -123,7 +123,7 @@
   text-align: center;
 }
 
-.login-password-body .link-with-kakao-icon {
+.login-password-body .link-with-kakao-icon .link-with-initech-icon{
   margin-top: 20px;
 }
 
@@ -238,7 +238,7 @@
     font-size: 16px;
   }
 
-  .login-password-body .link-with-kakao-icon {
+  .login-password-body .link-with-kakao-icon .link-with-initech-icon {
     margin-top: 0px;
   }
 }
