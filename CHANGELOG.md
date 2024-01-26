@@ -1,6 +1,25 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.2.9 start -------------------->
+
+## HyperAuthServer 1.1.2.9 (2024. 01. 23. (화) 14:03:50 KST)
+
+### Added
+
+### Changed
+  - [mod] social login-emailAsUsername 비활성화시 가입절차 반복 오류 수정 / login 설정 에따라 login-update-profile 변경 by 2smin
+  - [mod] initech provider에서 userinfo 전송하도록 수정 by 2smin
+  - [mod] dockerhub -> hyperregistry 이미지 저장소 변경 by 2smin
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.2.9 end --------------------->
+
 <!-------------------- v1.1.2.8 start -------------------->
 
 ## HyperAuthServer 1.1.2.8 (2023. 12. 08. (금) 11:11:54 KST)
