@@ -1,4 +1,4 @@
-from quay.io/keycloak/keycloak:11.0.2
+from quay.io/keycloak/keycloak:18.0.1
  
 LABEL maintainer="taegeon_woo@tmax.co.kr"
 
@@ -26,12 +26,12 @@ COPY themes/cnu /opt/jboss/keycloak/themes/CNU
 COPY themes/supervds /opt/jboss/keycloak/themes/superVDS
 
 # 3. keycloak service jar & sql jar & server-spi-private jar change for tibero, this contains sql error fixme!!
-RUN rm /opt/jboss/keycloak/modules/system/layers/keycloak/org/keycloak/keycloak-services/main/keycloak-services-11.0.2.jar \
- /opt/jboss/keycloak/modules/system/layers/keycloak/org/keycloak/keycloak-model-jpa/main/keycloak-model-jpa-11.0.2.jar  \
- /opt/jboss/keycloak/modules/system/layers/keycloak/org/keycloak/keycloak-server-spi-private/main/keycloak-server-spi-private-11.0.2.jar
-ADD build/jar/keycloak-services-11.0.2.jar /opt/jboss/keycloak/modules/system/layers/keycloak/org/keycloak/keycloak-services/main/keycloak-services-11.0.2.jar
-ADD build/jar/keycloak-model-jpa-11.0.2.jar /opt/jboss/keycloak/modules/system/layers/keycloak/org/keycloak/keycloak-model-jpa/main/keycloak-model-jpa-11.0.2.jar
-ADD build/jar/keycloak-server-spi-private-11.0.2.jar /opt/jboss/keycloak/modules/system/layers/keycloak/org/keycloak/keycloak-server-spi-private/main/keycloak-server-spi-private-11.0.2.jar
+RUN rm /opt/jboss/keycloak/modules/system/layers/keycloak/org/keycloak/keycloak-services/main/keycloak-services-18.0.1.jar \
+ /opt/jboss/keycloak/modules/system/layers/keycloak/org/keycloak/keycloak-model-jpa/main/keycloak-model-jpa-18.0.1.jar  \
+ /opt/jboss/keycloak/modules/system/layers/keycloak/org/keycloak/keycloak-server-spi-private/main/keycloak-server-spi-private-18.0.1.jar
+ADD build/jar/keycloak-services-18.0.1.jar /opt/jboss/keycloak/modules/system/layers/keycloak/org/keycloak/keycloak-services/main/keycloak-services-18.0.1.jar
+#ADD build/jar/keycloak-model-jpa-18.0.1.jar /opt/jboss/keycloak/modules/system/layers/keycloak/org/keycloak/keycloak-model-jpa/main/keycloak-model-jpa-11.0.2.jar
+ADD build/jar/keycloak-server-spi-private-18.0.1.jar /opt/jboss/keycloak/modules/system/layers/keycloak/org/keycloak/keycloak-server-spi-private/main/keycloak-server-spi-private-18.0.1.jar
 
 # 4. hyperauth-spi.jar (SPI)
 ADD target/keycloak-spi-jar-with-dependencies.jar /opt/jboss/keycloak/standalone/deployments/hyperauth-spi.jar

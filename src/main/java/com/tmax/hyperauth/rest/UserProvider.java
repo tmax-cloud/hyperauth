@@ -131,7 +131,7 @@ public class UserProvider implements RealmResourceProvider {
                     log.info("User [ " + username + " ] Register Start");
                     UserModel user = session.users().addUser(realm, username);
                     Set<String> emptySet = Collections.emptySet();
-                    UserResource.updateUserFromRep(user, rep, emptySet, realm, session, false);
+                    UserResource.updateUserFromRep(null, user, rep, session, false);
                     RepresentationToModel.createFederatedIdentities(rep, session, realm, user);
                     RepresentationToModel.createGroups(rep, realm, user);
                     RepresentationToModel.createCredentials(rep, session, realm, user, true);

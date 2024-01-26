@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.keycloak</groupId>
         <artifactId>keycloak-parent</artifactId>
-        <version>11.0.2</version>
+        <version>18.0.1</version>
     </parent>
 
     <name>keycloak-spi</name>
@@ -26,7 +26,7 @@
         <dependency>
             <groupId>com.tmax.hyperauth</groupId>
             <artifactId>server-spi-private</artifactId>
-            <version>11.0.2</version>
+            <version>18.0.1</version>
         </dependency>
 <!--        <dependency> -->
 <!--            <groupId>org.keycloak</groupId>-->
