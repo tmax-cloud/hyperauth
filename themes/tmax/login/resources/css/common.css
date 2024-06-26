@@ -159,8 +159,8 @@ footer .footer-logo {
   background-size: contain;
   background-repeat: no-repeat;
   display: inline-block;
-  width: 41px;
-  height: 14px;
+  width: 144px;
+  height: 17px;
 }
 
 footer .footer-copyright {
@@ -227,7 +227,7 @@ input[type="checkbox"] {
 input[type="checkbox"] + label {
   display: inline-block;
   position: relative;
-  padding-left:20px;
+  padding-left: 20px;
   height: 20px;
   cursor: pointer;
   -webkit-user-select: none;
@@ -239,7 +239,6 @@ input[type="checkbox"] + label {
   background: url("../img/control_check_off.svg") no-repeat;
   background-size: 13px 13px;
   background-position: 0 50%;
-
 }
 
 input[type="checkbox"] + label:hover {
@@ -264,7 +263,6 @@ input[type="radio"] {
 }
 
 input[type="radio"] + label {
-
   display: inline-block;
   position: relative;
   padding: 0;
@@ -276,7 +274,6 @@ input[type="radio"] + label {
 }
 
 input[type="radio"] + label::before {
-
   display: inline-block;
   content: "";
   background: url("../img/Control_Radiobtn_Off.svg") no-repeat;
@@ -288,7 +285,7 @@ input[type="radio"] + label::before {
 
 input[type="radio"]:checked + label::before {
   border-radius: 50%;
-  border:2px solid #233558
+  border: 2px solid #233558;
   /* background: url("../img/Control_Radiobtn_On.svg") no-repeat; */
 }
 
