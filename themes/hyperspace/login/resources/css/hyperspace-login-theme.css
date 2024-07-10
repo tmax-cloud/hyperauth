@@ -329,11 +329,11 @@
 }
 
 .login-body-hyperspace footer .footer-logo {
-  background: url("../img/logo_footer_copyright.svg");
+  background: url("../img/logo_footer_copyright.png");
   background-size: cover;
   margin-right: 8px;
-  width: 144px;
-  height: 17px;
+  width: 79px;
+  height: 14px;
 }
 .login-body-hyperspace footer .footer-copyright {
   font-size: 11px;
