@@ -2,7 +2,7 @@ node {
     def gitHubBaseAddress = "github.com"
     def gitHyperAuthAddress = "${gitHubBaseAddress}/tmax-cloud/hyperauth.git"
     def gitInstallHyperAuthLegacyAddress = "${gitHubBaseAddress}/tmax-cloud/install-hyperauth-legacy.git"
-    def buildDir = "/var/lib/jenkins/workspace/hyperauth"
+    def buildDir = "/var/lib/jenkins/workspace/hyperauth_v1"
     def installLegacyDir = "${buildDir}/install-legacy"
     def scriptHome = "${buildDir}/scripts"
     def version = "${params.majorVersion}.${params.minorVersion}.${params.tinyVersion}.${params.hotfixVersion}"
@@ -46,8 +46,9 @@ node {
         {
             sh "mvn install:install-file -Dfile=lib/com/tmax/tibero/jdbc/6.0/tibero6-jdbc.jar -DgroupId=com.tmax.tibero -DartifactId=jdbc -Dversion=6.0 -Dpackaging=jar -DgeneratePom=true"
             sh "mvn install:install-file -Dfile=lib/com/tmax/hyperauth/server-spi-private/11.0.2/keycloak-server-spi-private-11.0.2.jar -DgroupId=com.tmax.hyperauth -DartifactId=server-spi-private -Dversion=11.0.2 -Dpackaging=jar -DgeneratePom=true"
+            sh "mvn clean install"
         }
-        mavenInstall("${buildDir}", "${globalVersion}")
+//         mavenInstall("${buildDir}", "${globalVersion}")
     }
 
     stage('image build & push'){
@@ -55,7 +56,6 @@ node {
 
             sh" sudo docker login hyperregistry.tmaxcloud.org -u admin -p admin"
             sh "sudo docker build --tag hyperregistry.tmaxcloud.org/hyperauth/hyperauth:${imageTag} --build-arg HYPERAUTH_VERSION=${imageTag} ."
-            sh "sudo docker tag hyperregistry.tmaxcloud.org/hyperauth/hyperauth:${imageTag}"
             sh "sudo docker push hyperregistry.tmaxcloud.org/hyperauth/hyperauth:${imageTag}"
             sh "sudo docker rmi hyperregistry.tmaxcloud.org/hyperauth/hyperauth:${imageTag}"
         } else if(type == 'test'){
