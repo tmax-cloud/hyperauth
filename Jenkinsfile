@@ -54,7 +54,7 @@ node {
         if(type == 'distribution') {
 
             sh" sudo docker login hyperregistry.tmaxcloud.org -u admin -p admin"
-            sh "sudo docker build --tag hyperregistry.tmaxcloud.org/hyperauth/hyperauth:${imageTag} --build-arg HYPERAUTH_VERSION=${imageTag} ."
+            sh "sudo docker build --tag hyperregistry.tmaxcloud.org/hyperauth/hyperauth:${iZmageTag} --build-arg HYPERAUTH_VERSION=${imageTag} ."
             sh "sudo docker push hyperregistry.tmaxcloud.org/hyperauth/hyperauth:${imageTag}"
             sh "sudo docker rmi hyperregistry.tmaxcloud.org/hyperauth/hyperauth:${imageTag}"
         } else if(type == 'test'){
