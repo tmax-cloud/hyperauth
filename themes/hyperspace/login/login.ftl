@@ -3,7 +3,7 @@
     <#if section = "header">
         <div class="login-logo-wrapper">
             <div class="login-logo-wapl">
-                <img class="login-logo-image" src="${url.resourcesPath}/img/login.svg?${properties.version}"/>
+                <img class="login-logo-image" src="${url.resourcesPath}/img/login.png?${properties.version}"/>
             </div>
         </div>
     <#elseif section = "form">
