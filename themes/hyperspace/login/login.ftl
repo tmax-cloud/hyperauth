@@ -15,9 +15,9 @@
                     <form id="kc-form-login" onsubmit="return false;" action="${url.loginAction}" method="post">
                         <div class="${properties.kcFormGroupClass!}" id="idWrapper">
                             <#if usernameEditDisabled??>
-                                <input tabindex="1" id="username" class="${properties.kcInputClass!}<#if message?has_content> ${message.type}</#if>" name="username" value="${(rememberEmail!'')}" placeholder="<#if !realm.loginWithEmailAllowed>${msg('username')}<#elseif !realm.registrationEmailAsUsername>${msg('usernameOrEmail')}<#else>${msg('email')}</#if>" type="text" onkeyup="validInput(this, event)" disabled />
+                                <input tabindex="1" id="username" class="${properties.kcInputClass!}<#if message?has_content> ${message.type}</#if>" name="username" value="${(rememberEmail!'')}" placeholder="<#if !realm.loginWithEmailAllowed>${msg('username')}<#elseif !realm.registrationEmailAsUsername>${msg('email')}<#else>${msg('email')}</#if>" type="text" onkeyup="validInput(this, event)" disabled />
                             <#else>
-                                <input tabindex="1" id="username" class="${properties.kcInputClass!}<#if message?has_content> ${message.type}</#if>" name="username" value="${(rememberEmail!'')}" placeholder="<#if !realm.loginWithEmailAllowed>${msg('username')}<#elseif !realm.registrationEmailAsUsername>${msg('usernameOrEmail')}<#else>${msg('email')}</#if>"  type="text" onkeyup="validInput(this, event)"autofocus autocomplete="off" />
+                                <input tabindex="1" id="username" class="${properties.kcInputClass!}<#if message?has_content> ${message.type}</#if>" name="username" value="${(rememberEmail!'')}" placeholder="<#if !realm.loginWithEmailAllowed>${msg('username')}<#elseif !realm.registrationEmailAsUsername>${msg('email')}<#else>${msg('email')}</#if>"  type="text" onkeyup="validInput(this, event)"autofocus autocomplete="off" />
                             </#if>
                         </div>
                         <div class="${properties.kcFormGroupClass!}" id="passwordWrapper">
