@@ -13,7 +13,7 @@
         </#list>
     </#if>
     <title>${msg("loginTitle",(realm.displayName!''))}</title>
-    <link rel="icon" href="${url.resourcesPath}/img/favicon.svg?v=240718" />
+    <link rel="icon" href="${url.resourcesPath}/img/favicon.ico?v=240729" />
     <#if properties.styles?has_content>
         <#list properties.styles?split(' ') as style>
             <link href="${url.resourcesPath}/${style}?${properties.version}" rel="stylesheet" />
