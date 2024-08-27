@@ -13,4 +13,5 @@ public class Constants {
 
 	// Oauth 
 	public static final String HYPERAUTH_URL = "http://127.0.0.1";
+	public static final String GET_TOKEN = "auth/realms/tmax/protocol/openid-connect/token";
 }

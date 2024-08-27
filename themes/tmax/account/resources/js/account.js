@@ -343,6 +343,8 @@ async function submitWithdrawal() {
   }
 
   try {
+    const password = document.getElementById("password").value;
+    withForm.append("password", password);
     const withdrawalResp = await axios.post(withdrawalUrl, withForm, {
       headers: {
         "Content-Type": "multipart/form-data",

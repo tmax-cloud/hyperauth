@@ -1,7 +1,12 @@
 package com.tmax.hyperauth.rest;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
+import com.tmax.hyperauth.caller.Constants;
+import com.tmax.hyperauth.caller.StringUtil;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.*;
 import org.jboss.resteasy.annotations.cache.NoCache;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.jboss.resteasy.spi.HttpResponse;
@@ -10,11 +15,10 @@ import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
 import org.keycloak.forms.account.AccountPages;
 import org.keycloak.forms.account.AccountProvider;
-import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
-import org.keycloak.models.RealmModel;
-import org.keycloak.models.UserModel;
+import org.keycloak.jose.jws.JWSInput;
+import org.keycloak.models.*;
 import org.keycloak.protocol.oidc.utils.RedirectUtils;
+import org.keycloak.representations.AccessToken;
 import org.keycloak.services.managers.AppAuthManager;
 import org.keycloak.services.managers.AuthenticationManager;
 import org.keycloak.services.messages.Messages;
@@ -29,6 +33,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static com.tmax.hyperauth.caller.HyperAuthCaller.setHyperAuthURL;
 
 
 /**
@@ -105,7 +111,6 @@ public class ConsoleProvider implements RealmResourceProvider {
         if (auth == null) {
             return badRequest();
         }
-
         RealmModel realm = session.getContext().getRealm();
         AccountProvider account = session.getProvider(AccountProvider.class).setRealm(realm).setUriInfo(session.getContext().getUri()).setHttpHeaders(session.getContext().getRequestHeaders());
         UserModel userModel = auth.getUser();
@@ -124,53 +129,131 @@ public class ConsoleProvider implements RealmResourceProvider {
         EventBuilder event = new EventBuilder(realm, session, clientConnection); // FIXME
 
         try {
+
+            //by seongmin_lee2@tmax.co.kr [ims-330822]
+
+            boolean isDeleteSched = Boolean.parseBoolean(StringUtil.isEmpty(System.getenv("USER_DELETE_SCHEDULER")) ? "false" : System.getenv("USER_DELETE_SCHEDULER"));
             // 유저 탈퇴 신청 API
             // Withdrawal Qualification Validation
-            boolean isQualified = true;
-            String unQualifiedReason = null;
-            if(userModel.getAttributes()!=null) {
-                for (String key : userModel.getAttributes().keySet()) {
-                    if ( key.startsWith( "withdrawal_unqualified_") && userModel.getAttribute(key).get(0).equalsIgnoreCase("t")){
-                        isQualified = false;
-                        unQualifiedReason = key.substring(23);
-                        break;
+            String currentDateString = null;
+            if(isDeleteSched){ // 30일 후 삭제
+                boolean isQualified = true;
+                String unQualifiedReason = null;
+                if(userModel.getAttributes()!=null) {
+                    for (String key : userModel.getAttributes().keySet()) {
+                        if ( key.startsWith( "withdrawal_unqualified_") && userModel.getAttribute(key).get(0).equalsIgnoreCase("t")){
+                            isQualified = false;
+                            unQualifiedReason = key.substring(23);
+                            break;
+                        }
                     }
                 }
-            }
-            if (isQualified){
-                //Deletion Date Calculate
-                Date currentDate = new Date();
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(currentDate);
-                cal.add(Calendar.DATE, 30);
-                Date deletionDate = cal.getTime();
-                SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
-                String deletionDateString = transFormat.format(deletionDate);
-                String currentDateString = transFormat.format(currentDate);
+                if (isQualified){ // send email (withdrawal request) with deletion attr marking
+                    //Deletion Date Calculate
+                    Date currentDate = new Date();
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(currentDate);
+                    cal.add(Calendar.DATE, 30);
+                    Date deletionDate = cal.getTime();
+                    SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String deletionDateString = transFormat.format(deletionDate);
+                    currentDateString = transFormat.format(currentDate);
 
-                if(userModel.getAttributes()!=null) userModel.removeAttribute(AuthenticatorConstants.USER_ATTR_DELETION_DATE);
-                userModel.setAttribute(AuthenticatorConstants.USER_ATTR_DELETION_DATE, Arrays.asList(deletionDateString));
-//                        userModel.setEnabled(false);  //유저 탈퇴 철회 시나리오로 인해서 삭제
-                String email = userModel.getEmail();
+                    if(userModel.getAttributes()!=null) userModel.removeAttribute(AuthenticatorConstants.USER_ATTR_DELETION_DATE);
+                    userModel.setAttribute(AuthenticatorConstants.USER_ATTR_DELETION_DATE, Arrays.asList(deletionDateString));
+    //                        userModel.setEnabled(false);  //유저 탈퇴 철회 시나리오로 인해서 삭제
 
-                String subject = "[Tmax 통합계정] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
-                String body = Util.readLineByLineJava8(System.getenv("JBOSS_HOME") + "/themes/tmax/email/html/etc/account-withdrawal-request.html").replaceAll("%%DATE%%", currentDateString);
+                    event.event(EventType.UPDATE_PROFILE).user(userModel).realm(session.getContext().getRealm())
+                            .detail("username", userModel.getUsername()).detail("userWithdrawal","t").success(); //FIXME
+                } else{
+                    out = unQualifiedReason;
+                    Status status = Status.FORBIDDEN;
+                    return Util.setCors(status, out); //console 팝업 내에서 사용하기 위해서
+    //                return account.setError(Status.FORBIDDEN, out).createResponse(AccountPages.ACCOUNT);
+                }
+            }else{ // 유저 탈퇴 신청 시 바로 탈퇴
+                OkHttpClient client = new OkHttpClient();
+                String userName = userModel.getUsername();
+                String password = input.getFormData().get("password").getBodyAsString();
 
-                String emailTheme = session.realms().getRealmByName(session.getContext().getRealm().getName()).getEmailTheme();
-                if(!emailTheme.equalsIgnoreCase("tmax") && !emailTheme.equalsIgnoreCase("base") && !emailTheme.equalsIgnoreCase("keycloak")) {
-                    subject = "[" + emailTheme + "] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
-                    body = Util.readLineByLineJava8(System.getenv("JBOSS_HOME") + "/themes/" + emailTheme + "/email/html/etc/account-withdrawal-request.html").replaceAll("%%DATE%%", currentDateString);
+                HttpUrl.Builder tokenUrlBuilder = HttpUrl.parse(setHyperAuthURL(Constants.GET_TOKEN)).newBuilder();
+                String tokenUrl = tokenUrlBuilder.build().toString();
+
+                RequestBody formBody = new FormBody.Builder()
+                        .add("grant_type", "password")
+                        .add("username", userName)
+                        .add("password", password)
+                        .add("client_id", "self-management").build();
+
+                Request tokenRequest = new Request.Builder().url(tokenUrl).post(formBody).build();
+
+                okhttp3.Response tokenResponse = client.newCall(tokenRequest).execute();
+
+                String tokenString = null;
+                if (tokenResponse.isSuccessful()) {
+                    String tokenResponseBody = tokenResponse.body().string();
+                    Gson gson = new Gson();
+                    JsonObject responseJson = gson.fromJson(tokenResponseBody, JsonObject.class);
+                    if(responseJson.has("access_token")) {
+                        tokenString = responseJson.get("access_token").getAsString();
+                    }else{
+                        log.error("Token Request Failed, User [ " + userModel.getUsername() + " ]");
+                    }
+                } else {
+                    log.error("Token Request Failed, User [ " + userModel.getUsername() + " ]");
                 }
 
-                Util.sendMail(session, email, subject, body, null, realm.getId() );
-                event.event(EventType.UPDATE_PROFILE).user(userModel).realm(session.getContext().getRealm())
-                        .detail("username", userModel.getUsername()).detail("userWithdrawal","t").success(); //FIXME
-            } else{
-                out = unQualifiedReason;
-                Status status = Status.FORBIDDEN;
-                return Util.setCors(status, out); //console 팝업 내에서 사용하기 위해서
-//                return account.setError(Status.FORBIDDEN, out).createResponse(AccountPages.ACCOUNT);
+                ClientModel clientModel = session.getContext().getRealm().getClientByClientId("self-management");
+
+                JWSInput tokenInput = new JWSInput(tokenString);
+                AccessToken accessToken = tokenInput.readJsonContent(AccessToken.class);
+
+                Set<String> selfManageRoles = accessToken.getResourceAccess("self-management").getRoles();
+                if(!selfManageRoles.contains("delete-self")) return account.setError(Response.Status.FORBIDDEN, "You don't have permission to delete user").createResponse(AccountPages.ACCOUNT);
+
+                boolean removed = new UserManager(session).removeUser(realm, userModel);
+                if(removed){
+                    EventBuilder eventBuilder = new EventBuilder(realm, session, clientConnection);
+                    eventBuilder.event(EventType.DELETE_SELF)
+                            .user(userModel)
+                            .client(clientModel.getClientId())
+                            .ipAddress(session.getContext().getConnection().getRemoteAddr())
+                            .realm(realm)
+                            .detail("userName", userModel.getUsername())
+                            .detail("userId", userModel.getId())
+                            .detail("deleteBy", "self-management")
+                            .success();
+                    log.info("Withdrawal Success, User [ " + userModel.getUsername() + " ]");
+                }
             }
+
+            //Send email
+
+            String email = userModel.getEmail();
+
+            String subject = "[Tmax 통합계정] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
+            String body = Util.readLineByLineJava8(System.getenv("JBOSS_HOME") + "/themes/tmax/email/html/etc/account-withdrawal-request.html");
+
+            if(isDeleteSched){
+                body.replace("%%DATE%%", currentDateString);
+                body.replace("%%MSG%%",
+                        "탈퇴 신청 30일 후에 계정 탈퇴가 완료되며 해당 계정으로 이용 중인 서비스 및 계정에 대한\n" +
+                        "모든 데이터가 삭제됩니다. <br/>\n" +
+                        "데이터가 삭제된 후에는 복구할 수 없으니 유의해 주세요.<br/>\n" +
+                        "탈퇴 신청 30일 이내에 로그인 시 탈퇴 신청을 철회할 수 있습니다.<br/>\n" +
+                        "기타 문의는 HyperAuth 관리자에게 문의해 주세요.</div>");
+            }else{
+                body.replace("%%MSG%%", "");
+            }
+
+            String emailTheme = session.realms().getRealmByName(session.getContext().getRealm().getName()).getEmailTheme();
+            if(!emailTheme.equalsIgnoreCase("tmax") && !emailTheme.equalsIgnoreCase("base") && !emailTheme.equalsIgnoreCase("keycloak")) {
+                subject = "[" + emailTheme + "] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
+                body = Util.readLineByLineJava8(System.getenv("JBOSS_HOME") + "/themes/" + emailTheme + "/email/html/etc/account-withdrawal-request.html").replaceAll("%%DATE%%", currentDateString);
+            }
+
+            Util.sendMail(session, email, subject, body, null, realm.getId());
+
         } catch (Exception e) {
             log.error("Error Occurs!!", e);
             out = "Server Internal Error";
@@ -181,7 +264,7 @@ public class ConsoleProvider implements RealmResourceProvider {
             log.error("Error Occurs!!", throwable);
             return account.setError(Response.Status.BAD_REQUEST, "Mail Send Failed").createResponse(AccountPages.ACCOUNT);
         }
-        log.info("Withdrawal Request Success, User [ " + userModel.getUsername() + " ]");
+        log.info("user [ " + userModel.getUsername() + " ] withdraw request success");
         return account.setSuccess(Messages.ACCOUNT_UPDATED).createResponse(AccountPages.ACCOUNT);
 //        return Response.seeOther(RealmsResource.accountUrl(session.getContext().getUri().getBaseUriBuilder()).build(realm.getName())).build();
     }
