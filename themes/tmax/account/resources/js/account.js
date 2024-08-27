@@ -343,6 +343,8 @@ async function submitWithdrawal() {
   }
 
   try {
+    const password = document.getElementById("password").value;
+    withForm.append("password", password);
     const withdrawalResp = await axios.post(withdrawalUrl, withForm, {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -357,6 +359,12 @@ async function submitWithdrawal() {
       "waplmath",
     ];
 
+    console.log("user delete scheduler : " + withdrawalResp.headers["user_delete_scheduler"])
+    if (withdrawalResp.headers["user_delete_scheduler"] === "true") {
+      document.getElementById("user_delete_scheduler").classList.remove("hidden");
+    }else{
+      document.getElementById("user_delete_scheduler").classList.add("hidden");
+    }
     if (serviceList.includes(outString)) {
       rejectService = outString;
       withdrawalResult = false;

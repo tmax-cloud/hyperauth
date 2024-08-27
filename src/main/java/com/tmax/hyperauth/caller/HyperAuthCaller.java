@@ -12,7 +12,7 @@ import java.io.IOException;
 public class HyperAuthCaller {
     static OkHttpClient client = new OkHttpClient();
 
-    private static String setHyperAuthURL(String serviceName) {
+    public static String setHyperAuthURL(String serviceName) {
         int hyperauthHttpPort = 8080;
         if (StringUtil.isNotEmpty(System.getenv("HYPERAUTH_HTTP_PORT"))) {
             hyperauthHttpPort = Integer.parseInt(System.getenv("HYPERAUTH_HTTP_PORT"));

@@ -1,20 +1,29 @@
 package com.tmax.hyperauth.rest;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.tmax.hyperauth.authenticator.AuthenticatorConstants;
+import com.tmax.hyperauth.caller.Constants;
+import com.tmax.hyperauth.caller.StringUtil;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.*;
 import org.jboss.resteasy.annotations.cache.NoCache;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+import org.jboss.resteasy.specimpl.ResteasyHttpHeaders;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.keycloak.common.ClientConnection;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
 import org.keycloak.forms.account.AccountPages;
 import org.keycloak.forms.account.AccountProvider;
-import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
-import org.keycloak.models.RealmModel;
-import org.keycloak.models.UserModel;
+import org.keycloak.forms.login.LoginFormsPages;
+import org.keycloak.forms.login.LoginFormsProvider;
+import org.keycloak.forms.login.freemarker.FreeMarkerLoginFormsProvider;
+import org.keycloak.jose.jws.JWSInput;
+import org.keycloak.models.*;
 import org.keycloak.protocol.oidc.utils.RedirectUtils;
+import org.keycloak.provider.Provider;
+import org.keycloak.representations.AccessToken;
 import org.keycloak.services.managers.AppAuthManager;
 import org.keycloak.services.managers.AuthenticationManager;
 import org.keycloak.services.messages.Messages;
@@ -23,12 +32,14 @@ import org.keycloak.services.util.ResolveRelative;
 import org.keycloak.services.validation.Validation;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
+import javax.ws.rs.core.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static com.tmax.hyperauth.caller.HyperAuthCaller.setHyperAuthURL;
 
 
 /**
@@ -105,7 +116,6 @@ public class ConsoleProvider implements RealmResourceProvider {
         if (auth == null) {
             return badRequest();
         }
-
         RealmModel realm = session.getContext().getRealm();
         AccountProvider account = session.getProvider(AccountProvider.class).setRealm(realm).setUriInfo(session.getContext().getUri()).setHttpHeaders(session.getContext().getRequestHeaders());
         UserModel userModel = auth.getUser();
@@ -123,10 +133,55 @@ public class ConsoleProvider implements RealmResourceProvider {
         clientConnection = session.getContext().getConnection();
         EventBuilder event = new EventBuilder(realm, session, clientConnection); // FIXME
 
+        boolean isDeleteSched = Boolean.parseBoolean(StringUtil.isEmpty(System.getenv("USER_DELETE_SCHEDULER")) ? "false" : System.getenv("USER_DELETE_SCHEDULER"));
+        // 오늘 날짜 계산
+        Date currentDate = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(currentDate);
+        cal.add(Calendar.DATE, 30);
+        Date deletionDate = cal.getTime();
+        SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String deletionDateString = transFormat.format(deletionDate);
+        String currentDateString = transFormat.format(currentDate);
         try {
-            // 유저 탈퇴 신청 API
-            // Withdrawal Qualification Validation
+            //Send email
+
+            String email = userModel.getEmail();
+
+            String subject = null;
+            String body = null;
+
+            String emailTheme = session.realms().getRealmByName(session.getContext().getRealm().getName()).getEmailTheme();
+
+            if(!emailTheme.equalsIgnoreCase("tmax") && !emailTheme.equalsIgnoreCase("base") && !emailTheme.equalsIgnoreCase("keycloak")) {
+                subject = "[" + emailTheme + "] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
+                body = Util.readLineByLineJava8(System.getenv("JBOSS_HOME") + "/themes/" + emailTheme + "/email/html/etc/account-withdrawal-request.html").replaceAll("%%DATE%%", currentDateString);
+            }else{
+                subject = "[Tmax 통합계정] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
+                body = Util.readLineByLineJava8(System.getenv("JBOSS_HOME") + "/themes/tmax/email/html/etc/account-withdrawal-request.html").replaceAll("%%DATE%%", currentDateString);
+            }
+
+            Util.sendMail(session, email, subject, body, null, realm.getId());
+            log.info("user [ " + userModel.getUsername() + " ] withdraw request success");
+        } catch (Exception e) {
+            log.error("Error Occurs!!", e.getMessage());
+            out = "Server Internal Error";
+//            Status status = Status.BAD_REQUEST;
+//            return Util.setCors(status, out);
+//            return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.ACCOUNT);
+        } catch (Throwable throwable) {
+            log.error("Error Occurs!!", throwable.getMessage());
+            log.error("Send withdrawal mail Failed. User [ " + userModel.getUsername() + " ]. Withdrawal process keep going.");
+//            return account.setError(Response.Status.BAD_REQUEST, "Mail Send Failed").createResponse(AccountPages.ACCOUNT);
+        }
+//        return Response.seeOther(RealmsResource.accountUrl(session.getContext().getUri().getBaseUriBuilder()).build(realm.getName())).build();
+
+        // by seongminLee 240828 : [ims-330822] user 삭제 스케쥴러 on/off
+
+        if(isDeleteSched){ // 30일 후 삭제
+            log.info("delete user after 30 days");
             boolean isQualified = true;
+            // Withdrawal Qualification Validation
             String unQualifiedReason = null;
             if(userModel.getAttributes()!=null) {
                 for (String key : userModel.getAttributes().keySet()) {
@@ -137,53 +192,51 @@ public class ConsoleProvider implements RealmResourceProvider {
                     }
                 }
             }
-            if (isQualified){
+            if (isQualified){ // send email (withdrawal request) with deletion attr marking
                 //Deletion Date Calculate
-                Date currentDate = new Date();
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(currentDate);
-                cal.add(Calendar.DATE, 30);
-                Date deletionDate = cal.getTime();
-                SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
-                String deletionDateString = transFormat.format(deletionDate);
-                String currentDateString = transFormat.format(currentDate);
-
                 if(userModel.getAttributes()!=null) userModel.removeAttribute(AuthenticatorConstants.USER_ATTR_DELETION_DATE);
                 userModel.setAttribute(AuthenticatorConstants.USER_ATTR_DELETION_DATE, Arrays.asList(deletionDateString));
-//                        userModel.setEnabled(false);  //유저 탈퇴 철회 시나리오로 인해서 삭제
-                String email = userModel.getEmail();
+                //                        userModel.setEnabled(false);  //유저 탈퇴 철회 시나리오로 인해서 삭제
 
-                String subject = "[Tmax 통합계정] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
-                String body = Util.readLineByLineJava8(System.getenv("JBOSS_HOME") + "/themes/tmax/email/html/etc/account-withdrawal-request.html").replaceAll("%%DATE%%", currentDateString);
-
-                String emailTheme = session.realms().getRealmByName(session.getContext().getRealm().getName()).getEmailTheme();
-                if(!emailTheme.equalsIgnoreCase("tmax") && !emailTheme.equalsIgnoreCase("base") && !emailTheme.equalsIgnoreCase("keycloak")) {
-                    subject = "[" + emailTheme + "] 고객님의 계정 탈퇴 신청이 완료되었습니다.";
-                    body = Util.readLineByLineJava8(System.getenv("JBOSS_HOME") + "/themes/" + emailTheme + "/email/html/etc/account-withdrawal-request.html").replaceAll("%%DATE%%", currentDateString);
-                }
-
-                Util.sendMail(session, email, subject, body, null, realm.getId() );
                 event.event(EventType.UPDATE_PROFILE).user(userModel).realm(session.getContext().getRealm())
                         .detail("username", userModel.getUsername()).detail("userWithdrawal","t").success(); //FIXME
             } else{
                 out = unQualifiedReason;
                 Status status = Status.FORBIDDEN;
                 return Util.setCors(status, out); //console 팝업 내에서 사용하기 위해서
-//                return account.setError(Status.FORBIDDEN, out).createResponse(AccountPages.ACCOUNT);
+                //                return account.setError(Status.FORBIDDEN, out).createResponse(AccountPages.ACCOUNT);
             }
-        } catch (Exception e) {
-            log.error("Error Occurs!!", e);
-            out = "Server Internal Error";
-            Status status = Status.BAD_REQUEST;
-            return Util.setCors(status, out);
-//            return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.ACCOUNT);
-        } catch (Throwable throwable) {
-            log.error("Error Occurs!!", throwable);
-            return account.setError(Response.Status.BAD_REQUEST, "Mail Send Failed").createResponse(AccountPages.ACCOUNT);
+
+            log.info("Withdrawal scheduling success, redirect to account page");
+
+            Response response = account.setSuccess(Messages.ACCOUNT_UPDATED).setAttribute("USER_DELETE_SCHEDULER", "true").createResponse(AccountPages.ACCOUNT);
+            response.getHeaders().add("USER_DELETE_SCHEDULER", "true");
+            return response;
+        }else{ // 유저 탈퇴 신청 시 바로 탈퇴
+
+            boolean removed = new UserManager(session).removeUser(realm, userModel);
+            if(removed){
+                EventBuilder eventBuilder = new EventBuilder(realm, session, clientConnection);
+                eventBuilder.event(EventType.DELETE_SELF)
+                        .user(userModel)
+                        .ipAddress(session.getContext().getConnection().getRemoteAddr())
+                        .realm(realm)
+                        .detail("userName", userModel.getUsername())
+                        .detail("userId", userModel.getId())
+                        .detail("deleteBy", "user-self-delete")
+                        .success();
+                log.info("Withdrawal Success, User [ " + userModel.getUsername() + " ]");
+                session.sessions().removeUserSessions(realm, userModel);
+
+                log.info("Withdrawal success, redirect to account page");
+
+                Response response = account.setSuccess(Messages.ACCOUNT_UPDATED).createResponse(AccountPages.ACCOUNT);
+                response.getHeaders().add("USER_DELETE_SCHEDULER", "false");
+                return response;
+            }
+                log.error("Withdrawal Failed, User [ " + userModel.getUsername() + " ]");
+                return account.setError(Response.Status.BAD_REQUEST, Messages.INTERNAL_SERVER_ERROR).createResponse(AccountPages.ACCOUNT);
         }
-        log.info("Withdrawal Request Success, User [ " + userModel.getUsername() + " ]");
-        return account.setSuccess(Messages.ACCOUNT_UPDATED).createResponse(AccountPages.ACCOUNT);
-//        return Response.seeOther(RealmsResource.accountUrl(session.getContext().getUri().getBaseUriBuilder()).build(realm.getName())).build();
     }
 
 

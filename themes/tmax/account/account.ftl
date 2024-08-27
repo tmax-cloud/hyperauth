@@ -328,11 +328,16 @@
             <p class="image"></p>                            
         </div>
         <div id="success-text">
-            <p>
+
+                <#-- by seongminLee 240828 : [ims-330822] user 삭제 스케쥴러 on/off -->
+                <div id="user_delete_scheduler" class="hidden" style="display: flex; justify-content: center; align-items: center;">
+                <p>
                 ${msg("withdrawalSucess_body1")}<br/>
                 ${msg("withdrawalSucess_body2")}<br/>
                 ${msg("withdrawalSucess_body3")}
-            </p>
+                </p>
+                </div>
+
         
             <div class="contact-info">
                 <div class="contact-box">
