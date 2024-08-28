@@ -1,6 +1,23 @@
 # HyperAuthServer changelog!!
 All notable changes to this project will be documented in this file.
 
+<!-------------------- v1.1.3.0 start -------------------->
+
+## HyperAuthServer 1.1.3.0 (2024. 08. 28. (수) 16:15:37 KST)
+
+### Added
+
+### Changed
+  - [mod] [ims-330822] set option for immediate user deletion by 2smin
+
+### Fixed
+
+### CRD yaml
+
+### Etc
+
+<!--------------------- v1.1.3.0 end --------------------->
+
 <!-------------------- v1.1.2.13 start -------------------->
 
 ## HyperAuthServer 1.1.2.13 (2024. 07. 29. (월) 11:41:33 KST)
